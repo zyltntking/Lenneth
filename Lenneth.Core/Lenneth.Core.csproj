@@ -83,14 +83,13 @@
     <Compile Include="Facade.cs" />
     <Compile Include="Framework\Log\Interface\ILogging.cs" />
     <Compile Include="Framework\Log\Nlog\NlogWrapper.cs" />
+    <Compile Include="Interceptor\LoggingInterceptionBehavior.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interceptor\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
