@@ -78,9 +78,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\Config.cs" />
     <Compile Include="Config\UnityConfig.cs" />
     <Compile Include="Facade.cs" />
-    <Compile Include="Framework\Log\Interface\ILogger.cs" />
+    <Compile Include="Framework\Log\Interface\ILogging.cs" />
+    <Compile Include="Framework\Log\Nlog\NlogWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
