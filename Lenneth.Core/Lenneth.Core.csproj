@@ -83,6 +83,10 @@
     <Compile Include="Facade.cs" />
     <Compile Include="Framework\Log\ILogging.cs" />
     <Compile Include="Framework\Log\NlogWrapper.cs" />
+    <Compile Include="Framework\Mail\IMail.cs" />
+    <Compile Include="Framework\Mail\Mail.cs" />
+    <Compile Include="Framework\Mail\MailConfig.cs" />
+    <Compile Include="Framework\Mail\SmtpMail.cs" />
     <Compile Include="Framework\MD\IMarkdown.cs" />
     <Compile Include="Framework\MD\Markdown.cs" />
     <Compile Include="Framework\MD\MarkdownOptions.cs" />

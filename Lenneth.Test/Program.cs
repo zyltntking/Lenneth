@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Lenneth.Test
 {
@@ -9,7 +10,7 @@ namespace Lenneth.Test
         private static void Main()
         {
             Console.WriteLine(Facade.Test);
-            Facade.Logger.Error("Something Wrong!");
+            Facade.Mail.To(new List<string>{"zyltntking@qq.com"}).Send("title","body");
             Console.ReadLine();
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using Lenneth.Core.Framework.Mail;
 using Unity;
 using Unity.Injection;
 
@@ -56,7 +57,9 @@ namespace Lenneth.Core
             //Nlog
             container.RegisterType<ILogging, NLogWrapper>(new InjectionConstructor(Config.LogConfig, "log"));
             //MarkDown
-            container.RegisterType<IMarkdown, Markdown>();
+            container.RegisterType<IMarkdown, Markdown>(new InjectionConstructor());
+            //Mail
+            container.RegisterType<IMail, SmtpMail>(new InjectionConstructor(Config.MailConfig));
             // common
             // container.RegisterType<ISample, Sample.Sample>( new Interceptor<InterfaceInterceptor>(), new InterceptionBehavior<CommonInterception>());
             // call handler

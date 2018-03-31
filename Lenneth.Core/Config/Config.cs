@@ -1,12 +1,47 @@
-﻿using System;
-using NLog;
+﻿using NLog;
 using NLog.Config;
 using NLog.Targets;
+using System;
 
 namespace Lenneth.Core
 {
+    using Framework.Mail;
+
     internal static class Config
     {
+        #region Mail配置
+
+        private static readonly object MailLocker = new object();
+
+        private static MailConfig _mailConfig;
+
+        public static MailConfig MailConfig
+        {
+            get
+            {
+                if (_mailConfig == null)
+                {
+                    lock (MailLocker)
+                    {
+                        if (_mailConfig == null)
+                        {
+                            _mailConfig = new MailConfig
+                            {
+                                MailHost = "smtp.qq.com",
+                                MailPort = 587,
+                                MailAddress = "zyltntking@qq.com",
+                                MailPassword = "nggxargxcoxgfhhh",
+                                MailSign = "Lenneth"
+                            };
+                        }
+                    }
+                }
+                return _mailConfig;
+            }
+        }
+
+        #endregion Mail配置
+
         #region Nlog配置
 
         public static LoggingConfiguration LogConfig
@@ -30,6 +65,6 @@ namespace Lenneth.Core
             }
         }
 
-        #endregion
+        #endregion Nlog配置
     }
 }

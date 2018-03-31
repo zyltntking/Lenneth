@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 using System.Text.RegularExpressions;
-using static System.String;
 
 namespace Lenneth.Core.Framework.MD
 {
     /// <summary>
-    /// Markdown is a text-to-HTML conversion tool for web writers. 
-    /// Markdown allows you to write using an easy-to-read, easy-to-write plain text format, 
+    /// Markdown is a text-to-HTML conversion tool for web writers.
+    /// Markdown allows you to write using an easy-to-read, easy-to-write plain text format,
     /// then convert it to structurally valid XHTML (or HTML).
     /// </summary>
-    public class Markdown : IMarkdown
+    internal class Markdown : IMarkdown
     {
         public string Version => "1.13";
 
@@ -29,14 +28,14 @@ namespace Lenneth.Core.Framework.MD
         /// <summary>
         /// Create a new Markdown instance and optionally load options from a configuration
         /// file. There they should be stored in the appSettings section, available options are:
-        /// 
+        ///
         ///     Markdown.StrictBoldItalic (true/false)
         ///     Markdown.EmptyElementSuffix (">" or " />" without the quotes)
         ///     Markdown.LinkEmails (true/false)
         ///     Markdown.AutoNewLines (true/false)
         ///     Markdown.AutoHyperlink (true/false)
-        ///     Markdown.EncodeProblemUrlCharacters (true/false) 
-        ///     
+        ///     Markdown.EncodeProblemUrlCharacters (true/false)
+        ///
         /// </summary>
         public Markdown(bool loadOptionsFromConfigFile)
         {
@@ -50,18 +49,23 @@ namespace Lenneth.Core.Framework.MD
                     case "Markdown.AutoHyperlink":
                         AutoHyperlink = Convert.ToBoolean(settings[key]);
                         break;
+
                     case "Markdown.AutoNewlines":
                         AutoNewlines = Convert.ToBoolean(settings[key]);
                         break;
+
                     case "Markdown.EmptyElementSuffix":
                         EmptyElementSuffix = settings[key];
                         break;
+
                     case "Markdown.EncodeProblemUrlCharacters":
                         EncodeProblemUrlCharacters = Convert.ToBoolean(settings[key]);
                         break;
+
                     case "Markdown.LinkEmails":
                         LinkEmails = Convert.ToBoolean(settings[key]);
                         break;
+
                     case "Markdown.StrictBoldItalic":
                         StrictBoldItalic = Convert.ToBoolean(settings[key]);
                         break;
@@ -85,39 +89,39 @@ namespace Lenneth.Core.Framework.MD
         /// <summary>
         /// use ">" for HTML output, or " />" for XHTML output
         /// </summary>
-        private string EmptyElementSuffix { get;} = " />";
+        private string EmptyElementSuffix { get; } = " />";
 
         /// <summary>
-        /// when false, email addresses will never be auto-linked  
+        /// when false, email addresses will never be auto-linked
         /// WARNING: this is a significant deviation from the markdown spec
         /// </summary>
         private bool LinkEmails { get; } = true;
 
         /// <summary>
-        /// when true, bold and italic require non-word characters on either side  
+        /// when true, bold and italic require non-word characters on either side
         /// WARNING: this is a significant deviation from the markdown spec
         /// </summary>
         private bool StrictBoldItalic { get; }
 
         /// <summary>
-        /// when true, RETURN becomes a literal newline  
+        /// when true, RETURN becomes a literal newline
         /// WARNING: this is a significant deviation from the markdown spec
         /// </summary>
         private bool AutoNewlines { get; }
 
         /// <summary>
-        /// when true, (most) bare plain URLs are auto-hyperlinked  
+        /// when true, (most) bare plain URLs are auto-hyperlinked
         /// WARNING: this is a significant deviation from the markdown spec
         /// </summary>
         private bool AutoHyperlink { get; }
 
         /// <summary>
-        /// when true, problematic URL characters like [, ], (, and so forth will be encoded 
+        /// when true, problematic URL characters like [, ], (, and so forth will be encoded
         /// WARNING: this is a significant deviation from the markdown spec
         /// </summary>
         private bool EncodeProblemUrlCharacters { get; }
 
-        #endregion
+        #endregion Constructors and Options
 
         private enum TokenType { Text, Tag }
 
@@ -128,6 +132,7 @@ namespace Lenneth.Core.Framework.MD
                 Type = type;
                 Value = value;
             }
+
             public readonly TokenType Type;
             public readonly string Value;
         }
@@ -138,8 +143,8 @@ namespace Lenneth.Core.Framework.MD
         private const int NestDepth = 6;
 
         /// <summary>
-        /// Tabs are automatically converted to spaces as part of the transform  
-        /// this constant determines how "wide" those tabs become in spaces  
+        /// Tabs are automatically converted to spaces as part of the transform
+        /// this constant determines how "wide" those tabs become in spaces
         /// </summary>
         private const int TabWidth = 4;
 
@@ -148,7 +153,7 @@ namespace Lenneth.Core.Framework.MD
 
         private static readonly Dictionary<string, string> EscapeTable;
         private static readonly Dictionary<string, string> InvertedEscapeTable;
-        private static readonly Dictionary<string, string> BackslashEscapeTable;        
+        private static readonly Dictionary<string, string> BackslashEscapeTable;
 
         private readonly Dictionary<string, string> _urls = new Dictionary<string, string>();
         private readonly Dictionary<string, string> _titles = new Dictionary<string, string>();
@@ -183,7 +188,7 @@ namespace Lenneth.Core.Framework.MD
         }
 
         /// <summary>
-        /// Transforms the provided Markdown-formatted text to HTML;  
+        /// Transforms the provided Markdown-formatted text to HTML;
         /// see http://en.wikipedia.org/wiki/Markdown
         /// </summary>
         /// <remarks>
@@ -194,12 +199,12 @@ namespace Lenneth.Core.Framework.MD
         /// </remarks>
         public string Transform(string text)
         {
-            if (IsNullOrEmpty(text)) return "";
+            if (string.IsNullOrEmpty(text)) return "";
 
             Setup();
 
             text = Normalize(text);
-           
+
             text = HashHtmlBlocks(text);
             text = StripLinkDefinitions(text);
             text = RunBlockGamut(text);
@@ -209,7 +214,6 @@ namespace Lenneth.Core.Framework.MD
 
             return text + "\n";
         }
-
 
         /// <summary>
         /// Perform transformations that form block-level tags like paragraphs, headers, and list items.
@@ -232,7 +236,6 @@ namespace Lenneth.Core.Framework.MD
 
             return text;
         }
-
 
         /// <summary>
         /// Perform transformations that occur *within* block-level tags like paragraphs, headers, and list items.
@@ -263,14 +266,14 @@ namespace Lenneth.Core.Framework.MD
         private static readonly Regex LeadingWhitespace = new Regex(@"^[ ]*", RegexOptions.Compiled);
 
         /// <summary>
-        /// splits on two or more newlines, to form "paragraphs";    
+        /// splits on two or more newlines, to form "paragraphs";
         /// each paragraph is then unhashed (if it is a hash) or wrapped in HTML p tag
         /// </summary>
         private string FormParagraphs(string text)
         {
             // split on two or more newlines
             var grafs = NewlinesMultiple.Split(NewlinesLeadingTrailing.Replace(text, ""));
-            
+
             for (var i = 0; i < grafs.Length; i++)
             {
                 if (grafs[i].StartsWith("\x1A"))
@@ -285,9 +288,8 @@ namespace Lenneth.Core.Framework.MD
                 }
             }
 
-            return Join("\n\n", grafs);
+            return string.Join("\n\n", grafs);
         }
-
 
         private void Setup()
         {
@@ -306,7 +308,7 @@ namespace Lenneth.Core.Framework.MD
         private static string _nestedBracketsPattern;
 
         /// <summary>
-        /// Reusable pattern to match balanced [brackets]. See Friedl's 
+        /// Reusable pattern to match balanced [brackets]. See Friedl's
         /// "Mastering Regular Expressions", 2nd Ed., pp. 328-331.
         /// </summary>
         private static string GetNestedBracketsPattern() => _nestedBracketsPattern ?? (_nestedBracketsPattern = RepeatString(@"
@@ -314,13 +316,13 @@ namespace Lenneth.Core.Framework.MD
                        [^\[\]]+      # Anything other than brackets
                      |
                        \[
-                           ", NestDepth) + RepeatString( @" \]
-                    )*" , NestDepth));
+                           ", NestDepth) + RepeatString(@" \]
+                    )*", NestDepth));
 
         private static string _nestedParensPattern;
 
         /// <summary>
-        /// Reusable pattern to match balanced (parens). See Friedl's 
+        /// Reusable pattern to match balanced (parens). See Friedl's
         /// "Mastering Regular Expressions", 2nd Ed., pp. 328-331.
         /// </summary>
         private static string GetNestedParensPattern() => _nestedParensPattern ?? (_nestedParensPattern = RepeatString(@"
@@ -328,8 +330,8 @@ namespace Lenneth.Core.Framework.MD
                        [^()\s]+      # Anything other than parens or whitespace
                      |
                        \(
-                           ", NestDepth) + RepeatString( @" \)
-                    )*" , NestDepth));
+                           ", NestDepth) + RepeatString(@" \)
+                    )*", NestDepth));
 
         private static readonly Regex LinkDef = new Regex($@"
                         ^[ ]{{0,{TabWidth - 1}}}\[(.+)\]:  # id = $1
@@ -371,13 +373,11 @@ namespace Lenneth.Core.Framework.MD
         // compiling this monster regex results in worse performance. trust me.
         private static readonly Regex BlocksHtml = new Regex(GetBlockPattern(), RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
 
-
         /// <summary>
         /// derived pretty much verbatim from PHP Markdown
         /// </summary>
         private static string GetBlockPattern()
         {
-
             // Hashify HTML blocks:
             // We only want to do this for block-level HTML tags, such as headers,
             // lists, and tables. That's because we still want to wrap <p>s around
@@ -386,8 +386,8 @@ namespace Lenneth.Core.Framework.MD
             // hard-coded:
             //
             // *  List "a" is made of tags which can be both inline or block-level.
-            //    These will be treated block-level when the start tag is alone on 
-            //    its line, otherwise they're not matched here and will be taken as 
+            //    These will be treated block-level when the start tag is alone on
+            //    its line, otherwise they're not matched here and will be taken as
             //    inline later.
             // *  List "b" is made of tags which are always block-level;
             //
@@ -407,7 +407,7 @@ namespace Lenneth.Core.Framework.MD
               |
                 '[^']*'	                # text inside single quotes (tolerate >)
               )*
-            )?	
+            )?
             ";
 
             var content = RepeatString(@"
@@ -424,7 +424,7 @@ namespace Lenneth.Core.Framework.MD
             RepeatString(@"
                       </\2\s*>	        # closing nested tag
                   )
-                  |				
+                  |
                   <(?!/\2\s*>           # other tags with a different name
                   )
                 )*", NestDepth);
@@ -451,9 +451,9 @@ namespace Lenneth.Core.Framework.MD
                   )
                   (             # save in $1
 
-                    # Match from `\n<tag>` to `</tag>\n`, handling nested tags 
+                    # Match from `\n<tag>` to `</tag>\n`, handling nested tags
                     # in between.
-                      
+
                         [ ]{0,$less_than_tab}
                         <($block_tags_b_re)   # start tag = $2
                         $attr>                # attributes followed by > and \n
@@ -471,28 +471,28 @@ namespace Lenneth.Core.Framework.MD
                         </\3>                 # the matching end tag
                         [ ]*                  # trailing spaces
                         (?=\n+|\Z)            # followed by a newline or end of document
-                      
-                  | # Special case just for <hr />. It was easier to make a special 
+
+                  | # Special case just for <hr />. It was easier to make a special
                     # case than to make the other regex more complicated.
-                  
+
                         [ ]{0,$less_than_tab}
                         <(hr)                 # start tag = $2
                         $attr                 # attributes
                         /?>                   # the matching end tag
                         [ ]*
                         (?=\n{2,}|\Z)         # followed by a blank line or end of document
-                  
+
                   | # Special case for standalone HTML comments:
-                  
+
                       [ ]{0,$less_than_tab}
                       (?s:
                         <!-- .*? -->
                       )
                       [ ]*
                       (?=\n{2,}|\Z)            # followed by a blank line or end of document
-                  
+
                   | # PHP and ASP-style processor instructions (<? and <%)
-                  
+
                       [ ]{0,$less_than_tab}
                       (?s:
                         <([?%])                # $2
@@ -501,7 +501,7 @@ namespace Lenneth.Core.Framework.MD
                       )
                       [ ]*
                       (?=\n{2,}|\Z)            # followed by a blank line or end of document
-                      
+
                   )
             )";
 
@@ -526,7 +526,7 @@ namespace Lenneth.Core.Framework.MD
             var key = GetHashKey(text);
             _htmlBlocks[key] = text;
 
-            return Concat("\n\n", key, "\n\n");
+            return string.Concat("\n\n", key, "\n\n");
         }
 
         private static string GetHashKey(string s) => "\x1A" + Math.Abs(s.GetHashCode()).ToString() + "\x1A";
@@ -534,16 +534,16 @@ namespace Lenneth.Core.Framework.MD
         private static readonly Regex HtmlTokens = new Regex(@"
             (<!(?:--.*?--\s*)+>)|        # match <!-- foo -->
             (<\?.*?\?>)|                 # match <?foo?> " +
-            RepeatString(@" 
+            RepeatString(@"
             (<[A-Za-z\/!$](?:[^<>]|", NestDepth) + RepeatString(@")*>)", NestDepth) +
                                        " # match <tag> and </tag>",
             RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
         /// <summary>
-        /// returns an array of HTML tokens comprising the input string. Each token is 
-        /// either a tag (possibly with nested, tags contained therein, such 
-        /// as &lt;a href="&lt;MTFoo&gt;"&gt;, or a run of text between tags. Each element of the 
-        /// array is a two-element array; the first is either 'tag' or 'text'; the second is 
+        /// returns an array of HTML tokens comprising the input string. Each token is
+        /// either a tag (possibly with nested, tags contained therein, such
+        /// as &lt;a href="&lt;MTFoo&gt;"&gt;, or a run of text between tags. Each element of the
+        /// array is a two-element array; the first is either 'tag' or 'text'; the second is
         /// the actual value.
         /// </summary>
         private IEnumerable<Token> TokenizeHTML(string text)
@@ -569,7 +569,6 @@ namespace Lenneth.Core.Framework.MD
 
             return tokens;
         }
-
 
         private static readonly Regex AnchorRef = new Regex($@"
             (                               # wrap whole match in $1
@@ -615,9 +614,9 @@ namespace Lenneth.Core.Framework.MD
         /// Turn Markdown link shortcuts into HTML anchor tags
         /// </summary>
         /// <remarks>
-        /// [link text](url "title") 
-        /// [link text][id] 
-        /// [id] 
+        /// [link text](url "title")
+        /// [link text][id]
+        /// [id]
         /// </remarks>
         private string DoAnchors(string text)
         {
@@ -651,7 +650,7 @@ namespace Lenneth.Core.Framework.MD
                 var url = _urls[linkId];
 
                 url = EncodeProblemUrlChars(url);
-                url = EscapeBoldItalic(url);                
+                url = EscapeBoldItalic(url);
                 result = "<a href=\"" + url + "\"";
 
                 if (_titles.ContainsKey(linkId))
@@ -682,7 +681,7 @@ namespace Lenneth.Core.Framework.MD
                 var url = _urls[linkId];
 
                 url = EncodeProblemUrlChars(url);
-                url = EscapeBoldItalic(url);                
+                url = EscapeBoldItalic(url);
                 result = "<a href=\"" + url + "\"";
 
                 if (_titles.ContainsKey(linkId))
@@ -700,7 +699,6 @@ namespace Lenneth.Core.Framework.MD
             return result;
         }
 
-
         private string AnchorInlineEvaluator(Match match)
         {
             var linkText = match.Groups[2].Value;
@@ -710,11 +708,11 @@ namespace Lenneth.Core.Framework.MD
             url = EncodeProblemUrlChars(url);
             url = EscapeBoldItalic(url);
             if (url.StartsWith("<") && url.EndsWith(">"))
-                url = url.Substring(1, url.Length - 2); // remove <>'s surrounding URL, if present            
+                url = url.Substring(1, url.Length - 2); // remove <>'s surrounding URL, if present
 
             var result = $"<a href=\"{url}\"";
 
-            if (!IsNullOrEmpty(title))
+            if (!string.IsNullOrEmpty(title))
             {
                 title = title.Replace("\"", "&quot;");
                 title = EscapeBoldItalic(title);
@@ -761,7 +759,7 @@ namespace Lenneth.Core.Framework.MD
                   RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
-        /// Turn Markdown image shortcuts into HTML img tags. 
+        /// Turn Markdown image shortcuts into HTML img tags.
         /// </summary>
         /// <remarks>
         /// ![alt text][id]
@@ -796,7 +794,7 @@ namespace Lenneth.Core.Framework.MD
             {
                 var url = _urls[linkId];
                 url = EncodeProblemUrlChars(url);
-                url = EscapeBoldItalic(url);                
+                url = EscapeBoldItalic(url);
                 result = $"<img src=\"{url}\" alt=\"{altText}\"";
 
                 if (_titles.ContainsKey(linkId))
@@ -826,7 +824,7 @@ namespace Lenneth.Core.Framework.MD
 
             alt = alt.Replace("\"", "&quot;");
             title = title.Replace("\"", "&quot;");
-            
+
             if (url.StartsWith("<") && url.EndsWith(">"))
                 url = url.Substring(1, url.Length - 2);    // Remove <>'s surrounding URL, if present
             url = EncodeProblemUrlChars(url);
@@ -834,7 +832,7 @@ namespace Lenneth.Core.Framework.MD
 
             var result = $"<img src=\"{url}\" alt=\"{alt}\"";
 
-            if (!IsNullOrEmpty(title))
+            if (!string.IsNullOrEmpty(title))
             {
                 title = EscapeBoldItalic(title);
                 result += $" title=\"{title}\"";
@@ -867,17 +865,17 @@ namespace Lenneth.Core.Framework.MD
         /// Turn Markdown headers into HTML header tags
         /// </summary>
         /// <remarks>
-        /// Header 1  
-        /// ========  
-        /// 
-        /// Header 2  
-        /// --------  
-        /// 
-        /// # Header 1  
-        /// ## Header 2  
-        /// ## Header 2 with closing hashes ##  
-        /// ...  
-        /// ###### Header 6  
+        /// Header 1
+        /// ========
+        ///
+        /// Header 2
+        /// --------
+        ///
+        /// # Header 1
+        /// ## Header 2
+        /// ## Header 2 with closing hashes ##
+        /// ...
+        /// ###### Header 6
         /// </remarks>
         private string DoHeaders(string text)
         {
@@ -890,7 +888,7 @@ namespace Lenneth.Core.Framework.MD
         {
             var header = match.Groups[1].Value;
             var level = match.Groups[2].Value.StartsWith("=") ? 1 : 2;
-            return Format("<h{1}>{0}</h{1}>\n\n", RunSpanGamut(header), level);
+            return $"<h{level}>{RunSpanGamut(header)}</h{level}>\n\n";
         }
 
         private string AtxHeaderEvaluator(Match match)
@@ -899,7 +897,6 @@ namespace Lenneth.Core.Framework.MD
             var level = match.Groups[1].Value.Length;
             return $"<h{level}>{RunSpanGamut(header)}</h{level}>\n\n";
         }
-
 
         private static readonly Regex HorizontalRules = new Regex(@"
             ^[ ]{0,3}         # Leading space
@@ -916,8 +913,8 @@ namespace Lenneth.Core.Framework.MD
         /// Turn Markdown horizontal rules into HTML hr tags
         /// </summary>
         /// <remarks>
-        /// ***  
-        /// * * *  
+        /// ***
+        /// * * *
         /// ---
         /// - - -
         /// </remarks>
@@ -1011,7 +1008,7 @@ namespace Lenneth.Core.Framework.MD
                 (^[ ]*)                    # leading whitespace = $2
                 ({marker}) [ ]+                 # list marker = $3
                 ((?s:.+?)                  # list item text = $4
-                (\n{{1,2}}))      
+                (\n{{1,2}}))
                 (?= \n* (\z | \2 ({marker}) [ ]+))";
 
             list = Regex.Replace(list, pattern, ListItemEvaluator, RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
@@ -1024,7 +1021,7 @@ namespace Lenneth.Core.Framework.MD
             var item = match.Groups[4].Value;
             var leadingLine = match.Groups[1].Value;
 
-            if (!IsNullOrEmpty(leadingLine) || Regex.IsMatch(item, @"\n{2,}"))
+            if (!string.IsNullOrEmpty(leadingLine) || Regex.IsMatch(item, @"\n{2,}"))
                 // we could correct any bad indentation here..
                 item = RunBlockGamut(Outdent(item) + "\n");
             else
@@ -1037,7 +1034,6 @@ namespace Lenneth.Core.Framework.MD
 
             return $"<li>{item}</li>\n";
         }
-
 
         private static readonly Regex CodeBlock = new Regex($@"
                     (?:\n\n|\A\n?)
@@ -1065,7 +1061,7 @@ namespace Lenneth.Core.Framework.MD
             codeBlock = EncodeCode(Outdent(codeBlock));
             codeBlock = NewlinesLeadingTrailing.Replace(codeBlock, "");
 
-            return Concat("\n\n<pre><code>", codeBlock, "\n</code></pre>\n\n");
+            return string.Concat("\n\n<pre><code>", codeBlock, "\n</code></pre>\n\n");
         }
 
         private static readonly Regex CodeSpan = new Regex(@"
@@ -1080,6 +1076,7 @@ namespace Lenneth.Core.Framework.MD
         /// Turn Markdown `code spans` into HTML code tags
         /// </summary>
         private string DoCodeSpans(string text) => CodeSpan.Replace(text, CodeSpanEvaluator);
+
         //private string DoCodeSpans(string text)
         //{
         //    //    * You can use multiple backticks as the delimiters if you want to
@@ -1101,7 +1098,7 @@ namespace Lenneth.Core.Framework.MD
         //    //
         //    //        Turns to:
         //    //
-        //    //          ... type <code>`bar`</code> ...         
+        //    //          ... type <code>`bar`</code> ...
         //    //
 
         //    return CodeSpan.Replace(text, CodeSpanEvaluator);
@@ -1114,15 +1111,15 @@ namespace Lenneth.Core.Framework.MD
             span = Regex.Replace(span, @"[ ]*$", ""); // trailing whitespace
             span = EncodeCode(span);
 
-            return Concat("<code>", span, "</code>");
+            return string.Concat("<code>", span, "</code>");
         }
-
 
         private static readonly Regex Bold = new Regex(@"(\*\*|__) (?=\S) (.+?[*_]*) (?<=\S) \1", RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex StrictBold = new Regex(@"([\W_]|^) (\*\*|__) (?=\S) ([^\r]*?\S[\*_]*) \2 ([\W_]|$)", RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
         private static readonly Regex Italic = new Regex(@"(\*|_) (?=\S) (.+?) (?<=\S) \1",
             RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
+
         private static readonly Regex StrictItalic = new Regex(@"([\W_]|^) (\*|_) (?=\S) ([^\r\*_]*?\S) \2 ([\W_]|$)",
             RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
@@ -1131,7 +1128,6 @@ namespace Lenneth.Core.Framework.MD
         /// </summary>
         private string DoItalicsAndBold(string text)
         {
-
             // <strong> must go first, then <em>
             if (StrictBoldItalic)
             {
@@ -1199,7 +1195,6 @@ namespace Lenneth.Core.Framework.MD
         /// </remarks>
         private string DoAutoLinks(string text)
         {
-
             if (AutoHyperlink)
             {
                 // fixup arbitrary URLs by adding Markdown < > so they get linked as well
@@ -1253,7 +1248,7 @@ namespace Lenneth.Core.Framework.MD
             //
             email = "mailto:" + email;
 
-            // leave ':' alone (to spot mailto: later) 
+            // leave ':' alone (to spot mailto: later)
             email = EncodeEmailAddress(email);
 
             email = $"<a href=\"{email}\">{email}</a>";
@@ -1262,7 +1257,6 @@ namespace Lenneth.Core.Framework.MD
             email = Regex.Replace(email, "\">.+?:", "\">");
             return email;
         }
-
 
         private static readonly Regex OutDent = new Regex(@"^[ ]{1," + TabWidth + @"}", RegexOptions.Multiline | RegexOptions.Compiled);
 
@@ -1273,10 +1267,9 @@ namespace Lenneth.Core.Framework.MD
 
         #region Encoding and Normalization
 
-
         /// <summary>
-        /// encodes email address randomly  
-        /// roughly 10% raw, 45% hex, 45% dec 
+        /// encodes email address randomly
+        /// roughly 10% raw, 45% hex, 45% dec
         /// note that @ is always encoded and : never is
         /// </summary>
         private string EncodeEmailAddress(string addr)
@@ -1322,7 +1315,6 @@ namespace Lenneth.Core.Framework.MD
             }
         }
 
-
         private static readonly Regex Amps = new Regex(@"&(?!(#[0-9]+)|(#[xX][a-fA-F0-9])|([a-zA-Z][a-zA-Z0-9]*);)", RegexOptions.ExplicitCapture | RegexOptions.Compiled);
         private static readonly Regex Angles = new Regex(@"<(?![A-Za-z/?\$!])", RegexOptions.ExplicitCapture | RegexOptions.Compiled);
 
@@ -1336,7 +1328,7 @@ namespace Lenneth.Core.Framework.MD
             return s;
         }
 
-        private static readonly Regex BackslashEscapes; 
+        private static readonly Regex BackslashEscapes;
 
         /// <summary>
         /// Encodes any escaped characters such as \`, \*, \[ etc
@@ -1344,7 +1336,7 @@ namespace Lenneth.Core.Framework.MD
         private string EscapeBackslashes(string s) => BackslashEscapes.Replace(s, EscapeBackslashesEvaluator);
 
         private string EscapeBackslashesEvaluator(Match match) => BackslashEscapeTable[match.Value];
-       
+
         private static readonly Regex Unescapes = new Regex("\x1A\\d+\x1A", RegexOptions.Compiled);
 
         /// <summary>
@@ -1353,7 +1345,6 @@ namespace Lenneth.Core.Framework.MD
         private string Unescape(string s) => Unescapes.Replace(s, UnescapeEvaluator);
 
         private string UnescapeEvaluator(Match match) => InvertedEscapeTable[match.Value];
-
 
         /// <summary>
         /// escapes Bold [ * ] and Italic [ _ ] characters
@@ -1368,7 +1359,7 @@ namespace Lenneth.Core.Framework.MD
         private static readonly char[] ProblemUrlChars = @"""'*()[]$:".ToCharArray();
 
         /// <summary>
-        /// hex-encodes some unusual "problem" chars in URLs to avoid URL detection problems 
+        /// hex-encodes some unusual "problem" chars in URLs to avoid URL detection problems
         /// </summary>
         private string EncodeProblemUrlChars(string url)
         {
@@ -1384,20 +1375,19 @@ namespace Lenneth.Core.Framework.MD
                     encode = url[i + 1] != '/' && !(url[i + 1] >= '0' && url[i + 1] <= '9');
 
                 if (encode)
-                    sb.Append("%" + $"{(byte) c:x}");
+                    sb.Append("%" + $"{(byte)c:x}");
                 else
-                    sb.Append(c);                
+                    sb.Append(c);
             }
 
             return sb.ToString();
         }
 
-
         /// <summary>
-        /// Within tags -- meaning between &lt; and &gt; -- encode [\ ` * _] so they 
-        /// don't conflict with their use in Markdown for code, italics and strong. 
-        /// We're replacing each such character with its corresponding hash 
-        /// value; this is likely overkill, but it should prevent us from colliding 
+        /// Within tags -- meaning between &lt; and &gt; -- encode [\ ` * _] so they
+        /// don't conflict with their use in Markdown for code, italics and strong.
+        /// We're replacing each such character with its corresponding hash
+        /// value; this is likely overkill, but it should prevent us from colliding
         /// with the escape values by accident.
         /// </summary>
         private string EscapeSpecialCharsWithinTagAttributes(string text)
@@ -1425,13 +1415,13 @@ namespace Lenneth.Core.Framework.MD
         }
 
         /// <summary>
-        /// convert all tabs to _tabWidth spaces; 
-        /// standardizes line endings from DOS (CR LF) or Mac (CR) to UNIX (LF); 
-        /// makes sure text ends with a couple of newlines; 
+        /// convert all tabs to _tabWidth spaces;
+        /// standardizes line endings from DOS (CR LF) or Mac (CR) to UNIX (LF);
+        /// makes sure text ends with a couple of newlines;
         /// removes any blank lines (only spaces) in the text
         /// </summary>
         private string Normalize(string text)
-        {            
+        {
             var output = new StringBuilder(text.Length);
             var line = new StringBuilder();
             var valid = false;
@@ -1445,6 +1435,7 @@ namespace Lenneth.Core.Framework.MD
                         output.Append('\n');
                         line.Length = 0; valid = false;
                         break;
+
                     case '\r':
                         if ((i < text.Length - 1) && (text[i + 1] != '\n'))
                         {
@@ -1453,13 +1444,16 @@ namespace Lenneth.Core.Framework.MD
                             line.Length = 0; valid = false;
                         }
                         break;
+
                     case '\t':
                         var width = (TabWidth - line.Length % TabWidth);
                         for (var k = 0; k < width; k++)
                             line.Append(' ');
                         break;
+
                     case '\x1A':
                         break;
+
                     default:
                         if (!valid && text[i] != ' ') valid = true;
                         line.Append(text[i]);
@@ -1474,7 +1468,7 @@ namespace Lenneth.Core.Framework.MD
             return output.Append("\n\n").ToString();
         }
 
-        #endregion
+        #endregion Encoding and Normalization
 
         /// <summary>
         /// this is to emulate what's evailable in PHP
@@ -1486,6 +1480,5 @@ namespace Lenneth.Core.Framework.MD
                 sb.Append(text);
             return sb.ToString();
         }
-
     }
 }

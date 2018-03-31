@@ -1,6 +1,6 @@
 ﻿namespace Lenneth.Core.Framework.MD
 {
-    public class MarkdownOptions
+    internal class MarkdownOptions
     {
         /// <summary>
         /// when true, (most) bare plain URLs are auto-hyperlinked
