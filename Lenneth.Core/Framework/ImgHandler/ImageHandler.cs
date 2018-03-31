@@ -78,9 +78,9 @@ namespace Lenneth.Core.Framework.ImgHandler
         /// <param name="offsetX">横轴偏移</param>
         /// <param name="offsetY">纵轴偏移</param>
         /// <returns></returns>
-        public Bitmap MarkWater(Bitmap mark, int offsetX, int offsetY)
+        public virtual Bitmap MarkWater(Bitmap mark, int offsetX, int offsetY)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
 

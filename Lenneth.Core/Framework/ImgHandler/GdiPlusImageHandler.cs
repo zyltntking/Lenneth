@@ -24,12 +24,12 @@ namespace Lenneth.Core.Framework.ImgHandler
         {
             var width = Image.Width * percent;
             var height = Image.Height * percent;
-            using (var result = new Bitmap(width,height))
+            using (var result = new Bitmap(width, height))
             {
                 using (var outImgG = Graphics.FromImage(result))
                 {
                     outImgG.Clear(Color.Transparent);
-                    outImgG.DrawImage(Image,new Rectangle(0,0,width,height),new Rectangle(0,0,Image.Width,Image.Height),GraphicsUnit.Pixel);
+                    outImgG.DrawImage(Image, new Rectangle(0, 0, width, height), new Rectangle(0, 0, Image.Width, Image.Height), GraphicsUnit.Pixel);
                 }
                 return result;
             }
@@ -92,7 +92,20 @@ namespace Lenneth.Core.Framework.ImgHandler
                     return null;
                 }
             }
-                
+
+        }
+
+        public override Bitmap MarkWater(Bitmap mark, int offsetX, int offsetY)
+        {
+            using (var result = new Bitmap(Image))
+            {
+                using (var outImgG = Graphics.FromImage(result))
+                {
+                    outImgG.DrawImage(mark, new Rectangle(offsetX, offsetY, mark.Width, mark.Height));
+                }
+                return result;
+            }
+
         }
     }
 }

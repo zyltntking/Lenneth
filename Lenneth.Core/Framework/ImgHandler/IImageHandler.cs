@@ -1,9 +1,25 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Lenneth.Core.Framework.ImgHandler
 {
     public interface IImageHandler
     {
+        /// <summary>
+        /// 获取bitmap实例
+        /// </summary>
+        Bitmap Image { get; }
+
+        /// <summary>
+        /// 获取二进制值
+        /// </summary>
+        Byte[] GetBytes { get; }
+
+        /// <summary>
+        /// 获取base64字符串
+        /// </summary>
+        string GetBase64 { get; }
+
         /// <summary>
         /// 按比例缩放图片
         /// </summary>
