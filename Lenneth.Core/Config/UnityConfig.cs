@@ -1,8 +1,10 @@
 using System;
-
+using Lenneth.Core.Interceptor;
+using Lenneth.Core.Sample;
 using Unity;
 using Unity.Injection;
 using Unity.Interception.ContainerIntegration;
+using Unity.Interception.Interceptors.InstanceInterceptors.InterfaceInterception;
 
 namespace Lenneth.Core
 {
@@ -16,7 +18,7 @@ namespace Lenneth.Core
     {
         #region Unity Container
 
-        private static Lazy<IUnityContainer> _container =
+        private static readonly Lazy<IUnityContainer> LazyContainer =
           new Lazy<IUnityContainer>(() =>
           {
               var container = new UnityContainer();
@@ -27,7 +29,7 @@ namespace Lenneth.Core
         /// <summary>
         /// Configured Unity Container.
         /// </summary>
-        public static IUnityContainer Container => _container.Value;
+        public static IUnityContainer Container => LazyContainer.Value;
 
         #endregion Unity Container
 
@@ -41,7 +43,7 @@ namespace Lenneth.Core
         /// allows resolving a concrete type even if it was not previously
         /// registered.
         /// </remarks>
-        public static void RegisterTypes(IUnityContainer container)
+        private static void RegisterTypes(IUnityContainer container)
         {
             // NOTE: To load from web.config uncomment the line below.
             // Make sure to add a Unity.Configuration to the using statements.
@@ -53,8 +55,13 @@ namespace Lenneth.Core
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
 
+            container.RegisterType<ISample, Sample.Sample>();
             //Nlog
             container.RegisterType<ILogging, NLogWrapper>(new InjectionConstructor(Config.LogConfig,"log"));
+            // common
+            // container.RegisterType<ISample, Sample.Sample>( new Interceptor<InterfaceInterceptor>(), new InterceptionBehavior<CommonInterception>());
+            // call handler
+            // container.RegisterType<ISample, Sample.Sample>().Configure<Interception>().SetInterceptorFor<ISample>(new InterfaceInterceptor());
         }
     }
 }

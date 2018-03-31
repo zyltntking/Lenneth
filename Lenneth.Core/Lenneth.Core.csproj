@@ -83,8 +83,12 @@
     <Compile Include="Facade.cs" />
     <Compile Include="Framework\Log\Interface\ILogging.cs" />
     <Compile Include="Framework\Log\Nlog\NlogWrapper.cs" />
-    <Compile Include="Interceptor\LoggingInterceptionBehavior.cs" />
+    <Compile Include="Interceptor\CallHandlerAttribute .cs" />
+    <Compile Include="Interceptor\CallHandlerInterecptor.cs" />
+    <Compile Include="Interceptor\CommonInterception.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sample\ISample.cs" />
+    <Compile Include="Sample\Sample.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
