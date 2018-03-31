@@ -50,7 +50,7 @@ namespace Lenneth.Core
             // container.LoadConfiguration();
 
             //Ìí¼ÓÀ¹½Ø²å¼þ
-            container.AddNewExtension<Interception>();
+            // container.AddNewExtension<Interception>();
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
