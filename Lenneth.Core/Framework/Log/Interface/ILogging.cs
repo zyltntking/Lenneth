@@ -2,7 +2,7 @@
 
 namespace Lenneth.Core.Framework.Log.Interface
 {
-    internal interface ILogging
+    public interface ILogging
     {
         /// <summary>
         /// 日志名

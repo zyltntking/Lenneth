@@ -9,7 +9,7 @@ namespace Lenneth.Core.Framework.Log.Nlog
     /// <summary>
     /// Nlog简单封装
     /// </summary>
-    public class NLogWrapper : ILogging
+    internal class NLogWrapper : ILogging
     {
         /// <summary>
         /// 当前日志组

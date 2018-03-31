@@ -11,29 +11,18 @@ namespace Lenneth.Core.Interceptor
 
         public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
         {
-            Console.WriteLine($"===进入方法，方法名: {input.MethodBase.Name}===");
-            Console.WriteLine();
-            Console.WriteLine("====参数区域====:");
-            for (var i = 0; i < input.Arguments.Count; i++)
-            {
-                Console.WriteLine($"参数名: {input.Arguments.ParameterName(i)}");
-                Console.WriteLine($"参数类型: {input.Arguments[i].GetType()}");
-                Console.WriteLine($"参数值: {input.Arguments[i]}");
-            }
-            Console.WriteLine("====参数区域====:");
-            Console.WriteLine();
-            Console.WriteLine("执行前,可在这里记录执行前的日志");
-            Console.WriteLine();
-            var result = getNext()(input, getNext);//progress
-            Console.WriteLine();
+            //Facade.Logger.Info($"Function Name: {input.MethodBase.Name}");
+            //for (var i = 0; i < input.Arguments.Count; i++)
+            //{
+            //    Facade.Logger.Info($"argName: {input.Arguments.ParameterName(i)}, argType: {input.Arguments[i].GetType()}, argValue: {input.Arguments[i]}");
+            //}
+            var result = getNext()(input, getNext);
             if (result.Exception != null)
             {
                 //exception
-                Console.WriteLine("异常发生时,可在这里记录异常发生时的日志");
-                Console.WriteLine( $"Method {input.MethodBase} threw exception {result.Exception.Message} at {DateTime.Now.ToLongTimeString()}");
-                Console.WriteLine();
+                Facade.Logger.Error(result.Exception, $"Method {input.MethodBase} threw exception {result.Exception.Message} at {DateTime.Now.ToLongTimeString()}");
             }
-            Console.WriteLine("执行后,可在这里记录执行后的日志");
+            //Console.WriteLine("Finish");
             return result;
         }
 
@@ -41,6 +30,6 @@ namespace Lenneth.Core.Interceptor
 
         public bool WillExecute => true;
 
-        #endregion
+        #endregion Implementation of IInterceptionBehavior
     }
 }

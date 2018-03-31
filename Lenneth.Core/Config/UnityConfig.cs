@@ -1,9 +1,14 @@
 using System;
+
 using Unity;
+using Unity.Injection;
 using Unity.Interception.ContainerIntegration;
 
 namespace Lenneth.Core
 {
+    using Framework.Log.Interface;
+    using Framework.Log.Nlog;
+    
     /// <summary>
     /// Specifies the Unity configuration for the main container.
     /// </summary>
@@ -47,6 +52,9 @@ namespace Lenneth.Core
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
+
+            //Nlog
+            container.RegisterType<ILogging, NLogWrapper>(new InjectionConstructor(Config.LogConfig,"log"));
         }
     }
 }
