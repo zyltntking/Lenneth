@@ -1,16 +1,13 @@
-using System;
-using Lenneth.Core.Interceptor;
 using Lenneth.Core.Sample;
+using System;
 using Unity;
 using Unity.Injection;
-using Unity.Interception.ContainerIntegration;
-using Unity.Interception.Interceptors.InstanceInterceptors.InterfaceInterception;
 
 namespace Lenneth.Core
 {
     using Framework.Log.Interface;
     using Framework.Log.Nlog;
-    
+
     /// <summary>
     /// Specifies the Unity configuration for the main container.
     /// </summary>
