@@ -10,7 +10,7 @@ namespace Lenneth.Test
         private static void Main()
         {
             Console.WriteLine(Facade.Test);
-            Facade.Mail.To(new List<string>{"zyltntking@qq.com"}).Send("title","body");
+            //Facade.Mail.To(new List<string>{"zyltntking@qq.com"}).Send("title","body");
             Console.ReadLine();
         }
     }

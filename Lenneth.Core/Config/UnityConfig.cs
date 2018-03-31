@@ -1,4 +1,5 @@
 using System;
+using Lenneth.Core.Framework.Crypt;
 using Lenneth.Core.Framework.Mail;
 using Unity;
 using Unity.Injection;
@@ -7,7 +8,6 @@ namespace Lenneth.Core
 {
     using Framework.Log;
     using Framework.MD;
-    using Sample;
 
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -52,14 +52,14 @@ namespace Lenneth.Core
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
-
-            container.RegisterType<ISample, Sample.Sample>();
             //Nlog
             container.RegisterType<ILogging, NLogWrapper>(new InjectionConstructor(Config.LogConfig, "log"));
             //MarkDown
             container.RegisterType<IMarkdown, Markdown>(new InjectionConstructor());
             //Mail
             container.RegisterType<IMail, SmtpMail>(new InjectionConstructor(Config.MailConfig));
+            //Crypt
+            container.RegisterType<ICrypt, DES>(new InjectionConstructor("@Lenneth", "@Lenneth"));
             // common
             // container.RegisterType<ISample, Sample.Sample>( new Interceptor<InterfaceInterceptor>(), new InterceptionBehavior<CommonInterception>());
             // call handler

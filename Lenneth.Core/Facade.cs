@@ -1,23 +1,15 @@
-﻿using Unity;
+﻿using Lenneth.Core.Framework.Crypt;
+using Unity;
 
 namespace Lenneth.Core
 {
     using Framework.Log;
     using Framework.MD;
     using Framework.Mail;
-    using Sample;
 
     public static class Facade
     {
-        public static string Test
-        {
-            get
-            {
-                var sample = UnityConfig.Container.Resolve<ISample>();
-                sample.SampleMethod();
-                return $"Facade Test";
-            }
-        }
+        public static string Test => $"Facade Test";
 
         /// <summary>
         /// 日志门面
@@ -32,6 +24,11 @@ namespace Lenneth.Core
         /// <summary>
         /// Mail门面
         /// </summary>
-        public static IMail Mail = UnityConfig.Container.Resolve<IMail>();
+        public static IMail Mail => UnityConfig.Container.Resolve<IMail>();
+
+        /// <summary>
+        /// Crypt门面
+        /// </summary>
+        public static ICrypt Crypt => UnityConfig.Container.Resolve<ICrypt>();
     }
 }
