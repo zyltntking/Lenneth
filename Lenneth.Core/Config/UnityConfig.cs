@@ -1,12 +1,12 @@
-using Lenneth.Core.Sample;
 using System;
 using Unity;
 using Unity.Injection;
 
 namespace Lenneth.Core
 {
-    using Framework.Log.Interface;
-    using Framework.Log.Nlog;
+    using Framework.Log;
+    using Framework.MD;
+    using Sample;
 
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -54,7 +54,9 @@ namespace Lenneth.Core
 
             container.RegisterType<ISample, Sample.Sample>();
             //Nlog
-            container.RegisterType<ILogging, NLogWrapper>(new InjectionConstructor(Config.LogConfig,"log"));
+            container.RegisterType<ILogging, NLogWrapper>(new InjectionConstructor(Config.LogConfig, "log"));
+            //MarkDown
+            container.RegisterType<IMarkdown, Markdown>();
             // common
             // container.RegisterType<ISample, Sample.Sample>( new Interceptor<InterfaceInterceptor>(), new InterceptionBehavior<CommonInterception>());
             // call handler

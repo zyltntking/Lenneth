@@ -7,7 +7,6 @@ namespace Lenneth.Core
 {
     internal static class Config
     {
-
         #region Nlog配置
 
         public static LoggingConfiguration LogConfig

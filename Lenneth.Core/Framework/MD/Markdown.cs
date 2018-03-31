@@ -12,7 +12,7 @@ namespace Lenneth.Core.Framework.MD
     /// Markdown allows you to write using an easy-to-read, easy-to-write plain text format, 
     /// then convert it to structurally valid XHTML (or HTML).
     /// </summary>
-    public class Markdown
+    public class Markdown : IMarkdown
     {
         public string Version => "1.13";
 

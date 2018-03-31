@@ -81,8 +81,9 @@
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\UnityConfig.cs" />
     <Compile Include="Facade.cs" />
-    <Compile Include="Framework\Log\Interface\ILogging.cs" />
-    <Compile Include="Framework\Log\Nlog\NlogWrapper.cs" />
+    <Compile Include="Framework\Log\ILogging.cs" />
+    <Compile Include="Framework\Log\NlogWrapper.cs" />
+    <Compile Include="Framework\MD\IMarkdown.cs" />
     <Compile Include="Framework\MD\Markdown.cs" />
     <Compile Include="Framework\MD\MarkdownOptions.cs" />
     <Compile Include="Interceptor\CallHandlerAttribute .cs" />

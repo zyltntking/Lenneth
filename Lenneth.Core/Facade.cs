@@ -1,10 +1,9 @@
-﻿using Lenneth.Core.Sample;
+﻿using Lenneth.Core.Framework.Log;
+using Lenneth.Core.Sample;
 using Unity;
 
 namespace Lenneth.Core
 {
-    using Framework.Log.Interface;
-
     public static class Facade
     {
         public static string Test
