@@ -1,5 +1,4 @@
-﻿
-using Unity;
+﻿using Unity;
 
 namespace Lenneth.Core
 {

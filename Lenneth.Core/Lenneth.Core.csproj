@@ -33,11 +33,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommonServiceLocator, Version=2.0.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.3\lib\net46\CommonServiceLocator.dll</HintPath>
+      <HintPath>..\packages\Unity.5.8.4\lib\net46\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="Costura, Version=1.6.2.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\packages\Costura.Fody.1.6.2\lib\dotnet\Costura.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="JsonFx, Version=2.0.1209.2802, Culture=neutral, PublicKeyToken=315052dd637f8a52, processorArchitecture=MSIL">
+      <HintPath>..\packages\JsonFx.2.0.1209.2802\lib\net40\JsonFx.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.5.0\lib\net45\NLog.dll</HintPath>
@@ -50,6 +53,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,25 +61,25 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="Unity.Abstractions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.3\lib\net46\Unity.Abstractions.dll</HintPath>
+      <HintPath>..\packages\Unity.5.8.4\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Configuration, Version=5.2.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.3\lib\net46\Unity.Configuration.dll</HintPath>
+      <HintPath>..\packages\Unity.5.8.4\lib\net46\Unity.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container, Version=5.8.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.3\lib\net46\Unity.Container.dll</HintPath>
+    <Reference Include="Unity.Container, Version=5.8.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.8.4\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Interception, Version=5.5.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.3\lib\net46\Unity.Interception.dll</HintPath>
+      <HintPath>..\packages\Unity.5.8.4\lib\net46\Unity.Interception.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Interception.Configuration, Version=5.1.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.3\lib\net46\Unity.Interception.Configuration.dll</HintPath>
+      <HintPath>..\packages\Unity.5.8.4\lib\net46\Unity.Interception.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RegistrationByConvention, Version=2.1.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.3\lib\net46\Unity.RegistrationByConvention.dll</HintPath>
+      <HintPath>..\packages\Unity.5.8.4\lib\net46\Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ServiceLocation, Version=2.1.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.8.3\lib\net46\Unity.ServiceLocation.dll</HintPath>
+      <HintPath>..\packages\Unity.5.8.4\lib\net46\Unity.ServiceLocation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +101,48 @@
     <Compile Include="Framework\Hash\Sha256Hash.cs" />
     <Compile Include="Framework\Hash\Sha384Hash.cs" />
     <Compile Include="Framework\Hash\Sha512Hash.cs" />
+    <Compile Include="Framework\Http\Codecs\DefaultDecoder.cs" />
+    <Compile Include="Framework\Http\Codecs\DefaultEncoder.cs" />
+    <Compile Include="Framework\Http\Codecs\DynamicType.cs" />
+    <Compile Include="Framework\Http\Codecs\IDecoder.cs" />
+    <Compile Include="Framework\Http\Codecs\IEncoder.cs" />
+    <Compile Include="Framework\Http\Codecs\IMemberBehavior.cs" />
+    <Compile Include="Framework\Http\Codecs\JsonFXExtensions\RegExBasedDataReaderProvider.cs" />
+    <Compile Include="Framework\Http\Codecs\JsonFXExtensions\RegExBasedDataWriterProvider.cs" />
+    <Compile Include="Framework\Http\Codecs\JsonFXExtensions\RemoveAmpersandFromNameJsonResolverStrategy.cs" />
+    <Compile Include="Framework\Http\Codecs\JsonFXExtensions\UrlEncoderTextFormatter.cs" />
+    <Compile Include="Framework\Http\Codecs\JsonFXExtensions\UrlEncoderWriter.cs" />
+    <Compile Include="Framework\Http\Configuration\DefaultEncoderDecoderConfiguration.cs" />
+    <Compile Include="Framework\Http\Configuration\IEncoderDecoderConfiguration.cs" />
+    <Compile Include="Framework\Http\Http\Abstractions\HttpWebRequestWrapper.cs" />
+    <Compile Include="Framework\Http\Http\Abstractions\HttpWebResponseWrapper.cs" />
+    <Compile Include="Framework\Http\Http\Abstractions\IHttpRequestInterception.cs" />
+    <Compile Include="Framework\Http\Http\Abstractions\IHttpRequestInterceptionBuilder.cs" />
+    <Compile Include="Framework\Http\Http\Abstractions\IHttpWebRequest.cs" />
+    <Compile Include="Framework\Http\Http\Abstractions\IHttpWebResponse.cs" />
+    <Compile Include="Framework\Http\Http\Abstractions\IWebResponse.cs" />
+    <Compile Include="Framework\Http\Http\Abstractions\WebResponseWrapper.cs" />
+    <Compile Include="Framework\Http\Http\CacheControl.cs" />
+    <Compile Include="Framework\Http\Http\HttpClient.cs" />
+    <Compile Include="Framework\Http\Http\HttpContentTransferEncoding.cs" />
+    <Compile Include="Framework\Http\Http\HttpContentTypes.cs" />
+    <Compile Include="Framework\Http\Http\HttpMethod.cs" />
+    <Compile Include="Framework\Http\Http\HttpRequest.cs" />
+    <Compile Include="Framework\Http\Http\HttpResponse.cs" />
+    <Compile Include="Framework\Http\Http\Injection\HttpRequestInterception.cs" />
+    <Compile Include="Framework\Http\Http\Injection\StubbedHttpWebRequest.cs" />
+    <Compile Include="Framework\Http\Http\Injection\StubbedHttpWebResponse.cs" />
+    <Compile Include="Framework\Http\Http\MultipartStreamer.cs" />
+    <Compile Include="Framework\Http\Http\StreamExtensions.cs" />
+    <Compile Include="Framework\Http\Infrastructure\ConfigurationException.cs" />
+    <Compile Include="Framework\Http\Infrastructure\FileData.cs" />
+    <Compile Include="Framework\Http\Infrastructure\HttpException.cs" />
+    <Compile Include="Framework\Http\Infrastructure\ObjectToUrl.cs" />
+    <Compile Include="Framework\Http\Infrastructure\ObjectToUrlParameters.cs" />
+    <Compile Include="Framework\Http\Infrastructure\ObjectToUrlSegments.cs" />
+    <Compile Include="Framework\Http\Infrastructure\PropertyNotFoundException.cs" />
+    <Compile Include="Framework\Http\Infrastructure\StreamExtensions.cs" />
+    <Compile Include="Framework\Http\Infrastructure\UriComposer.cs" />
     <Compile Include="Framework\ImgHandler\GdiPlusImageHandler.cs" />
     <Compile Include="Framework\ImgHandler\IImageHandler.cs" />
     <Compile Include="Framework\ImgHandler\ImageHandler.cs" />
