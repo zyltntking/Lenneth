@@ -119,7 +119,7 @@
     <Compile Include="Framework\QR\Base\QRCodeData.cs" />
     <Compile Include="Framework\QR\Base\QRCodeGenerator.cs" />
     <Compile Include="Framework\QR\Formater\SvgQRCode.cs" />
-    <Compile Include="Framework\QR\Instance.cs" />
+    <Compile Include="Framework\QR\QrWarpper.cs" />
     <Compile Include="Framework\QR\IQr.cs" />
     <Compile Include="Interceptor\CallHandlerAttribute .cs" />
     <Compile Include="Interceptor\CallHandlerInterecptor.cs" />

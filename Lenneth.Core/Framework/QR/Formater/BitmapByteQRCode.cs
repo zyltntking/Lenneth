@@ -6,7 +6,7 @@ namespace Lenneth.Core.Framework.QR.Formater
     using Base;
 
     // ReSharper disable once InconsistentNaming
-    public class BitmapByteQrCode : AbstractQrCode
+    internal class BitmapByteQrCode : AbstractQrCode
     {
         /// <summary>
         /// Constructor without params to be used in COM Objects connections

@@ -1,4 +1,5 @@
-﻿using Unity;
+﻿
+using Unity;
 
 namespace Lenneth.Core
 {
@@ -7,6 +8,7 @@ namespace Lenneth.Core
     using Framework.Log;
     using Framework.Mail;
     using Framework.MD;
+    using Framework.QR;
 
     public static class Facade
     {
@@ -36,5 +38,10 @@ namespace Lenneth.Core
         /// Hash门面
         /// </summary>
         public static IHash Hash => UnityConfig.Container.Resolve<IHash>();
+
+        /// <summary>
+        /// Qr门面
+        /// </summary>
+        public static IQr Qr => UnityConfig.Container.Resolve<IQr>();
     }
 }

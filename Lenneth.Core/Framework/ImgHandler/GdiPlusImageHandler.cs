@@ -95,6 +95,13 @@ namespace Lenneth.Core.Framework.ImgHandler
 
         }
 
+        /// <summary>
+        /// 在指定位置插入图片
+        /// </summary>
+        /// <param name="mark">被插入的图片</param>
+        /// <param name="offsetX">x偏移(向右)</param>
+        /// <param name="offsetY">y偏移(向下)</param>
+        /// <returns></returns>
         public override Bitmap MarkWater(Bitmap mark, int offsetX, int offsetY)
         {
             using (var result = new Bitmap(Image))

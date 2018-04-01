@@ -6,7 +6,7 @@ using System.IO.Compression;
 
 namespace Lenneth.Core.Framework.QR.Base
 {
-    public class QrCodeData : IDisposable
+    internal class QrCodeData : IDisposable
     {
         public List<BitArray> ModuleMatrix { get; set; }
 
@@ -172,7 +172,7 @@ namespace Lenneth.Core.Framework.QR.Base
             Version = 0;
         }
 
-        public enum Compression
+        internal enum Compression
         {
             Uncompressed,
             Deflate,

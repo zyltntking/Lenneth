@@ -1,4 +1,5 @@
 using System;
+using Lenneth.Core.Framework.QR;
 using Unity;
 using Unity.Injection;
 
@@ -13,7 +14,7 @@ namespace Lenneth.Core
     /// <summary>
     /// Specifies the Unity configuration for the main container.
     /// </summary>
-    public static class UnityConfig
+    internal static class UnityConfig
     {
         #region Unity Container
 
@@ -63,6 +64,8 @@ namespace Lenneth.Core
             container.RegisterType<ICrypt, DES>(new InjectionConstructor("@Lenneth", "@Lenneth"));
             //Hash
             container.RegisterType<IHash, MD5Hash>();
+            //Qr
+            container.RegisterType<IQr,QrWarpper>();
             // common
             // container.RegisterType<ISample, Sample.Sample>( new Interceptor<InterfaceInterceptor>(), new InterceptionBehavior<CommonInterception>());
             // call handler

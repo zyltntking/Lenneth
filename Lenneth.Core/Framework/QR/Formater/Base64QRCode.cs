@@ -7,7 +7,7 @@ namespace Lenneth.Core.Framework.QR.Formater
 {
     using Base;
 
-    public class Base64QrCode : AbstractQrCode
+    internal class Base64QrCode : AbstractQrCode
     {
         private QrCode Qr { get; }
 
@@ -74,7 +74,7 @@ namespace Lenneth.Core.Framework.QR.Formater
             return base64;
         }
 
-        public enum ImageType
+        internal enum ImageType
         {
             Gif,
             Jpeg,

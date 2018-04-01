@@ -5,7 +5,7 @@ namespace Lenneth.Core.Framework.QR.Formater
 {
     using Base;
 
-    public class QrCode : AbstractQrCode
+    internal class QrCode : AbstractQrCode
     {
         /// <summary>
         /// Constructor without params to be used in COM Objects connections

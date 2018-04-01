@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace Lenneth.Core.Framework.QR.Base
 {
-    public static class PayloadGenerator
+    internal static class PayloadGenerator
     {
-        public class WiFi
+        internal class WiFi
         {
             private readonly string _ssid, _password, _authenticationMode;
             private readonly bool _isHiddenSsid;
@@ -37,7 +37,7 @@ namespace Lenneth.Core.Framework.QR.Base
                     $"WIFI:T:{_authenticationMode};S:{_ssid};P:{_password};{(_isHiddenSsid ? "H:true" : string.Empty)};";
             }
 
-            public enum Authentication
+            internal enum Authentication
             {
                 Wep,
                 Wpa,
@@ -45,7 +45,7 @@ namespace Lenneth.Core.Framework.QR.Base
             }
         }
 
-        public class Mail
+        internal class Mail
         {
             private readonly string _mailReceiver, _subject, _message;
             private readonly MailEncoding _encoding;
@@ -109,7 +109,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 }
             }
 
-            public enum MailEncoding
+            internal enum MailEncoding
             {
                 Mailto,
                 Matmsg,
@@ -117,7 +117,7 @@ namespace Lenneth.Core.Framework.QR.Base
             }
         }
 
-        public class Sms
+        internal class Sms
         {
             private readonly string _number, _subject;
             private readonly SmsEncoding _encoding;
@@ -162,7 +162,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 }
             }
 
-            public enum SmsEncoding
+            internal enum SmsEncoding
             {
                 Sms,
                 Smsto,
@@ -170,7 +170,7 @@ namespace Lenneth.Core.Framework.QR.Base
             }
         }
 
-        public class Mms
+        internal class Mms
         {
             private readonly string _number, _subject;
             private readonly MMSEncoding _encoding;
@@ -213,14 +213,14 @@ namespace Lenneth.Core.Framework.QR.Base
                 }
             }
 
-            public enum MMSEncoding
+            internal enum MMSEncoding
             {
                 MMS,
                 MMSTO
             }
         }
 
-        public class Geolocation
+        internal class Geolocation
         {
             private readonly string latitude, longitude;
             private readonly GeolocationEncoding encoding;
@@ -251,14 +251,14 @@ namespace Lenneth.Core.Framework.QR.Base
                 }
             }
 
-            public enum GeolocationEncoding
+            internal enum GeolocationEncoding
             {
                 GEO,
                 GoogleMaps
             }
         }
 
-        public class PhoneNumber
+        internal class PhoneNumber
         {
             private readonly string number;
 
@@ -277,7 +277,7 @@ namespace Lenneth.Core.Framework.QR.Base
             }
         }
 
-        public class SkypeCall
+        internal class SkypeCall
         {
             private readonly string skypeUsername;
 
@@ -296,7 +296,7 @@ namespace Lenneth.Core.Framework.QR.Base
             }
         }
 
-        public class Url
+        internal class Url
         {
             private readonly string url;
 
@@ -316,7 +316,7 @@ namespace Lenneth.Core.Framework.QR.Base
         }
 
 
-        public class WhatsAppMessage
+        internal class WhatsAppMessage
         {
             private readonly string message;
 
@@ -336,7 +336,7 @@ namespace Lenneth.Core.Framework.QR.Base
         }
 
 
-        public class Bookmark
+        internal class Bookmark
         {
             private readonly string url, title;
 
@@ -357,7 +357,7 @@ namespace Lenneth.Core.Framework.QR.Base
             }
         }
 
-        public class ContactData
+        internal class ContactData
         {
             private readonly string firstname;
             private readonly string lastname;
@@ -525,7 +525,7 @@ namespace Lenneth.Core.Framework.QR.Base
             /// <summary>
             /// Possible output types. Either vCard 2.1, vCard 3.0, vCard 4.0 or MeCard.
             /// </summary>
-            public enum ContactOutputType
+            internal enum ContactOutputType
             {
                 MeCard,
                 VCard21,
@@ -534,7 +534,7 @@ namespace Lenneth.Core.Framework.QR.Base
             }
         }
 
-        public class BitcoinAddress
+        internal class BitcoinAddress
         {
             private readonly string address, label, message;
             private readonly double? amount;
@@ -584,8 +584,8 @@ namespace Lenneth.Core.Framework.QR.Base
                 return $"bitcoin:{address}{query}";
             }
         }
-        
-        public class SwissQrCode
+
+        internal class SwissQrCode
         {
             //Keep in mind, that the ECC level has to be set to "M" when generating a SwissQrCode!
             //SwissQrCode specification: https://www.paymentstandards.ch/dam/downloads/ig-qr-bill-de.pdf
@@ -639,7 +639,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 this.alternativeProcedure2 = alternativeProcedure2;
             }
 
-            public class Reference
+            internal class Reference
             {
                 private readonly ReferenceType referenceType;
                 private readonly string reference, unstructuredMessage;
@@ -694,20 +694,20 @@ namespace Lenneth.Core.Framework.QR.Base
                 /// <summary>
                 /// Reference type. When using a QR-IBAN you have to use either "QRR" or "SCOR"
                 /// </summary>
-                public enum ReferenceType
+                internal enum ReferenceType
                 {
                     QRR,
                     SCOR,
                     NON
                 }
 
-                public enum ReferenceTextType
+                internal enum ReferenceTextType
                 {
                     QrReference,
                     CreditorReferenceIso11649
                 }
 
-                public class SwissQrCodeReferenceException : Exception
+                internal class SwissQrCodeReferenceException : Exception
                 {
                     public SwissQrCodeReferenceException()
                     {
@@ -725,7 +725,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 }
             }
 
-            public class Iban
+            internal class Iban
             {
                 private string iban;
                 private IbanType ibanType;
@@ -755,13 +755,13 @@ namespace Lenneth.Core.Framework.QR.Base
                     return iban.Replace("\n", "").Replace(" ","");
                 }
 
-                public enum IbanType
+                internal enum IbanType
                 {
                     Iban,
                     QrIban
                 }
 
-                public class SwissQrCodeIbanException : Exception
+                internal class SwissQrCodeIbanException : Exception
                 {
                     public SwissQrCodeIbanException()
                     {
@@ -779,7 +779,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 }
             }
 
-            public class Contact
+            internal class Contact
             {
                 private string br = "\r\n";
                 private string name, street, houseNumber, zipCode, city, country;
@@ -854,7 +854,7 @@ namespace Lenneth.Core.Framework.QR.Base
                     return contactData;
                 }
 
-                public class SwissQrCodeContactException : Exception
+                internal class SwissQrCodeContactException : Exception
                 {
                     public SwissQrCodeContactException()
                     {
@@ -919,19 +919,19 @@ namespace Lenneth.Core.Framework.QR.Base
                 return SwissQrCodePayload;
             }
 
-            
+
 
 
             /// <summary>
             /// ISO 4217 currency codes 
             /// </summary>
-            public enum Currency
+            internal enum Currency
             {              
                 CHF = 756,
                 EUR = 978
             }
 
-            public class SwissQrCodeException : Exception
+            internal class SwissQrCodeException : Exception
             {
                 public SwissQrCodeException()
                 {
@@ -948,8 +948,8 @@ namespace Lenneth.Core.Framework.QR.Base
                 }
             }
         }
-        
-        public class Girocode
+
+        internal class Girocode
         {
             //Keep in mind, that the ECC level has to be set to "M" when generating a Girocode!
             //Girocode specification: http://www.europeanpaymentscouncil.eu/index.cfm/knowledge-bank/epc-documents/quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer/epc069-12-quick-response-code-guidelines-to-enable-data-capture-for-the-initiation-of-a-sepa-credit-transfer1/
@@ -1031,19 +1031,19 @@ namespace Lenneth.Core.Framework.QR.Base
                 return ConvertStringToEncoding(girocodePayload, encoding.ToString().Replace("_","-"));
             }
 
-            public enum GirocodeVersion
+            internal enum GirocodeVersion
             {
                 Version1,
                 Version2
             }
 
-            public enum TypeOfRemittance
+            internal enum TypeOfRemittance
             {
                 Structured,
                 Unstructured
             }
 
-            public enum GirocodeEncoding
+            internal enum GirocodeEncoding
             {
                 UTF_8,
                 ISO_8859_1,
@@ -1055,7 +1055,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 ISO_8859_15
             }
 
-            public class GirocodeException : Exception
+            internal class GirocodeException : Exception
             {
                 public GirocodeException()
                 {
@@ -1073,7 +1073,7 @@ namespace Lenneth.Core.Framework.QR.Base
             }
         }
 
-        public class BezahlCode
+        internal class BezahlCode
         {
             //BezahlCode specification: http://www.bezahlcode.de/wp-content/uploads/BezahlCode_TechDok.pdf
 
@@ -1386,7 +1386,7 @@ namespace Lenneth.Core.Framework.QR.Base
             /// <summary>
             /// ISO 4217 currency codes 
             /// </summary>
-            public enum Currency
+            internal enum Currency
             {
                 AED = 784,
                 AFN = 971,
@@ -1572,7 +1572,7 @@ namespace Lenneth.Core.Framework.QR.Base
             /// <summary>
             /// Operation modes of the BezahlCode
             /// </summary>
-            public enum AuthorityType
+            internal enum AuthorityType
             {
                 /// <summary>
                 /// Single payment (Überweisung)
@@ -1611,7 +1611,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 contact_v2
             }
 
-            public class BezahlCodeException : Exception
+            internal class BezahlCodeException : Exception
             {
                 public BezahlCodeException()
                 {
@@ -1629,7 +1629,7 @@ namespace Lenneth.Core.Framework.QR.Base
             }
         }
 
-        public class CalendarEvent
+        internal class CalendarEvent
         {
             private readonly string subject, description, location, start, end;
             private readonly EventEncoding encoding;
@@ -1671,14 +1671,14 @@ namespace Lenneth.Core.Framework.QR.Base
                 return vEvent;
             }
 
-            public enum EventEncoding
+            internal enum EventEncoding
             {
                 iCalComplete,
                 Universal
             }
         }
 
-        public class OneTimePassword
+        internal class OneTimePassword
         {
             //https://github.com/google/google-authenticator/wiki/Key-Uri-Format
             public OneTimePasswordAuthType Type { get; set; } = OneTimePasswordAuthType.TOTP;
@@ -1690,13 +1690,13 @@ namespace Lenneth.Core.Framework.QR.Base
             public int? Counter { get; set; } = null;
             public int? Period { get; set; } = 30;
 
-            public enum OneTimePasswordAuthType
+            internal enum OneTimePasswordAuthType
             {
                 TOTP,
                 HOTP,
             }
 
-            public enum OoneTimePasswordAuthAlgorithm
+            internal enum OoneTimePasswordAuthAlgorithm
             {
                 SHA1,
                 SHA256,
@@ -1804,8 +1804,8 @@ namespace Lenneth.Core.Framework.QR.Base
                 }
             }
         }
-        
-        public class ShadowSocksConfig
+
+        internal class ShadowSocksConfig
         {
             private readonly string hostname, password, tag, methodStr;
             private readonly Method method;
@@ -1870,7 +1870,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 return $"ss://{connectionStringEncoded}{(!string.IsNullOrEmpty(tag) ? $"#{tag}" : string.Empty)}";
             }
 
-            public enum Method
+            internal enum Method
             {
                 Aes128Cfb,
                 Aes128Cfb1,
@@ -1904,7 +1904,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 Table
             }
 
-            public class ShadowSocksConfigException : Exception
+            internal class ShadowSocksConfigException : Exception
             {
                 public ShadowSocksConfigException()
                 {
@@ -1921,8 +1921,8 @@ namespace Lenneth.Core.Framework.QR.Base
                 }
             }
         }
-        
-        public class MoneroTransaction
+
+        internal class MoneroTransaction
         {
             private readonly string address, txPaymentId, recipientName, txDescription;
             private readonly float? txAmount;
@@ -1957,9 +1957,9 @@ namespace Lenneth.Core.Framework.QR.Base
                 moneroUri += (!string.IsNullOrEmpty(txDescription) ? $"tx_description={Uri.EscapeDataString(txDescription)}" : string.Empty);
                 return moneroUri.TrimEnd('&');
             }
-                        
 
-            public class MoneroTransactionException : Exception
+
+            internal class MoneroTransactionException : Exception
             {
                 public MoneroTransactionException()
                 {

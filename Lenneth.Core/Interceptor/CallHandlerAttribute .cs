@@ -4,7 +4,7 @@ using Unity.Interception.PolicyInjection.Policies;
 
 namespace Lenneth.Core.Interceptor
 {
-    public class CallHandlerAttribute : HandlerAttribute
+    internal class CallHandlerAttribute : HandlerAttribute
     {
         #region Overrides of HandlerAttribute
 

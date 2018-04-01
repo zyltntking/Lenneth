@@ -6,7 +6,7 @@ namespace Lenneth.Core.Framework.QR.Formater
 {
     using Base;
 
-    public sealed class PngByteQrCode : AbstractQrCode
+    internal sealed class PngByteQrCode : AbstractQrCode
     {
         /// <summary>
         /// Constructor without params to be used in COM Objects connections

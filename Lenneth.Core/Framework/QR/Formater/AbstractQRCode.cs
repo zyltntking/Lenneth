@@ -4,7 +4,7 @@ namespace Lenneth.Core.Framework.QR.Formater
 {
     using Base;
 
-    public abstract class AbstractQrCode : IDisposable
+    internal abstract class AbstractQrCode : IDisposable
     {
         protected QrCodeData QrCodeData { get; private set; }
 
