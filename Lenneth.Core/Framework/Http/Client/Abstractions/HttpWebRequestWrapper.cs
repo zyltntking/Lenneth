@@ -7,7 +7,7 @@ using System.Runtime.Remoting;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
 
-namespace Lenneth.Core.Framework.Http.Http.Abstractions
+namespace Lenneth.Core.Framework.Http.Client.Abstractions
 {
     internal class HttpWebRequestWrapper : IHttpWebRequest
     {

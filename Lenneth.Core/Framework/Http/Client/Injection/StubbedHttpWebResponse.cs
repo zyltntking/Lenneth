@@ -4,11 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Remoting;
+using Lenneth.Core.Framework.Http.Client.Abstractions;
 
-namespace Lenneth.Core.Framework.Http.Http.Injection
+namespace Lenneth.Core.Framework.Http.Client.Injection
 {
-    using Abstractions;
-
     internal class StubbedHttpWebResponse : IHttpWebResponse
     {
         private readonly string _responseBody;

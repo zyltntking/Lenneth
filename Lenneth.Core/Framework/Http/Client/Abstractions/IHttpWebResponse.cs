@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Runtime.Remoting;
 
-namespace Lenneth.Core.Framework.Http.Http.Abstractions
+namespace Lenneth.Core.Framework.Http.Client.Abstractions
 {
     public interface IHttpWebResponse
     {

@@ -1,4 +1,4 @@
-﻿namespace Lenneth.Core.Framework.Http.Http
+﻿namespace Lenneth.Core.Framework.Http.Client
 {
     // ReSharper disable InconsistentNaming
     public enum HttpMethod

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Lenneth.Core.Framework.Http.Infrastructure;
 
-namespace Lenneth.Core.Framework.Http.Http
+namespace Lenneth.Core.Framework.Http.Client
 {
-    using Infrastructure;
-
     public class MultiPartStreamer
     {
         private readonly string _boundary;

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using Lenneth.Core.Framework.Http.Client.Abstractions;
 
-namespace Lenneth.Core.Framework.Http.Http.Injection
+namespace Lenneth.Core.Framework.Http.Client.Injection
 {
-    using Abstractions;
-
     internal static class RequestPredicateExtensions
     {
         public static bool MatchesMethod(this HttpRequest request, HttpMethod method)

@@ -4,7 +4,7 @@ using System.Net;
 using System.Runtime.Remoting;
 using System.Runtime.Serialization;
 
-namespace Lenneth.Core.Framework.Http.Http.Abstractions
+namespace Lenneth.Core.Framework.Http.Client.Abstractions
 {
     internal class HttpWebResponseWrapper : IWebResponse, IHttpWebResponse
     {

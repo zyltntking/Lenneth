@@ -1,7 +1,7 @@
-﻿namespace Lenneth.Core.Framework.Http.Infrastructure
-{
-    using Http;
+﻿using Lenneth.Core.Framework.Http.Client;
 
+namespace Lenneth.Core.Framework.Http.Infrastructure
+{
     public abstract class FileData
     {
         public string FieldName { get; set; }

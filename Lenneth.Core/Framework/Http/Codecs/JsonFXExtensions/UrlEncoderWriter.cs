@@ -1,11 +1,10 @@
 ﻿using JsonFx.Model;
 using JsonFx.Serialization;
 using System.Collections.Generic;
+using Lenneth.Core.Framework.Http.Client;
 
 namespace Lenneth.Core.Framework.Http.Codecs.JsonFXExtensions
 {
-    using Http;
-
     internal sealed class UrlEncoderWriter : ModelWriter
     {
         private readonly string[] _contentTypes;

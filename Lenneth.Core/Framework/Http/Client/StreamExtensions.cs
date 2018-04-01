@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Lenneth.Core.Framework.Http.Http
+namespace Lenneth.Core.Framework.Http.Client
 {
     public static class StreamExtensions
     {

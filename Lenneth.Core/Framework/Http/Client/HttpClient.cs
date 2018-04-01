@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using Lenneth.Core.Framework.Http.Client.Abstractions;
+using Lenneth.Core.Framework.Http.Client.Injection;
+using Lenneth.Core.Framework.Http.Codecs;
+using Lenneth.Core.Framework.Http.Configuration;
+using Lenneth.Core.Framework.Http.Infrastructure;
 
-namespace Lenneth.Core.Framework.Http.Http
+namespace Lenneth.Core.Framework.Http.Client
 {
-    using Abstractions;
-    using Codecs;
-    using Configuration;
-    using Infrastructure;
-    using Injection;
-
     public sealed class HttpClient
     {
         private readonly string _baseUri;

@@ -6,11 +6,10 @@ using System.Net.Security;
 using System.Runtime.Remoting;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Principal;
+using Lenneth.Core.Framework.Http.Client.Abstractions;
 
-namespace Lenneth.Core.Framework.Http.Http.Injection
+namespace Lenneth.Core.Framework.Http.Client.Injection
 {
-    using Abstractions;
-
     internal class StubbedHttpWebRequest : IHttpWebRequest
     {
         private readonly HttpRequestInterception _matchingInterceptor;

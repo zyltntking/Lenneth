@@ -7,13 +7,12 @@ using System.Net.Security;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Lenneth.Core.Framework.Http.Client.Abstractions;
+using Lenneth.Core.Framework.Http.Codecs;
+using Lenneth.Core.Framework.Http.Infrastructure;
 
-namespace Lenneth.Core.Framework.Http.Http
+namespace Lenneth.Core.Framework.Http.Client
 {
-    using Abstractions;
-    using Codecs;
-    using Infrastructure;
-
     // TODO: This class needs cleaning up and abstracting the encoder one more level
     public sealed class HttpRequest
     {

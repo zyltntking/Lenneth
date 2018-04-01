@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lenneth.Core.Framework.Http.Http.Abstractions
+namespace Lenneth.Core.Framework.Http.Client.Abstractions
 {
     /// <summary>
     /// Used by <see cref="HttpClient"/> to match against a <see cref="HttpRequest"/>

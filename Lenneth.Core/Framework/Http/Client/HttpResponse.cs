@@ -2,13 +2,12 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using Lenneth.Core.Framework.Http.Client.Abstractions;
+using Lenneth.Core.Framework.Http.Codecs;
+using Lenneth.Core.Framework.Http.Configuration;
 
-namespace Lenneth.Core.Framework.Http.Http
+namespace Lenneth.Core.Framework.Http.Client
 {
-    using Abstractions;
-    using Codecs;
-    using Configuration;
-
     public class HttpResponse
     {
         private readonly IDecoder _decoder;

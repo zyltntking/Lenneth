@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 
-namespace Lenneth.Core.Framework.Http.Http.Abstractions
+namespace Lenneth.Core.Framework.Http.Client.Abstractions
 {
     public interface IHttpRequestInterceptionBuilder
     {
