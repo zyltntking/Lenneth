@@ -1,12 +1,13 @@
 using System;
-using Lenneth.Core.Framework.Crypt;
-using Lenneth.Core.Framework.Mail;
 using Unity;
 using Unity.Injection;
 
 namespace Lenneth.Core
 {
+    using Framework.Crypt;
+    using Framework.Hash;
     using Framework.Log;
+    using Framework.Mail;
     using Framework.MD;
 
     /// <summary>
@@ -60,6 +61,8 @@ namespace Lenneth.Core
             container.RegisterType<IMail, SmtpMail>(new InjectionConstructor(Config.MailConfig));
             //Crypt
             container.RegisterType<ICrypt, DES>(new InjectionConstructor("@Lenneth", "@Lenneth"));
+            //Hash
+            container.RegisterType<IHash, MD5Hash>();
             // common
             // container.RegisterType<ISample, Sample.Sample>( new Interceptor<InterfaceInterceptor>(), new InterceptionBehavior<CommonInterception>());
             // call handler

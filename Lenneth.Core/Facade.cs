@@ -1,11 +1,12 @@
-﻿using Lenneth.Core.Framework.Crypt;
-using Unity;
+﻿using Unity;
 
 namespace Lenneth.Core
 {
+    using Framework.Crypt;
+    using Framework.Hash;
     using Framework.Log;
-    using Framework.MD;
     using Framework.Mail;
+    using Framework.MD;
 
     public static class Facade
     {
@@ -30,5 +31,10 @@ namespace Lenneth.Core
         /// Crypt门面
         /// </summary>
         public static ICrypt Crypt => UnityConfig.Container.Resolve<ICrypt>();
+
+        /// <summary>
+        /// Hash门面
+        /// </summary>
+        public static IHash Hash => UnityConfig.Container.Resolve<IHash>();
     }
 }
