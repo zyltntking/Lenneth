@@ -199,7 +199,6 @@
     <Compile Include="Framework\QR\Formater\AsciiQRCode.cs" />
     <Compile Include="Framework\QR\Formater\Base64QRCode.cs" />
     <Compile Include="Framework\QR\Formater\BitmapByteQRCode.cs" />
-    <Compile Include="Framework\QR\Base\PayloadGenerator.cs" />
     <Compile Include="Framework\QR\Formater\PngByteQRCode.cs" />
     <Compile Include="Framework\QR\Formater\QRCode.cs" />
     <Compile Include="Framework\QR\Base\QRCodeData.cs" />
@@ -207,6 +206,8 @@
     <Compile Include="Framework\QR\Formater\SvgQRCode.cs" />
     <Compile Include="Framework\QR\QrWarpper.cs" />
     <Compile Include="Framework\QR\IQr.cs" />
+    <Compile Include="Framework\Utility\DynamicDictionary.cs" />
+    <Compile Include="Framework\Utility\RmbUtility.cs" />
     <Compile Include="Framework\Redis\IRedisConnection.cs" />
     <Compile Include="Framework\Redis\IRedisConnector.cs" />
     <Compile Include="Framework\Redis\RedisConnection.cs" />
