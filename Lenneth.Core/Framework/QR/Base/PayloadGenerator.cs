@@ -24,9 +24,9 @@ namespace Lenneth.Core.Framework.QR.Base
             public WiFi(string ssid, string password, Authentication authenticationMode, bool isHiddenSSID = false)
             {
                 _ssid = EscapeInput(ssid);
-                _ssid = isHexStyle(_ssid) ? "\"" + _ssid + "\"" : _ssid;
+                _ssid = IsHexStyle(_ssid) ? "\"" + _ssid + "\"" : _ssid;
                 _password = EscapeInput(password);
-                _password = isHexStyle(_password) ? "\"" + _password + "\"" : _password;
+                _password = IsHexStyle(_password) ? "\"" + _password + "\"" : _password;
                 _authenticationMode = authenticationMode.ToString();
                 _isHiddenSsid = isHiddenSSID;
             }
@@ -1577,7 +1577,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 /// <summary>
                 /// Single payment (Überweisung)
                 /// </summary>
-                [Obsolete]
+                //[Obsolete]
                 singlepayment,
                 /// <summary>
                 /// Single SEPA payment (SEPA-Überweisung)
@@ -1586,7 +1586,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 /// <summary>
                 /// Single debit (Lastschrift)
                 /// </summary>
-                [Obsolete]
+                //[Obsolete]
                 singledirectdebit,
                 /// <summary>
                 /// Single SEPA debit (SEPA-Lastschrift)                
@@ -1595,7 +1595,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 /// <summary>
                 /// Periodic payment (Dauerauftrag)
                 /// </summary>
-                [Obsolete]
+                //[Obsolete]
                 periodicsinglepayment,
                 /// <summary>
                 /// Periodic SEPA payment (SEPA-Dauerauftrag)
@@ -2033,7 +2033,7 @@ namespace Lenneth.Core.Framework.QR.Base
             return checksum == Convert.ToInt32(digits[digits.Length - 1]) - 48;
 		}
 
-        private static bool isHexStyle(string inp)
+        private static bool IsHexStyle(string inp)
         {
             return (System.Text.RegularExpressions.Regex.IsMatch(inp, @"\A\b[0-9a-fA-F]+\b\Z") || System.Text.RegularExpressions.Regex.IsMatch(inp, @"\A\b(0[xX])?[0-9a-fA-F]+\b\Z"));
         }
