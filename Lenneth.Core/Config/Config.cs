@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using Lenneth.Core.Framework.Redis;
+using NLog;
 using NLog.Config;
 using NLog.Targets;
 using System;
@@ -9,6 +10,39 @@ namespace Lenneth.Core
 
     internal static class Config
     {
+        #region Redis配置
+
+        private static readonly object RedisLocker = new object();
+
+        /// <summary>
+        /// connection实例
+        /// </summary>
+        private static IRedisConnection _redisConnection;
+
+        /// <summary>
+        /// Redis缓存配置
+        /// </summary>
+        public static IRedisConnection RedisConnection
+        {
+            get
+            {
+                if (_redisConnection == null)
+                {
+                    lock (RedisLocker)
+                    {
+                        if (_redisConnection == null)
+                        {
+                            _redisConnection = new RedisConnection();
+                            _redisConnection.InitConnection(host: "127.0.0.1", port: 6379, prefix: "lenneth", collection: "0");
+                        }
+                    }
+                }
+                return _redisConnection;
+            }
+        }
+
+        #endregion Redis配置
+
         #region Mail配置
 
         private static readonly object MailLocker = new object();
