@@ -9,9 +9,8 @@ namespace Lenneth.Core.Framework.Crypt
     /// <summary>
     /// DES加密类
     /// </summary>
-    internal sealed class DES : Crypt
+    internal sealed class Des : Crypt
     {
-        /// <inheritdoc />
         /// <summary>
         /// 加密密钥
         /// </summary>
@@ -39,7 +38,7 @@ namespace Lenneth.Core.Framework.Crypt
         /// </summary>
         /// <param name="key">加密密钥</param>
         /// <param name="iv">加密向量</param>
-        public DES(string key = null, string iv = null)
+        public Des(string key = null, string iv = null)
         {
             if (key != null && key.Length == 8)
             {
@@ -62,23 +61,18 @@ namespace Lenneth.Core.Framework.Crypt
             string result;
             try
             {
-                
                 using (var dcsp = new DESCryptoServiceProvider())
                 {
                     dcsp.Padding = PaddingMode.PKCS7;
                     var encryptor = dcsp.CreateEncryptor(Encoding.UTF8.GetBytes(Key), Iv);
-                    using (var msEncrypt = new MemoryStream())
+                    var msEncrypt = new MemoryStream();
+                    var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
+                    using (var swEncrypt = new StreamWriter(csEncrypt))
                     {
-                        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                        {
-                            using (var swEncrypt = new StreamWriter(csEncrypt))
-                            {
-                                swEncrypt.Write(encryptString);
-                            }
-                            var encrypted = msEncrypt.ToArray();
-                            result = Convert.ToBase64String(encrypted);
-                        }
+                        swEncrypt.Write(encryptString);
                     }
+                    var encrypted = msEncrypt.ToArray();
+                    result = Convert.ToBase64String(encrypted);
                 }
             }
             catch
@@ -104,15 +98,11 @@ namespace Lenneth.Core.Framework.Crypt
                 {
                     dcsp.Padding = PaddingMode.PKCS7;
                     var decryptor = dcsp.CreateDecryptor(Encoding.UTF8.GetBytes(Key), Iv);
-                    using (var msDecrypt = new MemoryStream(decryptByteArray))
+                    var msDecrypt = new MemoryStream(decryptByteArray);
+                    var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
+                    using (var srDecrypt = new StreamReader(csDecrypt))
                     {
-                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                        {
-                            using (var srDecrypt = new StreamReader(csDecrypt))
-                            {
-                                result = srDecrypt.ReadToEnd();
-                            }
-                        }
+                        result = srDecrypt.ReadToEnd();
                     }
                 }
             }

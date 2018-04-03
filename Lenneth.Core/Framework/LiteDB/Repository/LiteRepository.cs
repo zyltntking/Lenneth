@@ -288,14 +288,45 @@ namespace Lenneth.Core.Framework.LiteDB
 
         #endregion
 
-        public void Dispose()
+        //public void Dispose()
+        //{
+        //    if (_disposeDatabase)
+        //    {
+        //        _db?.Dispose();
+        //    }
+
+        //    _db = null;
+        //}
+
+        #region IDisposable
+
+        private void ReleaseUnmanagedResources()
         {
-            if (_disposeDatabase)
+            // TODO release unmanaged resources here
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            ReleaseUnmanagedResources();
+            if (disposing)
             {
                 _db?.Dispose();
             }
-
-            _db = null;
         }
+
+        /// <summary>执行与释放或重置非托管资源关联的应用程序定义的任务。</summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>在垃圾回收将某一对象回收前允许该对象尝试释放资源并执行其他清理操作。</summary>
+        ~LiteRepository()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }

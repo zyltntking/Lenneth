@@ -19,7 +19,6 @@ namespace Lenneth.Core.Framework.QR.Base
                 ModuleMatrix.Add(new BitArray(size));
         }
 
-
         public QrCodeData(string pathToRawData, Compression compressMode) : this(File.ReadAllBytes(pathToRawData), compressMode)
         {
         }
@@ -31,30 +30,26 @@ namespace Lenneth.Core.Framework.QR.Base
             //Decompress
             if (compressMode.Equals(Compression.Deflate))
             {
-                using (var input = new MemoryStream(bytes.ToArray()))
+                var input = new MemoryStream(bytes.ToArray());
+                using (var output = new MemoryStream())
                 {
-                    using (var output = new MemoryStream())
+                    using (var dstream = new DeflateStream(input, CompressionMode.Decompress))
                     {
-                        using (var dstream = new DeflateStream(input, CompressionMode.Decompress))
-                        {
-                            dstream.CopyTo(output);
-                        }
-                        bytes = new List<byte>(output.ToArray());
+                        dstream.CopyTo(output);
                     }
+                    bytes = new List<byte>(output.ToArray());
                 }
             }
             else if (compressMode.Equals(Compression.GZip))
             {
-                using (var input = new MemoryStream(bytes.ToArray()))
+                var input = new MemoryStream(bytes.ToArray());
+                using (var output = new MemoryStream())
                 {
-                    using (var output = new MemoryStream())
+                    using (var dstream = new GZipStream(input, CompressionMode.Decompress))
                     {
-                        using (var dstream = new GZipStream(input, CompressionMode.Decompress))
-                        {
-                            dstream.CopyTo(output);
-                        }
-                        bytes = new List<byte>(output.ToArray());
+                        dstream.CopyTo(output);
                     }
+                    bytes = new List<byte>(output.ToArray());
                 }
             }
 
@@ -127,25 +122,21 @@ namespace Lenneth.Core.Framework.QR.Base
             //Compress stream (optional)
             if (compressMode.Equals(Compression.Deflate))
             {
-                using (var output = new MemoryStream())
+                var output = new MemoryStream();
+                using (var dstream = new DeflateStream(output, CompressionMode.Compress))
                 {
-                    using (var dstream = new DeflateStream(output, CompressionMode.Compress))
-                    {
-                        dstream.Write(rawData, 0, rawData.Length);
-                    }
-                    rawData = output.ToArray();
+                    dstream.Write(rawData, 0, rawData.Length);
                 }
+                rawData = output.ToArray();
             }
             else if (compressMode.Equals(Compression.GZip))
             {
-                using (var output = new MemoryStream())
+                var output = new MemoryStream();
+                using (var gzipStream = new GZipStream(output, CompressionMode.Compress, true))
                 {
-                    using (GZipStream gzipStream = new GZipStream(output, CompressionMode.Compress, true))
-                    {
-                        gzipStream.Write(rawData, 0, rawData.Length);
-                    }
-                    rawData = output.ToArray();
+                    gzipStream.Write(rawData, 0, rawData.Length);
                 }
+                rawData = output.ToArray();
             }
             return rawData;
         }

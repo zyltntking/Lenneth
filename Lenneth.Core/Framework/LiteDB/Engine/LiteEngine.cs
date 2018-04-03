@@ -97,11 +97,9 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public LiteEngine(IDiskService disk, string password = null, TimeSpan? timeout = null, int cacheSize = 5000, Logger log = null, bool utcDate = false)
         {
-            if (disk == null) throw new ArgumentNullException(nameof(disk));
-
             _timeout = timeout ?? TimeSpan.FromMinutes(1);
             _cacheSize = cacheSize;
-            _disk = disk;
+            _disk = disk ?? throw new ArgumentNullException(nameof(disk));
             _log = log ?? new Logger();
             _bsonReader = new BsonReader(utcDate);
 
@@ -218,14 +216,14 @@ namespace Lenneth.Core.Framework.LiteDB
             }
         }
 
-        public void Dispose()
-        {
-            // dispose datafile and journal file
-            _disk.Dispose();
+        //public void Dispose()
+        //{
+        //    // dispose datafile and journal file
+        //    _disk.Dispose();
 
-            // dispose crypto
-            if (_crypto != null) _crypto.Dispose();
-        }
+        //    // dispose crypto
+        //    if (_crypto != null) _crypto.Dispose();
+        //}
 
         /// <summary>
         /// Initialize new datafile with header page + lock reserved area zone
@@ -293,5 +291,37 @@ namespace Lenneth.Core.Framework.LiteDB
 
             if (crypto != null) crypto.Dispose();
         }
+
+        #region IDisposable
+
+        private void ReleaseUnmanagedResources()
+        {
+            // TODO release unmanaged resources here
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            ReleaseUnmanagedResources();
+            if (disposing)
+            {
+                _disk?.Dispose();
+                _crypto?.Dispose();
+            }
+        }
+
+        /// <summary>执行与释放或重置非托管资源关联的应用程序定义的任务。</summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>在垃圾回收将某一对象回收前允许该对象尝试释放资源并执行其他清理操作。</summary>
+        ~LiteEngine()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }

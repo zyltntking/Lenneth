@@ -129,7 +129,7 @@ namespace Lenneth.Core.Framework.QR.Formater
 
             public void Dispose()
             {
-                stream?.Dispose();
+                stream.Dispose();
                 stream = null;
             }
 

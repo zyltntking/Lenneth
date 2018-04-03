@@ -31,8 +31,8 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public byte[] Encrypt(byte[] bytes)
         {
+            var stream = new MemoryStream();
             using (var encryptor = _aes.CreateEncryptor())
-            using (var stream = new MemoryStream())
             using (var crypto = new CryptoStream(stream, encryptor, CryptoStreamMode.Write))
             {
                 crypto.Write(bytes, 0, bytes.Length);
@@ -50,8 +50,8 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public byte[] Decrypt(byte[] encryptedValue)
         {
+            var stream = new MemoryStream();
             using (var decryptor = _aes.CreateDecryptor())
-            using (var stream = new MemoryStream())
             using (var crypto = new CryptoStream(stream, decryptor, CryptoStreamMode.Write))
             {
                 crypto.Write(encryptedValue, 0, encryptedValue.Length);

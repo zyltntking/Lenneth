@@ -17,16 +17,16 @@
             switch (cryptType)
             {
                 case "DES":
-                    appCrypt = new DES(key);
+                    appCrypt = new Des(key);
                     break;
                 case "TripleDES":
-                    appCrypt = new TripleDES(key);
+                    appCrypt = new TripleDes(key);
                     break;
                 case "AES":
-                    appCrypt = new AES(key);
+                    appCrypt = new Aes(key);
                     break;
                 default:
-                    appCrypt = new DES(key);
+                    appCrypt = new Des(key);
                     break;
             }
             return appCrypt;

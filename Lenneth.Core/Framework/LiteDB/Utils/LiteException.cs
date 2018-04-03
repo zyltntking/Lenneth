@@ -6,6 +6,7 @@ namespace Lenneth.Core.Framework.LiteDB
     /// <summary>
     /// The main exception for LiteDB
     /// </summary>
+    [Serializable]
     public class LiteException : Exception
     {
         #region Errors code

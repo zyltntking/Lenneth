@@ -23,6 +23,7 @@ namespace Lenneth.Core.Framework.LiteDB
         internal const int LOCK_READ_LENGTH = 1;
         internal const int LOCK_WRITE_LENGTH = 3000;
 
+        private static readonly object StreamLocker = new object();
         private FileStream _stream;
         private string _filename;
 
@@ -97,7 +98,7 @@ namespace Lenneth.Core.Framework.LiteDB
             var buffer = new byte[BasePage.PAGE_SIZE];
             var position = BasePage.GetSizeOfPages(pageID);
 
-            lock (_stream)
+            lock (StreamLocker)
             {
                 // position cursor
                 if (_stream.Position != position)

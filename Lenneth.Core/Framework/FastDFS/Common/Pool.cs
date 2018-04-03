@@ -10,7 +10,7 @@ namespace Lenneth.Core.Framework.FastDFS.Common
     /// <summary>
     /// 池
     /// </summary>
-    internal class Pool
+    internal class Pool : IDisposable
     {
         private readonly List<Connection> _inUse;
         private Stack<Connection> _idle;
@@ -35,7 +35,7 @@ namespace Lenneth.Core.Framework.FastDFS.Common
             {
                 if (_idle.Count > 0)
                     result = _idle.Pop();
-                if (result != null && (int) (DateTime.Now - result.LastUseTime).TotalSeconds >
+                if (result != null && (int)(DateTime.Now - result.LastUseTime).TotalSeconds >
                     FdfsConfig.ConnectionLifeTime)
                 {
                     foreach (var conn in _idle)
@@ -79,7 +79,7 @@ namespace Lenneth.Core.Framework.FastDFS.Common
 
                 watch.Stop();
 
-                timeOut = timeOut - (int) watch.ElapsedMilliseconds;
+                timeOut = timeOut - (int)watch.ElapsedMilliseconds;
             }
 
             throw new FdfsException("Connection Time Out");
@@ -111,5 +111,36 @@ namespace Lenneth.Core.Framework.FastDFS.Common
                 _idle.Push(conn);
             _autoEvent.Set();
         }
+
+        #region IDisposable
+
+        private void ReleaseUnmanagedResources()
+        {
+            // TODO release unmanaged resources here
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            ReleaseUnmanagedResources();
+            if (disposing)
+            {
+                _autoEvent?.Dispose();
+            }
+        }
+
+        /// <summary>执行与释放或重置非托管资源关联的应用程序定义的任务。</summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>在垃圾回收将某一对象回收前允许该对象尝试释放资源并执行其他清理操作。</summary>
+        ~Pool()
+        {
+            Dispose(false);
+        }
+
+        #endregion IDisposable
     }
 }
