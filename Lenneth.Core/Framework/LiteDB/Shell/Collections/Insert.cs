@@ -18,12 +18,12 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
     {
         public bool IsCommand(StringScanner s)
         {
-            return this.IsCollectionCommand(s, "insert");
+            return IsCollectionCommand(s, "insert");
         }
 
         public IEnumerable<BsonValue> Execute(StringScanner s, LiteEngine engine)
         {
-            var col = this.ReadCollection(engine, s);
+            var col = ReadCollection(engine, s);
             var value = JsonSerializer.Deserialize(s);
             var sid = s.Scan(@"\s+_?id:(int32|int64|int|long|objectid|datetime|date|guid)", 1).Trim().ToLower();
             var autoId =

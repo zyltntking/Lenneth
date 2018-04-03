@@ -145,17 +145,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// <summary>
         /// Gets and sets the numerator of the rational number
         /// </summary>
-        public T Numerator => this.numerator;
+        public T Numerator => numerator;
 
         /// <summary>
         /// Gets and sets the denominator of the rational number
         /// </summary>
-        public T Denominator => this.denominator;
+        public T Denominator => denominator;
 
         /// <summary>
         /// Gets a value indicating whether the current instance is empty.
         /// </summary>
-        public bool IsEmpty => this.Equals(Empty);
+        public bool IsEmpty => Equals(Empty);
 
         /// <summary>
         /// Gets the MaxValue
@@ -166,7 +166,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
             {
                 if (maxValue == default(decimal))
                 {
-                    FieldInfo max = typeof(T).GetField("MaxValue", BindingFlags.Static | BindingFlags.Public);
+                    var max = typeof(T).GetField("MaxValue", BindingFlags.Static | BindingFlags.Public);
                     if (max != null)
                     {
                         try
@@ -216,13 +216,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </remarks>
         public static Rational<T> Approximate(decimal value, decimal epsilon)
         {
-            decimal numerator = decimal.Truncate(value);
+            var numerator = decimal.Truncate(value);
 
-            decimal denominator = decimal.One;
+            var denominator = decimal.One;
 
-            decimal fraction = decimal.Divide(numerator, denominator);
+            var fraction = decimal.Divide(numerator, denominator);
 
-            decimal max = MaxValue;
+            var max = MaxValue;
 
             while (Math.Abs(fraction - value) > epsilon && (denominator < max) && (numerator < max))
             {
@@ -234,7 +234,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
                 {
                     denominator++;
 
-                    decimal temp = Math.Round(decimal.Multiply(value, denominator));
+                    var temp = Math.Round(decimal.Multiply(value, denominator));
                     if (temp > max)
                     {
                         denominator--;
@@ -271,9 +271,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
                 parser = BuildParser();
             }
 
-            string[] parts = value.Split(DelimSet, 2, StringSplitOptions.RemoveEmptyEntries);
-            T numerator = parser(parts[0]);
-            T denominator = parts.Length > 1 ? parser(parts[1]) : default(T);
+            var parts = value.Split(DelimSet, 2, StringSplitOptions.RemoveEmptyEntries);
+            var numerator = parser(parts[0]);
+            var denominator = parts.Length > 1 ? parser(parts[1]) : default(T);
 
             return new Rational<T>(numerator, denominator);
         }
@@ -301,7 +301,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
             }
 
             T numerator, denominator;
-            string[] parts = value.Split(DelimSet, 2, StringSplitOptions.RemoveEmptyEntries);
+            var parts = value.Split(DelimSet, 2, StringSplitOptions.RemoveEmptyEntries);
             if (!tryParser(parts[0], out numerator))
             {
                 rational = Empty;
@@ -339,7 +339,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </exception>
         private static ParseDelegate BuildParser()
         {
-            MethodInfo parse = typeof(T).GetMethod(
+            var parse = typeof(T).GetMethod(
                 "Parse",
                 BindingFlags.Public | BindingFlags.Static,
                 null,
@@ -384,7 +384,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         private static TryParseDelegate BuildTryParser()
         {
             // http://stackoverflow.com/questions/1933369
-            MethodInfo tryParse = typeof(T).GetMethod(
+            var tryParse = typeof(T).GetMethod(
                 "TryParse",
                 BindingFlags.Public | BindingFlags.Static,
                 null,
@@ -401,7 +401,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
                     object[] args = { value, default(T) };
                     try
                     {
-                        bool success = (bool)tryParse.Invoke(null, args);
+                        var success = (bool)tryParse.Invoke(null, args);
                         output = (T)args[1];
                         return success;
                     }
@@ -427,8 +427,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// <returns>the reduced rational</returns>
         public Rational<T> Reduce()
         {
-            T n = this.numerator;
-            T d = this.denominator;
+            var n = numerator;
+            var d = denominator;
 
             Reduce(ref n, ref d);
 
@@ -442,13 +442,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// <param name="denominator">The denominator.</param>
         private static void Reduce(ref T numerator, ref T denominator)
         {
-            bool reduced = false;
+            var reduced = false;
 
-            decimal n = Convert.ToDecimal(numerator);
-            decimal d = Convert.ToDecimal(denominator);
+            var n = Convert.ToDecimal(numerator);
+            var d = Convert.ToDecimal(denominator);
 
             // greatest common divisor
-            decimal gcd = Gcd(n, d);
+            var gcd = Gcd(n, d);
             if (gcd != decimal.One && gcd != 0m)
             {
                 reduced = true;
@@ -548,9 +548,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         public string ToString(IFormatProvider provider)
         {
             return string.Concat(
-                this.numerator.ToString(provider),
+                numerator.ToString(provider),
                 Delim,
-                this.denominator.ToString(provider));
+                denominator.ToString(provider));
         }
 
         /// <summary>
@@ -568,23 +568,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         {
             try
             {
-                decimal d = this.denominator.ToDecimal(provider);
+                var d = denominator.ToDecimal(provider);
                 if (d == 0m)
                 {
                     return 0m;
                 }
 
-                return this.numerator.ToDecimal(provider) / d;
+                return numerator.ToDecimal(provider) / d;
             }
             catch (InvalidCastException)
             {
-                long d = this.denominator.ToInt64(provider);
+                var d = denominator.ToInt64(provider);
                 if (d == 0L)
                 {
                     return 0L;
                 }
 
-                return ((IConvertible)this.numerator.ToInt64(provider)).ToDecimal(provider) /
+                return ((IConvertible)numerator.ToInt64(provider)).ToDecimal(provider) /
                     ((IConvertible)d).ToDecimal(provider);
             }
         }
@@ -602,13 +602,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         public double ToDouble(IFormatProvider provider)
         {
-            double d = this.denominator.ToDouble(provider);
+            var d = denominator.ToDouble(provider);
             if (Math.Abs(d) < 0.000001)
             {
                 return 0.0;
             }
 
-            return this.numerator.ToDouble(provider) / d;
+            return numerator.ToDouble(provider) / d;
         }
 
         /// <summary>
@@ -624,13 +624,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         public float ToSingle(IFormatProvider provider)
         {
-            float d = this.denominator.ToSingle(provider);
+            var d = denominator.ToSingle(provider);
             if (Math.Abs(d) < 0.000001)
             {
                 return 0.0f;
             }
 
-            return this.numerator.ToSingle(provider) / d;
+            return numerator.ToSingle(provider) / d;
         }
 
         /// <summary>
@@ -646,7 +646,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         bool IConvertible.ToBoolean(IFormatProvider provider)
         {
-            return ((IConvertible)this.ToDecimal(provider)).ToBoolean(provider);
+            return ((IConvertible)ToDecimal(provider)).ToBoolean(provider);
         }
 
         /// <summary>
@@ -662,7 +662,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         byte IConvertible.ToByte(IFormatProvider provider)
         {
-            return ((IConvertible)this.ToDecimal(provider)).ToByte(provider);
+            return ((IConvertible)ToDecimal(provider)).ToByte(provider);
         }
 
         /// <summary>
@@ -678,7 +678,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         char IConvertible.ToChar(IFormatProvider provider)
         {
-            return ((IConvertible)this.ToDecimal(provider)).ToChar(provider);
+            return ((IConvertible)ToDecimal(provider)).ToChar(provider);
         }
 
         /// <summary>
@@ -694,7 +694,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         short IConvertible.ToInt16(IFormatProvider provider)
         {
-            return ((IConvertible)this.ToDecimal(provider)).ToInt16(provider);
+            return ((IConvertible)ToDecimal(provider)).ToInt16(provider);
         }
 
         /// <summary>
@@ -710,7 +710,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         int IConvertible.ToInt32(IFormatProvider provider)
         {
-            return ((IConvertible)this.ToDecimal(provider)).ToInt32(provider);
+            return ((IConvertible)ToDecimal(provider)).ToInt32(provider);
         }
 
         /// <summary>
@@ -726,7 +726,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         long IConvertible.ToInt64(IFormatProvider provider)
         {
-            return ((IConvertible)this.ToDecimal(provider)).ToInt64(provider);
+            return ((IConvertible)ToDecimal(provider)).ToInt64(provider);
         }
 
         /// <summary>
@@ -742,7 +742,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         sbyte IConvertible.ToSByte(IFormatProvider provider)
         {
-            return ((IConvertible)this.ToDecimal(provider)).ToSByte(provider);
+            return ((IConvertible)ToDecimal(provider)).ToSByte(provider);
         }
 
         /// <summary>
@@ -758,7 +758,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         ushort IConvertible.ToUInt16(IFormatProvider provider)
         {
-            return ((IConvertible)this.ToDecimal(provider)).ToUInt16(provider);
+            return ((IConvertible)ToDecimal(provider)).ToUInt16(provider);
         }
 
         /// <summary>
@@ -774,7 +774,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         uint IConvertible.ToUInt32(IFormatProvider provider)
         {
-            return ((IConvertible)this.ToDecimal(provider)).ToUInt32(provider);
+            return ((IConvertible)ToDecimal(provider)).ToUInt32(provider);
         }
 
         /// <summary>
@@ -790,7 +790,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </param>
         ulong IConvertible.ToUInt64(IFormatProvider provider)
         {
-            return ((IConvertible)this.ToDecimal(provider)).ToUInt64(provider);
+            return ((IConvertible)ToDecimal(provider)).ToUInt64(provider);
         }
 
         /// <summary>
@@ -818,7 +818,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </returns>
         TypeCode IConvertible.GetTypeCode()
         {
-            return this.numerator.GetTypeCode();
+            return numerator.GetTypeCode();
         }
 
         /// <summary>
@@ -844,7 +844,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
                 throw new ArgumentNullException(nameof(conversionType));
             }
 
-            Type thisType = this.GetType();
+            var thisType = GetType();
             if (thisType == conversionType)
             {
                 // no conversion needed
@@ -859,14 +859,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
             }
 
             // auto-convert between Rational<T> types by converting Numerator/Denominator
-            Type genericArg = conversionType.GetGenericArguments()[0];
+            var genericArg = conversionType.GetGenericArguments()[0];
             object[] ctorArgs =
             {
-                Convert.ChangeType(this.Numerator, genericArg, provider),
-                Convert.ChangeType(this.Denominator, genericArg, provider)
+                Convert.ChangeType(Numerator, genericArg, provider),
+                Convert.ChangeType(Denominator, genericArg, provider)
             };
 
-            ConstructorInfo ctor = conversionType.GetConstructor(new[] { genericArg, genericArg });
+            var ctor = conversionType.GetConstructor(new[] { genericArg, genericArg });
             if (ctor == null)
             {
                 throw new InvalidCastException("Unable to find constructor for Rational<" + genericArg.Name + ">.");
@@ -900,24 +900,24 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
             {
                 // Differentiate between a real zero and a divide by zero
                 // work around divide by zero value to get meaningful comparisons
-                Rational<T> other = (Rational<T>)obj;
-                if (Convert.ToDecimal(this.denominator) == 0m)
+                var other = (Rational<T>)obj;
+                if (Convert.ToDecimal(denominator) == 0m)
                 {
                     if (Convert.ToDecimal(other.denominator) == 0m)
                     {
-                        return Convert.ToDecimal(this.numerator).CompareTo(Convert.ToDecimal(other.numerator));
+                        return Convert.ToDecimal(numerator).CompareTo(Convert.ToDecimal(other.numerator));
                     }
 
                     if (Convert.ToDecimal(other.numerator) == 0m)
                     {
-                        return Convert.ToDecimal(this.denominator).CompareTo(Convert.ToDecimal(other.denominator));
+                        return Convert.ToDecimal(denominator).CompareTo(Convert.ToDecimal(other.denominator));
                     }
                 }
                 else if (Convert.ToDecimal(other.denominator) == 0m)
                 {
-                    if (Convert.ToDecimal(this.numerator) == 0m)
+                    if (Convert.ToDecimal(numerator) == 0m)
                     {
-                        return Convert.ToDecimal(this.denominator).CompareTo(Convert.ToDecimal(other.denominator));
+                        return Convert.ToDecimal(denominator).CompareTo(Convert.ToDecimal(other.denominator));
                     }
                 }
             }
@@ -959,7 +959,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </returns>
         public static Rational<T> operator -(Rational<T> rational)
         {
-            T numerator = (T)Convert.ChangeType(-Convert.ToDecimal(rational.numerator), typeof(T));
+            var numerator = (T)Convert.ChangeType(-Convert.ToDecimal(rational.numerator), typeof(T));
             return new Rational<T>(numerator, rational.denominator);
         }
 
@@ -971,12 +971,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// <returns>The computed sum.</returns>
         public static Rational<T> operator +(Rational<T> r1, Rational<T> r2)
         {
-            decimal n1 = Convert.ToDecimal(r1.numerator);
-            decimal d1 = Convert.ToDecimal(r1.denominator);
-            decimal n2 = Convert.ToDecimal(r2.numerator);
-            decimal d2 = Convert.ToDecimal(r2.denominator);
+            var n1 = Convert.ToDecimal(r1.numerator);
+            var d1 = Convert.ToDecimal(r1.denominator);
+            var n2 = Convert.ToDecimal(r2.numerator);
+            var d2 = Convert.ToDecimal(r2.denominator);
 
-            decimal denominator = Lcd(d1, d2);
+            var denominator = Lcd(d1, d2);
             if (denominator > d1)
             {
                 n1 *= denominator / d1;
@@ -987,7 +987,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
                 n2 *= denominator / d2;
             }
 
-            decimal numerator = n1 + n2;
+            var numerator = n1 + n2;
 
             return new Rational<T>((T)Convert.ChangeType(numerator, typeof(T)), (T)Convert.ChangeType(denominator, typeof(T)));
         }
@@ -1011,8 +1011,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// <returns>The computed product.</returns>
         public static Rational<T> operator *(Rational<T> r1, Rational<T> r2)
         {
-            decimal numerator = Convert.ToDecimal(r1.numerator) * Convert.ToDecimal(r2.numerator);
-            decimal denominator = Convert.ToDecimal(r1.denominator) * Convert.ToDecimal(r2.denominator);
+            var numerator = Convert.ToDecimal(r1.numerator) * Convert.ToDecimal(r2.numerator);
+            var denominator = Convert.ToDecimal(r1.denominator) * Convert.ToDecimal(r2.denominator);
 
             return new Rational<T>((T)Convert.ChangeType(numerator, typeof(T)), (T)Convert.ChangeType(denominator, typeof(T)));
         }
@@ -1119,7 +1119,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// <param name="obj">The object to compare with the current instance. </param>
         public override bool Equals(object obj)
         {
-            return this.CompareTo(obj) == 0;
+            return CompareTo(obj) == 0;
         }
 
         /// <summary>
@@ -1131,9 +1131,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         public override int GetHashCode()
         {
             // Adapted from Anonymous Type: { uint Numerator, uint Denominator }
-            int num = 0x1fb8d67d;
-            num = (-1521134295 * num) + EqualityComparer<T>.Default.GetHashCode(this.numerator);
-            return (-1521134295 * num) + EqualityComparer<T>.Default.GetHashCode(this.denominator);
+            var num = 0x1fb8d67d;
+            num = (-1521134295 * num) + EqualityComparer<T>.Default.GetHashCode(numerator);
+            return (-1521134295 * num) + EqualityComparer<T>.Default.GetHashCode(denominator);
         }
 
         #endregion Object Overrides

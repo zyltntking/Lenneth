@@ -16,10 +16,10 @@ namespace Lenneth.Core.Framework.LiteDB_V6
 
         public BasePage(uint pageID)
         {
-            this.PageID = pageID;
-            this.PrevPageID = uint.MaxValue;
-            this.NextPageID = uint.MaxValue;
-            this.ItemCount = 0;
+            PageID = pageID;
+            PrevPageID = uint.MaxValue;
+            NextPageID = uint.MaxValue;
+            ItemCount = 0;
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Lenneth.Core.Framework.LiteDB_V6
 
         public static long GetSizeOfPages(uint pageCount)
         {
-            return checked((long)pageCount * BasePage.PAGE_SIZE);
+            return checked((long)pageCount * PAGE_SIZE);
         }
 
         private void ReadHeader(ByteReader reader)
@@ -66,9 +66,9 @@ namespace Lenneth.Core.Framework.LiteDB_V6
             // this.PageID
             // this.PageType
 
-            this.PrevPageID = reader.ReadUInt32();
-            this.NextPageID = reader.ReadUInt32();
-            this.ItemCount = reader.ReadUInt16();
+            PrevPageID = reader.ReadUInt32();
+            NextPageID = reader.ReadUInt32();
+            ItemCount = reader.ReadUInt16();
             reader.ReadUInt16(); // FreeBytes;
             reader.Skip(8); // reserved 8 bytes
         }

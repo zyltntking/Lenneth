@@ -18,7 +18,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// <summary>
         /// Indicate which member is _id
         /// </summary>
-        public MemberMapper Id { get { return this.Members.SingleOrDefault(x => x.FieldName == "_id"); } }
+        public MemberMapper Id { get { return Members.SingleOrDefault(x => x.FieldName == "_id"); } }
 
         /// <summary>
         /// Indicate which Type this entity mapper is
@@ -30,7 +30,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public MemberMapper GetMember(Expression expr)
         {
-            return this.Members.FirstOrDefault(x => x.MemberName == expr.GetPath());
+            return Members.FirstOrDefault(x => x.MemberName == expr.GetPath());
         }
     }
 }

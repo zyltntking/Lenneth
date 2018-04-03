@@ -53,14 +53,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return this.levels;
+                return levels;
             }
 
             set
             {
                 if (value > 0)
                 {
-                    this.levels = value;
+                    levels = value;
                 }
             }
         }
@@ -72,14 +72,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return this.brushSize;
+                return brushSize;
             }
 
             set
             {
                 if (value > 0)
                 {
-                    this.brushSize = value;
+                    brushSize = value;
                 }
             }
         }
@@ -96,36 +96,36 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         public Bitmap ApplyFilter(Bitmap source)
         {
             // TODO: Make this class implement an interface?
-            int width = source.Width;
-            int height = source.Height;
+            var width = source.Width;
+            var height = source.Height;
 
-            int radius = this.brushSize >> 1;
+            var radius = brushSize >> 1;
 
-            Bitmap destination = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
+            var destination = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
             destination.SetResolution(source.HorizontalResolution, source.VerticalResolution);
-            using (FastBitmap sourceBitmap = new FastBitmap(source))
+            using (var sourceBitmap = new FastBitmap(source))
             {
-                using (FastBitmap destinationBitmap = new FastBitmap(destination))
+                using (var destinationBitmap = new FastBitmap(destination))
                 {
                     Parallel.For(
                         0,
                         height,
                         y =>
                         {
-                            for (int x = 0; x < width; x++)
+                            for (var x = 0; x < width; x++)
                             {
-                                int maxIntensity = 0;
-                                int maxIndex = 0;
-                                int[] intensityBin = new int[this.levels];
-                                int[] blueBin = new int[this.levels];
-                                int[] greenBin = new int[this.levels];
-                                int[] redBin = new int[this.levels];
+                                var maxIntensity = 0;
+                                var maxIndex = 0;
+                                var intensityBin = new int[levels];
+                                var blueBin = new int[levels];
+                                var greenBin = new int[levels];
+                                var redBin = new int[levels];
                                 byte sourceAlpha = 255;
 
-                                for (int i = 0; i <= radius; i++)
+                                for (var i = 0; i <= radius; i++)
                                 {
-                                    int ir = i - radius;
-                                    int offsetY = y + ir;
+                                    var ir = i - radius;
+                                    var offsetY = y + ir;
 
                                     // Skip the current row
                                     if (offsetY < 0)
@@ -139,10 +139,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                                         break;
                                     }
 
-                                    for (int fx = 0; fx <= radius; fx++)
+                                    for (var fx = 0; fx <= radius; fx++)
                                     {
-                                        int jr = fx - radius;
-                                        int offsetX = x + jr;
+                                        var jr = fx - radius;
+                                        var offsetX = x + jr;
 
                                         // Skip the column
                                         if (offsetX < 0)
@@ -153,14 +153,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                                         if (offsetX < width)
                                         {
                                             // ReSharper disable once AccessToDisposedClosure
-                                            Color color = sourceBitmap.GetPixel(offsetX, offsetY);
+                                            var color = sourceBitmap.GetPixel(offsetX, offsetY);
 
-                                            byte sourceBlue = color.B;
-                                            byte sourceGreen = color.G;
-                                            byte sourceRed = color.R;
+                                            var sourceBlue = color.B;
+                                            var sourceGreen = color.G;
+                                            var sourceRed = color.R;
                                             sourceAlpha = color.A;
 
-                                            int currentIntensity = (int)Math.Round(((sourceBlue + sourceGreen + sourceRed) / 3.0 * (this.levels - 1)) / 255.0);
+                                            var currentIntensity = (int)Math.Round(((sourceBlue + sourceGreen + sourceRed) / 3.0 * (levels - 1)) / 255.0);
 
                                             intensityBin[currentIntensity] += 1;
                                             blueBin[currentIntensity] += sourceBlue;
@@ -176,9 +176,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                                     }
                                 }
 
-                                byte blue = Math.Abs(blueBin[maxIndex] / maxIntensity).ToByte();
-                                byte green = Math.Abs(greenBin[maxIndex] / maxIntensity).ToByte();
-                                byte red = Math.Abs(redBin[maxIndex] / maxIntensity).ToByte();
+                                var blue = Math.Abs(blueBin[maxIndex] / maxIntensity).ToByte();
+                                var green = Math.Abs(greenBin[maxIndex] / maxIntensity).ToByte();
+                                var red = Math.Abs(redBin[maxIndex] / maxIntensity).ToByte();
 
                                 // ReSharper disable once AccessToDisposedClosure
                                 destinationBitmap.SetPixel(x, y, Color.FromArgb(sourceAlpha, red, green, blue));

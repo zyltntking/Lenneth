@@ -16,19 +16,19 @@ namespace Lenneth.Core.Framework.LiteDB_V6
         public DataPage(uint pageID)
             : base(pageID)
         {
-            this.DataBlocks = new Dictionary<ushort, DataBlock>();
+            DataBlocks = new Dictionary<ushort, DataBlock>();
         }
 
         protected override void ReadContent(ByteReader reader)
         {
-            this.DataBlocks = new Dictionary<ushort, DataBlock>(ItemCount);
+            DataBlocks = new Dictionary<ushort, DataBlock>(ItemCount);
 
             for (var i = 0; i < ItemCount; i++)
             {
                 var block = new DataBlock();
 
                 block.Page = this;
-                block.Position = new PageAddress(this.PageID, reader.ReadUInt16());
+                block.Position = new PageAddress(PageID, reader.ReadUInt16());
                 block.ExtendPageID = reader.ReadUInt32();
 
                 for (var j = 0; j < CollectionIndex.INDEX_PER_COLLECTION; j++)
@@ -39,7 +39,7 @@ namespace Lenneth.Core.Framework.LiteDB_V6
                 var size = reader.ReadUInt16();
                 block.Data = reader.ReadBytes(size);
 
-                this.DataBlocks.Add(block.Position.Index, block);
+                DataBlocks.Add(block.Position.Index, block);
             }
         }
     }

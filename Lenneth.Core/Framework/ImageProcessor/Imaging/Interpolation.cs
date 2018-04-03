@@ -32,7 +32,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         public static double BiCubicKernel(double x)
         {
             // The coefficient.
-            double a = -0.5;
+            var a = -0.5;
 
             if (x < 0)
             {
@@ -67,9 +67,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         public static double BiCubicBSplineKernel(double x)
         {
             double r = 0;
-            double xplus2 = x + 2;
-            double xplus1 = x + 1;
-            double xminus1 = x - 1;
+            var xplus2 = x + 2;
+            var xplus1 = x + 1;
+            var xminus1 = x - 1;
 
             if (xplus2 > 0)
             {

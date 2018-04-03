@@ -34,7 +34,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public AutoRotate()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
@@ -107,7 +107,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
         }
     }

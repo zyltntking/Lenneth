@@ -33,7 +33,7 @@ namespace Lenneth.Core.Framework.LiteDB
             {
                 var extendPage = _pager.NewPage<ExtendPage>();
                 block.ExtendPageID = extendPage.PageID;
-                this.StoreExtendData(extendPage, data);
+                StoreExtendData(extendPage, data);
             }
             else
             {
@@ -87,7 +87,7 @@ namespace Lenneth.Core.Framework.LiteDB
                     extendPage = _pager.GetPage<ExtendPage>(block.ExtendPageID);
                 }
 
-                this.StoreExtendData(extendPage, data);
+                StoreExtendData(extendPage, data);
             }
             else
             {
@@ -116,12 +116,12 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public byte[] Read(PageAddress blockAddress)
         {
-            var block = this.GetBlock(blockAddress);
+            var block = GetBlock(blockAddress);
 
             // if there is a extend page, read bytes all bytes from extended pages
             if (block.ExtendPageID != uint.MaxValue)
             {
-                return this.ReadExtendData(block.ExtendPageID);
+                return ReadExtendData(block.ExtendPageID);
             }
 
             return block.Data;

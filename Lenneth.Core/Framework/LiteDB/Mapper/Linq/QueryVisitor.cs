@@ -27,7 +27,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             _param = lambda.Parameters[0];
 
-            return this.VisitExpression(lambda.Body);
+            return VisitExpression(lambda.Body);
         }
 
         private Query VisitExpression(Expression expr, string prefix = null)
@@ -37,56 +37,56 @@ namespace Lenneth.Core.Framework.LiteDB
                 // Single: x.Active
                 if (expr is MemberExpression && expr.Type == typeof(bool))
                 {
-                    return Query.EQ(this.GetField(expr, prefix), new BsonValue(true));
+                    return Query.EQ(GetField(expr, prefix), new BsonValue(true));
                 }
                 // Not: !x.Active or !(x.Id == 1)
                 else if (expr.NodeType == ExpressionType.Not)
                 {
                     var unary = expr as UnaryExpression;
-                    return Query.Not(this.VisitExpression(unary.Operand, prefix));
+                    return Query.Not(VisitExpression(unary.Operand, prefix));
                 }
                 // Equals: x.Id == 1
                 else if (expr.NodeType == ExpressionType.Equal)
                 {
                     var bin = expr as BinaryExpression;
-                    return new QueryEquals(this.GetField(bin.Left, prefix), this.VisitValue(bin.Right, bin.Left));
+                    return new QueryEquals(GetField(bin.Left, prefix), VisitValue(bin.Right, bin.Left));
                 }
                 // NotEquals: x.Id != 1
                 else if (expr.NodeType == ExpressionType.NotEqual)
                 {
                     var bin = expr as BinaryExpression;
-                    return Query.Not(this.GetField(bin.Left, prefix), this.VisitValue(bin.Right, bin.Left));
+                    return Query.Not(GetField(bin.Left, prefix), VisitValue(bin.Right, bin.Left));
                 }
                 // LessThan: x.Id < 5
                 else if (expr.NodeType == ExpressionType.LessThan)
                 {
                     var bin = expr as BinaryExpression;
-                    return Query.LT(this.GetField(bin.Left, prefix), this.VisitValue(bin.Right, bin.Left));
+                    return Query.LT(GetField(bin.Left, prefix), VisitValue(bin.Right, bin.Left));
                 }
                 // LessThanOrEqual: x.Id <= 5
                 else if (expr.NodeType == ExpressionType.LessThanOrEqual)
                 {
                     var bin = expr as BinaryExpression;
-                    return Query.LTE(this.GetField(bin.Left, prefix), this.VisitValue(bin.Right, bin.Left));
+                    return Query.LTE(GetField(bin.Left, prefix), VisitValue(bin.Right, bin.Left));
                 }
                 // GreaterThan: x.Id > 5
                 else if (expr.NodeType == ExpressionType.GreaterThan)
                 {
                     var bin = expr as BinaryExpression;
-                    return Query.GT(this.GetField(bin.Left, prefix), this.VisitValue(bin.Right, bin.Left));
+                    return Query.GT(GetField(bin.Left, prefix), VisitValue(bin.Right, bin.Left));
                 }
                 // GreaterThanOrEqual: x.Id >= 5
                 else if (expr.NodeType == ExpressionType.GreaterThanOrEqual)
                 {
                     var bin = expr as BinaryExpression;
-                    return Query.GTE(this.GetField(bin.Left, prefix), this.VisitValue(bin.Right, bin.Left));
+                    return Query.GTE(GetField(bin.Left, prefix), VisitValue(bin.Right, bin.Left));
                 }
                 // And: x.Id > 1 && x.Name == "John"
                 else if (expr.NodeType == ExpressionType.AndAlso)
                 {
                     var bin = expr as BinaryExpression;
-                    var left = this.VisitExpression(bin.Left, prefix);
-                    var right = this.VisitExpression(bin.Right, prefix);
+                    var left = VisitExpression(bin.Left, prefix);
+                    var right = VisitExpression(bin.Right, prefix);
 
                     return Query.And(left, right);
                 }
@@ -94,8 +94,8 @@ namespace Lenneth.Core.Framework.LiteDB
                 else if (expr.NodeType == ExpressionType.OrElse)
                 {
                     var bin = expr as BinaryExpression;
-                    var left = this.VisitExpression(bin.Left);
-                    var right = this.VisitExpression(bin.Right);
+                    var left = VisitExpression(bin.Left);
+                    var right = VisitExpression(bin.Right);
 
                     return Query.Or(left, right);
                 }
@@ -116,7 +116,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 {
                     var invocation = expr as InvocationExpression;
                     var lambda = invocation.Expression as LambdaExpression;
-                    return this.VisitExpression(lambda.Body);
+                    return VisitExpression(lambda.Body);
                 }
                 // MethodCall: x.Name.StartsWith("John")
                 else if (expr is MethodCallExpression)
@@ -135,39 +135,39 @@ namespace Lenneth.Core.Framework.LiteDB
                     // StartsWith
                     if (method == "StartsWith")
                     {
-                        var value = this.VisitValue(met.Arguments[0], null);
+                        var value = VisitValue(met.Arguments[0], null);
 
-                        return Query.StartsWith(this.GetField(met.Object, prefix), value);
+                        return Query.StartsWith(GetField(met.Object, prefix), value);
                     }
                     // Equals
                     else if (method == "Equals")
                     {
-                        var value = this.VisitValue(met.Arguments[0], null);
+                        var value = VisitValue(met.Arguments[0], null);
 
-                        return Query.EQ(this.GetField(met.Object, prefix), value);
+                        return Query.EQ(GetField(met.Object, prefix), value);
                     }
                     // Contains (String): x.Name.Contains("auricio")
                     else if (method == "Contains" && type == typeof(string))
                     {
-                        var value = this.VisitValue(met.Arguments[0], null);
+                        var value = VisitValue(met.Arguments[0], null);
 
-                        return Query.Contains(this.GetField(met.Object, prefix), value);
+                        return Query.Contains(GetField(met.Object, prefix), value);
                     }
                     // Contains (Enumerable): x.ListNumber.Contains(2)
                     else if (method == "Contains" && type == typeof(Enumerable))
                     {
-                        var field = this.GetField(met.Arguments[0], prefix);
-                        var value = this.VisitValue(met.Arguments[1], null);
+                        var field = GetField(met.Arguments[0], prefix);
+                        var value = VisitValue(met.Arguments[1], null);
 
                         return Query.EQ(field, value);
                     }
                     // Any (Enumerable): x.Customer.Any(z => z.Name.StartsWith("John"))
                     else if (method == "Any" && type == typeof(Enumerable) && paramType == ExpressionType.Parameter)
                     {
-                        var field = this.GetField(met.Arguments[0]);
+                        var field = GetField(met.Arguments[0]);
                         var lambda = met.Arguments[1] as LambdaExpression;
 
-                        return this.VisitExpression(lambda.Body, field + ".");
+                        return VisitExpression(lambda.Body, field + ".");
                     }
                     // System.Linq.Enumerable methods (constant list items)
                     else if (type == typeof(Enumerable))
@@ -211,7 +211,7 @@ namespace Lenneth.Core.Framework.LiteDB
             else if (expr is MemberExpression && _parameters.Count > 0)
             {
                 var mExpr = (MemberExpression)expr;
-                var mValue = this.VisitValue(mExpr.Expression, left);
+                var mValue = VisitValue(mExpr.Expression, left);
                 var value = mValue.AsDocument[mExpr.Member.Name];
 
                 return convert(typeof(object), value);
@@ -271,13 +271,13 @@ namespace Lenneth.Core.Framework.LiteDB
                 throw new NotSupportedException("Cannot parse methods outside the System.Linq.Enumerable class.");
 
             var lambda = (LambdaExpression)expr.Arguments[1];
-            var values = this.VisitValue(expr.Arguments[0], null).AsArray;
+            var values = VisitValue(expr.Arguments[0], null).AsArray;
             var queries = new Query[values.Count];
 
             for (var i = 0; i < queries.Length; i++)
             {
                 _parameters[lambda.Parameters[0]] = values[i];
-                queries[i] = this.VisitExpression(lambda.Body);
+                queries[i] = VisitExpression(lambda.Body);
             }
 
             _parameters.Remove(lambda.Parameters[0]);
@@ -347,7 +347,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public string GetPath(Expression expr)
         {
-            return "$." + this.GetField(expr, "", true);
+            return "$." + GetField(expr, "", true);
         }
     }
 }

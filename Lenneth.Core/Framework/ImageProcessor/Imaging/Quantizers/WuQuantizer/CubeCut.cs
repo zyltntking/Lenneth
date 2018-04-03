@@ -38,8 +38,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </param>
         public CubeCut(byte? cutPoint, float result)
         {
-            this.Position = cutPoint;
-            this.Value = result;
+            Position = cutPoint;
+            Value = result;
         }
     }
 }

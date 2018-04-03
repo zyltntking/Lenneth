@@ -62,10 +62,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </param>
         private CmykColor(float cyan, float magenta, float yellow, float keyline)
         {
-            this.c = Clamp(cyan);
-            this.m = Clamp(magenta);
-            this.y = Clamp(yellow);
-            this.k = Clamp(keyline);
+            c = Clamp(cyan);
+            m = Clamp(magenta);
+            y = Clamp(yellow);
+            k = Clamp(keyline);
         }
 
         /// <summary>
@@ -77,35 +77,35 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         private CmykColor(Color color)
         {
             CmykColor cmykColor = color;
-            this.c = cmykColor.c;
-            this.m = cmykColor.m;
-            this.y = cmykColor.y;
-            this.k = cmykColor.k;
+            c = cmykColor.c;
+            m = cmykColor.m;
+            y = cmykColor.y;
+            k = cmykColor.k;
         }
 
         /// <summary>
         /// Gets the cyan component.
         /// <remarks>A value ranging between 0 and 100.</remarks>
         /// </summary>
-        public float C => this.c;
+        public float C => c;
 
         /// <summary>
         /// Gets the magenta component.
         /// <remarks>A value ranging between 0 and 100.</remarks>
         /// </summary>
-        public float M => this.m;
+        public float M => m;
 
         /// <summary>
         /// Gets the yellow component.
         /// <remarks>A value ranging between 0 and 100.</remarks>
         /// </summary>
-        public float Y => this.y;
+        public float Y => y;
 
         /// <summary>
         /// Gets the keyline black component.
         /// <remarks>A value ranging between 0 and 100.</remarks>
         /// </summary>
-        public float K => this.k;
+        public float K => k;
 
         /// <summary>
         /// Creates a <see cref="CmykColor"/> structure from the four 32-bit CMYK 
@@ -157,11 +157,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public static implicit operator CmykColor(Color color)
         {
-            float c = (255f - color.R) / 255;
-            float m = (255f - color.G) / 255;
-            float y = (255f - color.B) / 255;
+            var c = (255f - color.R) / 255;
+            var m = (255f - color.G) / 255;
+            var y = (255f - color.B) / 255;
 
-            float k = Math.Min(c, Math.Min(m, y));
+            var k = Math.Min(c, Math.Min(m, y));
 
             if (Math.Abs(k - 1.0) <= .0001f)
             {
@@ -218,9 +218,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public static implicit operator Color(CmykColor cmykColor)
         {
-            int red = Convert.ToInt32((1 - (cmykColor.c / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
-            int green = Convert.ToInt32((1 - (cmykColor.m / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
-            int blue = Convert.ToInt32((1 - (cmykColor.y / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
+            var red = Convert.ToInt32((1 - (cmykColor.c / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
+            var green = Convert.ToInt32((1 - (cmykColor.m / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
+            var blue = Convert.ToInt32((1 - (cmykColor.y / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
             return Color.FromArgb(red.ToByte(), green.ToByte(), blue.ToByte());
         }
 
@@ -236,9 +236,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public static implicit operator RgbaColor(CmykColor cmykColor)
         {
-            int red = Convert.ToInt32((1 - (cmykColor.c / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
-            int green = Convert.ToInt32((1 - (cmykColor.m / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
-            int blue = Convert.ToInt32((1 - (cmykColor.y / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
+            var red = Convert.ToInt32((1 - (cmykColor.c / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
+            var green = Convert.ToInt32((1 - (cmykColor.m / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
+            var blue = Convert.ToInt32((1 - (cmykColor.y / 100)) * (1 - (cmykColor.k / 100)) * 255.0);
             return RgbaColor.FromRgba(red.ToByte(), green.ToByte(), blue.ToByte());
         }
 
@@ -280,12 +280,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public override string ToString()
         {
-            if (this.IsEmpty())
+            if (IsEmpty())
             {
                 return "CmykColor [ Empty ]";
             }
 
-            return string.Format("CmykColor [ C={0:#0.##}, M={1:#0.##}, Y={2:#0.##}, K={3:#0.##}]", this.C, this.M, this.Y, this.K);
+            return string.Format("CmykColor [ C={0:#0.##}, M={1:#0.##}, Y={2:#0.##}, K={3:#0.##}]", C, M, Y, K);
         }
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         {
             if (obj is CmykColor)
             {
-                return this.Equals((CmykColor)obj);
+                return Equals((CmykColor)obj);
             }
 
             return false;
@@ -352,8 +352,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         private bool IsEmpty()
         {
             const float Epsilon = .0001f;
-            return Math.Abs(this.c - 0) <= Epsilon && Math.Abs(this.m - 0) <= Epsilon &&
-                   Math.Abs(this.y - 0) <= Epsilon && Math.Abs(this.k - 0) <= Epsilon;
+            return Math.Abs(c - 0) <= Epsilon && Math.Abs(m - 0) <= Epsilon &&
+                   Math.Abs(y - 0) <= Epsilon && Math.Abs(k - 0) <= Epsilon;
         }
     }
 }

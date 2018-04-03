@@ -44,23 +44,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         public static Bitmap Vignette(Image source, Color baseColor, Rectangle? rectangle = null, bool invert = false)
         {
-            using (Graphics graphics = Graphics.FromImage(source))
+            using (var graphics = Graphics.FromImage(source))
             {
-                Rectangle bounds = rectangle ?? new Rectangle(0, 0, source.Width, source.Height);
-                Rectangle ellipsebounds = bounds;
+                var bounds = rectangle ?? new Rectangle(0, 0, source.Width, source.Height);
+                var ellipsebounds = bounds;
 
                 // Increase the rectangle size by the difference between the rectangle dimensions and sqrt(2)/2 * the rectangle dimensions.
                 // Why sqrt(2)/2? Because the point (sqrt(2)/2, sqrt(2)/2) is the 45 degree angle point on a unit circle. Scaling by the width 
                 // and height gives the distance needed to inflate the rectangle to make sure it's fully covered.
                 ellipsebounds.Offset(-ellipsebounds.X, -ellipsebounds.Y);
-                int x = ellipsebounds.Width - (int)Math.Floor(.70712 * ellipsebounds.Width);
-                int y = ellipsebounds.Height - (int)Math.Floor(.70712 * ellipsebounds.Height);
+                var x = ellipsebounds.Width - (int)Math.Floor(.70712 * ellipsebounds.Width);
+                var y = ellipsebounds.Height - (int)Math.Floor(.70712 * ellipsebounds.Height);
                 ellipsebounds.Inflate(x, y);
 
-                using (GraphicsPath path = new GraphicsPath())
+                using (var path = new GraphicsPath())
                 {
                     path.AddEllipse(ellipsebounds);
-                    using (PathGradientBrush brush = new PathGradientBrush(path))
+                    using (var brush = new PathGradientBrush(path))
                     {
                         // Fill a rectangle with an elliptical gradient brush that goes from transparent to opaque. 
                         // This has the effect of painting the far corners with the given color and shade less on the way in to the centre.
@@ -81,7 +81,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
                         brush.CenterColor = centerColor;
                         brush.SurroundColors = new[] { edgeColor };
 
-                        Blend blend = new Blend
+                        var blend = new Blend
                         {
                             Positions = new[] { 0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0F },
                             Factors = new[] { 0.0f, 0.5f, 1f, 1f, 1.0f, 1.0f }
@@ -89,7 +89,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
 
                         brush.Blend = blend;
 
-                        Region oldClip = graphics.Clip;
+                        var oldClip = graphics.Clip;
                         graphics.Clip = new Region(bounds);
                         graphics.FillRectangle(brush, ellipsebounds);
                         graphics.Clip = oldClip;
@@ -135,27 +135,27 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
                 throw new ArgumentException();
             }
 
-            int width = mask.Width;
-            int height = mask.Height;
+            var width = mask.Width;
+            var height = mask.Height;
 
-            Bitmap toMask = new Bitmap(source);
+            var toMask = new Bitmap(source);
             toMask.SetResolution(source.HorizontalResolution, source.VerticalResolution);
 
             // Loop through and replace the alpha channel
-            using (FastBitmap maskBitmap = new FastBitmap(mask))
+            using (var maskBitmap = new FastBitmap(mask))
             {
-                using (FastBitmap sourceBitmap = new FastBitmap(toMask))
+                using (var sourceBitmap = new FastBitmap(toMask))
                 {
                     Parallel.For(
                         0,
                         height,
                         y =>
                         {
-                            for (int x = 0; x < width; x++)
+                            for (var x = 0; x < width; x++)
                             {
                                 // ReSharper disable AccessToDisposedClosure
-                                Color maskColor = maskBitmap.GetPixel(x, y);
-                                Color sourceColor = sourceBitmap.GetPixel(x, y);
+                                var maskColor = maskBitmap.GetPixel(x, y);
+                                var sourceColor = sourceBitmap.GetPixel(x, y);
 
                                 if (sourceColor.A != 0)
                                 {
@@ -169,9 +169,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
             }
 
             // Ensure the background is cleared out on non alpha supporting formats.
-            Bitmap clear = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
+            var clear = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
             clear.SetResolution(source.HorizontalResolution, source.VerticalResolution);
-            using (Graphics graphics = Graphics.FromImage(clear))
+            using (var graphics = Graphics.FromImage(clear))
             {
                 GraphicsHelper.SetGraphicsOptions(graphics, true);
                 graphics.Clear(Color.Transparent);
@@ -200,13 +200,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         public static Bitmap Trace(Image source, Image destination, byte threshold = 0)
         {
-            int width = source.Width;
-            int height = source.Height;
+            var width = source.Width;
+            var height = source.Height;
 
             // Grab the edges converting to greyscale, and invert the colors.
-            ConvolutionFilter filter = new ConvolutionFilter(new SobelEdgeFilter(), true);
+            var filter = new ConvolutionFilter(new SobelEdgeFilter(), true);
 
-            using (Bitmap temp = filter.Process2DFilter(source))
+            using (var temp = filter.Process2DFilter(source))
             {
                 destination = new InvertMatrixFilter().TransformImage(temp, destination);
 
@@ -216,17 +216,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
 
             // Loop through and replace any colors more white than the threshold
             // with a transparent one. 
-            using (FastBitmap destinationBitmap = new FastBitmap(destination))
+            using (var destinationBitmap = new FastBitmap(destination))
             {
                 Parallel.For(
                     0,
                     height,
                     y =>
                     {
-                        for (int x = 0; x < width; x++)
+                        for (var x = 0; x < width; x++)
                         {
                             // ReSharper disable AccessToDisposedClosure
-                            Color color = destinationBitmap.GetPixel(x, y);
+                            var color = destinationBitmap.GetPixel(x, y);
                             if (color.B >= threshold)
                             {
                                 destinationBitmap.SetPixel(x, y, Color.Transparent);

@@ -52,7 +52,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         public static ImageFactory SetPropertyItem(this ImageFactory imageFactory, ExifPropertyTag id, string value)
         {
             // TODO: Cover the different encoding types for different tags.
-            byte[] bytes = BitConverter.GetBytes(value);
+            var bytes = BitConverter.GetBytes(value);
             return imageFactory.SetPropertyItem(id, ExifPropertyTagType.ASCII, bytes.Length, bytes);
         }
 
@@ -68,7 +68,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </returns>
         public static ImageFactory SetPropertyItem(this ImageFactory imageFactory, ExifPropertyTag id, ushort value)
         {
-            byte[] bytes = BitConverter.GetBytes(value);
+            var bytes = BitConverter.GetBytes(value);
             return imageFactory.SetPropertyItem(id, ExifPropertyTagType.UShort, bytes.Length, bytes);
         }
 
@@ -84,7 +84,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </returns>
         public static ImageFactory SetPropertyItem(this ImageFactory imageFactory, ExifPropertyTag id, uint value)
         {
-            byte[] bytes = BitConverter.GetBytes(value);
+            var bytes = BitConverter.GetBytes(value);
             return imageFactory.SetPropertyItem(id, ExifPropertyTagType.ULong, bytes.Length, bytes);
         }
 
@@ -100,7 +100,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </returns>
         public static ImageFactory SetPropertyItem(this ImageFactory imageFactory, ExifPropertyTag id, Rational<uint> value)
         {
-            byte[] bytes = BitConverter.GetBytes(value);
+            var bytes = BitConverter.GetBytes(value);
             return imageFactory.SetPropertyItem(id, ExifPropertyTagType.Rational, bytes.Length, bytes);
         }
 
@@ -131,7 +131,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </returns>
         public static ImageFactory SetPropertyItem(this ImageFactory imageFactory, ExifPropertyTag id, int value)
         {
-            byte[] bytes = BitConverter.GetBytes(value);
+            var bytes = BitConverter.GetBytes(value);
             return imageFactory.SetPropertyItem(id, ExifPropertyTagType.SLong, bytes.Length, bytes);
         }
 
@@ -147,7 +147,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </returns>
         public static ImageFactory SetPropertyItem(this ImageFactory imageFactory, ExifPropertyTag id, Rational<int> value)
         {
-            byte[] bytes = BitConverter.GetBytes(value);
+            var bytes = BitConverter.GetBytes(value);
             return imageFactory.SetPropertyItem(id, ExifPropertyTagType.SRational, bytes.Length, bytes);
         }
 
@@ -170,7 +170,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
             int length,
             byte[] value)
         {
-            PropertyItem item = FormatUtilities.CreatePropertyItem();
+            var item = FormatUtilities.CreatePropertyItem();
 
             item.Id = (int)id;
             item.Type = (short)type;

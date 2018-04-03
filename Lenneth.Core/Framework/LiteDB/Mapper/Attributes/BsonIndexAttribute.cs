@@ -17,7 +17,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public BsonIndexAttribute(bool unique)
         {
-            this.Unique = unique;
+            Unique = unique;
         }
     }
 }

@@ -70,12 +70,12 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public BasePage(uint pageID)
         {
-            this.PageID = pageID;
-            this.PrevPageID = uint.MaxValue;
-            this.NextPageID = uint.MaxValue;
-            this.ItemCount = 0;
-            this.FreeBytes = PAGE_AVAILABLE_BYTES;
-            this.DiskData = new byte[0];
+            PageID = pageID;
+            PrevPageID = uint.MaxValue;
+            NextPageID = uint.MaxValue;
+            ItemCount = 0;
+            FreeBytes = PAGE_AVAILABLE_BYTES;
+            DiskData = new byte[0];
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// <param name="pageCount">The page count</param>
         public static long GetSizeOfPages(uint pageCount)
         {
-            return checked((long)pageCount * BasePage.PAGE_SIZE);
+            return checked((long)pageCount * PAGE_SIZE);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if (pageCount < 0) throw new ArgumentOutOfRangeException("pageCount", "Could not be less than 0.");
 
-            return BasePage.GetSizeOfPages((uint)pageCount);
+            return GetSizeOfPages((uint)pageCount);
         }
 
         #region Read/Write page
@@ -166,17 +166,17 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public byte[] WritePage()
         {
-            var writer = new ByteWriter(BasePage.PAGE_SIZE);
+            var writer = new ByteWriter(PAGE_SIZE);
 
-            this.WriteHeader(writer);
+            WriteHeader(writer);
 
-            if (this.PageType != global::Lenneth.Core.Framework.LiteDB.PageType.Empty)
+            if (PageType != PageType.Empty)
             {
-                this.WriteContent(writer);
+                WriteContent(writer);
             }
 
             // update data bytes
-            this.DiskData = writer.Buffer;
+            DiskData = writer.Buffer;
 
             return writer.Buffer;
         }
@@ -187,22 +187,22 @@ namespace Lenneth.Core.Framework.LiteDB
             // this.PageID
             // this.PageType
 
-            this.PrevPageID = reader.ReadUInt32();
-            this.NextPageID = reader.ReadUInt32();
-            this.ItemCount = reader.ReadUInt16();
-            this.FreeBytes = reader.ReadUInt16();
+            PrevPageID = reader.ReadUInt32();
+            NextPageID = reader.ReadUInt32();
+            ItemCount = reader.ReadUInt16();
+            FreeBytes = reader.ReadUInt16();
             reader.Skip(8); // reserved 8 bytes
         }
 
         private void WriteHeader(ByteWriter writer)
         {
-            writer.Write(this.PageID);
-            writer.Write((byte)this.PageType);
+            writer.Write(PageID);
+            writer.Write((byte)PageType);
 
-            writer.Write(this.PrevPageID);
-            writer.Write(this.NextPageID);
-            writer.Write((UInt16)this.ItemCount);
-            writer.Write((UInt16)this.FreeBytes);
+            writer.Write(PrevPageID);
+            writer.Write(NextPageID);
+            writer.Write((UInt16)ItemCount);
+            writer.Write((UInt16)FreeBytes);
             writer.Skip(8); // reserved 8 bytes
         }
 

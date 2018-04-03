@@ -52,9 +52,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
                 return virtualPath;
             }
 
-            char separator = Path.DirectorySeparatorChar;
-            string root = GetRootDirectorySafe();
-            string newPath = virtualPath.TrimStart('~', '/').Replace('/', separator);
+            var separator = Path.DirectorySeparatorChar;
+            var root = GetRootDirectorySafe();
+            var newPath = virtualPath.TrimStart('~', '/').Replace('/', separator);
             return root + separator.ToString(CultureInfo.InvariantCulture) + newPath;
         }
 
@@ -66,10 +66,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// </returns>
         public static string GetRootDirectoryBinFolder()
         {
-            string binFolder = string.Empty;
+            var binFolder = string.Empty;
             if (string.IsNullOrEmpty(rootDirectory))
             {
-                DirectoryInfo directoryInfo = Assembly.GetExecutingAssembly().GetAssemblyFile().Directory;
+                var directoryInfo = Assembly.GetExecutingAssembly().GetAssemblyFile().Directory;
                 if (directoryInfo != null)
                 {
                     binFolder = directoryInfo.FullName;
@@ -81,13 +81,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
             binFolder = Path.Combine(GetRootDirectorySafe(), "bin");
 
 #if DEBUG
-            string debugFolder = Path.Combine(binFolder, "debug");
+            var debugFolder = Path.Combine(binFolder, "debug");
             if (Directory.Exists(debugFolder))
             {
                 return debugFolder;
             }
 #endif
-            string releaseFolder = Path.Combine(binFolder, "release");
+            var releaseFolder = Path.Combine(binFolder, "release");
             if (Directory.Exists(releaseFolder))
             {
                 return releaseFolder;
@@ -115,10 +115,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
                 return rootDirectory;
             }
 
-            string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-            Uri uri = new Uri(codeBase);
-            string path = uri.LocalPath;
-            string baseDirectory = Path.GetDirectoryName(path);
+            var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            var uri = new Uri(codeBase);
+            var path = uri.LocalPath;
+            var baseDirectory = Path.GetDirectoryName(path);
             if (string.IsNullOrEmpty(baseDirectory))
             {
                 throw new Exception(

@@ -13,12 +13,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using Lenneth.Core.Framework.ImageProcessor.Common.Exceptions;
-using Lenneth.Core.Framework.ImageProcessor.Imaging;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData;
 
 namespace Lenneth.Core.Framework.ImageProcessor.Processors
 {
+    using Common.Exceptions;
+    using Imaging;
+    using Imaging.MetaData;
+
     /// <summary>
     /// Resizes an image to the given dimensions.
     /// </summary>
@@ -29,8 +30,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Resize()
         {
-            this.RestrictedSizes = new List<Size>();
-            this.Settings = new Dictionary<string, string>();
+            RestrictedSizes = new List<Size>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -69,26 +70,26 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         public Image ProcessImage(ImageFactory factory)
         {
             Bitmap newImage = null;
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                ResizeLayer resizeLayer = this.DynamicParameter;
+                ResizeLayer resizeLayer = DynamicParameter;
 
                 // Augment the layer with the extra information.
-                resizeLayer.RestrictedSizes = this.RestrictedSizes;
-                Size maxSize = new Size();
+                resizeLayer.RestrictedSizes = RestrictedSizes;
+                var maxSize = new Size();
 
                 int maxWidth;
                 int maxHeight;
-                int.TryParse(this.Settings["MaxWidth"], NumberStyles.Any, CultureInfo.InvariantCulture, out maxWidth);
-                int.TryParse(this.Settings["MaxHeight"], NumberStyles.Any, CultureInfo.InvariantCulture, out maxHeight);
+                int.TryParse(Settings["MaxWidth"], NumberStyles.Any, CultureInfo.InvariantCulture, out maxWidth);
+                int.TryParse(Settings["MaxHeight"], NumberStyles.Any, CultureInfo.InvariantCulture, out maxHeight);
 
                 maxSize.Width = maxWidth;
                 maxSize.Height = maxHeight;
 
                 resizeLayer.MaxSize = maxSize;
-                Resizer resizer = new Resizer(resizeLayer) { ImageFormat = factory.CurrentImageFormat, AnimationProcessMode = factory.AnimationProcessMode };
+                var resizer = new Resizer(resizeLayer) { ImageFormat = factory.CurrentImageFormat, AnimationProcessMode = factory.AnimationProcessMode };
                 newImage = resizer.ResizeImage(image, factory.FixGamma);
 
                 // Check that the original image has not been returned.
@@ -112,7 +113,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             {
                 newImage?.Dispose();
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return image;

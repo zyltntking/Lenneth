@@ -22,7 +22,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public EntityBuilder<T> Ignore<K>(Expression<Func<T, K>> property)
         {
-            return this.GetProperty(property, (p) =>
+            return GetProperty(property, (p) =>
             {
                 _entity.Members.Remove(p);
             });
@@ -35,7 +35,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
 
-            return this.GetProperty(property, (p) =>
+            return GetProperty(property, (p) =>
             {
                 p.FieldName = field;
             });
@@ -46,7 +46,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public EntityBuilder<T> Id<K>(Expression<Func<T, K>> property, bool autoId = true)
         {
-            return this.GetProperty(property, (p) =>
+            return GetProperty(property, (p) =>
             {
                 p.FieldName = "_id";
                 p.AutoId = autoId;
@@ -58,7 +58,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public EntityBuilder<T> DbRef<K>(Expression<Func<T, K>> property, string collection = null)
         {
-            return this.GetProperty(property, (p) =>
+            return GetProperty(property, (p) =>
             {
                 BsonMapper.RegisterDbRef(_mapper, p, collection ?? _mapper.ResolveCollectionName(typeof(K)));
             });

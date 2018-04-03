@@ -28,7 +28,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Halftone()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -61,18 +61,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
-            int width = image.Width;
-            int height = image.Height;
+            var image = factory.Image;
+            var width = image.Width;
+            var height = image.Height;
             Bitmap newImage = null;
             Bitmap edgeBitmap = null;
             try
             {
-                HalftoneFilter filter = new HalftoneFilter(5);
+                var filter = new HalftoneFilter(5);
                 newImage = new Bitmap(image);
                 newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
                 newImage = filter.ApplyFilter(newImage);
-                bool comicMode = this.DynamicParameter;
+                bool comicMode = DynamicParameter;
 
                 if (comicMode)
                 {
@@ -81,14 +81,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                     edgeBitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
                     edgeBitmap = Effects.Trace(image, edgeBitmap, 120);
 
-                    using (Graphics graphics = Graphics.FromImage(newImage))
+                    using (var graphics = Graphics.FromImage(newImage))
                     {
                         // Overlay the image.
                         graphics.DrawImage(edgeBitmap, 0, 0);
-                        Rectangle rectangle = new Rectangle(0, 0, width, height);
+                        var rectangle = new Rectangle(0, 0, width, height);
 
                         // Draw an edge around the image.
-                        using (Pen blackPen = new Pen(Color.Black))
+                        using (var blackPen = new Pen(Color.Black))
                         {
                             blackPen.Width = 4;
                             graphics.DrawRectangle(blackPen, rectangle);
@@ -107,7 +107,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
 
                 newImage?.Dispose();
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return image;

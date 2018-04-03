@@ -41,12 +41,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Binarization
         {
             get
             {
-                return this.threshold;
+                return threshold;
             }
 
             set
             {
-                this.threshold = value;
+                threshold = value;
             }
         }
 
@@ -61,21 +61,21 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Binarization
         /// </returns>
         public Bitmap ProcessFilter(Bitmap source)
         {
-            int width = source.Width;
-            int height = source.Height;
+            var width = source.Width;
+            var height = source.Height;
 
-            using (FastBitmap sourceBitmap = new FastBitmap(source))
+            using (var sourceBitmap = new FastBitmap(source))
             {
                 Parallel.For(
                     0, 
                     height, 
                     y =>
                     {
-                        for (int x = 0; x < width; x++)
+                        for (var x = 0; x < width; x++)
                         {
                             // ReSharper disable AccessToDisposedClosure
-                            Color color = sourceBitmap.GetPixel(x, y);
-                            sourceBitmap.SetPixel(x, y, color.B >= this.threshold ? Color.White : Color.Black);
+                            var color = sourceBitmap.GetPixel(x, y);
+                            sourceBitmap.SetPixel(x, y, color.B >= threshold ? Color.White : Color.Black);
 
                             // ReSharper restore AccessToDisposedClosure
                         }

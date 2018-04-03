@@ -74,12 +74,12 @@ namespace Lenneth.Core.Framework.LiteDB
                 throw LiteException.LockTimeout(_timeout);
             }
 
-            _log.Write(Logger.Lock, "entered in read lock mode in thread #{0}", this.ThreadId);
+            _log.Write(Logger.Lock, "entered in read lock mode in thread #{0}", ThreadId);
 
             // lock disk in shared mode
             var position = _disk.Lock(LockState.Read, _timeout);
 
-            var changed = this.DetectDatabaseChanges();
+            var changed = DetectDatabaseChanges();
 
             return new LockControl(changed, () =>
             {
@@ -89,7 +89,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 // exit thread lock mode
                 _thread.ExitReadLock();
 
-                _log.Write(Logger.Lock, "exited read lock mode in thread #{0}", this.ThreadId);
+                _log.Write(Logger.Lock, "exited read lock mode in thread #{0}", ThreadId);
             });
         }
 
@@ -113,13 +113,13 @@ namespace Lenneth.Core.Framework.LiteDB
                 throw LiteException.LockTimeout(_timeout);
             }
 
-            _log.Write(Logger.Lock, "entered in write lock mode in thread #{0}", this.ThreadId);
+            _log.Write(Logger.Lock, "entered in write lock mode in thread #{0}", ThreadId);
 
             // try enter in exclusive mode in disk
             var position = _disk.Lock(LockState.Write, _timeout);
 
             // call avoid dirty only if not came from a shared mode
-            var changed = this.DetectDatabaseChanges();
+            var changed = DetectDatabaseChanges();
 
             return new LockControl(changed, () =>
             {
@@ -129,7 +129,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 // release thread write
                 _thread.ExitWriteLock();
 
-                _log.Write(Logger.Lock, "exited write lock mode in thread #{0}", this.ThreadId);
+                _log.Write(Logger.Lock, "exited write lock mode in thread #{0}", ThreadId);
             });
         }
 

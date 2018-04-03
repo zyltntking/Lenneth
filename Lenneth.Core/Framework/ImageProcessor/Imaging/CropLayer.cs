@@ -36,11 +36,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                 throw new ArgumentOutOfRangeException();
             }
 
-            this.Left = left;
-            this.Top = top;
-            this.Right = right;
-            this.Bottom = bottom;
-            this.CropMode = cropMode;
+            Left = left;
+            Top = top;
+            Right = right;
+            Bottom = bottom;
+            CropMode = cropMode;
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         public override bool Equals(object obj)
         {
-            CropLayer cropLayer = obj as CropLayer;
+            var cropLayer = obj as CropLayer;
 
             if (cropLayer == null)
             {
@@ -89,11 +89,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
             }
 
             // Define the tolerance for variation in their values 
-            return Math.Abs(this.Top - cropLayer.Top) <= Math.Abs(this.Top * .0001)
-                   && Math.Abs(this.Right - cropLayer.Right) <= Math.Abs(this.Right * .0001)
-                   && Math.Abs(this.Bottom - cropLayer.Bottom) <= Math.Abs(this.Bottom * .0001)
-                   && Math.Abs(this.Left - cropLayer.Left) <= Math.Abs(this.Left * .0001)
-                   && this.CropMode.Equals(cropLayer.CropMode);
+            return Math.Abs(Top - cropLayer.Top) <= Math.Abs(Top * .0001)
+                   && Math.Abs(Right - cropLayer.Right) <= Math.Abs(Right * .0001)
+                   && Math.Abs(Bottom - cropLayer.Bottom) <= Math.Abs(Bottom * .0001)
+                   && Math.Abs(Left - cropLayer.Left) <= Math.Abs(Left * .0001)
+                   && CropMode.Equals(cropLayer.CropMode);
         }
 
         /// <summary>
@@ -106,11 +106,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         {
             unchecked
             {
-                int hashCode = this.Left.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.Top.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.Right.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.Bottom.GetHashCode();
-                hashCode = (hashCode * 397) ^ (int)this.CropMode;
+                var hashCode = Left.GetHashCode();
+                hashCode = (hashCode * 397) ^ Top.GetHashCode();
+                hashCode = (hashCode * 397) ^ Right.GetHashCode();
+                hashCode = (hashCode * 397) ^ Bottom.GetHashCode();
+                hashCode = (hashCode * 397) ^ (int)CropMode;
                 return hashCode;
             }
         }

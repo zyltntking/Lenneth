@@ -33,7 +33,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </param>
         public ImageBuffer(Bitmap image)
         {
-            this.Image = image;
+            Image = image;
         }
 
         /// <summary>
@@ -51,17 +51,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         {
             get
             {
-                int width = this.Image.Width;
-                int height = this.Image.Height;
-                Color32[] pixels = new Color32[width];
+                var width = Image.Width;
+                var height = Image.Height;
+                var pixels = new Color32[width];
 
-                using (FastBitmap bitmap = new FastBitmap(this.Image))
+                using (var bitmap = new FastBitmap(Image))
                 {
-                    for (int y = 0; y < height; y++)
+                    for (var y = 0; y < height; y++)
                     {
-                        for (int x = 0; x < width; x++)
+                        for (var x = 0; x < width; x++)
                         {
-                            Color color = bitmap.GetPixel(x, y);
+                            var color = bitmap.GetPixel(x, y);
                             pixels[x] = new Color32(color.A, color.R, color.G, color.B);
                         }
 
@@ -79,16 +79,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </param>
         public void UpdatePixelIndexes(IEnumerable<byte[]> lineIndexes)
         {
-            int width = this.Image.Width;
-            int height = this.Image.Height;
-            int rowIndex = 0;
+            var width = Image.Width;
+            var height = Image.Height;
+            var rowIndex = 0;
 
-            BitmapData data = this.Image.LockBits(Rectangle.FromLTRB(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
+            var data = Image.LockBits(Rectangle.FromLTRB(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
             try
             {
-                IntPtr pixelBase = data.Scan0;
-                int scanWidth = data.Stride;
-                foreach (byte[] scanLine in lineIndexes)
+                var pixelBase = data.Scan0;
+                var scanWidth = data.Stride;
+                foreach (var scanLine in lineIndexes)
                 {
                     // TODO: Use unsafe code
                     Marshal.Copy(scanLine, 0, IntPtr.Add(pixelBase, scanWidth * rowIndex), width);
@@ -101,7 +101,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
             }
             finally
             {
-                this.Image.UnlockBits(data);
+                Image.UnlockBits(data);
             }
         }
     }

@@ -16,7 +16,7 @@ namespace Lenneth.Core.Framework.LiteDB
             // if object is BsonDocument, just return them
             if (entity is BsonDocument) return (BsonDocument)(object)entity;
 
-            return this.Serialize(type, entity, 0).AsDocument;
+            return Serialize(type, entity, 0).AsDocument;
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public virtual BsonDocument ToDocument<T>(T entity)
         {
-            return this.ToDocument(typeof(T), entity).AsDocument;
+            return ToDocument(typeof(T), entity).AsDocument;
         }
 
         internal BsonValue Serialize(Type type, object obj, int depth)
@@ -41,9 +41,9 @@ namespace Lenneth.Core.Framework.LiteDB
             // test string - mapper has some special options
             else if (obj is String)
             {
-                var str = this.TrimWhitespace ? (obj as String).Trim() : (String)obj;
+                var str = TrimWhitespace ? (obj as String).Trim() : (String)obj;
 
-                if (this.EmptyStringToNull && str.Length == 0)
+                if (EmptyStringToNull && str.Length == 0)
                 {
                     return BsonValue.Null;
                 }
@@ -102,17 +102,17 @@ namespace Lenneth.Core.Framework.LiteDB
 
                 var itemType = TypeInfoExtensions.GetTypeInfo(type).GetGenericArguments()[1];
 
-                return this.SerializeDictionary(itemType, obj as IDictionary, depth);
+                return SerializeDictionary(itemType, obj as IDictionary, depth);
             }
             // check if is a list or array
             else if (obj is IEnumerable)
             {
-                return this.SerializeArray(Reflection.GetListItemType(obj.GetType()), obj as IEnumerable, depth);
+                return SerializeArray(Reflection.GetListItemType(obj.GetType()), obj as IEnumerable, depth);
             }
             // otherwise serialize as a plain object
             else
             {
-                return this.SerializeObject(type, obj, depth);
+                return SerializeObject(type, obj, depth);
             }
         }
 
@@ -122,7 +122,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             foreach (var item in array)
             {
-                arr.Add(this.Serialize(type, item, depth));
+                arr.Add(Serialize(type, item, depth));
             }
 
             return arr;
@@ -136,7 +136,7 @@ namespace Lenneth.Core.Framework.LiteDB
             {
                 var value = dict[key];
 
-                o.RawValue[key.ToString()] = this.Serialize(type, value, depth);
+                o.RawValue[key.ToString()] = Serialize(type, value, depth);
             }
 
             return o;
@@ -146,7 +146,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             var o = new BsonDocument();
             var t = obj.GetType();
-            var entity = this.GetEntityMapper(t);
+            var entity = GetEntityMapper(t);
             var dict = o.RawValue;
 
             // adding _type only where property Type is not same as object instance type
@@ -160,7 +160,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 // get member value
                 var value = member.Getter(obj);
 
-                if (value == null && this.SerializeNullValues == false && member.FieldName != "_id") continue;
+                if (value == null && SerializeNullValues == false && member.FieldName != "_id") continue;
 
                 // if member has a custom serialization, use it
                 if (member.Serialize != null)
@@ -169,7 +169,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 }
                 else
                 {
-                    dict[member.FieldName] = this.Serialize(member.DataType, value, depth);
+                    dict[member.FieldName] = Serialize(member.DataType, value, depth);
                 }
             }
 

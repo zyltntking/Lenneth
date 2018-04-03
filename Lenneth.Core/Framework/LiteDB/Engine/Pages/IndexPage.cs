@@ -36,10 +36,10 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             var index = _nodes.NextIndex();
 
-            node.Position = new PageAddress(this.PageID, index);
+            node.Position = new PageAddress(PageID, index);
 
-            this.ItemCount++;
-            this.FreeBytes -= node.Length;
+            ItemCount++;
+            FreeBytes -= node.Length;
 
             _nodes.Add(index, node);
         }
@@ -49,8 +49,8 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public void DeleteNode(IndexNode node)
         {
-            this.ItemCount--;
-            this.FreeBytes += node.Length;
+            ItemCount--;
+            FreeBytes += node.Length;
 
             _nodes.Remove(node.Position.Index);
         }
@@ -64,9 +64,9 @@ namespace Lenneth.Core.Framework.LiteDB
 
         protected override void ReadContent(ByteReader reader)
         {
-            _nodes = new Dictionary<ushort, IndexNode>(this.ItemCount);
+            _nodes = new Dictionary<ushort, IndexNode>(ItemCount);
 
-            for (var i = 0; i < this.ItemCount; i++)
+            for (var i = 0; i < ItemCount; i++)
             {
                 var index = reader.ReadUInt16();
                 var levels = reader.ReadByte();
@@ -74,7 +74,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 var node = new IndexNode(levels);
 
                 node.Page = this;
-                node.Position = new PageAddress(this.PageID, index);
+                node.Position = new PageAddress(PageID, index);
                 node.Slot = reader.ReadByte();
                 node.PrevNode = reader.ReadPageAddress();
                 node.NextNode = reader.ReadPageAddress();

@@ -52,7 +52,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if (expression != null)
             {
-                this.Source = expression;
+                Source = expression;
                 _func = Compile(expression);
             }
         }
@@ -61,14 +61,14 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             var start = s.Index;
             _func = Compile(s, pathOnly, arithmeticOnly);
-            this.Source = s.Source.Substring(start, s.Index - start);
+            Source = s.Source.Substring(start, s.Index - start);
 
             // add this expression to cache if not exists
-            if (!_cache.ContainsKey(this.Source))
+            if (!_cache.ContainsKey(Source))
             {
                 lock(_cache)
                 {
-                    _cache[this.Source] = _func;
+                    _cache[Source] = _func;
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public IEnumerable<BsonValue> Execute(BsonDocument doc, bool includeNullIfEmpty = true)
         {
-            return this.Execute(doc, doc, includeNullIfEmpty);
+            return Execute(doc, doc, includeNullIfEmpty);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public IEnumerable<BsonValue> Execute(BsonDocument root, BsonValue current, bool includeNullIfEmpty = true)
         {
-            if (this.Source == null) throw new ArgumentNullException("ctor(expression)");
+            if (Source == null) throw new ArgumentNullException("ctor(expression)");
 
             var index = 0;
             var values = _func(root, current ?? root);
@@ -440,7 +440,7 @@ namespace Lenneth.Core.Framework.LiteDB
             }
             else if (value.IsDocument)
             {
-                if (value.AsDocument.TryGetValue(name, out BsonValue item))
+                if (value.AsDocument.TryGetValue(name, out var item))
                 {
                     // fill destroy action to remove value from root
                     item.Destroy = () => value.AsDocument.Remove(name);
@@ -457,7 +457,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             foreach (var doc in values.Where(x => x.IsDocument).Select(x => x.AsDocument))
             {
-                if (doc.TryGetValue(name, out BsonValue item))
+                if (doc.TryGetValue(name, out var item))
                 {
                     // fill destroy action to remove value from parent document
                     item.Destroy = () => doc.Remove(name);
@@ -529,7 +529,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public override string ToString()
         {
-            return this.Source;
+            return Source;
         }
     }
 }

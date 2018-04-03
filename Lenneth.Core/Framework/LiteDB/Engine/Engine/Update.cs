@@ -13,7 +13,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if (doc == null) throw new ArgumentNullException(nameof(doc));
 
-            return this.Update(collection, new BsonDocument[] { doc }) == 1;
+            return Update(collection, new BsonDocument[] { doc }) == 1;
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Lenneth.Core.Framework.LiteDB
             if (collection.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(collection));
             if (docs == null) throw new ArgumentNullException(nameof(docs));
 
-            return this.Transaction<int>(collection, false, (col) =>
+            return Transaction<int>(collection, false, (col) =>
             {
                 // no collection, no updates
                 if (col == null) return 0;
@@ -33,7 +33,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
                 foreach (var doc in docs)
                 {
-                    if (this.UpdateDocument(col, doc))
+                    if (UpdateDocument(col, doc))
                     {
                         _trans.CheckPoint();
 
@@ -79,7 +79,7 @@ namespace Lenneth.Core.Framework.LiteDB
             // delete/insert indexes - do not touch on PK
             foreach (var index in col.GetIndexes(false))
             {
-                var expr = new Lenneth.Core.Framework.LiteDB.BsonExpression(index.Expression);
+                var expr = new BsonExpression(index.Expression);
 
                 // getting all keys do check
                 var keys = expr.Execute(doc).ToArray();

@@ -94,13 +94,13 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public BsonMapper(Func<Type, object> customTypeInstantiator = null)
         {
-            this.SerializeNullValues = false;
-            this.TrimWhitespace = true;
-            this.EmptyStringToNull = true;
-            this.ResolveFieldName = (s) => s;
-            this.ResolveMember = (t, mi, mm) => { };
-            this.ResolveCollectionName = (t) => Reflection.IsList(t) ? Reflection.GetListItemType(t).Name : t.Name;
-            this.IncludeFields = false;
+            SerializeNullValues = false;
+            TrimWhitespace = true;
+            EmptyStringToNull = true;
+            ResolveFieldName = (s) => s;
+            ResolveMember = (t, mi, mm) => { };
+            ResolveCollectionName = (t) => Reflection.IsList(t) ? Reflection.GetListItemType(t).Name : t.Name;
+            IncludeFields = false;
 
             _typeInstantiator = customTypeInstantiator ?? Reflection.CreateInstance;
 
@@ -184,7 +184,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public BsonMapper UseCamelCase()
         {
-            this.ResolveFieldName = (s) => char.ToLower(s[0]) + s.Substring(1);
+            ResolveFieldName = (s) => char.ToLower(s[0]) + s.Substring(1);
 
             return this;
         }
@@ -196,7 +196,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public BsonMapper UseLowerCaseDelimiter(char delimiter = '_')
         {
-            this.ResolveFieldName = (s) => _lowerCaseDelimiter.Replace(s, delimiter + "$2").ToLower();
+            ResolveFieldName = (s) => _lowerCaseDelimiter.Replace(s, delimiter + "$2").ToLower();
 
             return this;
         }
@@ -212,7 +212,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             //TODO: needs check if Type if BsonDocument? Returns empty EntityMapper?
 
-            if (!_entities.TryGetValue(type, out EntityMapper mapper))
+            if (!_entities.TryGetValue(type, out var mapper))
             {
                 lock (_entities)
                 {
@@ -244,8 +244,8 @@ namespace Lenneth.Core.Framework.LiteDB
             var indexAttr = typeof(BsonIndexAttribute);
             var dbrefAttr = typeof(BsonRefAttribute);
 
-            var members = this.GetTypeMembers(type);
-            var id = this.GetIdMember(members);
+            var members = GetTypeMembers(type);
+            var id = GetIdMember(members);
 
             foreach (var memberInfo in members)
             {
@@ -253,7 +253,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 if (memberInfo.IsDefined(ignoreAttr, true)) continue;
 
                 // checks field name conversion
-                var name = this.ResolveFieldName(memberInfo.Name);
+                var name = ResolveFieldName(memberInfo.Name);
 
                 // check if property has [BsonField]
                 var field = (BsonFieldAttribute)memberInfo.GetCustomAttributes(fieldAttr, false).FirstOrDefault();
@@ -306,13 +306,13 @@ namespace Lenneth.Core.Framework.LiteDB
 
                 if (dbRef != null && memberInfo is PropertyInfo)
                 {
-                    BsonMapper.RegisterDbRef(this, member, dbRef.Collection ?? this.ResolveCollectionName((memberInfo as PropertyInfo).PropertyType));
+                    RegisterDbRef(this, member, dbRef.Collection ?? ResolveCollectionName((memberInfo as PropertyInfo).PropertyType));
                 }
 
                 // support callback to user modify member mapper
-                if (this.ResolveMember != null)
+                if (ResolveMember != null)
                 {
-                    this.ResolveMember(type, memberInfo, member);
+                    ResolveMember(type, memberInfo, member);
                 }
 
                 // test if has name and there is no duplicate field
@@ -347,7 +347,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             var members = new List<MemberInfo>();
 
-            var flags = this.IncludeNonPublic ?
+            var flags = IncludeNonPublic ?
                 (BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance) :
                 (BindingFlags.Public | BindingFlags.Instance);
 
@@ -355,7 +355,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 .Where(x => x.CanRead && x.GetIndexParameters().Length == 0)
                 .Select(x => x as MemberInfo));
 
-            if(this.IncludeFields)
+            if(IncludeFields)
             {
                 members.AddRange(type.GetFields(flags).Where(x => !x.Name.EndsWith("k__BackingField") && x.IsStatic == false).Select(x => x as MemberInfo));
             }

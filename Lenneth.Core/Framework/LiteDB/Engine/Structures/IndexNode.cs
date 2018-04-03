@@ -75,7 +75,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public PageAddress NextPrev(int index, int order)
         {
-            return order == Query.Ascending ? this.Next[index] : this.Prev[index];
+            return order == Query.Ascending ? Next[index] : Prev[index];
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public bool IsHeadTail(CollectionIndex index)
         {
-            return this.Position.Equals(index.HeadNode) || this.Position.Equals(index.TailNode);
+            return Position.Equals(index.HeadNode) || Position.Equals(index.TailNode);
         }
 
         /// <summary>
@@ -93,9 +93,9 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             get
             {
-                return IndexNode.INDEX_NODE_FIXED_SIZE +
-                    (this.Prev.Length * PageAddress.SIZE * 2) + // Prev + Next
-                    this.KeyLength; // bytes count in BsonValue
+                return INDEX_NODE_FIXED_SIZE +
+                    (Prev.Length * PageAddress.SIZE * 2) + // Prev + Next
+                    KeyLength; // bytes count in BsonValue
             }
         }
 
@@ -106,17 +106,17 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public IndexNode(byte level)
         {
-            this.Position = PageAddress.Empty;
-            this.PrevNode = PageAddress.Empty;
-            this.NextNode = PageAddress.Empty;
-            this.DataBlock = PageAddress.Empty;
-            this.Prev = new PageAddress[level];
-            this.Next = new PageAddress[level];
+            Position = PageAddress.Empty;
+            PrevNode = PageAddress.Empty;
+            NextNode = PageAddress.Empty;
+            DataBlock = PageAddress.Empty;
+            Prev = new PageAddress[level];
+            Next = new PageAddress[level];
 
             for (var i = 0; i < level; i++)
             {
-                this.Prev[i] = PageAddress.Empty;
-                this.Next[i] = PageAddress.Empty;
+                Prev[i] = PageAddress.Empty;
+                Next[i] = PageAddress.Empty;
             }
         }
     }
@@ -125,7 +125,7 @@ namespace Lenneth.Core.Framework.LiteDB
     {
         public bool Equals(IndexNode x, IndexNode y)
         {
-            if (object.ReferenceEquals(x, y)) return true;
+            if (ReferenceEquals(x, y)) return true;
 
             if (x == null || y == null) return false;
 

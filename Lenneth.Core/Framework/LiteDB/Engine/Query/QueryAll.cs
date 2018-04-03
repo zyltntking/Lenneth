@@ -28,8 +28,8 @@ namespace Lenneth.Core.Framework.LiteDB
         public override string ToString()
         {
             return string.Format("{0}({1})",
-                this.UseFilter ? "Filter" : this.UseIndex ? "Scan" : "",
-                this.Expression?.ToString() ?? this.Field);
+                UseFilter ? "Filter" : UseIndex ? "Scan" : "",
+                Expression?.ToString() ?? Field);
         }
     }
 }

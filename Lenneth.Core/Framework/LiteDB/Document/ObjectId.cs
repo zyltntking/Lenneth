@@ -42,7 +42,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public DateTime CreationTime
         {
-            get { return BsonValue.UnixEpoch.AddSeconds(this.Timestamp); }
+            get { return BsonValue.UnixEpoch.AddSeconds(Timestamp); }
         }
 
         #endregion
@@ -54,10 +54,10 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public ObjectId()
         {
-            this.Timestamp = 0;
-            this.Machine = 0;
-            this.Pid = 0;
-            this.Increment = 0;
+            Timestamp = 0;
+            Machine = 0;
+            Pid = 0;
+            Increment = 0;
         }
 
         /// <summary>
@@ -65,10 +65,10 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public ObjectId(int timestamp, int machine, short pid, int increment)
         {
-            this.Timestamp = timestamp;
-            this.Machine = machine;
-            this.Pid = pid;
-            this.Increment = increment;
+            Timestamp = timestamp;
+            Machine = machine;
+            Pid = pid;
+            Increment = increment;
         }
 
         /// <summary>
@@ -76,10 +76,10 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public ObjectId(ObjectId from)
         {
-            this.Timestamp = from.Timestamp;
-            this.Machine = from.Machine;
-            this.Pid = from.Pid;
-            this.Increment = from.Increment;
+            Timestamp = from.Timestamp;
+            Machine = from.Machine;
+            Pid = from.Pid;
+            Increment = from.Increment;
         }
 
         /// <summary>
@@ -98,10 +98,10 @@ namespace Lenneth.Core.Framework.LiteDB
             if (bytes == null) throw new ArgumentNullException(nameof(bytes));
             if (bytes.Length != 12) throw new ArgumentException(nameof(bytes), "Byte array must be 12 bytes long");
 
-            this.Timestamp = (bytes[0] << 24) + (bytes[1] << 16) + (bytes[2] << 8) + bytes[3];
-            this.Machine = (bytes[4] << 16) + (bytes[5] << 8) + bytes[6];
-            this.Pid = (short)((bytes[7] << 8) + bytes[8]);
-            this.Increment = (bytes[9] << 16) + (bytes[10] << 8) + bytes[11];
+            Timestamp = (bytes[0] << 24) + (bytes[1] << 16) + (bytes[2] << 8) + bytes[3];
+            Machine = (bytes[4] << 16) + (bytes[5] << 8) + bytes[6];
+            Pid = (short)((bytes[7] << 8) + bytes[8]);
+            Increment = (bytes[9] << 16) + (bytes[10] << 8) + bytes[11];
         }
 
         /// <summary>
@@ -134,10 +134,10 @@ namespace Lenneth.Core.Framework.LiteDB
         public bool Equals(ObjectId other)
         {
             return other != null && 
-                this.Timestamp == other.Timestamp &&
-                this.Machine == other.Machine &&
-                this.Pid == other.Pid &&
-                this.Increment == other.Increment;
+                Timestamp == other.Timestamp &&
+                Machine == other.Machine &&
+                Pid == other.Pid &&
+                Increment == other.Increment;
         }
 
         /// <summary>
@@ -153,11 +153,11 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public override int GetHashCode()
         {
-            int hash = 17;
-            hash = 37 * hash + this.Timestamp.GetHashCode();
-            hash = 37 * hash + this.Machine.GetHashCode();
-            hash = 37 * hash + this.Pid.GetHashCode();
-            hash = 37 * hash + this.Increment.GetHashCode();
+            var hash = 17;
+            hash = 37 * hash + Timestamp.GetHashCode();
+            hash = 37 * hash + Machine.GetHashCode();
+            hash = 37 * hash + Pid.GetHashCode();
+            hash = 37 * hash + Increment.GetHashCode();
             return hash;
         }
 
@@ -166,16 +166,16 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public int CompareTo(ObjectId other)
         {
-            var r = this.Timestamp.CompareTo(other.Timestamp);
+            var r = Timestamp.CompareTo(other.Timestamp);
             if (r != 0) return r;
 
-            r = this.Machine.CompareTo(other.Machine);
+            r = Machine.CompareTo(other.Machine);
             if (r != 0) return r;
 
-            r = this.Pid.CompareTo(other.Pid);
+            r = Pid.CompareTo(other.Pid);
             if (r != 0) return r < 0 ? -1 : 1;
 
-            return this.Increment.CompareTo(other.Increment);
+            return Increment.CompareTo(other.Increment);
         }
 
         /// <summary>
@@ -185,25 +185,25 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             var bytes = new byte[12];
 
-            bytes[0] = (byte)(this.Timestamp >> 24);
-            bytes[1] = (byte)(this.Timestamp >> 16);
-            bytes[2] = (byte)(this.Timestamp >> 8);
-            bytes[3] = (byte)(this.Timestamp);
-            bytes[4] = (byte)(this.Machine >> 16);
-            bytes[5] = (byte)(this.Machine >> 8);
-            bytes[6] = (byte)(this.Machine);
-            bytes[7] = (byte)(this.Pid >> 8);
-            bytes[8] = (byte)(this.Pid);
-            bytes[9] = (byte)(this.Increment >> 16);
-            bytes[10] = (byte)(this.Increment >> 8);
-            bytes[11] = (byte)(this.Increment);
+            bytes[0] = (byte)(Timestamp >> 24);
+            bytes[1] = (byte)(Timestamp >> 16);
+            bytes[2] = (byte)(Timestamp >> 8);
+            bytes[3] = (byte)(Timestamp);
+            bytes[4] = (byte)(Machine >> 16);
+            bytes[5] = (byte)(Machine >> 8);
+            bytes[6] = (byte)(Machine);
+            bytes[7] = (byte)(Pid >> 8);
+            bytes[8] = (byte)(Pid);
+            bytes[9] = (byte)(Increment >> 16);
+            bytes[10] = (byte)(Increment >> 8);
+            bytes[11] = (byte)(Increment);
 
             return bytes;
         }
 
         public override string ToString()
         {
-            return BitConverter.ToString(this.ToByteArray()).Replace("-", "").ToLower();
+            return BitConverter.ToString(ToByteArray()).Replace("-", "").ToLower();
         }
 
         #endregion
@@ -212,8 +212,8 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public static bool operator ==(ObjectId lhs, ObjectId rhs)
         {
-            if (object.ReferenceEquals(lhs, null)) return object.ReferenceEquals(rhs, null);
-            if (object.ReferenceEquals(rhs, null)) return false; // don't check type because sometimes different types can be ==
+            if (ReferenceEquals(lhs, null)) return ReferenceEquals(rhs, null);
+            if (ReferenceEquals(rhs, null)) return false; // don't check type because sometimes different types can be ==
 
             return lhs.Equals(rhs);
         }

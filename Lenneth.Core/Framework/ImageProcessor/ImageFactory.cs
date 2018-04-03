@@ -7,7 +7,6 @@
 //   Encapsulates methods for processing image files in a fluent manner.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -15,26 +14,29 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using Lenneth.Core.Framework.ImageProcessor.Common.Exceptions;
-using Lenneth.Core.Framework.ImageProcessor.Common.Extensions;
-using Lenneth.Core.Framework.ImageProcessor.Configuration;
-using Lenneth.Core.Framework.ImageProcessor.Imaging;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Photo;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.Formats;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData;
-using Lenneth.Core.Framework.ImageProcessor.Processors;
 
 namespace Lenneth.Core.Framework.ImageProcessor
 {
+    using Common.Exceptions;
+    using Common.Extensions;
+    using Configuration;
+    using Imaging;
+    using Imaging.Filters.EdgeDetection;
+    using Imaging.Filters.Photo;
+    using Imaging.Formats;
+    using Imaging.MetaData;
+    using Processors;
+
     // using ImageProcessor.Imaging.Filters.ObjectDetection;
 
+    /// <inheritdoc />
     /// <summary>
     /// Encapsulates methods for processing image files in a fluent manner.
     /// </summary>
-    public class ImageFactory : IDisposable
+    public sealed class ImageFactory : IDisposable
     {
         #region Fields
+
         /// <summary>
         /// The default quality for image files.
         /// </summary>
@@ -43,12 +45,12 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// <summary>
         /// The backup supported image format.
         /// </summary>
-        private ISupportedImageFormat backupFormat;
+        private ISupportedImageFormat _backupFormat;
 
         /// <summary>
         /// The backup collection of property items containing EXIF metadata.
         /// </summary>
-        private ConcurrentDictionary<int, PropertyItem> backupExifPropertyItems;
+        private ConcurrentDictionary<int, PropertyItem> _backupExifPropertyItems;
 
         /// <summary>
         /// A value indicating whether this instance of the given entity has been disposed.
@@ -61,10 +63,12 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// method will not dispose again. This help not to prolong the entity's
         /// life in the Garbage Collector.
         /// </remarks>
-        private bool isDisposed;
-        #endregion
+        private bool _isDisposed;
+
+        #endregion Fields
 
         #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageFactory"/> class.
         /// </summary>
@@ -87,14 +91,16 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </param>
         public ImageFactory(bool preserveExifData, bool fixGamma)
         {
-            this.PreserveExifData = preserveExifData;
-            this.ExifPropertyItems = new ConcurrentDictionary<int, PropertyItem>();
-            this.backupExifPropertyItems = new ConcurrentDictionary<int, PropertyItem>();
-            this.FixGamma = fixGamma;
+            PreserveExifData = preserveExifData;
+            ExifPropertyItems = new ConcurrentDictionary<int, PropertyItem>();
+            _backupExifPropertyItems = new ConcurrentDictionary<int, PropertyItem>();
+            FixGamma = fixGamma;
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Destructors
+
         /// <summary>
         /// Finalizes an instance of the <see cref="T:Lenneth.Core.Framework.ImageProcessor.ImageFactory">ImageFactory</see> class.
         /// </summary>
@@ -110,11 +116,13 @@ namespace Lenneth.Core.Framework.ImageProcessor
             // Do not re-create Dispose clean-up code here.
             // Calling Dispose(false) is optimal in terms of
             // readability and maintainability.
-            this.Dispose(false);
+            Dispose(false);
         }
-        #endregion
+
+        #endregion Destructors
 
         #region Properties
+
         /// <summary>
         /// Gets the color depth in number of bits per pixel to save the image with.
         /// This can be used to change the bit depth of images that can be saved with different
@@ -171,9 +179,11 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// Gets or sets the stream for storing any input stream to prevent disposal.
         /// </summary>
         internal Stream InputStream { get; set; }
-        #endregion
+
+        #endregion Properties
 
         #region Methods
+
         /// <summary>
         /// Loads the image to process. Always call this method first.
         /// </summary>
@@ -185,7 +195,7 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Load(Stream stream)
         {
-            MemoryStream memoryStream = new MemoryStream();
+            var memoryStream = new MemoryStream();
 
             // Copy the stream. Disposal of the input stream is the responsibility
             // of the user.
@@ -197,50 +207,50 @@ namespace Lenneth.Core.Framework.ImageProcessor
                 stream.Position = 0;
             }
 
-            ISupportedImageFormat format = FormatUtilities.GetFormat(memoryStream);
+            var format = FormatUtilities.GetFormat(memoryStream);
             if (format == null)
             {
                 throw new ImageFormatException("Input stream is not a supported format.");
             }
 
             // Set our image as the memory stream value.
-            this.Image = format.Load(memoryStream);
+            Image = format.Load(memoryStream);
 
             // Save the bit depth
-            this.CurrentBitDepth = Image.GetPixelFormatSize(this.Image.PixelFormat);
+            CurrentBitDepth = Image.GetPixelFormatSize(Image.PixelFormat);
 
             // Store the stream so we can dispose of it later.
-            this.InputStream = memoryStream;
+            InputStream = memoryStream;
 
             // Set the other properties.
             format.Quality = DefaultQuality;
-            format.IsIndexed = FormatUtilities.IsIndexed(this.Image);
+            format.IsIndexed = FormatUtilities.IsIndexed(Image);
 
-            this.backupFormat = format;
-            this.CurrentImageFormat = format;
+            _backupFormat = format;
+            CurrentImageFormat = format;
 
             // Always load the data.
             // TODO. Some custom data doesn't seem to get copied by default methods.
-            foreach (int id in this.Image.PropertyIdList)
+            foreach (var id in Image.PropertyIdList)
             {
-                this.ExifPropertyItems[id] = this.Image.GetPropertyItem(id);
+                ExifPropertyItems[id] = Image.GetPropertyItem(id);
             }
 
-            IAnimatedImageFormat imageFormat = this.CurrentImageFormat as IAnimatedImageFormat;
+            var imageFormat = CurrentImageFormat as IAnimatedImageFormat;
             if (imageFormat != null)
             {
-                imageFormat.AnimationProcessMode = this.AnimationProcessMode;
+                imageFormat.AnimationProcessMode = AnimationProcessMode;
             }
 
-            this.backupExifPropertyItems = this.ExifPropertyItems;
+            _backupExifPropertyItems = ExifPropertyItems;
 
             // Ensure the image is in the most efficient format.
-            Image formatted = this.Image.Copy(this.AnimationProcessMode);
+            var formatted = Image.Copy(AnimationProcessMode);
 
-            this.Image.Dispose();
-            this.Image = formatted;
+            Image.Dispose();
+            Image = formatted;
 
-            this.ShouldProcess = true;
+            ShouldProcess = true;
 
             return this;
         }
@@ -254,22 +264,22 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Load(string imagePath)
         {
-            FileInfo fileInfo = new FileInfo(imagePath);
+            var fileInfo = new FileInfo(imagePath);
             if (fileInfo.Exists)
             {
-                this.ImagePath = imagePath;
+                ImagePath = imagePath;
 
                 // Open a file stream to prevent the need for lock.
-                using (FileStream fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+                using (var fileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
                 {
-                    ISupportedImageFormat format = FormatUtilities.GetFormat(fileStream);
+                    var format = FormatUtilities.GetFormat(fileStream);
 
                     if (format == null)
                     {
                         throw new ImageFormatException("Input stream is not a supported format.");
                     }
 
-                    MemoryStream memoryStream = new MemoryStream();
+                    var memoryStream = new MemoryStream();
 
                     // Copy the stream.
                     fileStream.CopyTo(memoryStream);
@@ -278,42 +288,42 @@ namespace Lenneth.Core.Framework.ImageProcessor
                     memoryStream.Position = 0;
 
                     // Set our image as the memory stream value.
-                    this.Image = format.Load(memoryStream);
+                    Image = format.Load(memoryStream);
 
                     // Save the bit depth
-                    this.CurrentBitDepth = Image.GetPixelFormatSize(this.Image.PixelFormat);
+                    CurrentBitDepth = Image.GetPixelFormatSize(Image.PixelFormat);
 
                     // Store the stream so we can dispose of it later.
-                    this.InputStream = memoryStream;
+                    InputStream = memoryStream;
 
                     // Set the other properties.
                     format.Quality = DefaultQuality;
-                    format.IsIndexed = FormatUtilities.IsIndexed(this.Image);
+                    format.IsIndexed = FormatUtilities.IsIndexed(Image);
 
-                    this.backupFormat = format;
-                    this.CurrentImageFormat = format;
+                    _backupFormat = format;
+                    CurrentImageFormat = format;
 
                     // Always load the data.
-                    foreach (PropertyItem propertyItem in this.Image.PropertyItems)
+                    foreach (var propertyItem in Image.PropertyItems)
                     {
-                        this.ExifPropertyItems[propertyItem.Id] = propertyItem;
+                        ExifPropertyItems[propertyItem.Id] = propertyItem;
                     }
 
-                    this.backupExifPropertyItems = this.ExifPropertyItems;
+                    _backupExifPropertyItems = ExifPropertyItems;
 
-                    IAnimatedImageFormat imageFormat = this.CurrentImageFormat as IAnimatedImageFormat;
+                    var imageFormat = CurrentImageFormat as IAnimatedImageFormat;
                     if (imageFormat != null)
                     {
-                        imageFormat.AnimationProcessMode = this.AnimationProcessMode;
+                        imageFormat.AnimationProcessMode = AnimationProcessMode;
                     }
 
                     // Ensure the image is in the most efficient format.
-                    Image formatted = this.Image.Copy(this.AnimationProcessMode);
+                    var formatted = Image.Copy(AnimationProcessMode);
 
-                    this.Image.Dispose();
-                    this.Image = formatted;
+                    Image.Dispose();
+                    Image = formatted;
 
-                    this.ShouldProcess = true;
+                    ShouldProcess = true;
                 }
             }
             else
@@ -335,9 +345,9 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Load(byte[] bytes)
         {
-            MemoryStream memoryStream = new MemoryStream(bytes);
+            var memoryStream = new MemoryStream(bytes);
 
-            ISupportedImageFormat format = FormatUtilities.GetFormat(memoryStream);
+            var format = FormatUtilities.GetFormat(memoryStream);
 
             if (format == null)
             {
@@ -345,40 +355,40 @@ namespace Lenneth.Core.Framework.ImageProcessor
             }
 
             // Set our image as the memory stream value.
-            this.Image = format.Load(memoryStream);
+            Image = format.Load(memoryStream);
 
             // Save the bit depth
-            this.CurrentBitDepth = Image.GetPixelFormatSize(this.Image.PixelFormat);
+            CurrentBitDepth = Image.GetPixelFormatSize(Image.PixelFormat);
 
             // Store the stream so we can dispose of it later.
-            this.InputStream = memoryStream;
+            InputStream = memoryStream;
 
             // Set the other properties.
             format.Quality = DefaultQuality;
-            format.IsIndexed = FormatUtilities.IsIndexed(this.Image);
+            format.IsIndexed = FormatUtilities.IsIndexed(Image);
 
-            this.backupFormat = format;
-            this.CurrentImageFormat = format;
+            _backupFormat = format;
+            CurrentImageFormat = format;
 
             // Always load the data.
-            foreach (int id in this.Image.PropertyIdList)
+            foreach (var id in Image.PropertyIdList)
             {
-                this.ExifPropertyItems[id] = this.Image.GetPropertyItem(id);
+                ExifPropertyItems[id] = Image.GetPropertyItem(id);
             }
 
-            IAnimatedImageFormat imageFormat = this.CurrentImageFormat as IAnimatedImageFormat;
+            var imageFormat = CurrentImageFormat as IAnimatedImageFormat;
             if (imageFormat != null)
             {
-                imageFormat.AnimationProcessMode = this.AnimationProcessMode;
+                imageFormat.AnimationProcessMode = AnimationProcessMode;
             }
 
             // Ensure the image is in the most efficient format.
-            Image formatted = this.Image.Copy(this.AnimationProcessMode);
+            var formatted = Image.Copy(AnimationProcessMode);
 
-            this.Image.Dispose();
-            this.Image = formatted;
+            Image.Dispose();
+            Image = formatted;
 
-            this.ShouldProcess = true;
+            ShouldProcess = true;
 
             return this;
         }
@@ -398,7 +408,7 @@ namespace Lenneth.Core.Framework.ImageProcessor
             // Try saving with the raw format. This might not be possible if the image was created
             // in-memory so we fall back to BMP to keep in line with the default in System.Drawing
             // if no format found.
-            MemoryStream memoryStream = new MemoryStream();
+            var memoryStream = new MemoryStream();
             ISupportedImageFormat format = new BitmapFormat();
             try
             {
@@ -411,36 +421,36 @@ namespace Lenneth.Core.Framework.ImageProcessor
                 image.Save(memoryStream, ImageFormat.Bmp);
             }
 
-            IAnimatedImageFormat imageFormat = format as IAnimatedImageFormat;
+            var imageFormat = format as IAnimatedImageFormat;
             if (imageFormat != null)
             {
-                imageFormat.AnimationProcessMode = this.AnimationProcessMode;
+                imageFormat.AnimationProcessMode = AnimationProcessMode;
             }
 
             // Ensure the image is in the most efficient format.
             // Set our image.
-            this.Image = image.Copy(this.AnimationProcessMode);
+            Image = image.Copy(AnimationProcessMode);
 
             // Save the bit depth
-            this.CurrentBitDepth = Image.GetPixelFormatSize(this.Image.PixelFormat);
+            CurrentBitDepth = Image.GetPixelFormatSize(Image.PixelFormat);
 
             // Store the stream so we can dispose of it later.
-            this.InputStream = memoryStream;
+            InputStream = memoryStream;
 
             // Set the other properties.
             format.Quality = DefaultQuality;
-            format.IsIndexed = FormatUtilities.IsIndexed(this.Image);
+            format.IsIndexed = FormatUtilities.IsIndexed(Image);
 
-            this.backupFormat = format;
-            this.CurrentImageFormat = format;
+            _backupFormat = format;
+            CurrentImageFormat = format;
 
             // Always load the data.
-            foreach (int id in this.Image.PropertyIdList)
+            foreach (var id in Image.PropertyIdList)
             {
-                this.ExifPropertyItems[id] = this.Image.GetPropertyItem(id);
+                ExifPropertyItems[id] = Image.GetPropertyItem(id);
             }
 
-            this.ShouldProcess = true;
+            ShouldProcess = true;
 
             return this;
         }
@@ -453,34 +463,35 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Reset()
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 // Set our new image as the memory stream value.
-                if (this.InputStream.CanSeek)
+                if (InputStream.CanSeek)
                 {
-                    this.InputStream.Position = 0;
+                    InputStream.Position = 0;
                 }
 
                 // Reset properties.
-                this.CurrentImageFormat = this.backupFormat;
-                this.ExifPropertyItems = this.backupExifPropertyItems;
-                this.CurrentImageFormat.Quality = DefaultQuality;
+                CurrentImageFormat = _backupFormat;
+                ExifPropertyItems = _backupExifPropertyItems;
+                CurrentImageFormat.Quality = DefaultQuality;
 
-                Image newImage = this.backupFormat.Load(this.InputStream);
+                var newImage = _backupFormat.Load(InputStream);
 
                 // Dispose and reassign the image.
                 // Ensure the image is in the most efficient format.
-                Image formatted = newImage.Copy(this.AnimationProcessMode);
+                var formatted = newImage.Copy(AnimationProcessMode);
 
                 newImage.Dispose();
-                this.Image.Dispose();
-                this.Image = formatted;
+                Image.Dispose();
+                Image = formatted;
             }
 
             return this;
         }
 
         #region Manipulation
+
         /// <summary>
         /// Changes the opacity of the current image.
         /// </summary>
@@ -493,7 +504,7 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Alpha(int percentage)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 // Sanitize the input.
                 // You can't make an image less transparent.
@@ -502,8 +513,8 @@ namespace Lenneth.Core.Framework.ImageProcessor
                     return this;
                 }
 
-                Alpha alpha = new Alpha { DynamicParameter = percentage };
-                this.backupFormat.ApplyProcessor(alpha.ProcessImage, this);
+                var alpha = new Alpha { DynamicParameter = percentage };
+                _backupFormat.ApplyProcessor(alpha.ProcessImage, this);
             }
 
             return this;
@@ -518,10 +529,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory AutoRotate()
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                AutoRotate autoRotate = new AutoRotate();
-                this.backupFormat.ApplyProcessor(autoRotate.ProcessImage, this);
+                var autoRotate = new AutoRotate();
+                _backupFormat.ApplyProcessor(autoRotate.ProcessImage, this);
             }
 
             return this;
@@ -540,9 +551,9 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory BitDepth(long bitDepth)
         {
-            if (bitDepth > 0 && this.ShouldProcess)
+            if (bitDepth > 0 && ShouldProcess)
             {
-                this.CurrentBitDepth = bitDepth;
+                CurrentBitDepth = bitDepth;
             }
 
             return this;
@@ -560,7 +571,7 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Brightness(int percentage)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 // Sanitize the input.
                 if (percentage > 100 || percentage < -100 || percentage == 0)
@@ -568,8 +579,8 @@ namespace Lenneth.Core.Framework.ImageProcessor
                     return this;
                 }
 
-                Brightness brightness = new Brightness { DynamicParameter = percentage };
-                this.backupFormat.ApplyProcessor(brightness.ProcessImage, this);
+                var brightness = new Brightness { DynamicParameter = percentage };
+                _backupFormat.ApplyProcessor(brightness.ProcessImage, this);
             }
 
             return this;
@@ -586,10 +597,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory BackgroundColor(Color color)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                BackgroundColor backgroundColor = new BackgroundColor { DynamicParameter = color };
-                this.backupFormat.ApplyProcessor(backgroundColor.ProcessImage, this);
+                var backgroundColor = new BackgroundColor { DynamicParameter = color };
+                _backupFormat.ApplyProcessor(backgroundColor.ProcessImage, this);
             }
 
             return this;
@@ -606,11 +617,11 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Constrain(Size size)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                ResizeLayer layer = new ResizeLayer(size, ResizeMode.Max);
+                var layer = new ResizeLayer(size, ResizeMode.Max);
 
-                return this.Resize(layer);
+                return Resize(layer);
             }
 
             return this;
@@ -628,7 +639,7 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Contrast(int percentage)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 // Sanitize the input.
                 if (percentage > 100 || percentage < -100)
@@ -636,8 +647,8 @@ namespace Lenneth.Core.Framework.ImageProcessor
                     return this;
                 }
 
-                Contrast contrast = new Contrast { DynamicParameter = percentage };
-                this.backupFormat.ApplyProcessor(contrast.ProcessImage, this);
+                var contrast = new Contrast { DynamicParameter = percentage };
+                _backupFormat.ApplyProcessor(contrast.ProcessImage, this);
             }
 
             return this;
@@ -654,10 +665,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Crop(Rectangle rectangle)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                CropLayer cropLayer = new CropLayer(rectangle.Left, rectangle.Top, rectangle.Width, rectangle.Height, CropMode.Pixels);
-                return this.Crop(cropLayer);
+                var cropLayer = new CropLayer(rectangle.Left, rectangle.Top, rectangle.Width, rectangle.Height, CropMode.Pixels);
+                return Crop(cropLayer);
             }
 
             return this;
@@ -674,10 +685,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Crop(CropLayer cropLayer)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                Crop crop = new Crop { DynamicParameter = cropLayer };
-                this.backupFormat.ApplyProcessor(crop.ProcessImage, this);
+                var crop = new Crop { DynamicParameter = cropLayer };
+                _backupFormat.ApplyProcessor(crop.ProcessImage, this);
             }
 
             return this;
@@ -697,10 +708,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory DetectEdges(IEdgeFilter filter, bool greyscale = true)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                DetectEdges detectEdges = new DetectEdges { DynamicParameter = new Tuple<IEdgeFilter, bool>(filter, greyscale) };
-                this.backupFormat.ApplyProcessor(detectEdges.ProcessImage, this);
+                var detectEdges = new DetectEdges { DynamicParameter = new Tuple<IEdgeFilter, bool>(filter, greyscale) };
+                _backupFormat.ApplyProcessor(detectEdges.ProcessImage, this);
             }
 
             return this;
@@ -723,7 +734,7 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Resolution(int horizontal, int vertical, PropertyTagResolutionUnit unit = PropertyTagResolutionUnit.Inch)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 // Sanitize the input.
                 if (horizontal < 0 || vertical < 0)
@@ -731,11 +742,11 @@ namespace Lenneth.Core.Framework.ImageProcessor
                     return this;
                 }
 
-                Tuple<int, int, PropertyTagResolutionUnit> resolution =
+                var resolution =
                     new Tuple<int, int, PropertyTagResolutionUnit>(horizontal, vertical, unit);
 
-                Resolution dpi = new Resolution { DynamicParameter = resolution };
-                this.backupFormat.ApplyProcessor(dpi.ProcessImage, this);
+                var dpi = new Resolution { DynamicParameter = resolution };
+                _backupFormat.ApplyProcessor(dpi.ProcessImage, this);
             }
 
             return this;
@@ -762,10 +773,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory EntropyCrop(byte threshold = 128)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                EntropyCrop autoCrop = new EntropyCrop { DynamicParameter = threshold };
-                this.backupFormat.ApplyProcessor(autoCrop.ProcessImage, this);
+                var autoCrop = new EntropyCrop { DynamicParameter = threshold };
+                _backupFormat.ApplyProcessor(autoCrop.ProcessImage, this);
             }
 
             return this;
@@ -783,10 +794,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Filter(IMatrixFilter matrixFilter)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                Filter filter = new Filter { DynamicParameter = matrixFilter };
-                this.backupFormat.ApplyProcessor(filter.ProcessImage, this);
+                var filter = new Filter { DynamicParameter = matrixFilter };
+                _backupFormat.ApplyProcessor(filter.ProcessImage, this);
             }
 
             return this;
@@ -806,7 +817,7 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Flip(bool flipVertically = false, bool flipBoth = false)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 RotateFlipType rotateFlipType;
                 if (flipBoth)
@@ -820,8 +831,8 @@ namespace Lenneth.Core.Framework.ImageProcessor
                         : RotateFlipType.RotateNoneFlipX;
                 }
 
-                Flip flip = new Flip { DynamicParameter = rotateFlipType };
-                this.backupFormat.ApplyProcessor(flip.ProcessImage, this);
+                var flip = new Flip { DynamicParameter = rotateFlipType };
+                _backupFormat.ApplyProcessor(flip.ProcessImage, this);
             }
 
             return this;
@@ -836,9 +847,9 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Format(ISupportedImageFormat format)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                this.CurrentImageFormat = format;
+                CurrentImageFormat = format;
 
                 // Apply any fomatting quirks.
                 // this.backupFormat.ApplyProcessor(factory => factory.Image, this);
@@ -858,7 +869,7 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Gamma(float value)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 // Sanitize the input.
                 if (value > 5 || value < .1)
@@ -866,9 +877,9 @@ namespace Lenneth.Core.Framework.ImageProcessor
                     return this;
                 }
 
-                this.CurrentGamma = value;
-                Gamma gamma = new Gamma { DynamicParameter = value };
-                this.backupFormat.ApplyProcessor(gamma.ProcessImage, this);
+                CurrentGamma = value;
+                var gamma = new Gamma { DynamicParameter = value };
+                _backupFormat.ApplyProcessor(gamma.ProcessImage, this);
             }
 
             return this;
@@ -891,10 +902,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory GaussianBlur(int size)
         {
-            if (this.ShouldProcess && size > 0)
+            if (ShouldProcess && size > 0)
             {
-                GaussianLayer layer = new GaussianLayer(size);
-                return this.GaussianBlur(layer);
+                var layer = new GaussianLayer(size);
+                return GaussianBlur(layer);
             }
 
             return this;
@@ -912,10 +923,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory GaussianBlur(GaussianLayer gaussianLayer)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                GaussianBlur gaussianBlur = new GaussianBlur { DynamicParameter = gaussianLayer };
-                this.backupFormat.ApplyProcessor(gaussianBlur.ProcessImage, this);
+                var gaussianBlur = new GaussianBlur { DynamicParameter = gaussianLayer };
+                _backupFormat.ApplyProcessor(gaussianBlur.ProcessImage, this);
             }
 
             return this;
@@ -938,10 +949,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory GaussianSharpen(int size)
         {
-            if (this.ShouldProcess && size > 0)
+            if (ShouldProcess && size > 0)
             {
-                GaussianLayer layer = new GaussianLayer(size);
-                return this.GaussianSharpen(layer);
+                var layer = new GaussianLayer(size);
+                return GaussianSharpen(layer);
             }
 
             return this;
@@ -959,10 +970,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory GaussianSharpen(GaussianLayer gaussianLayer)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                GaussianSharpen gaussianSharpen = new GaussianSharpen { DynamicParameter = gaussianLayer };
-                this.backupFormat.ApplyProcessor(gaussianSharpen.ProcessImage, this);
+                var gaussianSharpen = new GaussianSharpen { DynamicParameter = gaussianLayer };
+                _backupFormat.ApplyProcessor(gaussianSharpen.ProcessImage, this);
             }
 
             return this;
@@ -989,10 +1000,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
                 return this;
             }
 
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                Hue hue = new Hue { DynamicParameter = new Tuple<int, bool>(degrees, rotate) };
-                this.backupFormat.ApplyProcessor(hue.ProcessImage, this);
+                var hue = new Hue { DynamicParameter = new Tuple<int, bool>(degrees, rotate) };
+                _backupFormat.ApplyProcessor(hue.ProcessImage, this);
             }
 
             return this;
@@ -1009,10 +1020,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Halftone(bool comicMode = false)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                Halftone halftone = new Halftone { DynamicParameter = comicMode };
-                this.backupFormat.ApplyProcessor(halftone.ProcessImage, this);
+                var halftone = new Halftone { DynamicParameter = comicMode };
+                _backupFormat.ApplyProcessor(halftone.ProcessImage, this);
             }
 
             return this;
@@ -1034,10 +1045,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Mask(ImageLayer imageLayer)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                Mask mask = new Mask { DynamicParameter = imageLayer };
-                this.backupFormat.ApplyProcessor(mask.ProcessImage, this);
+                var mask = new Mask { DynamicParameter = imageLayer };
+                _backupFormat.ApplyProcessor(mask.ProcessImage, this);
             }
 
             return this;
@@ -1055,10 +1066,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Overlay(ImageLayer imageLayer)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                Overlay watermark = new Overlay { DynamicParameter = imageLayer };
-                this.backupFormat.ApplyProcessor(watermark.ProcessImage, this);
+                var watermark = new Overlay { DynamicParameter = imageLayer };
+                _backupFormat.ApplyProcessor(watermark.ProcessImage, this);
             }
 
             return this;
@@ -1077,10 +1088,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Pixelate(int pixelSize, Rectangle? rectangle = null)
         {
-            if (this.ShouldProcess && pixelSize > 0)
+            if (ShouldProcess && pixelSize > 0)
             {
-                Pixelate pixelate = new Pixelate { DynamicParameter = new Tuple<int, Rectangle?>(pixelSize, rectangle) };
-                this.backupFormat.ApplyProcessor(pixelate.ProcessImage, this);
+                var pixelate = new Pixelate { DynamicParameter = new Tuple<int, Rectangle?>(pixelSize, rectangle) };
+                _backupFormat.ApplyProcessor(pixelate.ProcessImage, this);
             }
 
             return this;
@@ -1098,9 +1109,9 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Quality(int percentage)
         {
-            if (percentage <= 100 && percentage >= 0 && this.ShouldProcess)
+            if (percentage <= 100 && percentage >= 0 && ShouldProcess)
             {
-                this.CurrentImageFormat.Quality = percentage;
+                CurrentImageFormat.Quality = percentage;
             }
 
             return this;
@@ -1129,13 +1140,13 @@ namespace Lenneth.Core.Framework.ImageProcessor
                 return this;
             }
 
-            if (this.ShouldProcess && target != Color.Empty && replacement != Color.Empty)
+            if (ShouldProcess && target != Color.Empty && replacement != Color.Empty)
             {
-                ReplaceColor replaceColor = new ReplaceColor
+                var replaceColor = new ReplaceColor
                 {
                     DynamicParameter = new Tuple<Color, Color, int>(target, replacement, fuzziness)
                 };
-                this.backupFormat.ApplyProcessor(replaceColor.ProcessImage, this);
+                _backupFormat.ApplyProcessor(replaceColor.ProcessImage, this);
             }
 
             return this;
@@ -1152,13 +1163,13 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Resize(Size size)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                int width = size.Width;
-                int height = size.Height;
+                var width = size.Width;
+                var height = size.Height;
 
-                ResizeLayer resizeLayer = new ResizeLayer(new Size(width, height));
-                return this.Resize(resizeLayer);
+                var resizeLayer = new ResizeLayer(new Size(width, height));
+                return Resize(resizeLayer);
             }
 
             return this;
@@ -1175,16 +1186,16 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Resize(ResizeLayer resizeLayer)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                Dictionary<string, string> resizeSettings = new Dictionary<string, string>
+                var resizeSettings = new Dictionary<string, string>
                 {
                     { "MaxWidth", resizeLayer.Size.Width.ToString("G") },
                     { "MaxHeight", resizeLayer.Size.Height.ToString("G") }
                 };
 
-                Resize resize = new Resize { DynamicParameter = resizeLayer, Settings = resizeSettings };
-                this.backupFormat.ApplyProcessor(resize.ProcessImage, this);
+                var resize = new Resize { DynamicParameter = resizeLayer, Settings = resizeSettings };
+                _backupFormat.ApplyProcessor(resize.ProcessImage, this);
             }
 
             return this;
@@ -1201,10 +1212,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Rotate(float degrees)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                Rotate rotate = new Rotate { DynamicParameter = degrees };
-                this.backupFormat.ApplyProcessor(rotate.ProcessImage, this);
+                var rotate = new Rotate { DynamicParameter = degrees };
+                _backupFormat.ApplyProcessor(rotate.ProcessImage, this);
             }
 
             return this;
@@ -1230,10 +1241,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory RotateBounded(float degrees, bool keepSize = false)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                RotateBounded rotate = new RotateBounded { DynamicParameter = new Tuple<float, bool>(degrees, keepSize) };
-                this.backupFormat.ApplyProcessor(rotate.ProcessImage, this);
+                var rotate = new RotateBounded { DynamicParameter = new Tuple<float, bool>(degrees, keepSize) };
+                _backupFormat.ApplyProcessor(rotate.ProcessImage, this);
             }
 
             return this;
@@ -1250,17 +1261,17 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory RoundedCorners(int radius)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 if (radius < 0)
                 {
                     radius = 0;
                 }
 
-                RoundedCornerLayer roundedCornerLayer = new RoundedCornerLayer(radius);
+                var roundedCornerLayer = new RoundedCornerLayer(radius);
 
-                RoundedCorners roundedCorners = new RoundedCorners { DynamicParameter = roundedCornerLayer };
-                this.backupFormat.ApplyProcessor(roundedCorners.ProcessImage, this);
+                var roundedCorners = new RoundedCorners { DynamicParameter = roundedCornerLayer };
+                _backupFormat.ApplyProcessor(roundedCorners.ProcessImage, this);
             }
 
             return this;
@@ -1277,15 +1288,15 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory RoundedCorners(RoundedCornerLayer roundedCornerLayer)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 if (roundedCornerLayer.Radius < 0)
                 {
                     roundedCornerLayer.Radius = 0;
                 }
 
-                RoundedCorners roundedCorners = new RoundedCorners { DynamicParameter = roundedCornerLayer };
-                this.backupFormat.ApplyProcessor(roundedCorners.ProcessImage, this);
+                var roundedCorners = new RoundedCorners { DynamicParameter = roundedCornerLayer };
+                _backupFormat.ApplyProcessor(roundedCorners.ProcessImage, this);
             }
 
             return this;
@@ -1303,7 +1314,7 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Saturation(int percentage)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 // Sanitize the input.
                 if (percentage > 100 || percentage < -100)
@@ -1311,8 +1322,8 @@ namespace Lenneth.Core.Framework.ImageProcessor
                     return this;
                 }
 
-                Saturation saturate = new Saturation { DynamicParameter = percentage };
-                this.backupFormat.ApplyProcessor(saturate.ProcessImage, this);
+                var saturate = new Saturation { DynamicParameter = percentage };
+                _backupFormat.ApplyProcessor(saturate.ProcessImage, this);
             }
 
             return this;
@@ -1329,10 +1340,10 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Tint(Color color)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                Tint tint = new Tint { DynamicParameter = color };
-                this.backupFormat.ApplyProcessor(tint.ProcessImage, this);
+                var tint = new Tint { DynamicParameter = color };
+                _backupFormat.ApplyProcessor(tint.ProcessImage, this);
             }
 
             return this;
@@ -1349,16 +1360,16 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Vignette(Color? color = null)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                Vignette vignette = new Vignette
+                var vignette = new Vignette
                 {
                     DynamicParameter = color.HasValue && !color.Equals(Color.Transparent)
                                         ? color.Value
                                         : Color.Black
                 };
 
-                this.backupFormat.ApplyProcessor(vignette.ProcessImage, this);
+                _backupFormat.ApplyProcessor(vignette.ProcessImage, this);
             }
 
             return this;
@@ -1376,15 +1387,16 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Watermark(TextLayer textLayer)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
-                Watermark watermark = new Watermark { DynamicParameter = textLayer };
-                this.backupFormat.ApplyProcessor(watermark.ProcessImage, this);
+                var watermark = new Watermark { DynamicParameter = textLayer };
+                _backupFormat.ApplyProcessor(watermark.ProcessImage, this);
             }
 
             return this;
         }
-        #endregion
+
+        #endregion Manipulation
 
         /// <summary>
         /// Saves the current image to the specified file path. If the extension does not
@@ -1397,38 +1409,38 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Save(string filePath)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 // ReSharper disable once AssignNullToNotNullAttribute
-                DirectoryInfo directoryInfo = new DirectoryInfo(Path.GetDirectoryName(filePath));
+                var directoryInfo = new DirectoryInfo(Path.GetDirectoryName(filePath));
                 if (!directoryInfo.Exists)
                 {
                     directoryInfo.Create();
                 }
 
                 // Clear property items.
-                if (!this.PreserveExifData)
+                if (!PreserveExifData)
                 {
-                    this.ClearExif(this.Image);
+                    ClearExif(Image);
                 }
                 else
                 {
-                    foreach (KeyValuePair<int, PropertyItem> propertItem in this.ExifPropertyItems)
+                    foreach (var propertItem in ExifPropertyItems)
                     {
-                        // Nasty fix but should handle issue 
+                        // Nasty fix but should handle issue
                         // https://github.com/JimBobSquarePants/ImageProcessor/issues/571
                         try
                         {
-                            this.Image.SetPropertyItem(propertItem.Value);
+                            Image.SetPropertyItem(propertItem.Value);
                         }
                         catch
                         {
-                            continue;
+                            // ignored
                         }
                     }
                 }
 
-                this.Image = this.CurrentImageFormat.Save(filePath, this.Image, this.CurrentBitDepth);
+                Image = CurrentImageFormat.Save(filePath, Image, CurrentBitDepth);
             }
 
             return this;
@@ -1445,7 +1457,7 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// </returns>
         public ImageFactory Save(Stream stream)
         {
-            if (this.ShouldProcess)
+            if (ShouldProcess)
             {
                 // Allow the same stream to be used as for input.
                 if (stream.CanSeek)
@@ -1454,28 +1466,28 @@ namespace Lenneth.Core.Framework.ImageProcessor
                 }
 
                 // Clear property items.
-                if (!this.PreserveExifData)
+                if (!PreserveExifData)
                 {
-                    this.ClearExif(this.Image);
+                    ClearExif(Image);
                 }
                 else
                 {
-                    foreach (KeyValuePair<int, PropertyItem> propertItem in this.ExifPropertyItems)
+                    foreach (var propertItem in ExifPropertyItems)
                     {
-                        // Nasty fix but should handle issue 
+                        // Nasty fix but should handle issue
                         // https://github.com/JimBobSquarePants/ImageProcessor/issues/571
                         try
                         {
-                            this.Image.SetPropertyItem(propertItem.Value);
+                            Image.SetPropertyItem(propertItem.Value);
                         }
-                        catch 
+                        catch
                         {
-                            continue;
+                            // ignored
                         }
                     }
                 }
 
-                this.Image = this.CurrentImageFormat.Save(stream, this.Image, this.CurrentBitDepth);
+                Image = CurrentImageFormat.Save(stream, Image, CurrentBitDepth);
                 if (stream.CanSeek)
                 {
                     stream.Position = 0;
@@ -1486,12 +1498,13 @@ namespace Lenneth.Core.Framework.ImageProcessor
         }
 
         #region IDisposable Members
+
         /// <summary>
         /// Disposes the object and frees resources for the Garbage Collector.
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
 
             // This object will be cleaned up by the Dispose method.
             // Therefore, you should call GC.SuppressFinalize to
@@ -1505,9 +1518,9 @@ namespace Lenneth.Core.Framework.ImageProcessor
         /// Disposes the object and frees resources for the Garbage Collector.
         /// </summary>
         /// <param name="disposing">If true, the object gets disposed.</param>
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
-            if (this.isDisposed)
+            if (_isDisposed)
             {
                 return;
             }
@@ -1515,27 +1528,29 @@ namespace Lenneth.Core.Framework.ImageProcessor
             if (disposing)
             {
                 // Dispose of any managed resources here.
-                if (this.Image != null)
+                if (Image != null)
                 {
                     // Dispose of the memory stream from Load and the image.
-                    if (this.InputStream != null)
+                    if (InputStream != null)
                     {
-                        this.InputStream.Dispose();
-                        this.InputStream = null;
+                        InputStream.Dispose();
+                        InputStream = null;
                     }
 
-                    this.Image.Dispose();
-                    this.Image = null;
+                    Image.Dispose();
+                    Image = null;
                 }
             }
 
             // Call the appropriate methods to clean up
             // unmanaged resources here.
             // Note disposing is done.
-            this.isDisposed = true;
+            _isDisposed = true;
         }
-        #endregion
-        #endregion
+
+        #endregion IDisposable Members
+
+        #endregion Methods
 
         /// <summary>
         /// Clears any EXIF metadata from the image
@@ -1545,7 +1560,7 @@ namespace Lenneth.Core.Framework.ImageProcessor
         {
             if (image.PropertyItems.Any())
             {
-                foreach (KeyValuePair<int, PropertyItem> item in this.ExifPropertyItems)
+                foreach (var item in ExifPropertyItems)
                 {
                     // Ensure that we do not try to remove any stripped out properties
                     // e.g gif comments.

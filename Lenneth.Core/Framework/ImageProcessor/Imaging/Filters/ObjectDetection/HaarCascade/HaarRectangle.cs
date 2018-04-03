@@ -29,11 +29,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// </param>
         public HaarRectangle(int[] values)
         {
-            this.X = values[0];
-            this.Y = values[1];
-            this.Width = values[2];
-            this.Height = values[3];
-            this.Weight = values[4];
+            X = values[0];
+            Y = values[1];
+            Width = values[2];
+            Height = values[3];
+            Weight = values[4];
         }
 
         /// <summary>
@@ -56,11 +56,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// </param>
         public HaarRectangle(int x, int y, int width, int height, float weight)
         {
-            this.X = x;
-            this.Y = y;
-            this.Width = width;
-            this.Height = height;
-            this.Weight = weight;
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
+            Weight = weight;
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// </summary>
         public int Area
         {
-            get { return this.ScaledWidth * this.ScaledHeight; }
+            get { return ScaledWidth * ScaledHeight; }
         }
 
         /// <summary>
@@ -139,13 +139,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// </returns>
         public static HaarRectangle Parse(string value)
         {
-            string[] values = value.Trim().Split(' ');
+            var values = value.Trim().Split(' ');
 
-            int x = int.Parse(values[0], CultureInfo.InvariantCulture);
-            int y = int.Parse(values[1], CultureInfo.InvariantCulture);
-            int w = int.Parse(values[2], CultureInfo.InvariantCulture);
-            int h = int.Parse(values[3], CultureInfo.InvariantCulture);
-            float weight = float.Parse(values[4], CultureInfo.InvariantCulture);
+            var x = int.Parse(values[0], CultureInfo.InvariantCulture);
+            var y = int.Parse(values[1], CultureInfo.InvariantCulture);
+            var w = int.Parse(values[2], CultureInfo.InvariantCulture);
+            var h = int.Parse(values[3], CultureInfo.InvariantCulture);
+            var weight = float.Parse(values[4], CultureInfo.InvariantCulture);
 
             return new HaarRectangle(x, y, w, h, weight);
         }
@@ -158,10 +158,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// </param>
         public void ScaleRectangle(float scale)
         {
-            this.ScaledX = (int)(this.X * scale);
-            this.ScaledY = (int)(this.Y * scale);
-            this.ScaledWidth = (int)(this.Width * scale);
-            this.ScaledHeight = (int)(this.Height * scale);
+            ScaledX = (int)(X * scale);
+            ScaledY = (int)(Y * scale);
+            ScaledWidth = (int)(Width * scale);
+            ScaledHeight = (int)(Height * scale);
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// </param>
         public void ScaleWeight(float scale)
         {
-            this.ScaledWeight = this.Weight * scale;
+            ScaledWeight = Weight * scale;
         }
 
         /// <summary>
@@ -183,18 +183,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// </returns>
         public object Clone()
         {
-            HaarRectangle r = new HaarRectangle
+            var r = new HaarRectangle
             {
-                Height = this.Height,
-                ScaledHeight = this.ScaledHeight,
-                ScaledWeight = this.ScaledWeight,
-                ScaledWidth = this.ScaledWidth,
-                ScaledX = this.ScaledX,
-                ScaledY = this.ScaledY,
-                Weight = this.Weight,
-                Width = this.Width,
-                X = this.X,
-                Y = this.Y
+                Height = Height,
+                ScaledHeight = ScaledHeight,
+                ScaledWeight = ScaledWeight,
+                ScaledWidth = ScaledWidth,
+                ScaledX = ScaledX,
+                ScaledY = ScaledY,
+                Weight = Weight,
+                Width = Width,
+                X = X,
+                Y = Y
             };
 
             return r;

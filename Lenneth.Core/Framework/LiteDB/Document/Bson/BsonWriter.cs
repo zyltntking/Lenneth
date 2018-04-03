@@ -17,7 +17,7 @@ namespace Lenneth.Core.Framework.LiteDB
             var count = doc.GetBytesCount(true);
             var writer = new ByteWriter(count);
 
-            this.WriteDocument(writer, doc);
+            WriteDocument(writer, doc);
 
             return writer.Buffer;
         }
@@ -31,7 +31,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             foreach (var key in doc.Keys)
             {
-                this.WriteElement(writer, key, doc[key] ?? BsonValue.Null);
+                WriteElement(writer, key, doc[key] ?? BsonValue.Null);
             }
 
             writer.Write((byte)0x00);
@@ -43,7 +43,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             for (var i = 0; i < array.Count; i++)
             {
-                this.WriteElement(writer, i.ToString(), array[i] ?? BsonValue.Null);
+                WriteElement(writer, i.ToString(), array[i] ?? BsonValue.Null);
             }
 
             writer.Write((byte)0x00);
@@ -56,31 +56,31 @@ namespace Lenneth.Core.Framework.LiteDB
             {
                 case BsonType.Double:
                     writer.Write((byte)0x01);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     writer.Write((Double)value.RawValue);
                     break;
 
                 case BsonType.String:
                     writer.Write((byte)0x02);
-                    this.WriteCString(writer, key);
-                    this.WriteString(writer, (String)value.RawValue);
+                    WriteCString(writer, key);
+                    WriteString(writer, (String)value.RawValue);
                     break;
 
                 case BsonType.Document:
                     writer.Write((byte)0x03);
-                    this.WriteCString(writer, key);
-                    this.WriteDocument(writer, new BsonDocument((Dictionary<string, BsonValue>)value.RawValue));
+                    WriteCString(writer, key);
+                    WriteDocument(writer, new BsonDocument((Dictionary<string, BsonValue>)value.RawValue));
                     break;
 
                 case BsonType.Array:
                     writer.Write((byte)0x04);
-                    this.WriteCString(writer, key);
-                    this.WriteArray(writer, new BsonArray((List<BsonValue>)value.RawValue));
+                    WriteCString(writer, key);
+                    WriteArray(writer, new BsonArray((List<BsonValue>)value.RawValue));
                     break;
 
                 case BsonType.Binary:
                     writer.Write((byte)0x05);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     var bytes = (byte[])value.RawValue;
                     writer.Write(bytes.Length);
                     writer.Write((byte)0x00); // subtype 00 - Generic binary subtype
@@ -89,7 +89,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
                 case BsonType.Guid:
                     writer.Write((byte)0x05);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     var guid = ((Guid)value.RawValue).ToByteArray();
                     writer.Write(guid.Length);
                     writer.Write((byte)0x04); // UUID
@@ -98,19 +98,19 @@ namespace Lenneth.Core.Framework.LiteDB
 
                 case BsonType.ObjectId:
                     writer.Write((byte)0x07);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     writer.Write(((ObjectId)value.RawValue).ToByteArray());
                     break;
 
                 case BsonType.Boolean:
                     writer.Write((byte)0x08);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     writer.Write((byte)(((Boolean)value.RawValue) ? 0x01 : 0x00));
                     break;
 
                 case BsonType.DateTime:
                     writer.Write((byte)0x09);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     var date = (DateTime)value.RawValue;
                     // do not convert to UTC min/max date values - #19
                     var utc = (date == DateTime.MinValue || date == DateTime.MaxValue) ? date : date.ToUniversalTime();
@@ -120,35 +120,35 @@ namespace Lenneth.Core.Framework.LiteDB
 
                 case BsonType.Null:
                     writer.Write((byte)0x0A);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     break;
 
                 case BsonType.Int32:
                     writer.Write((byte)0x10);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     writer.Write((Int32)value.RawValue);
                     break;
 
                 case BsonType.Int64:
                     writer.Write((byte)0x12);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     writer.Write((Int64)value.RawValue);
                     break;
 
                 case BsonType.Decimal:
                     writer.Write((byte)0x13);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     writer.Write((Decimal)value.RawValue);
                     break;
 
                 case BsonType.MinValue:
                     writer.Write((byte)0xFF);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     break;
 
                 case BsonType.MaxValue:
                     writer.Write((byte)0x7F);
-                    this.WriteCString(writer, key);
+                    WriteCString(writer, key);
                     break;
             }
         }

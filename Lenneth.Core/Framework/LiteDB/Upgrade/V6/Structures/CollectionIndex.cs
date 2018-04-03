@@ -50,10 +50,10 @@ namespace Lenneth.Core.Framework.LiteDB_V6
 
         public CollectionIndex()
         {
-            this.Field = string.Empty;
-            this.Unique = false;
-            this.HeadNode = PageAddress.Empty;
-            this.FreeIndexPageID = uint.MaxValue;
+            Field = string.Empty;
+            Unique = false;
+            HeadNode = PageAddress.Empty;
+            FreeIndexPageID = uint.MaxValue;
         }
     }
 }

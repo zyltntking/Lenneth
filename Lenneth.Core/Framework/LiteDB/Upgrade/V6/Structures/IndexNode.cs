@@ -49,20 +49,20 @@ namespace Lenneth.Core.Framework.LiteDB_V6
         /// </summary>
         public bool IsHeadTail(CollectionIndex index)
         {
-            return this.Position.Equals(index.HeadNode) || this.Position.Equals(index.TailNode);
+            return Position.Equals(index.HeadNode) || Position.Equals(index.TailNode);
         }
 
         public IndexNode(byte level)
         {
-            this.Position = PageAddress.Empty;
-            this.DataBlock = PageAddress.Empty;
-            this.Prev = new PageAddress[level];
-            this.Next = new PageAddress[level];
+            Position = PageAddress.Empty;
+            DataBlock = PageAddress.Empty;
+            Prev = new PageAddress[level];
+            Next = new PageAddress[level];
 
             for (var i = 0; i < level; i++)
             {
-                this.Prev[i] = PageAddress.Empty;
-                this.Next[i] = PageAddress.Empty;
+                Prev[i] = PageAddress.Empty;
+                Next[i] = PageAddress.Empty;
             }
         }
     }
@@ -71,7 +71,7 @@ namespace Lenneth.Core.Framework.LiteDB_V6
     {
         public bool Equals(IndexNode x, IndexNode y)
         {
-            if (object.ReferenceEquals(x, y)) return true;
+            if (ReferenceEquals(x, y)) return true;
 
             if (x == null || y == null) return false;
 

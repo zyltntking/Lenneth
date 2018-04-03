@@ -25,7 +25,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Meta()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -60,11 +60,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         {
             try
             {
-                factory.PreserveExifData = this.DynamicParameter;
+                factory.PreserveExifData = DynamicParameter;
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return factory.Image;

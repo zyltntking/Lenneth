@@ -11,13 +11,13 @@ namespace Lenneth.Core.Framework.LiteDB
     {
         public string Field { get; private set; }
 
-        internal Lenneth.Core.Framework.LiteDB.BsonExpression Expression { get; set; }
+        internal BsonExpression Expression { get; set; }
         internal virtual bool UseIndex { get; set; }
         internal virtual bool UseFilter { get; set; }
 
         internal Query(string field)
         {
-            this.Field = field;
+            Field = field;
         }
 
         #region Static Methods
@@ -145,7 +145,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// <summary>
         /// Returns all documents that in query result (not result)
         /// </summary>
-        public static Query Not(Query query, int order = Query.Ascending)
+        public static Query Not(Query query, int order = Ascending)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
@@ -188,7 +188,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// <summary>
         /// Apply a predicate function in an index result. Execute full index scan but it's faster then runs over deserialized document.
         /// </summary>
-        public static Query Where(string field, Func<BsonValue, bool> predicate, int order = Query.Ascending)
+        public static Query Where(string field, Func<BsonValue, bool> predicate, int order = Ascending)
         {
             if (field.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(field));
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
@@ -225,7 +225,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             var left = queries[0];
 
-            for (int i = 1; i < queries.Length; i++)
+            for (var i = 1; i < queries.Length; i++)
             {
                 left = And(left, queries[i]);
             }
@@ -252,7 +252,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             var left = queries[0];
 
-            for (int i = 1; i < queries.Length; i++)
+            for (var i = 1; i < queries.Length; i++)
             {
                 left = Or(left, queries[i]);
             }
@@ -269,32 +269,32 @@ namespace Lenneth.Core.Framework.LiteDB
         internal virtual IEnumerable<IndexNode> Run(CollectionPage col, IndexService indexer)
         {
             // get index for this query
-            var index = col.GetIndex(this.Field);
+            var index = col.GetIndex(Field);
 
             // if index not found, must use Filter (full scan)
             if (index == null)
             {
-                this.UseFilter = true;
+                UseFilter = true;
 
                 // create expression based on Field (if field contains '$' or '(' is already an expression)
-                var expr = this.Field.StartsWith("$") || this.Field.IndexOf("(") > 0 ? 
-                    this.Field : "$." + this.Field;
+                var expr = Field.StartsWith("$") || Field.IndexOf("(") > 0 ? 
+                    Field : "$." + Field;
 
-                this.Expression = new Lenneth.Core.Framework.LiteDB.BsonExpression(expr);
+                Expression = new BsonExpression(expr);
 
                 // returns all index nodes - (will use Filter method later)
-                return indexer.FindAll(col.PK, Query.Ascending);
+                return indexer.FindAll(col.PK, Ascending);
             }
             else
             {
-                this.UseIndex = true;
+                UseIndex = true;
 
                 // create expression from index
-                this.Expression = new Lenneth.Core.Framework.LiteDB.BsonExpression(index.Expression);
+                Expression = new BsonExpression(index.Expression);
 
                 // execute query to get all IndexNodes
                 // do DistinctBy datablock to not duplicate same document in results
-                return this.ExecuteIndex(indexer, index)
+                return ExecuteIndex(indexer, index)
                     .DistinctBy(x => x.DataBlock, null);
             }
         }

@@ -13,14 +13,14 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if (includes == null) throw new ArgumentNullException(nameof(includes));
 
-            var docs = this.Find(collection, query, skip, limit);
+            var docs = Find(collection, query, skip, limit);
 
             foreach(var doc in docs)
             {
                 // procced with all includes
                 foreach(var include in includes)
                 {
-                    var expr = new Lenneth.Core.Framework.LiteDB.BsonExpression(include.StartsWith("$") ? include : "$." + include);
+                    var expr = new BsonExpression(include.StartsWith("$") ? include : "$." + include);
 
                     // get all values according JSON path
                     foreach(var value in expr.Execute(doc, false)
@@ -36,7 +36,7 @@ namespace Lenneth.Core.Framework.LiteDB
                         if (refId.IsNull || !refCol.IsString) continue;
 
                         // now, find document reference
-                        var refDoc = this.FindById(refCol, refId);
+                        var refDoc = FindById(refCol, refId);
 
                         // if found, change with current document
                         if (refDoc != null)

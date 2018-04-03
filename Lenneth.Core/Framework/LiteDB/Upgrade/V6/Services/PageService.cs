@@ -45,7 +45,7 @@ namespace Lenneth.Core.Framework.LiteDB_V6
 
             while (pageID != uint.MaxValue)
             {
-                var page = this.GetPage<T>(pageID);
+                var page = GetPage<T>(pageID);
 
                 pageID = page.NextPageID;
 

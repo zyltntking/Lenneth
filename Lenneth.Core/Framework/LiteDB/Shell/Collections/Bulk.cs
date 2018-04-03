@@ -17,12 +17,12 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
     {
         public bool IsCommand(StringScanner s)
         {
-            return this.IsCollectionCommand(s, "bulk");
+            return IsCollectionCommand(s, "bulk");
         }
 
         public IEnumerable<BsonValue> Execute(StringScanner s, LiteEngine engine)
         {
-            var col = this.ReadCollection(engine, s);
+            var col = ReadCollection(engine, s);
             var filename = s.Scan(@".*");
 
             using (var sr = new StreamReader(new FileStream(filename, System.IO.FileMode.Open)))

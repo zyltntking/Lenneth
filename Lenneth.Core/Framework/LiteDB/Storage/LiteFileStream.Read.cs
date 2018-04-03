@@ -27,7 +27,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 {
                     _positionInChunk = 0;
 
-                    _currentChunkData = this.GetChunkData(++_currentChunkIndex);
+                    _currentChunkData = GetChunkData(++_currentChunkIndex);
                 }
             }
 

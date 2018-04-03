@@ -14,11 +14,11 @@
         {
             get
             {
-                return this.cascadeField;
+                return cascadeField;
             }
             set
             {
-                this.cascadeField = value;
+                cascadeField = value;
             }
         }
     }
@@ -53,11 +53,11 @@
         {
             get
             {
-                return this.stageTypeField;
+                return stageTypeField;
             }
             set
             {
-                this.stageTypeField = value;
+                stageTypeField = value;
             }
         }
 
@@ -66,11 +66,11 @@
         {
             get
             {
-                return this.featureTypeField;
+                return featureTypeField;
             }
             set
             {
-                this.featureTypeField = value;
+                featureTypeField = value;
             }
         }
 
@@ -79,11 +79,11 @@
         {
             get
             {
-                return this.heightField;
+                return heightField;
             }
             set
             {
-                this.heightField = value;
+                heightField = value;
             }
         }
 
@@ -92,11 +92,11 @@
         {
             get
             {
-                return this.widthField;
+                return widthField;
             }
             set
             {
-                this.widthField = value;
+                widthField = value;
             }
         }
 
@@ -105,11 +105,11 @@
         {
             get
             {
-                return this.stageParamsField;
+                return stageParamsField;
             }
             set
             {
-                this.stageParamsField = value;
+                stageParamsField = value;
             }
         }
 
@@ -118,11 +118,11 @@
         {
             get
             {
-                return this.featureParamsField;
+                return featureParamsField;
             }
             set
             {
-                this.featureParamsField = value;
+                featureParamsField = value;
             }
         }
 
@@ -131,11 +131,11 @@
         {
             get
             {
-                return this.stageNumField;
+                return stageNumField;
             }
             set
             {
-                this.stageNumField = value;
+                stageNumField = value;
             }
         }
 
@@ -145,11 +145,11 @@
         {
             get
             {
-                return this.stagesField;
+                return stagesField;
             }
             set
             {
-                this.stagesField = value;
+                stagesField = value;
             }
         }
 
@@ -159,11 +159,11 @@
         {
             get
             {
-                return this.featuresField;
+                return featuresField;
             }
             set
             {
-                this.featuresField = value;
+                featuresField = value;
             }
         }
 
@@ -173,11 +173,11 @@
         {
             get
             {
-                return this.type_idField;
+                return type_idField;
             }
             set
             {
-                this.type_idField = value;
+                type_idField = value;
             }
         }
     }
@@ -194,11 +194,11 @@
         {
             get
             {
-                return this.maxWeakCountField;
+                return maxWeakCountField;
             }
             set
             {
-                this.maxWeakCountField = value;
+                maxWeakCountField = value;
             }
         }
     }
@@ -215,11 +215,11 @@
         {
             get
             {
-                return this.maxCatCountField;
+                return maxCatCountField;
             }
             set
             {
-                this.maxCatCountField = value;
+                maxCatCountField = value;
             }
         }
     }
@@ -240,11 +240,11 @@
         {
             get
             {
-                return this.maxWeakCountField;
+                return maxWeakCountField;
             }
             set
             {
-                this.maxWeakCountField = value;
+                maxWeakCountField = value;
             }
         }
 
@@ -253,11 +253,11 @@
         {
             get
             {
-                return this.stageThresholdField;
+                return stageThresholdField;
             }
             set
             {
-                this.stageThresholdField = value;
+                stageThresholdField = value;
             }
         }
 
@@ -267,11 +267,11 @@
         {
             get
             {
-                return this.weakClassifiersField;
+                return weakClassifiersField;
             }
             set
             {
-                this.weakClassifiersField = value;
+                weakClassifiersField = value;
             }
         }
     }
@@ -290,11 +290,11 @@
         {
             get
             {
-                return this.internalNodesField;
+                return internalNodesField;
             }
             set
             {
-                this.internalNodesField = value;
+                internalNodesField = value;
             }
         }
 
@@ -303,11 +303,11 @@
         {
             get
             {
-                return this.leafValuesField;
+                return leafValuesField;
             }
             set
             {
-                this.leafValuesField = value;
+                leafValuesField = value;
             }
         }
     }
@@ -325,11 +325,11 @@
         {
             get
             {
-                return this.rectsField;
+                return rectsField;
             }
             set
             {
-                this.rectsField = value;
+                rectsField = value;
             }
         }
     }

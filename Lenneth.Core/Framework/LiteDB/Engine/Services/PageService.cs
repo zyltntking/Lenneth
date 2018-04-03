@@ -67,7 +67,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             while (pageID != uint.MaxValue)
             {
-                var page = this.GetPage<T>(pageID);
+                var page = GetPage<T>(pageID);
 
                 pageID = page.NextPageID;
 
@@ -82,17 +82,17 @@ namespace Lenneth.Core.Framework.LiteDB
             where T : BasePage
         {
             // get header
-            var header = this.GetPage<HeaderPage>(0);
+            var header = GetPage<HeaderPage>(0);
             var pageID = (uint)0;
             var diskData = new byte[0];
 
             // try get page from Empty free list
             if (header.FreeEmptyPageID != uint.MaxValue)
             {
-                var free = this.GetPage<BasePage>(header.FreeEmptyPageID);
+                var free = GetPage<BasePage>(header.FreeEmptyPageID);
 
                 // remove page from empty list
-                this.AddOrRemoveToFreeList(false, free, header, ref header.FreeEmptyPageID);
+                AddOrRemoveToFreeList(false, free, header, ref header.FreeEmptyPageID);
 
                 pageID = free.PageID;
 
@@ -107,7 +107,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 pageID = ++header.LastPageID;
 
                 // set header page as dirty after increment LastPageID
-                this.SetDirty(header);
+                SetDirty(header);
             }
 
             var page = BasePage.CreateInstance<T>(pageID);
@@ -116,7 +116,7 @@ namespace Lenneth.Core.Framework.LiteDB
             page.DiskData = diskData;
 
             // add page to cache with correct T type (could be an old Empty page type)
-            this.SetDirty(page);
+            SetDirty(page);
 
             // if there a page before, just fix NextPageID pointer
             if (prevPage != null)
@@ -124,7 +124,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 page.PrevPageID = prevPage.PageID;
                 prevPage.NextPageID = page.PageID;
 
-                this.SetDirty(prevPage);
+                SetDirty(prevPage);
             }
 
             return page;
@@ -138,10 +138,10 @@ namespace Lenneth.Core.Framework.LiteDB
         public void DeletePage(uint pageID, bool addSequence = false)
         {
             // get all pages in sequence or a single one
-            var pages = addSequence ? this.GetSeqPages<BasePage>(pageID).ToArray() : new BasePage[] { this.GetPage<BasePage>(pageID) };
+            var pages = addSequence ? GetSeqPages<BasePage>(pageID).ToArray() : new BasePage[] { GetPage<BasePage>(pageID) };
 
             // get my header page
-            var header = this.GetPage<HeaderPage>(0);
+            var header = GetPage<HeaderPage>(0);
 
             // adding all pages to FreeList
             foreach (var page in pages)
@@ -150,10 +150,10 @@ namespace Lenneth.Core.Framework.LiteDB
                 var empty = new EmptyPage(page.PageID);
 
                 // add empty page to cache (with now EmptyPage type) and mark as dirty
-                this.SetDirty(empty);
+                SetDirty(empty);
 
                 // add to empty free list
-                this.AddOrRemoveToFreeList(true, empty, header, ref header.FreeEmptyPageID);
+                AddOrRemoveToFreeList(true, empty, header, ref header.FreeEmptyPageID);
             }
         }
 
@@ -166,7 +166,7 @@ namespace Lenneth.Core.Framework.LiteDB
             if (startPageID != uint.MaxValue)
             {
                 // get the first page
-                var page = this.GetPage<T>(startPageID);
+                var page = GetPage<T>(startPageID);
 
                 // check if there space in this page
                 var free = page.FreeBytes;
@@ -179,7 +179,7 @@ namespace Lenneth.Core.Framework.LiteDB
             }
 
             // if not has space on first page, there is no page with space (pages are ordered), create a new one
-            return this.NewPage<T>();
+            return NewPage<T>();
         }
 
         #region Add Or Remove do empty list
@@ -198,12 +198,12 @@ namespace Lenneth.Core.Framework.LiteDB
                 // if page has no prev/next it's not on list - lets add
                 if (page.PrevPageID == uint.MaxValue && page.NextPageID == uint.MaxValue)
                 {
-                    this.AddToFreeList(page, startPage, ref fieldPageID);
+                    AddToFreeList(page, startPage, ref fieldPageID);
                 }
                 else
                 {
                     // otherwise this page is already in this list, lets move do put in free size desc order
-                    this.MoveToFreeList(page, startPage, ref fieldPageID);
+                    MoveToFreeList(page, startPage, ref fieldPageID);
                 }
             }
             else
@@ -212,7 +212,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 if (page.PrevPageID == uint.MaxValue && page.NextPageID == uint.MaxValue)
                     return;
 
-                this.RemoveToFreeList(page, startPage, ref fieldPageID);
+                RemoveToFreeList(page, startPage, ref fieldPageID);
             }
         }
 
@@ -228,7 +228,7 @@ namespace Lenneth.Core.Framework.LiteDB
             // let's page in desc order
             while (nextPageID != uint.MaxValue)
             {
-                next = this.GetPage<BasePage>(nextPageID);
+                next = GetPage<BasePage>(nextPageID);
 
                 if (free >= next.FreeBytes)
                 {
@@ -240,21 +240,21 @@ namespace Lenneth.Core.Framework.LiteDB
                     next.PrevPageID = page.PageID;
 
                     // mark next page as dirty
-                    this.SetDirty(next);
-                    this.SetDirty(page);
+                    SetDirty(next);
+                    SetDirty(page);
 
                     // my page is the new first page on list
                     if (page.PrevPageID == 0)
                     {
                         fieldPageID = page.PageID;
-                        this.SetDirty(startPage); // fieldPageID is from startPage
+                        SetDirty(startPage); // fieldPageID is from startPage
                     }
                     else
                     {
                         // if not the first, ajust links from previous page (set as dirty)
-                        var prev = this.GetPage<BasePage>(page.PrevPageID);
+                        var prev = GetPage<BasePage>(page.PrevPageID);
                         prev.NextPageID = page.PageID;
-                        this.SetDirty(prev);
+                        SetDirty(prev);
                     }
 
                     return; // job done - exit
@@ -270,7 +270,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 page.PrevPageID = 0;
                 fieldPageID = page.PageID;
 
-                this.SetDirty(startPage);
+                SetDirty(startPage);
             }
             else
             {
@@ -278,11 +278,11 @@ namespace Lenneth.Core.Framework.LiteDB
                 page.PrevPageID = next.PageID;
                 next.NextPageID = page.PageID;
 
-                this.SetDirty(next);
+                SetDirty(next);
             }
 
             // set current page as dirty
-            this.SetDirty(page);
+            SetDirty(page);
         }
 
         /// <summary>
@@ -294,28 +294,28 @@ namespace Lenneth.Core.Framework.LiteDB
             if (page.PrevPageID == 0)
             {
                 fieldPageID = page.NextPageID;
-                this.SetDirty(startPage); // fieldPageID is from startPage
+                SetDirty(startPage); // fieldPageID is from startPage
             }
             else
             {
                 // if not the first, get previous page to remove NextPageId
-                var prevPage = this.GetPage<BasePage>(page.PrevPageID);
+                var prevPage = GetPage<BasePage>(page.PrevPageID);
                 prevPage.NextPageID = page.NextPageID;
-                this.SetDirty(prevPage);
+                SetDirty(prevPage);
             }
 
             // if my page is not the last on sequence, adjust the last page (set as dirty)
             if (page.NextPageID != uint.MaxValue)
             {
-                var nextPage = this.GetPage<BasePage>(page.NextPageID);
+                var nextPage = GetPage<BasePage>(page.NextPageID);
                 nextPage.PrevPageID = page.PrevPageID;
-                this.SetDirty(nextPage);
+                SetDirty(nextPage);
             }
 
             page.PrevPageID = page.NextPageID = uint.MaxValue;
 
             // mark page that will be removed as dirty
-            this.SetDirty(page);
+            SetDirty(page);
         }
 
         /// <summary>
@@ -324,8 +324,8 @@ namespace Lenneth.Core.Framework.LiteDB
         private void MoveToFreeList(BasePage page, BasePage startPage, ref uint fieldPageID)
         {
             //TODO: write a better solution
-            this.RemoveToFreeList(page, startPage, ref fieldPageID);
-            this.AddToFreeList(page, startPage, ref fieldPageID);
+            RemoveToFreeList(page, startPage, ref fieldPageID);
+            AddToFreeList(page, startPage, ref fieldPageID);
         }
 
         #endregion

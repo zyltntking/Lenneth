@@ -20,12 +20,12 @@ namespace Lenneth.Core.Framework.LiteDB_V6
         /// </summary>
         public byte[] Read(PageAddress blockAddress)
         {
-            var block = this.GetBlock(blockAddress);
+            var block = GetBlock(blockAddress);
 
             // if there is a extend page, read bytes all bytes from extended pages
             if (block.ExtendPageID != uint.MaxValue)
             {
-                return this.ReadExtendData(block.ExtendPageID);
+                return ReadExtendData(block.ExtendPageID);
             }
 
             return block.Data;

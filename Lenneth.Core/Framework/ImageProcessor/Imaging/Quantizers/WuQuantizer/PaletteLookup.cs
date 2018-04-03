@@ -40,17 +40,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </param>
         public PaletteLookup(Color32[] palette)
         {
-            this.Palette = new LookupNode[palette.Length];
-            for (int paletteIndex = 0; paletteIndex < palette.Length; paletteIndex++)
+            Palette = new LookupNode[palette.Length];
+            for (var paletteIndex = 0; paletteIndex < palette.Length; paletteIndex++)
             {
-                this.Palette[paletteIndex] = new LookupNode
+                Palette[paletteIndex] = new LookupNode
                 {
                     Color32 = palette[paletteIndex],
                     PaletteIndex = (byte)paletteIndex
                 };
             }
 
-            this.BuildLookup(palette);
+            BuildLookup(palette);
         }
 
         /// <summary>
@@ -69,11 +69,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </returns>
         public byte GetPaletteIndex(Color32 pixel)
         {
-            int pixelKey = pixel.Argb & this.paletteMask;
+            var pixelKey = pixel.Argb & paletteMask;
             LookupNode[] bucket;
-            if (!this.lookupNodes.TryGetValue(pixelKey, out bucket))
+            if (!lookupNodes.TryGetValue(pixelKey, out bucket))
             {
-                bucket = this.Palette;
+                bucket = Palette;
             }
 
             if (bucket.Length == 1)
@@ -81,22 +81,22 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
                 return bucket[0].PaletteIndex;
             }
 
-            int bestDistance = int.MaxValue;
+            var bestDistance = int.MaxValue;
             byte bestMatch = 0;
-            foreach (LookupNode lookup in bucket)
+            foreach (var lookup in bucket)
             {
-                Color32 lookupPixel = lookup.Color32;
+                var lookupPixel = lookup.Color32;
 
-                int deltaAlpha = pixel.A - lookupPixel.A;
-                int distance = deltaAlpha * deltaAlpha;
+                var deltaAlpha = pixel.A - lookupPixel.A;
+                var distance = deltaAlpha * deltaAlpha;
 
-                int deltaRed = pixel.R - lookupPixel.R;
+                var deltaRed = pixel.R - lookupPixel.R;
                 distance += deltaRed * deltaRed;
 
-                int deltaGreen = pixel.G - lookupPixel.G;
+                var deltaGreen = pixel.G - lookupPixel.G;
                 distance += deltaGreen * deltaGreen;
 
-                int deltaBlue = pixel.B - lookupPixel.B;
+                var deltaBlue = pixel.B - lookupPixel.B;
                 distance += deltaBlue * deltaBlue;
 
                 if (distance >= bestDistance)
@@ -108,9 +108,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
                 bestMatch = lookup.PaletteIndex;
             }
 
-            if ((bucket == this.Palette) && (pixelKey != 0))
+            if ((bucket == Palette) && (pixelKey != 0))
             {
-                this.lookupNodes[pixelKey] = new[] { bucket[bestMatch] };
+                lookupNodes[pixelKey] = new[] { bucket[bestMatch] };
             }
 
             return bestMatch;
@@ -134,15 +134,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
 
             if (bits != 0)
             {
-                byte highestSetBitIndex = HighestSetBitIndex(max);
+                var highestSetBitIndex = HighestSetBitIndex(max);
 
-                for (int i = 0; i < bits; i++)
+                for (var i = 0; i < bits; i++)
                 {
                     mask <<= 1;
                     mask++;
                 }
 
-                for (int i = 0; i <= highestSetBitIndex - bits; i++)
+                for (var i = 0; i <= highestSetBitIndex - bits; i++)
                 {
                     mask <<= 1;
                 }
@@ -163,31 +163,31 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         private static int GetMask(Color32[] palette)
         {
             IEnumerable<byte> alphas = palette.Select(p => p.A).ToArray();
-            byte maxAlpha = alphas.Max();
-            int uniqueAlphas = alphas.Distinct().Count();
+            var maxAlpha = alphas.Max();
+            var uniqueAlphas = alphas.Distinct().Count();
 
             IEnumerable<byte> reds = palette.Select(p => p.R).ToArray();
-            byte maxRed = reds.Max();
-            int uniqueReds = reds.Distinct().Count();
+            var maxRed = reds.Max();
+            var uniqueReds = reds.Distinct().Count();
 
             IEnumerable<byte> greens = palette.Select(p => p.G).ToArray();
-            byte maxGreen = greens.Max();
-            int uniqueGreens = greens.Distinct().Count();
+            var maxGreen = greens.Max();
+            var uniqueGreens = greens.Distinct().Count();
 
             IEnumerable<byte> blues = palette.Select(p => p.B).ToArray();
-            byte maxBlue = blues.Max();
-            int uniqueBlues = blues.Distinct().Count();
+            var maxBlue = blues.Max();
+            var uniqueBlues = blues.Distinct().Count();
 
             double totalUniques = uniqueAlphas + uniqueReds + uniqueGreens + uniqueBlues;
 
-            double availableBits = 1.0 + Math.Log(uniqueAlphas * uniqueReds * uniqueGreens * uniqueBlues);
+            var availableBits = 1.0 + Math.Log(uniqueAlphas * uniqueReds * uniqueGreens * uniqueBlues);
 
-            byte alphaMask = ComputeBitMask(maxAlpha, Convert.ToInt32(Math.Round(uniqueAlphas / totalUniques * availableBits)));
-            byte redMask = ComputeBitMask(maxRed, Convert.ToInt32(Math.Round(uniqueReds / totalUniques * availableBits)));
-            byte greenMask = ComputeBitMask(maxGreen, Convert.ToInt32(Math.Round(uniqueGreens / totalUniques * availableBits)));
-            byte blueMask = ComputeBitMask(maxBlue, Convert.ToInt32(Math.Round(uniqueBlues / totalUniques * availableBits)));
+            var alphaMask = ComputeBitMask(maxAlpha, Convert.ToInt32(Math.Round(uniqueAlphas / totalUniques * availableBits)));
+            var redMask = ComputeBitMask(maxRed, Convert.ToInt32(Math.Round(uniqueReds / totalUniques * availableBits)));
+            var greenMask = ComputeBitMask(maxGreen, Convert.ToInt32(Math.Round(uniqueGreens / totalUniques * availableBits)));
+            var blueMask = ComputeBitMask(maxBlue, Convert.ToInt32(Math.Round(uniqueBlues / totalUniques * availableBits)));
 
-            Color32 maskedPixel = new Color32(alphaMask, redMask, greenMask, blueMask);
+            var maskedPixel = new Color32(alphaMask, redMask, greenMask, blueMask);
             return maskedPixel.Argb;
         }
 
@@ -203,7 +203,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         private static byte HighestSetBitIndex(byte value)
         {
             byte index = 0;
-            for (int i = 0; i < 8; i++)
+            for (var i = 0; i < 8; i++)
             {
                 if (0 != (value & 1))
                 {
@@ -224,11 +224,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </param>
         private void BuildLookup(Color32[] palette)
         {
-            int mask = GetMask(palette);
-            Dictionary<int, List<LookupNode>> tempLookup = new Dictionary<int, List<LookupNode>>();
-            foreach (LookupNode lookup in this.Palette)
+            var mask = GetMask(palette);
+            var tempLookup = new Dictionary<int, List<LookupNode>>();
+            foreach (var lookup in Palette)
             {
-                int pixelKey = lookup.Color32.Argb & mask;
+                var pixelKey = lookup.Color32.Argb & mask;
 
                 List<LookupNode> bucket;
                 if (!tempLookup.TryGetValue(pixelKey, out bucket))
@@ -240,13 +240,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
                 bucket.Add(lookup);
             }
 
-            this.lookupNodes = new Dictionary<int, LookupNode[]>(tempLookup.Count);
-            foreach (int key in tempLookup.Keys)
+            lookupNodes = new Dictionary<int, LookupNode[]>(tempLookup.Count);
+            foreach (var key in tempLookup.Keys)
             {
-                this.lookupNodes[key] = tempLookup[key].ToArray();
+                lookupNodes[key] = tempLookup[key].ToArray();
             }
 
-            this.paletteMask = mask;
+            paletteMask = mask;
         }
 
         /// <summary>

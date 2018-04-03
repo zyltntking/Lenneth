@@ -50,16 +50,16 @@ namespace Lenneth.Core.Framework.LiteDB
         public CollectionPage(uint pageID)
             : base(pageID)
         {
-            this.FreeDataPageID = uint.MaxValue;
-            this.DocumentCount = 0;
-            this.ItemCount = 1; // fixed for CollectionPage
-            this.FreeBytes = 0; // no free bytes on collection-page - only one collection per page
-            this.Indexes = new CollectionIndex[CollectionIndex.INDEX_PER_COLLECTION];
-            this.Sequence = 0;
+            FreeDataPageID = uint.MaxValue;
+            DocumentCount = 0;
+            ItemCount = 1; // fixed for CollectionPage
+            FreeBytes = 0; // no free bytes on collection-page - only one collection per page
+            Indexes = new CollectionIndex[CollectionIndex.INDEX_PER_COLLECTION];
+            Sequence = 0;
 
             for (var i = 0; i < Indexes.Length; i++)
             {
-                this.Indexes[i] = new CollectionIndex() { Page = this, Slot = i };
+                Indexes[i] = new CollectionIndex() { Page = this, Slot = i };
             }
         }
 
@@ -67,11 +67,11 @@ namespace Lenneth.Core.Framework.LiteDB
 
         protected override void ReadContent(ByteReader reader)
         {
-            this.CollectionName = reader.ReadString();
-            this.DocumentCount = reader.ReadInt64();
-            this.FreeDataPageID = reader.ReadUInt32();
+            CollectionName = reader.ReadString();
+            DocumentCount = reader.ReadInt64();
+            FreeDataPageID = reader.ReadUInt32();
 
-            foreach (var index in this.Indexes)
+            foreach (var index in Indexes)
             {
                 var field = reader.ReadString();
                 var eq = field.IndexOf('=');
@@ -95,24 +95,24 @@ namespace Lenneth.Core.Framework.LiteDB
             }
 
             // position on page-footer (avoid file structure change)
-            reader.Position = BasePage.PAGE_SIZE - 8 - CollectionIndex.INDEX_PER_COLLECTION;
+            reader.Position = PAGE_SIZE - 8 - CollectionIndex.INDEX_PER_COLLECTION;
 
-            foreach (var index in this.Indexes)
+            foreach (var index in Indexes)
             {
                 var maxLevel = reader.ReadByte();
                 index.MaxLevel = maxLevel == 0 ? (byte)IndexNode.MAX_LEVEL_LENGTH : maxLevel;
             }
 
-            this.Sequence = reader.ReadInt64();
+            Sequence = reader.ReadInt64();
         }
 
         protected override void WriteContent(ByteWriter writer)
         {
-            writer.Write(this.CollectionName);
-            writer.Write(this.DocumentCount);
-            writer.Write(this.FreeDataPageID);
+            writer.Write(CollectionName);
+            writer.Write(DocumentCount);
+            writer.Write(FreeDataPageID);
 
-            foreach (var index in this.Indexes)
+            foreach (var index in Indexes)
             {
                 // write Field+Expression only if index are used
                 if(index.Field.Length > 0)
@@ -131,14 +131,14 @@ namespace Lenneth.Core.Framework.LiteDB
             }
 
             // position on page-footer (avoid file structure change)
-            writer.Position = BasePage.PAGE_SIZE - 8 - CollectionIndex.INDEX_PER_COLLECTION;
+            writer.Position = PAGE_SIZE - 8 - CollectionIndex.INDEX_PER_COLLECTION;
 
-            foreach (var index in this.Indexes)
+            foreach (var index in Indexes)
             {
                 writer.Write(index.MaxLevel);
             }
 
-            writer.Write(this.Sequence);
+            writer.Write(Sequence);
         }
 
         #endregion
@@ -150,12 +150,12 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public CollectionIndex GetFreeIndex()
         {
-            for (byte i = 0; i < this.Indexes.Length; i++)
+            for (byte i = 0; i < Indexes.Length; i++)
             {
-                if (this.Indexes[i].IsEmpty) return this.Indexes[i];
+                if (Indexes[i].IsEmpty) return Indexes[i];
             }
 
-            throw LiteException.IndexLimitExceeded(this.CollectionName);
+            throw LiteException.IndexLimitExceeded(CollectionName);
         }
 
         /// <summary>
@@ -163,20 +163,20 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public CollectionIndex GetIndex(string field)
         {
-            return this.Indexes.FirstOrDefault(x => x.Field == field);
+            return Indexes.FirstOrDefault(x => x.Field == field);
         }
 
         /// <summary>
         /// Get primary key index (_id index)
         /// </summary>
-        public CollectionIndex PK { get { return this.Indexes[0]; } }
+        public CollectionIndex PK { get { return Indexes[0]; } }
 
         /// <summary>
         /// Returns all used indexes
         /// </summary>
         public IEnumerable<CollectionIndex> GetIndexes(bool includePK)
         {
-            return this.Indexes.Where(x => x.IsEmpty == false && x.Slot >= (includePK ? 0 : 1));
+            return Indexes.Where(x => x.IsEmpty == false && x.Slot >= (includePK ? 0 : 1));
         }
 
         #endregion

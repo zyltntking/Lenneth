@@ -23,7 +23,7 @@ namespace Lenneth.Core.Framework.LiteDB
                     if (reader.Initialize(stream, password) == false) return false;
 
                     // open new datafile to copy data from
-                    using (var engine = new Lenneth.Core.Framework.LiteDB.LiteEngine(tempFile, false))
+                    using (var engine = new LiteEngine(tempFile, false))
                     {
                         foreach (var col in reader.GetCollections())
                         {

@@ -19,13 +19,13 @@ namespace Lenneth.Core.Framework.LiteDB
         internal override IEnumerable<IndexNode> ExecuteIndex(IndexService indexer, CollectionIndex index)
         {
             return indexer
-                .FindAll(index, Query.Ascending)
+                .FindAll(index, Ascending)
                 .Where(x => x.Key.IsString && x.Key.AsString.Contains(_value));
         }
 
         internal override bool FilterDocument(BsonDocument doc)
         {
-            return this.Expression.Execute(doc, false)
+            return Expression.Execute(doc, false)
                 .Where(x => x.IsString)
                 .Any(x => x.AsString.Contains(_value));
         }
@@ -33,8 +33,8 @@ namespace Lenneth.Core.Framework.LiteDB
         public override string ToString()
         {
             return string.Format("{0}({1} contains {2})",
-                this.UseFilter ? "Filter" : this.UseIndex ? "Scan" : "",
-                this.Expression?.ToString() ?? this.Field,
+                UseFilter ? "Filter" : UseIndex ? "Scan" : "",
+                Expression?.ToString() ?? Field,
                 _value);
         }
     }

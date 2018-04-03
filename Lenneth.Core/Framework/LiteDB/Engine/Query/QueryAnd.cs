@@ -40,7 +40,7 @@ namespace Lenneth.Core.Framework.LiteDB
             // if left use index, force right use full scan (left has preference to use index)
             if (_left.UseIndex)
             {
-                this.UseIndex = true;
+                UseIndex = true;
                 _right.UseFilter = true;
                 return left;
             }
@@ -48,14 +48,14 @@ namespace Lenneth.Core.Framework.LiteDB
             // if right use index (and left no), force left use filter
             if (_right.UseIndex)
             {
-                this.UseIndex = true;
+                UseIndex = true;
                 _left.UseFilter = true;
                 return right;
             }
 
             // neither left and right uses index (both are full scan)
-            this.UseIndex = false;
-            this.UseFilter = true;
+            UseIndex = false;
+            UseFilter = true;
 
             return left.Intersect(right, new IndexNodeComparer());
         }

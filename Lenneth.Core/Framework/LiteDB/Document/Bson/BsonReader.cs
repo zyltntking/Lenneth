@@ -20,7 +20,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public BsonDocument Deserialize(byte[] bson)
         {
-            return this.ReadDocument(new ByteReader(bson));
+            return ReadDocument(new ByteReader(bson));
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             while (reader.Position < end)
             {
-                var value = this.ReadElement(reader, out string name);
+                var value = ReadElement(reader, out var name);
                 obj.RawValue[name] = value;
             }
 
@@ -54,7 +54,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             while (reader.Position < end)
             {
-                var value = this.ReadElement(reader, out string name);
+                var value = ReadElement(reader, out var name);
                 arr.Add(value);
             }
 
@@ -69,7 +69,7 @@ namespace Lenneth.Core.Framework.LiteDB
         private BsonValue ReadElement(ByteReader reader, out string name)
         {
             var type = reader.ReadByte();
-            name = this.ReadCString(reader);
+            name = ReadCString(reader);
 
             if (type == 0x01) // Double
             {
@@ -77,15 +77,15 @@ namespace Lenneth.Core.Framework.LiteDB
             }
             else if (type == 0x02) // String
             {
-                return this.ReadString(reader);
+                return ReadString(reader);
             }
             else if (type == 0x03) // Document
             {
-                return this.ReadDocument(reader);
+                return ReadDocument(reader);
             }
             else if (type == 0x04) // Array
             {
-                return this.ReadArray(reader);
+                return ReadArray(reader);
             }
             else if (type == 0x05) // Binary
             {

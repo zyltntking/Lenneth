@@ -12,7 +12,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if (doc == null) throw new ArgumentNullException(nameof(doc));
 
-            this.Insert(collection, new BsonDocument[] { doc }, autoId);
+            Insert(collection, new BsonDocument[] { doc }, autoId);
 
             return doc["_id"];
         }
@@ -25,13 +25,13 @@ namespace Lenneth.Core.Framework.LiteDB
             if (collection.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(collection));
             if (docs == null) throw new ArgumentNullException(nameof(docs));
 
-            return this.Transaction<int>(collection, true, (col) =>
+            return Transaction<int>(collection, true, (col) =>
             {
                 var count = 0;
 
                 foreach (var doc in docs)
                 {
-                    this.InsertDocument(col, doc, autoId);
+                    InsertDocument(col, doc, autoId);
 
                     _trans.CheckPoint();
 
@@ -55,7 +55,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             foreach(var batch in docs.Batch(batchSize))
             {
-                count += this.Insert(collection, batch, autoId);
+                count += Insert(collection, batch, autoId);
             }
 
             return count;
@@ -71,7 +71,7 @@ namespace Lenneth.Core.Framework.LiteDB
             // ** this code can be removed when datafile change from 7 (HeaderPage.FILE_VERSION) **
             if (col.Sequence == 0 && col.DocumentCount > 0)
             {
-                var max = this.Max(col.CollectionName, "_id");
+                var max = Max(col.CollectionName, "_id");
 
                 // if max value is a number, convert to Sequence last value
                 // if not, just set sequence as document count
@@ -129,7 +129,7 @@ namespace Lenneth.Core.Framework.LiteDB
             {
                 // for each index, get all keys (support now multi-key) - gets distinct values only
                 // if index are unique, get single key only
-                var expr = new Lenneth.Core.Framework.LiteDB.BsonExpression(index.Expression);
+                var expr = new BsonExpression(index.Expression);
                 var keys = expr.Execute(doc, true);
 
                 // do a loop with all keys (multi-key supported)

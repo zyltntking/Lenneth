@@ -53,7 +53,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </returns>
         public Color ToNormalizedColor()
         {
-            return (this.Sum != 0) ? Color.FromArgb((int)(this.Alpha /= this.Sum), (int)(this.Red /= this.Sum), (int)(this.Green /= this.Sum), (int)(this.Blue /= this.Sum)) : Color.Empty;
+            return (Sum != 0) ? Color.FromArgb((int)(Alpha /= Sum), (int)(Red /= Sum), (int)(Green /= Sum), (int)(Blue /= Sum)) : Color.Empty;
         }
 
         /// <summary>
@@ -64,11 +64,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </param>
         public void AddPixel(Color32 pixel)
         {
-            this.Alpha += pixel.A;
-            this.Red += pixel.R;
-            this.Green += pixel.G;
-            this.Blue += pixel.B;
-            this.Sum++;
+            Alpha += pixel.A;
+            Red += pixel.R;
+            Green += pixel.G;
+            Blue += pixel.B;
+            Sum++;
         }
     }
 }

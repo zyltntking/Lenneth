@@ -28,7 +28,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public EntropyCrop()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         {
             Bitmap newImage = null;
             Bitmap grey = null;
-            Image image = factory.Image;
-            byte threshold = this.DynamicParameter;
+            var image = factory.Image;
+            byte threshold = DynamicParameter;
 
             try
             {
@@ -65,12 +65,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                 grey = new BinaryThreshold(threshold).ProcessFilter(grey);
 
                 // Search for the first white pixels
-                Rectangle rectangle = ImageMaths.GetFilteredBoundingRectangle(grey, 0);
+                var rectangle = ImageMaths.GetFilteredBoundingRectangle(grey, 0);
                 grey.Dispose();
 
                 newImage = new Bitmap(rectangle.Width, rectangle.Height, PixelFormat.Format32bppPArgb);
                 newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-                using (Graphics graphics = Graphics.FromImage(newImage))
+                using (var graphics = Graphics.FromImage(newImage))
                 {
                     graphics.DrawImage(
                                      image,
@@ -101,7 +101,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
 
                 newImage?.Dispose();
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return image;

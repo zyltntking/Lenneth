@@ -61,7 +61,7 @@ namespace Lenneth.Core.Framework.LiteDB
             _log.Write(Logger.Disk, "open datafile '{0}'", Path.GetFileName(_filename));
 
             // open/create file using read only/exclusive options
-            _stream = this.CreateFileStream(_filename,
+            _stream = CreateFileStream(_filename,
                 _options.FileMode == FileMode.ReadOnly ? System.IO.FileMode.Open : System.IO.FileMode.OpenOrCreate,
                 _options.FileMode == FileMode.ReadOnly ? FileAccess.Read : FileAccess.ReadWrite,
                 _options.FileMode == FileMode.Exclusive ? FileShare.None : FileShare.ReadWrite);
@@ -72,7 +72,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 _log.Write(Logger.Disk, "initialize new datafile");
 
                 // create datafile
-                Lenneth.Core.Framework.LiteDB.LiteEngine.CreateDatabase(_stream, password, _options.InitialSize);
+                LiteEngine.CreateDatabase(_stream, password, _options.InitialSize);
             }
         }
 
@@ -193,7 +193,7 @@ namespace Lenneth.Core.Framework.LiteDB
             _log.Write(Logger.Journal, "flush journal to disk");
 
             // ensure all data are persisted in disk
-            this.Flush();
+            Flush();
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             _log.Write(Logger.Journal, "shrink datafile to remove journal area");
 
-            this.SetLength(BasePage.GetSizeOfPages(lastPageID + 1));
+            SetLength(BasePage.GetSizeOfPages(lastPageID + 1));
         }
 
         /// <summary>

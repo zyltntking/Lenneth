@@ -41,7 +41,7 @@ namespace Lenneth.Core.Framework.LiteDB
             lock (_commands)
             {
                 var type = typeof(ICommand);
-                var types = TypeInfoExtensions.GetTypeInfo(typeof(Lenneth.Core.Framework.LiteDB.LiteEngine)).Assembly
+                var types = TypeInfoExtensions.GetTypeInfo(typeof(LiteEngine)).Assembly
                     .GetTypes()
                     .Where(p => type.IsAssignableFrom(p) && TypeInfoExtensions.GetTypeInfo(p).IsClass);
 

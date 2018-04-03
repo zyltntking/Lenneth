@@ -198,17 +198,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
             ObjectDetectorSearchMode searchMode, float scaleFactor,
             ObjectDetectorScalingMode scalingMode)
         {
-            this.classifier = new HaarClassifier(cascade);
+            classifier = new HaarClassifier(cascade);
             this.minSize = new Size(minSize, minSize);
             this.searchMode = searchMode;
-            this.ScalingMode = scalingMode;
-            this.factor = scaleFactor;
-            this.detectedObjects = new List<Rectangle>();
+            ScalingMode = scalingMode;
+            factor = scaleFactor;
+            detectedObjects = new List<Rectangle>();
 
-            this.baseWidth = cascade.Width;
-            this.baseHeight = cascade.Height;
+            baseWidth = cascade.Width;
+            baseHeight = cascade.Height;
 
-            this.match = new RectangleGroupMatching(0, 0.2);
+            match = new RectangleGroupMatching(0, 0.2);
         }
         #endregion
 
@@ -365,25 +365,25 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
             Rectangle[] objects;
 
             // Creates an integral image representation of the frame
-            using (FastBitmap fastBitmap = new FastBitmap(image, this.classifier.Cascade.HasTiltedFeatures))
+            using (var fastBitmap = new FastBitmap(image, classifier.Cascade.HasTiltedFeatures))
             {
                 // Creates a new list of detected objects.
-                this.detectedObjects.Clear();
+                detectedObjects.Clear();
 
-                int width = fastBitmap.Width;
-                int height = fastBitmap.Height;
+                var width = fastBitmap.Width;
+                var height = fastBitmap.Height;
 
                 // Update parameters only if different size
                 if (steps == null || width != lastWidth || height != lastHeight)
                     update(width, height);
 
 
-                Rectangle window = Rectangle.Empty;
+                var window = Rectangle.Empty;
 
                 // For each scaling step
-                for (int i = 0; i < steps.Length; i++)
+                for (var i = 0; i < steps.Length; i++)
                 {
-                    float scaling = steps[i];
+                    var scaling = steps[i];
 
                     // Set the classifier window scale
                     classifier.Scale = scaling;
@@ -416,18 +416,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                     }
 
                     // Grab some scan loop parameters
-                    int xStep = window.Width >> 3;
-                    int yStep = window.Height >> 3;
+                    var xStep = window.Width >> 3;
+                    var yStep = window.Height >> 3;
 
-                    int xEnd = width - window.Width;
-                    int yEnd = height - window.Height;
+                    var xEnd = width - window.Width;
+                    var yEnd = height - window.Height;
 
 
                     // Parallel mode. Scan the integral image searching
                     // for objects in the window with parallelization.
                     var bag = new System.Collections.Concurrent.ConcurrentBag<Rectangle>();
 
-                    int numSteps = (int)Math.Ceiling((double)yEnd / yStep);
+                    var numSteps = (int)Math.Ceiling((double)yEnd / yStep);
 
                     // For each pixel in the window column
                     var window1 = window;
@@ -436,15 +436,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                         numSteps,
                         (j, options) =>
                         {
-                            int y = j * yStep;
+                            var y = j * yStep;
 
                             // Create a local window reference
-                            Rectangle localWindow = window1;
+                            var localWindow = window1;
 
                             localWindow.Y = y;
 
                             // For each pixel in the window row
-                            for (int x = 0; x < xEnd; x += xStep)
+                            for (var x = 0; x < xEnd; x += xStep)
                             {
                                 if (options.ShouldExitCurrentIteration) return;
 
@@ -467,7 +467,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                     // add objects to the detected objects collection.
                     if (searchMode == ObjectDetectorSearchMode.NoOverlap)
                     {
-                        foreach (Rectangle obj in bag)
+                        foreach (var obj in bag)
                         {
                             if (!overlaps(obj))
                             {
@@ -485,7 +485,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                     }
                     else
                     {
-                        foreach (Rectangle obj in bag)
+                        foreach (var obj in bag)
                         {
                             detectedObjects.Add(obj);
                         }
@@ -508,25 +508,25 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
 
         private void update(int width, int height)
         {
-            List<float> listSteps = new List<float>();
+            var listSteps = new List<float>();
 
             // Set initial parameters according to scaling mode
             if (scalingMode == ObjectDetectorScalingMode.SmallerToGreater)
             {
-                float start = 1f;
-                float stop = Math.Min(width / (float)baseWidth, height / (float)baseHeight);
-                float step = factor;
+                var start = 1f;
+                var stop = Math.Min(width / (float)baseWidth, height / (float)baseHeight);
+                var step = factor;
 
-                for (float f = start; f < stop; f *= step)
+                for (var f = start; f < stop; f *= step)
                     listSteps.Add(f);
             }
             else
             {
-                float start = Math.Min(width / (float)baseWidth, height / (float)baseHeight);
-                float stop = 1f;
-                float step = 1f / factor;
+                var start = Math.Min(width / (float)baseWidth, height / (float)baseHeight);
+                var stop = 1f;
+                var step = 1f / factor;
 
-                for (float f = start; f > stop; f *= step)
+                for (var f = start; f > stop; f *= step)
                     listSteps.Add(f);
             }
 
@@ -546,11 +546,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                 return;
             }
 
-            bool equals = true;
-            foreach (Rectangle current in rectangles)
+            var equals = true;
+            foreach (var current in rectangles)
             {
-                bool found = false;
-                foreach (Rectangle last in lastObjects)
+                var found = false;
+                foreach (var last in lastObjects)
                 {
                     if (current.IsEqual(last, steadyThreshold))
                     {
@@ -578,7 +578,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
 
         private bool overlaps(Rectangle rect)
         {
-            foreach (Rectangle r in detectedObjects)
+            foreach (var r in detectedObjects)
             {
                 if (rect.IntersectsWith(r))
                 {

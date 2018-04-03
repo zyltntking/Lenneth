@@ -27,10 +27,10 @@ namespace Lenneth.Core.Framework.LiteDB
 
         internal override IEnumerable<IndexNode> Run(CollectionPage col, IndexService indexer)
         {
-            this.UseIndex = false;
-            this.UseFilter = true;
+            UseIndex = false;
+            UseFilter = true;
 
-            return Query.All().Run(col, indexer);
+            return All().Run(col, indexer);
         }
 
         internal override IEnumerable<IndexNode> ExecuteIndex(IndexService indexer, CollectionIndex index)

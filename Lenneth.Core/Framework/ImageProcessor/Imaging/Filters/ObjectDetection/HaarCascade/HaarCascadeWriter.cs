@@ -26,7 +26,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public HaarCascadeWriter(TextWriter stream)
         {
-            this.writer = stream;
+            writer = stream;
         }
 
         /// <summary>
@@ -37,8 +37,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public void Write(HaarCascade cascade, string className)
         {
-            for (int i = 0; i < cascade.Stages.Length; i++)
-                for (int j = 0; j < cascade.Stages[i].Trees.Length; j++)
+            for (var i = 0; i < cascade.Stages.Length; i++)
+                for (var j = 0; j < cascade.Stages[i].Trees.Length; j++)
                     if (cascade.Stages[i].Trees[j].Length != 1)
                         throw new ArgumentException("Only cascades with single node trees are currently supported.");
 
@@ -82,7 +82,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
             }
 
             // Write cascade stages
-            for (int i = 0; i < cascade.Stages.Length; i++)
+            for (var i = 0; i < cascade.Stages.Length; i++)
                 writeStage(i, cascade.Stages[i]);
 
             writer.WriteLine();
@@ -100,7 +100,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
                 stage.ParentIndex, stage.NextIndex);
 
             // Write stage trees
-            for (int j = 0; j < stage.Trees.Length; j++)
+            for (var j = 0; j < stage.Trees.Length; j++)
                 writeTrees(stage, j);
 
             writer.WriteLine("            stage.Trees = nodes.ToArray(); stages.Add(stage);");
@@ -130,7 +130,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
                 writer.Write("true, ");
 
             // Write Haar-like rectangular features
-            for (int k = 0; k < node.Feature.Rectangles.Length; k++)
+            for (var k = 0; k < node.Feature.Rectangles.Length; k++)
             {
                 writeRectangle(node.Feature.Rectangles[k]);
 

@@ -63,7 +63,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
             // We do this here so that they can be changed between processor methods.
             if (factory.PreserveExifData)
             {
-                foreach (KeyValuePair<int, PropertyItem> propertItem in factory.ExifPropertyItems)
+                foreach (var propertItem in factory.ExifPropertyItems)
                 {
                     factory.Image.SetPropertyItem(propertItem.Value);
                 }
@@ -88,14 +88,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         public override Image Save(Stream stream, Image image, long bitDepth)
         {
             // Tiffs can be saved with different bit depths.
-            using (EncoderParameters encoderParameters = new EncoderParameters(2))
+            using (var encoderParameters = new EncoderParameters(2))
             {
                 encoderParameters.Param[0] = new EncoderParameter(Encoder.Compression, (long)(bitDepth == 1 ? EncoderValue.CompressionCCITT4 : EncoderValue.CompressionLZW));
                 encoderParameters.Param[1] = new EncoderParameter(Encoder.ColorDepth, Math.Min(32, bitDepth));
 
-                ImageCodecInfo imageCodecInfo =
+                var imageCodecInfo =
                     ImageCodecInfo.GetImageEncoders()
-                        .FirstOrDefault(ici => ici.MimeType.Equals(this.MimeType, StringComparison.OrdinalIgnoreCase));
+                        .FirstOrDefault(ici => ici.MimeType.Equals(MimeType, StringComparison.OrdinalIgnoreCase));
 
                 if (imageCodecInfo != null)
                 {
@@ -122,14 +122,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         public override Image Save(string path, Image image, long bitDepth)
         {
             // Tiffs can be saved with different bit depths.
-            using (EncoderParameters encoderParameters = new EncoderParameters(2))
+            using (var encoderParameters = new EncoderParameters(2))
             {
                 encoderParameters.Param[0] = new EncoderParameter(Encoder.Compression, (long)(bitDepth == 1 ? EncoderValue.CompressionCCITT4 : EncoderValue.CompressionLZW));
                 encoderParameters.Param[1] = new EncoderParameter(Encoder.ColorDepth, Math.Min(32, bitDepth));
 
-                ImageCodecInfo imageCodecInfo =
+                var imageCodecInfo =
                     ImageCodecInfo.GetImageEncoders()
-                        .FirstOrDefault(ici => ici.MimeType.Equals(this.MimeType, StringComparison.OrdinalIgnoreCase));
+                        .FirstOrDefault(ici => ici.MimeType.Equals(MimeType, StringComparison.OrdinalIgnoreCase));
 
                 if (imageCodecInfo != null)
                 {

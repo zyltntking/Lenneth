@@ -11,7 +11,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public BsonFieldAttribute(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         public BsonFieldAttribute()

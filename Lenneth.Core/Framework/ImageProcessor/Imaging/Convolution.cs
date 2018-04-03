@@ -88,20 +88,20 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// <returns>A Gaussian Kernel with the given size and deviation.</returns>
         public double[,] CreateGaussianKernel(int kernelSize)
         {
-            double[,] kernel = new double[kernelSize, 1];
-            double sum = 0.0d;
+            var kernel = new double[kernelSize, 1];
+            var sum = 0.0d;
 
-            int midpoint = kernelSize / 2;
-            for (int i = 0; i < kernelSize; i++)
+            var midpoint = kernelSize / 2;
+            for (var i = 0; i < kernelSize; i++)
             {
-                int x = i - midpoint;
-                double gx = this.Gaussian(x);
+                var x = i - midpoint;
+                var gx = Gaussian(x);
                 sum += gx;
                 kernel[i, 0] = gx;
             }
 
             // Normalise kernel so that the sum of all weights equals 1
-            for (int i = 0; i < kernelSize; i++)
+            for (var i = 0; i < kernelSize; i++)
             {
                 kernel[i, 0] = kernel[i, 0] / sum;
             }
@@ -116,18 +116,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// <returns>A Gaussian Kernel with the given size and deviation.</returns>
         public double[,] CreateGaussianKernel2D(int kernelSize)
         {
-            double[,] kernel = new double[kernelSize, kernelSize];
+            var kernel = new double[kernelSize, kernelSize];
 
-            int midpoint = kernelSize / 2;
+            var midpoint = kernelSize / 2;
 
-            for (int i = 0; i < kernelSize; i++)
+            for (var i = 0; i < kernelSize; i++)
             {
-                int x = i - midpoint;
+                var x = i - midpoint;
 
-                for (int j = 0; j < kernelSize; j++)
+                for (var j = 0; j < kernelSize; j++)
                 {
-                    int y = j - midpoint;
-                    double gxy = this.Gaussian2D(x, y);
+                    var y = j - midpoint;
+                    var gxy = Gaussian2D(x, y);
                     kernel[i, j] = gxy;
                 }
             }
@@ -144,19 +144,19 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         public double[,] CreateGuassianBlurFilter(int kernelSize)
         {
             // Create kernel
-            double[,] kernel = this.CreateGaussianKernel2D(kernelSize);
-            double min = kernel[0, 0];
+            var kernel = CreateGaussianKernel2D(kernelSize);
+            var min = kernel[0, 0];
 
             // Convert to integer blurring kernel. First of all the integer kernel is calculated from Kernel2D
             // by dividing all elements by the element with the smallest value.
-            double[,] intKernel = new double[kernelSize, kernelSize];
-            int divider = 0;
+            var intKernel = new double[kernelSize, kernelSize];
+            var divider = 0;
 
-            for (int i = 0; i < kernelSize; i++)
+            for (var i = 0; i < kernelSize; i++)
             {
-                for (int j = 0; j < kernelSize; j++)
+                for (var j = 0; j < kernelSize; j++)
                 {
-                    double v = kernel[i, j] / min;
+                    var v = kernel[i, j] / min;
 
                     if (v > ushort.MaxValue)
                     {
@@ -171,7 +171,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
             }
 
             // Update filter
-            this.Divider = divider;
+            Divider = divider;
             return intKernel;
         }
 
@@ -184,19 +184,19 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         public double[,] CreateGuassianSharpenFilter(int kernelSize)
         {
             // Create kernel
-            double[,] kernel = this.CreateGaussianKernel2D(kernelSize);
-            double min = kernel[0, 0];
+            var kernel = CreateGaussianKernel2D(kernelSize);
+            var min = kernel[0, 0];
 
             // integer kernel
-            double[,] intKernel = new double[kernelSize, kernelSize];
-            int sum = 0;
-            int divider = 0;
+            var intKernel = new double[kernelSize, kernelSize];
+            var sum = 0;
+            var divider = 0;
 
-            for (int i = 0; i < kernelSize; i++)
+            for (var i = 0; i < kernelSize; i++)
             {
-                for (int j = 0; j < kernelSize; j++)
+                for (var j = 0; j < kernelSize; j++)
                 {
-                    double v = kernel[i, j] / min;
+                    var v = kernel[i, j] / min;
 
                     if (v > ushort.MaxValue)
                     {
@@ -211,11 +211,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
             }
 
             // Recalculate the kernel.
-            int center = kernelSize >> 1;
+            var center = kernelSize >> 1;
 
-            for (int i = 0; i < kernelSize; i++)
+            for (var i = 0; i < kernelSize; i++)
             {
-                for (int j = 0; j < kernelSize; j++)
+                for (var j = 0; j < kernelSize; j++)
                 {
                     if ((i == center) && (j == center))
                     {
@@ -234,7 +234,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
             }
 
             // Update filter
-            this.Divider = divider;
+            Divider = divider;
             return intKernel;
         }
 
@@ -247,19 +247,19 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// <returns>A processed bitmap.</returns>
         public Bitmap ProcessKernel(Bitmap source, double[,] kernel, bool fixGamma)
         {
-            int width = source.Width;
-            int height = source.Height;
-            Bitmap destination = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
+            var width = source.Width;
+            var height = source.Height;
+            var destination = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
             destination.SetResolution(source.HorizontalResolution, source.VerticalResolution);
 
-            using (FastBitmap sourceBitmap = new FastBitmap(source))
+            using (var sourceBitmap = new FastBitmap(source))
             {
-                using (FastBitmap destinationBitmap = new FastBitmap(destination))
+                using (var destinationBitmap = new FastBitmap(destination))
                 {
-                    int kernelLength = kernel.GetLength(0);
-                    int radius = kernelLength >> 1;
-                    int kernelSize = kernelLength * kernelLength;
-                    int threshold = this.Threshold;
+                    var kernelLength = kernel.GetLength(0);
+                    var radius = kernelLength >> 1;
+                    var kernelSize = kernelLength * kernelLength;
+                    var threshold = Threshold;
 
                     // For each line
                     Parallel.For(
@@ -268,7 +268,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                         y =>
                         {
                             // For each pixel
-                            for (int x = 0; x < width; x++)
+                            for (var x = 0; x < width; x++)
                             {
                                 // The number of kernel elements taken into account
                                 int processedKernelSize;
@@ -278,13 +278,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                                 double alpha;
                                 double divider;
                                 double green;
-                                double red = green = blue = alpha = divider = processedKernelSize = 0;
+                                var red = green = blue = alpha = divider = processedKernelSize = 0;
 
                                 // For each kernel row
-                                for (int i = 0; i < kernelLength; i++)
+                                for (var i = 0; i < kernelLength; i++)
                                 {
-                                    int ir = i - radius;
-                                    int offsetY = y + ir;
+                                    var ir = i - radius;
+                                    var offsetY = y + ir;
 
                                     // Skip the current row
                                     if (offsetY < 0)
@@ -299,10 +299,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                                     }
 
                                     // For each kernel column
-                                    for (int j = 0; j < kernelLength; j++)
+                                    for (var j = 0; j < kernelLength; j++)
                                     {
-                                        int jr = j - radius;
-                                        int offsetX = x + jr;
+                                        var jr = j - radius;
+                                        var offsetX = x + jr;
 
                                         // Skip the column
                                         if (offsetX < 0)
@@ -313,14 +313,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                                         if (offsetX < width)
                                         {
                                             // ReSharper disable once AccessToDisposedClosure
-                                            Color sourceColor = sourceBitmap.GetPixel(offsetX, offsetY);
+                                            var sourceColor = sourceBitmap.GetPixel(offsetX, offsetY);
 
                                             if (fixGamma)
                                             {
                                                 sourceColor = PixelOperations.ToLinear(sourceColor);
                                             }
 
-                                            double k = kernel[i, j];
+                                            var k = kernel[i, j];
                                             divider += k;
 
                                             red += k * sourceColor.R;
@@ -337,15 +337,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                                 if (processedKernelSize == kernelSize)
                                 {
                                     // All kernel elements are processed; we are not on the edge.
-                                    divider = this.Divider;
+                                    divider = Divider;
                                 }
                                 else
                                 {
                                     // We are on an edge; do we need to use dynamic divider or not?
-                                    if (!this.UseDynamicDividerForEdges)
+                                    if (!UseDynamicDividerForEdges)
                                     {
                                         // Apply the set divider.
-                                        divider = this.Divider;
+                                        divider = Divider;
                                     }
                                 }
 
@@ -364,7 +364,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                                 blue += threshold;
                                 alpha += threshold;
 
-                                Color destinationColor = Color.FromArgb(alpha.ToByte(), red.ToByte(), green.ToByte(), blue.ToByte());
+                                var destinationColor = Color.FromArgb(alpha.ToByte(), red.ToByte(), green.ToByte(), blue.ToByte());
 
                                 if (fixGamma)
                                 {
@@ -391,15 +391,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// <returns>A processed bitmap.</returns>
         public Color[,] ProcessKernel(Color[,] source, double[,] kernel, bool fixGamma)
         {
-            int width = source.GetLength(0);
-            int height = source.GetLength(1);
+            var width = source.GetLength(0);
+            var height = source.GetLength(1);
 
-            int kernelLength = kernel.GetLength(0);
-            int radius = kernelLength >> 1;
-            int kernelSize = kernelLength * kernelLength;
-            int threshold = this.Threshold;
+            var kernelLength = kernel.GetLength(0);
+            var radius = kernelLength >> 1;
+            var kernelSize = kernelLength * kernelLength;
+            var threshold = Threshold;
 
-            Color[,] destination = new Color[width, height];
+            var destination = new Color[width, height];
 
             // For each line
             Parallel.For(
@@ -408,7 +408,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                 y =>
                 {
                     // For each pixel
-                    for (int x = 0; x < width; x++)
+                    for (var x = 0; x < width; x++)
                     {
                         // The number of kernel elements taken into account
                         int processedKernelSize;
@@ -418,13 +418,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                         double alpha;
                         double divider;
                         double green;
-                        double red = green = blue = alpha = divider = processedKernelSize = 0;
+                        var red = green = blue = alpha = divider = processedKernelSize = 0;
 
                         // For each kernel row
-                        for (int i = 0; i < kernelLength; i++)
+                        for (var i = 0; i < kernelLength; i++)
                         {
-                            int ir = i - radius;
-                            int offsetY = y + ir;
+                            var ir = i - radius;
+                            var offsetY = y + ir;
 
                             // Skip the current row
                             if (offsetY < 0)
@@ -439,10 +439,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                             }
 
                             // For each kernel column
-                            for (int j = 0; j < kernelLength; j++)
+                            for (var j = 0; j < kernelLength; j++)
                             {
-                                int jr = j - radius;
-                                int offsetX = x + jr;
+                                var jr = j - radius;
+                                var offsetX = x + jr;
 
                                 // Skip the column
                                 if (offsetX < 0)
@@ -453,14 +453,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                                 if (offsetX < width)
                                 {
                                     // ReSharper disable once AccessToDisposedClosure
-                                    Color sourceColor = source[offsetX, offsetY];
+                                    var sourceColor = source[offsetX, offsetY];
 
                                     if (fixGamma)
                                     {
                                         sourceColor = PixelOperations.ToLinear(sourceColor);
                                     }
 
-                                    double k = kernel[i, j];
+                                    var k = kernel[i, j];
                                     divider += k;
 
                                     red += k * sourceColor.R;
@@ -477,15 +477,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                         if (processedKernelSize == kernelSize)
                         {
                             // All kernel elements are processed; we are not on the edge.
-                            divider = this.Divider;
+                            divider = Divider;
                         }
                         else
                         {
                             // We are on an edge; do we need to use dynamic divider or not?
-                            if (!this.UseDynamicDividerForEdges)
+                            if (!UseDynamicDividerForEdges)
                             {
                                 // Apply the set divider.
-                                divider = this.Divider;
+                                divider = Divider;
                             }
                         }
 
@@ -504,7 +504,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                         blue += threshold;
                         alpha += threshold;
 
-                        Color destinationColor = Color.FromArgb(alpha.ToByte(), red.ToByte(), green.ToByte(), blue.ToByte());
+                        var destinationColor = Color.FromArgb(alpha.ToByte(), red.ToByte(), green.ToByte(), blue.ToByte());
 
                         if (fixGamma)
                         {
@@ -526,13 +526,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         private double Gaussian(double x)
         {
             const double Numerator = 1.0;
-            double denominator = Math.Sqrt(2 * Math.PI) * this.standardDeviation;
+            var denominator = Math.Sqrt(2 * Math.PI) * standardDeviation;
 
-            double exponentNumerator = -x * x;
-            double exponentDenominator = 2 * Math.Pow(this.standardDeviation, 2);
+            var exponentNumerator = -x * x;
+            var exponentDenominator = 2 * Math.Pow(standardDeviation, 2);
 
-            double left = Numerator / denominator;
-            double right = Math.Exp(exponentNumerator / exponentDenominator);
+            var left = Numerator / denominator;
+            var right = Math.Exp(exponentNumerator / exponentDenominator);
 
             return left * right;
         }
@@ -546,13 +546,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         private double Gaussian2D(double x, double y)
         {
             const double Numerator = 1.0;
-            double denominator = (2 * Math.PI) * Math.Pow(this.standardDeviation, 2);
+            var denominator = (2 * Math.PI) * Math.Pow(standardDeviation, 2);
 
-            double exponentNumerator = (-x * x) + (-y * y);
-            double exponentDenominator = 2 * Math.Pow(this.standardDeviation, 2);
+            var exponentNumerator = (-x * x) + (-y * y);
+            var exponentDenominator = 2 * Math.Pow(standardDeviation, 2);
 
-            double left = Numerator / denominator;
-            double right = Math.Exp(exponentNumerator / exponentDenominator);
+            var left = Numerator / denominator;
+            var right = Math.Exp(exponentNumerator / exponentDenominator);
 
             return left * right;
         }

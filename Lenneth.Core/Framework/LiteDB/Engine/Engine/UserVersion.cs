@@ -18,7 +18,7 @@
             }
             set
             {
-                this.Transaction<bool>(null, false, (col) =>
+                Transaction<bool>(null, false, (col) =>
                 {
                     var header = _pager.GetPage<HeaderPage>(0);
 

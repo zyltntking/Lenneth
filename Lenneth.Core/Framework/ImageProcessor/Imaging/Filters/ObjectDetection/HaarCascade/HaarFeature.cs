@@ -57,7 +57,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public HaarFeature()
         {
-            this.Rectangles = new HaarRectangle[2];
+            Rectangles = new HaarRectangle[2];
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public HaarFeature(params HaarRectangle[] rectangles)
         {
-            this.Rectangles = rectangles;
+            Rectangles = rectangles;
         }
 
         /// <summary>
@@ -82,10 +82,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public HaarFeature(bool tilted, params int[][] rectangles)
         {
-            this.Tilted = tilted;
-            this.Rectangles = new HaarRectangle[rectangles.Length];
-            for (int i = 0; i < rectangles.Length; i++)
-                this.Rectangles[i] = new HaarRectangle(rectangles[i]);
+            Tilted = tilted;
+            Rectangles = new HaarRectangle[rectangles.Length];
+            for (var i = 0; i < rectangles.Length; i++)
+                Rectangles[i] = new HaarRectangle(rectangles[i]);
         }
 
         /// <summary>
@@ -99,12 +99,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// </returns>
         public double GetSum(FastBitmap image, int x, int y)
         {
-            double sum = 0.0;
+            var sum = 0.0;
 
             if (!Tilted)
             {
                 // Compute the sum for a standard feature
-                foreach (HaarRectangle rect in Rectangles)
+                foreach (var rect in Rectangles)
                 {
                     sum += image.GetSum(x + rect.ScaledX, y + rect.ScaledY,
                         rect.ScaledWidth, rect.ScaledHeight) * rect.ScaledWeight;
@@ -113,7 +113,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
             else
             {
                 // Compute the sum for a rotated feature
-                foreach (HaarRectangle rect in Rectangles)
+                foreach (var rect in Rectangles)
                 {
                     sum += image.GetSumT(x + rect.ScaledX, y + rect.ScaledY,
                         rect.ScaledWidth, rect.ScaledHeight) * rect.ScaledWeight;
@@ -132,8 +132,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
             // Manual loop unfolding
             if (Rectangles.Length == 2)
             {
-                HaarRectangle a = Rectangles[0];
-                HaarRectangle b = Rectangles[1];
+                var a = Rectangles[0];
+                var b = Rectangles[1];
 
                 b.ScaleRectangle(scale);
                 b.ScaleWeight(weight);
@@ -143,9 +143,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
             }
             else // rectangles.Length == 3
             {
-                HaarRectangle a = Rectangles[0];
-                HaarRectangle b = Rectangles[1];
-                HaarRectangle c = Rectangles[2];
+                var a = Rectangles[0];
+                var b = Rectangles[1];
+                var c = Rectangles[2];
 
                 c.ScaleRectangle(scale);
                 c.ScaleWeight(weight);
@@ -177,7 +177,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
             var rec = new List<HaarRectangle>();
             while (reader.Name == "_")
             {
-                string str = reader.ReadElementContentAsString();
+                var str = reader.ReadElementContentAsString();
                 rec.Add(HaarRectangle.Parse(str));
 
                 while (reader.Name != "_" && reader.Name != "tilted" &&
@@ -210,14 +210,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// </returns>
         public object Clone()
         {
-            HaarRectangle[] newRectangles = new HaarRectangle[this.Rectangles.Length];
-            for (int i = 0; i < newRectangles.Length; i++)
+            var newRectangles = new HaarRectangle[Rectangles.Length];
+            for (var i = 0; i < newRectangles.Length; i++)
             {
-                HaarRectangle rect = Rectangles[i];
+                var rect = Rectangles[i];
                 newRectangles[i] = new HaarRectangle(rect.X, rect.Y, rect.Width, rect.Height, rect.Weight);
             }
 
-            return new HaarFeature { Rectangles = newRectangles, Tilted = this.Tilted };
+            return new HaarFeature { Rectangles = newRectangles, Tilted = Tilted };
         }
     }
 }

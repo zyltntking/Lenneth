@@ -32,26 +32,26 @@ namespace Lenneth.Core.Framework.LiteDB
 
             _engine = engine;
 
-            this.Id = id;
-            this.Filename = Path.GetFileName(filename);
-            this.MimeType = MimeTypeConverter.GetMimeType(this.Filename);
-            this.Length = 0;
-            this.Chunks = 0;
-            this.UploadDate = DateTime.Now;
-            this.Metadata = new BsonDocument();
+            Id = id;
+            Filename = Path.GetFileName(filename);
+            MimeType = MimeTypeConverter.GetMimeType(Filename);
+            Length = 0;
+            Chunks = 0;
+            UploadDate = DateTime.Now;
+            Metadata = new BsonDocument();
         }
 
         internal LiteFileInfo(LiteEngine engine, BsonDocument doc)
         {
             _engine = engine;
 
-            this.Id = doc["_id"].AsString;
-            this.Filename = doc["filename"].AsString;
-            this.MimeType = doc["mimeType"].AsString;
-            this.Length = doc["length"].AsInt64;
-            this.Chunks = doc["chunks"].AsInt32;
-            this.UploadDate = doc["uploadDate"].AsDateTime;
-            this.Metadata = doc["metadata"].AsDocument;
+            Id = doc["_id"].AsString;
+            Filename = doc["filename"].AsString;
+            MimeType = doc["mimeType"].AsString;
+            Length = doc["length"].AsInt64;
+            Chunks = doc["chunks"].AsInt32;
+            UploadDate = doc["uploadDate"].AsDateTime;
+            Metadata = doc["metadata"].AsDocument;
         }
 
         public BsonDocument AsDocument
@@ -60,13 +60,13 @@ namespace Lenneth.Core.Framework.LiteDB
             {
                 return new BsonDocument
                 {
-                    { "_id", this.Id },
-                    { "filename", this.Filename },
-                    { "mimeType", this.MimeType },
-                    { "length", this.Length },
-                    { "chunks", this.Chunks },
-                    { "uploadDate", this.UploadDate },
-                    { "metadata", this.Metadata ?? new BsonDocument() }
+                    { "_id", Id },
+                    { "filename", Filename },
+                    { "mimeType", MimeType },
+                    { "length", Length },
+                    { "chunks", Chunks },
+                    { "uploadDate", UploadDate },
+                    { "metadata", Metadata ?? new BsonDocument() }
                 };
             }
         }
@@ -94,7 +94,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
-            using (var reader = this.OpenRead())
+            using (var reader = OpenRead())
             {
                 reader.CopyTo(stream);
             }

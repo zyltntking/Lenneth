@@ -33,13 +33,13 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             get
             {
-                return this.RawValue.GetOrDefault(name, BsonValue.Null);
+                return RawValue.GetOrDefault(name, Null);
             }
             set
             {
                 if (!IsValidFieldName(name)) throw new ArgumentException(string.Format("Field '{0}' has an invalid name.", name));
 
-                this.RawValue[name] = value ?? BsonValue.Null;
+                RawValue[name] = value ?? Null;
             }
         }
 
@@ -93,7 +93,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             var value = expr.Execute(this, true).First();
 
-            return this.Set(path, value);
+            return Set(path, value);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             var value = expr.Execute(this, true).First();
 
-            return this.Set(path, value, addInArray);
+            return Set(path, value, addInArray);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Lenneth.Core.Framework.LiteDB
             if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(value));
             if (value == null) throw new ArgumentNullException(nameof(value));
 
-            if (addInArray == false) return this.Set(path, value);
+            if (addInArray == false) return Set(path, value);
 
             var expr = new BsonExpression(path.StartsWith("$") ? path : "$." + path);
             var changed = false;
@@ -168,9 +168,9 @@ namespace Lenneth.Core.Framework.LiteDB
         public override int CompareTo(BsonValue other)
         {
             // if types are different, returns sort type order
-            if (other.Type != BsonType.Document) return this.Type.CompareTo(other.Type);
+            if (other.Type != BsonType.Document) return Type.CompareTo(other.Type);
 
-            var thisKeys = this.Keys.ToArray();
+            var thisKeys = Keys.ToArray();
             var thisLength = thisKeys.Length;
 
             var otherDoc = other.AsDocument;
@@ -205,7 +205,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             get
             {
-                return this.RawValue.Keys
+                return RawValue.Keys
                     .OrderBy(x => x == "_id" ? 1 : 2)
                     .ToList();
             }
@@ -215,7 +215,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             get
             {
-                return this.RawValue.Values;
+                return RawValue.Values;
             }
         }
 
@@ -223,7 +223,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             get
             {
-                return this.RawValue.Count;
+                return RawValue.Count;
             }
         }
 
@@ -237,7 +237,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public bool ContainsKey(string key)
         {
-            return this.RawValue.ContainsKey(key);
+            return RawValue.ContainsKey(key);
         }
 
         public void Add(string key, BsonValue value)
@@ -247,12 +247,12 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public bool Remove(string key)
         {
-            return this.RawValue.Remove(key);
+            return RawValue.Remove(key);
         }
 
         public bool TryGetValue(string key, out BsonValue value)
         {
-            return this.RawValue.TryGetValue(key, out value);
+            return RawValue.TryGetValue(key, out value);
         }
 
         public void Add(KeyValuePair<string, BsonValue> item)
@@ -262,22 +262,22 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public void Clear()
         {
-            this.RawValue.Clear();
+            RawValue.Clear();
         }
 
         public bool Contains(KeyValuePair<string, BsonValue> item)
         {
-            return this.RawValue.Contains(item);
+            return RawValue.Contains(item);
         }
 
         public void CopyTo(KeyValuePair<string, BsonValue>[] array, int arrayIndex)
         {
-            ((ICollection<KeyValuePair<string, BsonValue>>)this.RawValue).CopyTo(array, arrayIndex);
+            ((ICollection<KeyValuePair<string, BsonValue>>)RawValue).CopyTo(array, arrayIndex);
         }
 
         public void CopyTo(BsonDocument doc)
         {
-            var myDict = this.RawValue;
+            var myDict = RawValue;
             var otherDict = doc.RawValue;
 
             foreach(var key in myDict.Keys)
@@ -288,17 +288,17 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public bool Remove(KeyValuePair<string, BsonValue> item)
         {
-            return this.RawValue.Remove(item.Key);
+            return RawValue.Remove(item.Key);
         }
 
         public IEnumerator<KeyValuePair<string, BsonValue>> GetEnumerator()
         {
-            return this.RawValue.GetEnumerator();
+            return RawValue.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.RawValue.GetEnumerator();
+            return RawValue.GetEnumerator();
         }
 
         #endregion

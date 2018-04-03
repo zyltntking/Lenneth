@@ -12,10 +12,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using Lenneth.Core.Framework.ImageProcessor.Common.Exceptions;
+
 
 namespace Lenneth.Core.Framework.ImageProcessor.Processors
-{
+{using Common.Exceptions;
     /// <summary>
     /// Encapsulates methods to change the saturation component of the image.
     /// </summary>
@@ -29,7 +29,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Saturation()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -63,11 +63,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         public Image ProcessImage(ImageFactory factory)
         {
             Bitmap newImage = null;
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                float saturationFactor = (float)this.DynamicParameter / 100;
+                var saturationFactor = (float)DynamicParameter / 100;
 
                 // Stop at -1 to prevent inversion.
                 saturationFactor++;
@@ -75,15 +75,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                 // The matrix is set up to "shear" the colour space using the following set of values.  
                 // Note that each colour component has an effective luminance which contributes to the
                 // overall brightness of the pixel.
-                float saturationComplement = 1.0f - saturationFactor;
-                float saturationComplementR = 0.3086f * saturationComplement;
-                float saturationComplementG = 0.6094f * saturationComplement;
-                float saturationComplementB = 0.0820f * saturationComplement;
+                var saturationComplement = 1.0f - saturationFactor;
+                var saturationComplementR = 0.3086f * saturationComplement;
+                var saturationComplementG = 0.6094f * saturationComplement;
+                var saturationComplementB = 0.0820f * saturationComplement;
 
                 newImage = new Bitmap(image.Width, image.Height, PixelFormat.Format32bppPArgb);
                 newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
-                ColorMatrix colorMatrix =
+                var colorMatrix =
                     new ColorMatrix(
                         new[]
                             {
@@ -106,9 +106,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                                 new float[] { 0, 0, 0, 0, 1 }
                             });
 
-                using (Graphics graphics = Graphics.FromImage(newImage))
+                using (var graphics = Graphics.FromImage(newImage))
                 {
-                    using (ImageAttributes imageAttributes = new ImageAttributes())
+                    using (var imageAttributes = new ImageAttributes())
                     {
                         imageAttributes.SetColorMatrix(colorMatrix);
 
@@ -131,7 +131,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             {
                 newImage?.Dispose();
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return image;

@@ -59,7 +59,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         public Int32Converter(int value)
             : this()
         {
-            this.Value = value;
+            Value = value;
         }
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace Lenneth.Core.Framework.LiteDB
             // if T is BsonDocument, just return them
             if (type == typeof(BsonDocument)) return doc;
 
-            return this.Deserialize(type, doc);
+            return Deserialize(type, doc);
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public virtual T ToObject<T>(BsonDocument doc)
         {
-            return (T)this.ToObject(typeof(T), doc);
+            return (T)ToObject(typeof(T), doc);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if (value == null) return default(T);
 
-            var result = this.Deserialize(typeof(T), value);
+            var result = Deserialize(typeof(T), value);
 
             return (T)result;
         }
@@ -134,15 +134,15 @@ namespace Lenneth.Core.Framework.LiteDB
                 // when array are from an object (like in Dictionary<string, object> { ["array"] = new string[] { "a", "b" } 
                 if (type == typeof(object))
                 {
-                    return this.DeserializeArray(typeof(object), value.AsArray);
+                    return DeserializeArray(typeof(object), value.AsArray);
                 }
                 if (type.IsArray)
                 {
-                    return this.DeserializeArray(type.GetElementType(), value.AsArray);
+                    return DeserializeArray(type.GetElementType(), value.AsArray);
                 }
                 else
                 {
-                    return this.DeserializeList(type, value.AsArray);
+                    return DeserializeList(type, value.AsArray);
                 }
             }
 
@@ -172,11 +172,11 @@ namespace Lenneth.Core.Framework.LiteDB
                     var k = TypeInfoExtensions.GetTypeInfo(type).GetGenericArguments()[0];
                     var t = TypeInfoExtensions.GetTypeInfo(type).GetGenericArguments()[1];
 
-                    this.DeserializeDictionary(k, t, (IDictionary)o, value.AsDocument);
+                    DeserializeDictionary(k, t, (IDictionary)o, value.AsDocument);
                 }
                 else
                 {
-                    this.DeserializeObject(type, o, doc);
+                    DeserializeObject(type, o, doc);
                 }
 
                 return o;
@@ -194,7 +194,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             foreach (var item in array)
             {
-                arr.SetValue(this.Deserialize(type, item), idx++);
+                arr.SetValue(Deserialize(type, item), idx++);
             }
 
             return arr;
@@ -208,7 +208,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             if (list != null)
             {
-                foreach (BsonValue item in value)
+                foreach (var item in value)
                 {
                     list.Add(Deserialize(itemType, item));
                 }
@@ -217,7 +217,7 @@ namespace Lenneth.Core.Framework.LiteDB
             {
                 var addMethod = type.GetMethod("Add");
 
-                foreach (BsonValue item in value)
+                foreach (var item in value)
                 {
                     addMethod.Invoke(enumerable, new[] { Deserialize(itemType, item) });
                 }
@@ -231,7 +231,7 @@ namespace Lenneth.Core.Framework.LiteDB
             foreach (var key in value.Keys)
             {
                 var k = TypeInfoExtensions.GetTypeInfo(K).IsEnum ? Enum.Parse(K, key) : Convert.ChangeType(key, K);
-                var v = this.Deserialize(T, value[key]);
+                var v = Deserialize(T, value[key]);
 
                 dict.Add(k, v);
             }
@@ -239,7 +239,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         private void DeserializeObject(Type type, object obj, BsonDocument value)
         {
-            var entity = this.GetEntityMapper(type);
+            var entity = GetEntityMapper(type);
 
             foreach (var member in entity.Members.Where(x => x.Setter != null))
             {
@@ -254,7 +254,7 @@ namespace Lenneth.Core.Framework.LiteDB
                     }
                     else
                     {
-                        member.Setter(obj, this.Deserialize(member.DataType, val));
+                        member.Setter(obj, Deserialize(member.DataType, val));
                     }
                 }
             }

@@ -16,13 +16,13 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
     {
         public bool IsCommand(StringScanner s)
         {
-            return this.IsCollectionCommand(s, "min");
+            return IsCollectionCommand(s, "min");
         }
 
         public IEnumerable<BsonValue> Execute(StringScanner s, LiteEngine engine)
         {
-            var col = this.ReadCollection(engine, s);
-            var index = s.Scan(this.FieldPattern).Trim();
+            var col = ReadCollection(engine, s);
+            var index = s.Scan(FieldPattern).Trim();
 
             if (!s.HasTerminated) throw LiteException.SyntaxError(s, "Invalid field/index name");
 

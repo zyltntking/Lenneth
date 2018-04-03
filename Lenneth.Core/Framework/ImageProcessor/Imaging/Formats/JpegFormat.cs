@@ -69,11 +69,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         {
             // Jpegs can be saved with different settings to include a quality setting for the JPEG compression.
             // This improves output compression and quality.
-            using (EncoderParameters encoderParameters = FormatUtilities.GetEncodingParameters(this.Quality))
+            using (var encoderParameters = FormatUtilities.GetEncodingParameters(Quality))
             {
-                ImageCodecInfo imageCodecInfo =
+                var imageCodecInfo =
                     ImageCodecInfo.GetImageEncoders()
-                        .FirstOrDefault(ici => ici.MimeType.Equals(this.MimeType, StringComparison.OrdinalIgnoreCase));
+                        .FirstOrDefault(ici => ici.MimeType.Equals(MimeType, StringComparison.OrdinalIgnoreCase));
 
                 if (imageCodecInfo != null)
                 {
@@ -101,11 +101,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         {
             // Jpegs can be saved with different settings to include a quality setting for the JPEG compression.
             // This improves output compression and quality.
-            using (EncoderParameters encoderParameters = FormatUtilities.GetEncodingParameters(this.Quality))
+            using (var encoderParameters = FormatUtilities.GetEncodingParameters(Quality))
             {
-                ImageCodecInfo imageCodecInfo =
+                var imageCodecInfo =
                     ImageCodecInfo.GetImageEncoders()
-                        .FirstOrDefault(ici => ici.MimeType.Equals(this.MimeType, StringComparison.OrdinalIgnoreCase));
+                        .FirstOrDefault(ici => ici.MimeType.Equals(MimeType, StringComparison.OrdinalIgnoreCase));
 
                 if (imageCodecInfo != null)
                 {

@@ -15,13 +15,13 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
     {
         public bool IsCommand(StringScanner s)
         {
-            return this.IsFileCommand(s, "update");
+            return IsFileCommand(s, "update");
         }
 
         public IEnumerable<BsonValue> Execute(StringScanner s, LiteEngine engine)
         {
             var fs = new LiteStorage(engine);
-            var id = this.ReadId(s);
+            var id = ReadId(s);
             var metadata = JsonSerializer.Deserialize(s.ToString()).AsDocument;
 
             s.ThrowIfNotFinish();

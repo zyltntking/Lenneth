@@ -25,8 +25,8 @@ namespace Lenneth.Core.Framework.LiteDB
             _position = skip;
             _nodes = null;
 
-            this.HasMore = true;
-            this.Documents = new List<BsonDocument>();
+            HasMore = true;
+            Documents = new List<BsonDocument>();
         }
 
         /// <summary>
@@ -52,16 +52,16 @@ namespace Lenneth.Core.Framework.LiteDB
         public void Fetch(TransactionService trans, DataService data, BsonReader bsonReader)
         {
             // empty document buffer
-            this.Documents.Clear();
+            Documents.Clear();
 
             // while until must cache not recycle
             while (trans.CheckPoint() == false)
             {
                 // read next node
-                this.HasMore = _nodes.MoveNext();
+                HasMore = _nodes.MoveNext();
 
                 // if finish, exit loop
-                if (this.HasMore == false) return;
+                if (HasMore == false) return;
 
                 // if run ONLY under index, skip/limit before deserialize
                 if (_query.UseIndex && _query.UseFilter == false)
@@ -70,7 +70,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
                     if (--_limit <= -1)
                     {
-                        this.HasMore = false;
+                        HasMore = false;
                         return;
                     }
                 }
@@ -93,7 +93,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
                     if (--_limit <= -1)
                     {
-                        this.HasMore = false;
+                        HasMore = false;
                         return;
                     }
                 }
@@ -104,10 +104,10 @@ namespace Lenneth.Core.Framework.LiteDB
                 // avoid lock again just to check limit
                 if (_limit == 0)
                 {
-                    this.HasMore = false;
+                    HasMore = false;
                 }
 
-                this.Documents.Add(doc);
+                Documents.Add(doc);
             }
         }
 

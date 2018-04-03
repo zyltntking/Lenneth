@@ -89,10 +89,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public HaarFeatureNode(double threshold, double leftValue, double rightValue, bool tilted, params int[][] rectangles)
         {
-            this.Feature = new HaarFeature(tilted, rectangles);
-            this.Threshold = threshold;
-            this.LeftValue = leftValue;
-            this.RightValue = rightValue;
+            Feature = new HaarFeature(tilted, rectangles);
+            Threshold = threshold;
+            LeftValue = leftValue;
+            RightValue = rightValue;
         }
 
 
@@ -105,7 +105,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public object Clone()
         {
-            HaarFeatureNode r = new HaarFeatureNode();
+            var r = new HaarFeatureNode();
 
             r.Feature = (HaarFeature)Feature.Clone();
             r.Threshold = Threshold;

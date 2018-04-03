@@ -26,7 +26,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if (collection.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(collection));
 
-            return this.Transaction<bool>(collection, false, (col) =>
+            return Transaction<bool>(collection, false, (col) =>
             {
                 if (col == null) return false;
 
@@ -46,14 +46,14 @@ namespace Lenneth.Core.Framework.LiteDB
             if (collection.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(collection));
             if (newName.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(newName));
 
-            return this.Transaction<bool>(collection, false, (col) =>
+            return Transaction<bool>(collection, false, (col) =>
             {
                 if (col == null) return false;
 
                 _log.Write(Logger.Command, "rename collection '{0}' -> '{1}'", collection, newName);
 
                 // check if newName already exists
-                if (this.GetCollectionNames().Contains(newName, StringComparer.OrdinalIgnoreCase))
+                if (GetCollectionNames().Contains(newName, StringComparer.OrdinalIgnoreCase))
                 {
                     throw LiteException.AlreadyExistsCollectionName(newName);
                 }

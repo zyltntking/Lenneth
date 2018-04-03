@@ -13,12 +13,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using Lenneth.Core.Framework.ImageProcessor.Common.Exceptions;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData;
 
 namespace Lenneth.Core.Framework.ImageProcessor.Processors
 {
+    using Common.Exceptions;
+    using Imaging.Helpers;
+    using Imaging.MetaData;
+
     /// <summary>
     /// Encapsulates methods to rotate an image.
     /// </summary>
@@ -29,7 +30,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Rotate()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -62,18 +63,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                float angle = this.DynamicParameter;
+                float angle = DynamicParameter;
 
                 // Center of the image
                 float rotateAtX = Math.Abs(image.Width / 2);
                 float rotateAtY = Math.Abs(image.Height / 2);
 
                 // Create a rotated image.
-                image = this.RotateImage(image, rotateAtX, rotateAtY, angle);
+                image = RotateImage(image, rotateAtX, rotateAtY, angle);
 
                 if (factory.PreserveExifData && factory.ExifPropertyItems.Any())
                 {
@@ -88,7 +89,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
         }
 
@@ -100,22 +101,22 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// <param name="rotateAtY">The vertical pixel coordinate at which to rotate the image.</param>
         /// <param name="angle">The angle in degrees at which to rotate the image.</param>
         /// <returns>The image rotated to the given angle at the given position.</returns>
-        /// <remarks> 
-        /// Based on <see href="http://www.codeproject.com/Articles/58815/C-Image-PictureBox-Rotations?msg=4155374#xx4155374xx"/> 
+        /// <remarks>
+        /// Based on <see href="http://www.codeproject.com/Articles/58815/C-Image-PictureBox-Rotations?msg=4155374#xx4155374xx"/>
         /// </remarks>
         private Bitmap RotateImage(Image image, float rotateAtX, float rotateAtY, float angle)
         {
-            Rectangle newSize = ImageMaths.GetBoundingRotatedRectangle(image.Width, image.Height, angle);
+            var newSize = ImageMaths.GetBoundingRotatedRectangle(image.Width, image.Height, angle);
 
-            int x = (newSize.Width - image.Width) / 2;
-            int y = (newSize.Height - image.Height) / 2;
+            var x = (newSize.Width - image.Width) / 2;
+            var y = (newSize.Height - image.Height) / 2;
 
             // Create a new empty bitmap to hold rotated image
-            Bitmap newImage = new Bitmap(newSize.Width, newSize.Height, PixelFormat.Format32bppPArgb);
+            var newImage = new Bitmap(newSize.Width, newSize.Height, PixelFormat.Format32bppPArgb);
             newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
             // Make a graphics object from the empty bitmap
-            using (Graphics graphics = Graphics.FromImage(newImage))
+            using (var graphics = Graphics.FromImage(newImage))
             {
                 // Reduce the jagged edge.
                 GraphicsHelper.SetGraphicsOptions(graphics);

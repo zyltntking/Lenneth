@@ -69,9 +69,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </returns>
         public override Image Save(Stream stream, Image image, long bitDepth)
         {
-            if (this.IsIndexed)
+            if (IsIndexed)
             {
-                image = this.Quantizer.Quantize(image);
+                image = Quantizer.Quantize(image);
             }
 
             return base.Save(stream, image, bitDepth);
@@ -92,9 +92,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </returns>
         public override Image Save(string path, Image image, long bitDepth)
         {
-            if (this.IsIndexed)
+            if (IsIndexed)
             {
-                image = this.Quantizer.Quantize(image);
+                image = Quantizer.Quantize(image);
             }
 
             return base.Save(path, image, bitDepth);

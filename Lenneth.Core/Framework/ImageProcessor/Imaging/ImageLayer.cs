@@ -65,17 +65,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         public override bool Equals(object obj)
         {
-            ImageLayer imageLayer = obj as ImageLayer;
+            var imageLayer = obj as ImageLayer;
 
             if (imageLayer == null)
             {
                 return false;
             }
 
-            return this.Image == imageLayer.Image
-                && this.Size == imageLayer.Size
-                && this.Opacity == imageLayer.Opacity
-                && this.Position == imageLayer.Position;
+            return Image == imageLayer.Image
+                && Size == imageLayer.Size
+                && Opacity == imageLayer.Opacity
+                && Position == imageLayer.Position;
         }
 
         /// <summary>
@@ -88,10 +88,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         {
             unchecked
             {
-                int hashCode = this.Image.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.Size.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.Opacity;
-                hashCode = (hashCode * 397) ^ this.Position.GetHashCode();
+                var hashCode = Image.GetHashCode();
+                hashCode = (hashCode * 397) ^ Size.GetHashCode();
+                hashCode = (hashCode * 397) ^ Opacity;
+                hashCode = (hashCode * 397) ^ Position.GetHashCode();
                 return hashCode;
             }
         }
@@ -101,7 +101,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
         }
 
         /// <summary>
@@ -110,14 +110,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// <param name="disposing">If true, the object gets disposed.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.isDisposed)
+            if (!isDisposed)
             {
                 if (disposing)
                 {
-                    this.Image?.Dispose();
+                    Image?.Dispose();
                 }
 
-                this.isDisposed = true;
+                isDisposed = true;
             }
         }
     }

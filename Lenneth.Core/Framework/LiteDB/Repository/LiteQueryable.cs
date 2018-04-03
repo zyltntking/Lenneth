@@ -81,7 +81,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public LiteQueryable<T> Where(Expression<Func<T, bool>> predicate)
         {
-            return this.Where(_collection.Visitor.Visit(predicate));
+            return Where(_collection.Visitor.Visit(predicate));
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public LiteQueryable<T> Where(bool condition, Query query)
         {
-            return condition ? this.Where(query) : this;
+            return condition ? Where(query) : this;
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public LiteQueryable<T> Where(bool condition, Expression<Func<T, bool>> predicate)
         {
-            return condition ? this.Where(predicate) : this;
+            return condition ? Where(predicate) : this;
         }
 
         /// <summary>
@@ -124,22 +124,22 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public T Single()
         {
-            return this.ToEnumerable().Single();
+            return ToEnumerable().Single();
         }
 
         public T SingleOrDefault()
         {
-            return this.ToEnumerable().SingleOrDefault();
+            return ToEnumerable().SingleOrDefault();
         }
 
         public T First()
         {
-            return this.ToEnumerable().First();
+            return ToEnumerable().First();
         }
 
         public T FirstOrDefault()
         {
-            return this.ToEnumerable().FirstOrDefault();
+            return ToEnumerable().FirstOrDefault();
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             _query = Query.EQ("_id", id);
 
-            return this.ToEnumerable().Single();
+            return ToEnumerable().Single();
         }
 
         #endregion
@@ -180,7 +180,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public List<T> ToList()
         {
-            return this.ToEnumerable().ToList();
+            return ToEnumerable().ToList();
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public T[] ToArray()
         {
-            return this.ToEnumerable().ToArray();
+            return ToEnumerable().ToArray();
         }
 
         #endregion

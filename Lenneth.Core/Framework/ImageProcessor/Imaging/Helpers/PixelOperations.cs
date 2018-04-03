@@ -65,16 +65,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
                 throw new ArgumentOutOfRangeException(nameof(value), "Value should be between .1 and 5.");
             }
 
-            byte[] ramp = new byte[256];
-            for (int x = 0; x < 256; ++x)
+            var ramp = new byte[256];
+            for (var x = 0; x < 256; ++x)
             {
-                byte val = ((255.0 * Math.Pow(x / 255.0, value)) + 0.5).ToByte();
+                var val = ((255.0 * Math.Pow(x / 255.0, value)) + 0.5).ToByte();
                 ramp[x] = val;
             }
 
-            byte r = ramp[color.R];
-            byte g = ramp[color.G];
-            byte b = ramp[color.B];
+            var r = ramp[color.R];
+            var g = ramp[color.G];
+            var b = ramp[color.B];
 
             return Color.FromArgb(color.A, r, g, b);
         }
@@ -91,7 +91,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         public static Color ToLinear(Color composite)
         {
             // Create only once and lazily. 
-            byte[] ramp = LinearBytes.Value;
+            var ramp = LinearBytes.Value;
 
             return Color.FromArgb(composite.A, ramp[composite.R], ramp[composite.G], ramp[composite.B]);
         }
@@ -108,7 +108,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         public static Color ToSRGB(Color linear)
         {
             // Create only once and lazily. 
-            byte[] ramp = SRGBBytes.Value;
+            var ramp = SRGBBytes.Value;
 
             return Color.FromArgb(linear.A, ramp[linear.R], ramp[linear.G], ramp[linear.B]);
         }
@@ -125,7 +125,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         public static Color ToLinearFromGamma(Color composite)
         {
             // Create only once and lazily. 
-            byte[] ramp = LinearGammaBytes.Value;
+            var ramp = LinearGammaBytes.Value;
 
             return Color.FromArgb(composite.A, ramp[composite.R], ramp[composite.G], ramp[composite.B]);
         }
@@ -142,7 +142,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         public static Color ToGammaFromLinear(Color composite)
         {
             // Create only once and lazily. 
-            byte[] ramp = GammaLinearBytes.Value;
+            var ramp = GammaLinearBytes.Value;
 
             return Color.FromArgb(composite.A, ramp[composite.R], ramp[composite.G], ramp[composite.B]);
         }
@@ -156,10 +156,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         private static byte[] GetLinearGammaBytes()
         {
-            byte[] ramp = new byte[256];
-            for (int x = 0; x < 256; ++x)
+            var ramp = new byte[256];
+            for (var x = 0; x < 256; ++x)
             {
-                byte val = (255f * Math.Pow(x / 255f, 2.2)).ToByte();
+                var val = (255f * Math.Pow(x / 255f, 2.2)).ToByte();
                 ramp[x] = val;
             }
 
@@ -175,10 +175,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         private static byte[] GetGammaLinearBytes()
         {
-            byte[] ramp = new byte[256];
-            for (int x = 0; x < 256; ++x)
+            var ramp = new byte[256];
+            for (var x = 0; x < 256; ++x)
             {
-                byte val = (255f * Math.Pow(x / 255f, 1 / 2.2)).ToByte();
+                var val = (255f * Math.Pow(x / 255f, 1 / 2.2)).ToByte();
                 ramp[x] = val;
             }
 
@@ -194,10 +194,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         private static byte[] GetLinearBytes()
         {
-            byte[] ramp = new byte[256];
-            for (int x = 0; x < 256; ++x)
+            var ramp = new byte[256];
+            for (var x = 0; x < 256; ++x)
             {
-                byte val = (255f * SRGBToLinear(x / 255f)).ToByte();
+                var val = (255f * SRGBToLinear(x / 255f)).ToByte();
                 ramp[x] = val;
             }
 
@@ -213,10 +213,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         private static byte[] GetSRGBBytes()
         {
-            byte[] ramp = new byte[256];
-            for (int x = 0; x < 256; ++x)
+            var ramp = new byte[256];
+            for (var x = 0; x < 256; ++x)
             {
-                byte val = (255f * LinearToSRGB(x / 255f)).ToByte();
+                var val = (255f * LinearToSRGB(x / 255f)).ToByte();
                 ramp[x] = val;
             }
 
@@ -234,7 +234,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         private static float SRGBToLinear(float signal)
         {
-            float a = 0.055f;
+            var a = 0.055f;
 
             if (signal <= 0.04045)
             {
@@ -255,7 +255,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         private static float LinearToSRGB(float signal)
         {
-            float a = 0.055f;
+            var a = 0.055f;
 
             if (signal <= 0.0031308)
             {

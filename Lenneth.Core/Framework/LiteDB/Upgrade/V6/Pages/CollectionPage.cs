@@ -18,24 +18,24 @@ namespace Lenneth.Core.Framework.LiteDB_V6
         public CollectionPage(uint pageID)
             : base(pageID)
         {
-            this.FreeDataPageID = uint.MaxValue;
-            this.DocumentCount = 0;
-            this.ItemCount = 1; // fixed for CollectionPage
-            this.Indexes = new CollectionIndex[CollectionIndex.INDEX_PER_COLLECTION];
+            FreeDataPageID = uint.MaxValue;
+            DocumentCount = 0;
+            ItemCount = 1; // fixed for CollectionPage
+            Indexes = new CollectionIndex[CollectionIndex.INDEX_PER_COLLECTION];
 
             for (var i = 0; i < Indexes.Length; i++)
             {
-                this.Indexes[i] = new CollectionIndex() { Page = this, Slot = i };
+                Indexes[i] = new CollectionIndex() { Page = this, Slot = i };
             }
         }
 
         protected override void ReadContent(ByteReader reader)
         {
-            this.CollectionName = reader.ReadString();
-            this.FreeDataPageID = reader.ReadUInt32();
+            CollectionName = reader.ReadString();
+            FreeDataPageID = reader.ReadUInt32();
             var uintCount = reader.ReadUInt32(); // read as uint (4 bytes)
 
-            foreach (var index in this.Indexes)
+            foreach (var index in Indexes)
             {
                 index.Field = reader.ReadString();
                 index.HeadNode = reader.ReadPageAddress();
@@ -50,12 +50,12 @@ namespace Lenneth.Core.Framework.LiteDB_V6
 
             // be compatible with v2_beta
             var longCount = reader.ReadInt64();
-            this.DocumentCount = Math.Max(uintCount, longCount);
+            DocumentCount = Math.Max(uintCount, longCount);
         }
 
         /// <summary>
         /// Get primary key index (_id index)
         /// </summary>
-        public CollectionIndex PK { get { return this.Indexes[0]; } }
+        public CollectionIndex PK { get { return Indexes[0]; } }
     }
 }

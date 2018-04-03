@@ -27,7 +27,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             if (token.TokenType == JsonTokenType.EOF) return BsonValue.Null;
 
-            var value = this.ReadValue(token);
+            var value = ReadValue(token);
 
             return value;
         }
@@ -44,7 +44,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             while (token.TokenType != JsonTokenType.EndArray)
             {
-                yield return this.ReadValue(token);
+                yield return ReadValue(token);
 
                 token = _tokenizer.ReadToken();
 
@@ -64,8 +64,8 @@ namespace Lenneth.Core.Framework.LiteDB
             switch (token.TokenType)
             {
                 case JsonTokenType.String: return token.Token;
-                case JsonTokenType.BeginDoc: return this.ReadObject();
-                case JsonTokenType.BeginArray: return this.ReadArray();
+                case JsonTokenType.BeginDoc: return ReadObject();
+                case JsonTokenType.BeginArray: return ReadArray();
                 case JsonTokenType.Number:
                     return token.Token.Contains(".") ?
                         new BsonValue(Convert.ToDouble(token.Token, CultureInfo.InvariantCulture.NumberFormat)) :
@@ -104,13 +104,13 @@ namespace Lenneth.Core.Framework.LiteDB
                 // check if not a special data type - only if is first attribute
                 if (key[0] == '$' && obj.Count == 0)
                 {
-                    var val = this.ReadExtendedDataType(key, token.Token);
+                    var val = ReadExtendedDataType(key, token.Token);
 
                     // if val is null then it's not a extended data type - it's just a object with $ attribute
                     if (!val.IsNull) return val;
                 }
 
-                obj[key] = this.ReadValue(token); // read "," or "}"
+                obj[key] = ReadValue(token); // read "," or "}"
 
                 token = _tokenizer.ReadToken();
 
@@ -131,7 +131,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             while (token.TokenType != JsonTokenType.EndArray)
             {
-                var value = this.ReadValue(token);
+                var value = ReadValue(token);
 
                 arr.Add(value);
 

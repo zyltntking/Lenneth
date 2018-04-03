@@ -40,14 +40,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Photo
             Bitmap lowBitmap = null;
             Bitmap patternBitmap = null;
             Bitmap edgeBitmap = null;
-            int width = image.Width;
-            int height = image.Height;
+            var width = image.Width;
+            var height = image.Height;
 
             try
             {
-                using (ImageAttributes attributes = new ImageAttributes())
+                using (var attributes = new ImageAttributes())
                 {
-                    Rectangle rectangle = new Rectangle(0, 0, image.Width, image.Height);
+                    var rectangle = new Rectangle(0, 0, image.Width, image.Height);
 
                     attributes.SetColorMatrix(ColorMatrixes.ComicHigh);
 
@@ -63,7 +63,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Photo
                     edgeBitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
                     edgeBitmap = Effects.Trace(image, edgeBitmap, 120);
 
-                    using (Graphics graphics = Graphics.FromImage(highBitmap))
+                    using (var graphics = Graphics.FromImage(highBitmap))
                     {
                         graphics.DrawImage(highBitmap, rectangle, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
                     }
@@ -73,10 +73,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Photo
                     lowBitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
                     // Set the color matrix
-                    attributes.SetColorMatrix(this.Matrix);
+                    attributes.SetColorMatrix(Matrix);
 
                     // Draw the image with the losatch colormatrix.
-                    using (Graphics graphics = Graphics.FromImage(lowBitmap))
+                    using (var graphics = Graphics.FromImage(lowBitmap))
                     {
                         graphics.DrawImage(highBitmap, rectangle, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
                     }
@@ -87,13 +87,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Photo
                     patternBitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
                     // Create the pattern mask.
-                    using (Graphics graphics = Graphics.FromImage(patternBitmap))
+                    using (var graphics = Graphics.FromImage(patternBitmap))
                     {
                         graphics.Clear(Color.Transparent);
                    
-                        for (int y = 0; y < height; y += 8)
+                        for (var y = 0; y < height; y += 8)
                         {
-                            for (int x = 0; x < width; x += 4)
+                            for (var x = 0; x < width; x += 4)
                             {
                                 graphics.FillEllipse(Brushes.White, x, y, 3, 3);
                                 graphics.FillEllipse(Brushes.White, x + 2, y + 4, 3, 3);
@@ -104,7 +104,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Photo
                     // Transfer the alpha channel from the mask to the low saturation image.
                     lowBitmap = Effects.ApplyMask(lowBitmap, patternBitmap);
 
-                    using (Graphics graphics = Graphics.FromImage(newImage))
+                    using (var graphics = Graphics.FromImage(newImage))
                     {
                         graphics.Clear(Color.Transparent);
 
@@ -114,7 +114,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Photo
                         graphics.DrawImage(edgeBitmap, 0, 0);
 
                         // Draw an edge around the image.
-                        using (Pen blackPen = new Pen(Color.Black))
+                        using (var blackPen = new Pen(Color.Black))
                         {
                             blackPen.Width = 4;
                             graphics.DrawRectangle(blackPen, rectangle);

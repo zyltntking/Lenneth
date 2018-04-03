@@ -65,7 +65,7 @@ namespace Lenneth.Core.Framework.QR.Base
             var modules = new Queue<bool>();
             foreach (var b in bytes)
             {
-                for (int i = 7; i >= 0; i--)
+                for (var i = 7; i >= 0; i--)
                 {
                     modules.Enqueue((b & (1 << i)) != 0);
                 }
@@ -73,10 +73,10 @@ namespace Lenneth.Core.Framework.QR.Base
 
             //Build module matrix
             ModuleMatrix = new List<BitArray>();
-            for (int y = 0; y < sideLen; y++)
+            for (var y = 0; y < sideLen; y++)
             {
                 ModuleMatrix.Add(new BitArray(sideLen));
-                for (int x = 0; x < sideLen; x++)
+                for (var x = 0; x < sideLen; x++)
                 {
                     ModuleMatrix[y][x] = modules.Dequeue();
                 }
@@ -102,7 +102,7 @@ namespace Lenneth.Core.Framework.QR.Base
                     dataQueue.Enqueue((bool)module ? 1 : 0);
                 }
             }
-            for (int i = 0; i < 8 - (ModuleMatrix.Count * ModuleMatrix.Count) % 8; i++)
+            for (var i = 0; i < 8 - (ModuleMatrix.Count * ModuleMatrix.Count) % 8; i++)
             {
                 dataQueue.Enqueue(0);
             }
@@ -111,7 +111,7 @@ namespace Lenneth.Core.Framework.QR.Base
             while (dataQueue.Count > 0)
             {
                 byte b = 0;
-                for (int i = 7; i >= 0; i--)
+                for (var i = 7; i >= 0; i--)
                 {
                     b += (byte)(dataQueue.Dequeue() << i);
                 }

@@ -26,7 +26,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Contrast()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -59,16 +59,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                int threshold = (int)this.DynamicParameter;
+                var threshold = (int)DynamicParameter;
                 return Adjustments.Contrast(image, threshold);
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
         }
     }

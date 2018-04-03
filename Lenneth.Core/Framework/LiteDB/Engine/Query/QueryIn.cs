@@ -17,7 +17,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             foreach (var value in _values.Distinct())
             {
-                foreach (var node in Query.EQ(this.Field, value).ExecuteIndex(indexer, index))
+                foreach (var node in EQ(Field, value).ExecuteIndex(indexer, index))
                 {
                     yield return node;
                 }
@@ -26,7 +26,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         internal override bool FilterDocument(BsonDocument doc)
         {
-            foreach(var val in this.Expression.Execute(doc, true))
+            foreach(var val in Expression.Execute(doc, true))
             {
                 foreach (var value in _values.Distinct())
                 {
@@ -42,8 +42,8 @@ namespace Lenneth.Core.Framework.LiteDB
         public override string ToString()
         {
             return string.Format("{0}({1} in {2})",
-                this.UseFilter ? "Filter" : this.UseIndex ? "Seek" : "",
-                this.Expression?.ToString() ?? this.Field,
+                UseFilter ? "Filter" : UseIndex ? "Seek" : "",
+                Expression?.ToString() ?? Field,
                  string.Join(",", _values.Select(a => a != null ? a.ToString() : "Null" ).ToArray()));
         }
     }

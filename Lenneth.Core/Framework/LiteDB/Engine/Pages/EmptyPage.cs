@@ -15,8 +15,8 @@ namespace Lenneth.Core.Framework.LiteDB
         public EmptyPage(uint pageID)
             : base(pageID)
         {
-            this.ItemCount = 0;
-            this.FreeBytes = PAGE_AVAILABLE_BYTES;
+            ItemCount = 0;
+            FreeBytes = PAGE_AVAILABLE_BYTES;
         }
 
         public EmptyPage(BasePage page)
@@ -24,8 +24,8 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if(page.DiskData.Length > 0)
             {
-                this.DiskData = new byte[BasePage.PAGE_SIZE];
-                Buffer.BlockCopy(page.DiskData, 0, this.DiskData, 0, BasePage.PAGE_SIZE);
+                DiskData = new byte[PAGE_SIZE];
+                Buffer.BlockCopy(page.DiskData, 0, DiskData, 0, PAGE_SIZE);
             }
         }
 

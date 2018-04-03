@@ -26,7 +26,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Alpha()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -59,16 +59,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                int percentage = this.DynamicParameter;
+                int percentage = DynamicParameter;
                 return Adjustments.Alpha(image, percentage);
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
         }
     }

@@ -33,10 +33,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         public static RectangleF CenteredRectangle(Rectangle parent, Rectangle child)
         {
-            float x = (parent.Width - child.Width) / 2.0F;
-            float y = (parent.Height - child.Height) / 2.0F;
-            int width = child.Width;
-            int height = child.Height;
+            var x = (parent.Width - child.Width) / 2.0F;
+            var y = (parent.Height - child.Height) / 2.0F;
+            var width = child.Width;
+            var height = child.Height;
             return new RectangleF(x, y, width, height);
         }
 
@@ -136,20 +136,20 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         public static Rectangle GetBoundingRotatedRectangle(int width, int height, float angleInDegrees)
         {
             // Check first clockwise.
-            double radians = DegreesToRadians(angleInDegrees);
-            double radiansSin = Math.Sin(radians);
-            double radiansCos = Math.Cos(radians);
-            double width1 = (height * radiansSin) + (width * radiansCos);
-            double height1 = (width * radiansSin) + (height * radiansCos);
+            var radians = DegreesToRadians(angleInDegrees);
+            var radiansSin = Math.Sin(radians);
+            var radiansCos = Math.Cos(radians);
+            var width1 = (height * radiansSin) + (width * radiansCos);
+            var height1 = (width * radiansSin) + (height * radiansCos);
 
             // Find dimensions in the other direction
             radiansSin = Math.Sin(-radians);
             radiansCos = Math.Cos(-radians);
-            double width2 = (height * radiansSin) + (width * radiansCos);
-            double height2 = (width * radiansSin) + (height * radiansCos);
+            var width2 = (height * radiansSin) + (width * radiansCos);
+            var height2 = (width * radiansSin) + (height * radiansCos);
 
             // Get the external vertex for the rotation
-            Rectangle result = new Rectangle(
+            var result = new Rectangle(
                 0,
                 0,
                 Convert.ToInt32(Math.Max(Math.Abs(width1), Math.Abs(width2))),
@@ -176,10 +176,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         public static Rectangle GetFilteredBoundingRectangle(Image bitmap, byte componentValue, RgbaComponent channel = RgbaComponent.B)
         {
-            int width = bitmap.Width;
-            int height = bitmap.Height;
-            Point topLeft = new Point();
-            Point bottomRight = new Point();
+            var width = bitmap.Width;
+            var height = bitmap.Height;
+            var topLeft = new Point();
+            var bottomRight = new Point();
 
             Func<FastBitmap, int, int, byte, bool> delegateFunc;
 
@@ -205,9 +205,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
 
             Func<FastBitmap, int> getMinY = fastBitmap =>
             {
-                for (int y = 0; y < height; y++)
+                for (var y = 0; y < height; y++)
                 {
-                    for (int x = 0; x < width; x++)
+                    for (var x = 0; x < width; x++)
                     {
                         if (delegateFunc(fastBitmap, x, y, componentValue))
                         {
@@ -221,9 +221,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
 
             Func<FastBitmap, int> getMaxY = fastBitmap =>
             {
-                for (int y = height - 1; y > -1; y--)
+                for (var y = height - 1; y > -1; y--)
                 {
-                    for (int x = 0; x < width; x++)
+                    for (var x = 0; x < width; x++)
                     {
                         if (delegateFunc(fastBitmap, x, y, componentValue))
                         {
@@ -237,9 +237,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
 
             Func<FastBitmap, int> getMinX = fastBitmap =>
             {
-                for (int x = 0; x < width; x++)
+                for (var x = 0; x < width; x++)
                 {
-                    for (int y = 0; y < height; y++)
+                    for (var y = 0; y < height; y++)
                     {
                         if (delegateFunc(fastBitmap, x, y, componentValue))
                         {
@@ -253,9 +253,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
 
             Func<FastBitmap, int> getMaxX = fastBitmap =>
             {
-                for (int x = width - 1; x > -1; x--)
+                for (var x = width - 1; x > -1; x--)
                 {
-                    for (int y = 0; y < height; y++)
+                    for (var y = 0; y < height; y++)
                     {
                         if (delegateFunc(fastBitmap, x, y, componentValue))
                         {
@@ -267,7 +267,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
                 return height;
             };
 
-            using (FastBitmap fastBitmap = new FastBitmap(bitmap))
+            using (var fastBitmap = new FastBitmap(bitmap))
             {
                 topLeft.Y = getMinY(fastBitmap);
                 topLeft.X = getMinX(fastBitmap);
@@ -290,11 +290,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// <returns>Rotated point</returns>
         public static Point RotatePoint(Point pointToRotate, double angleInDegrees, Point? centerPoint = null)
         {
-            Point center = centerPoint ?? Point.Empty;
+            var center = centerPoint ?? Point.Empty;
 
-            double angleInRadians = DegreesToRadians(angleInDegrees);
-            double cosTheta = Math.Cos(angleInRadians);
-            double sinTheta = Math.Sin(angleInRadians);
+            var angleInRadians = DegreesToRadians(angleInDegrees);
+            var cosTheta = Math.Cos(angleInRadians);
+            var sinTheta = Math.Sin(angleInRadians);
             return new Point
             {
                 X =
@@ -341,7 +341,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// <returns>The zoom needed</returns>
         public static float ZoomAfterRotation(int imageWidth, int imageHeight, float angleInDegrees)
         {
-            Rectangle rectangle = GetBoundingRotatedRectangle(imageWidth, imageHeight, angleInDegrees);
+            var rectangle = GetBoundingRotatedRectangle(imageWidth, imageHeight, angleInDegrees);
             return Math.Max((float)rectangle.Width / imageWidth, (float)rectangle.Height / imageHeight);
         }
     }

@@ -17,7 +17,7 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
     {
         public bool IsCommand(StringScanner s)
         {
-            return this.IsFileCommand(s, "find");
+            return IsFileCommand(s, "find");
         }
 
         public IEnumerable<BsonValue> Execute(StringScanner s, LiteEngine engine)
@@ -31,7 +31,7 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
             }
             else
             {
-                var id = this.ReadId(s);
+                var id = ReadId(s);
 
                 s.ThrowIfNotFinish();
 

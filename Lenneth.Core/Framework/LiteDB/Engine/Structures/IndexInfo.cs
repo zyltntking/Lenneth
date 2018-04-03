@@ -7,11 +7,11 @@
     {
         internal IndexInfo(CollectionIndex index)
         {
-            this.Slot = index.Slot;
-            this.Field = index.Field;
-            this.Expression = index.Expression;
-            this.Unique = index.Unique;
-            this.MaxLevel = index.MaxLevel;
+            Slot = index.Slot;
+            Field = index.Field;
+            Expression = index.Expression;
+            Unique = index.Unique;
+            MaxLevel = index.MaxLevel;
         }
 
         /// <summary>

@@ -13,12 +13,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using Lenneth.Core.Framework.ImageProcessor.Common.Exceptions;
-using Lenneth.Core.Framework.ImageProcessor.Imaging;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers;
 
 namespace Lenneth.Core.Framework.ImageProcessor.Processors
 {
+    using Common.Exceptions;
+    using Imaging;
+    using Imaging.Helpers;
+
     /// <summary>
     /// Encapsulates methods to add rounded corners to an image.
     /// </summary>
@@ -29,7 +30,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public RoundedCorners()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -62,25 +63,25 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                RoundedCornerLayer roundedCornerLayer = this.DynamicParameter;
-                int radius = roundedCornerLayer.Radius;
-                bool topLeft = roundedCornerLayer.TopLeft;
-                bool topRight = roundedCornerLayer.TopRight;
-                bool bottomLeft = roundedCornerLayer.BottomLeft;
-                bool bottomRight = roundedCornerLayer.BottomRight;
+                RoundedCornerLayer roundedCornerLayer = DynamicParameter;
+                var radius = roundedCornerLayer.Radius;
+                var topLeft = roundedCornerLayer.TopLeft;
+                var topRight = roundedCornerLayer.TopRight;
+                var bottomLeft = roundedCornerLayer.BottomLeft;
+                var bottomRight = roundedCornerLayer.BottomRight;
 
                 // Create a rounded image.
-                image = this.RoundCornerImage(image, radius, topLeft, topRight, bottomLeft, bottomRight);
+                image = RoundCornerImage(image, radius, topLeft, topRight, bottomLeft, bottomRight);
 
                 return image;
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
         }
 
@@ -96,21 +97,21 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// <returns>The image with rounded corners.</returns>
         private Bitmap RoundCornerImage(Image image, int cornerRadius, bool topLeft = false, bool topRight = false, bool bottomLeft = false, bool bottomRight = false)
         {
-            int width = image.Width;
-            int height = image.Height;
-            int cornerDiameter = cornerRadius * 2;
+            var width = image.Width;
+            var height = image.Height;
+            var cornerDiameter = cornerRadius * 2;
 
             // Create a new empty bitmap to hold rotated image
-            Bitmap newImage = new Bitmap(image.Width, image.Height, PixelFormat.Format32bppPArgb);
+            var newImage = new Bitmap(image.Width, image.Height, PixelFormat.Format32bppPArgb);
             newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
             // Make a graphics object from the empty bitmap
-            using (Graphics graphics = Graphics.FromImage(newImage))
+            using (var graphics = Graphics.FromImage(newImage))
             {
                 GraphicsHelper.SetGraphicsOptions(graphics, true, true);
 
                 // Add rounded corners
-                using (GraphicsPath path = new GraphicsPath())
+                using (var path = new GraphicsPath())
                 {
                     // Determined if the top left has a rounded corner
                     if (topLeft)

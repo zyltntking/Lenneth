@@ -29,7 +29,7 @@ namespace Lenneth.Core.Framework.LiteDB
             if (mode == FileAccess.Read)
             {
                 // initialize first data block
-                _currentChunkData = this.GetChunkData(_currentChunkIndex);
+                _currentChunkData = GetChunkData(_currentChunkIndex);
             }
             else if(mode == FileAccess.Write)
             {
@@ -44,7 +44,7 @@ namespace Lenneth.Core.Framework.LiteDB
                     // delete one-by-one to avoid all pages files dirty in memory
                     while (deleted)
                     {
-                        deleted = _engine.Delete(LiteStorage.CHUNKS, LiteFileStream.GetChunckId(_file.Id, index++)); // index zero based
+                        deleted = _engine.Delete(LiteStorage.CHUNKS, GetChunckId(_file.Id, index++)); // index zero based
                     }
                 }
 
@@ -96,9 +96,9 @@ namespace Lenneth.Core.Framework.LiteDB
             }
             if (!_disposed)
             {
-                if (this.CanWrite)
+                if (CanWrite)
                 {
-                    this.Flush();
+                    Flush();
                 }
                 _disposed = true;
             }

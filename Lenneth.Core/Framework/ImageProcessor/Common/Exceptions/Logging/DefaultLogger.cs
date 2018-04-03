@@ -29,7 +29,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Exceptions.Logging
         /// <param name="lineNumber">The line number where the method is called.</param>
         public void Log<T>(string text, [CallerMemberName] string callerName = null, [CallerLineNumber] int lineNumber = 0)
         {
-            this.LogInternal(typeof(T), text, callerName, lineNumber);
+            LogInternal(typeof(T), text, callerName, lineNumber);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Exceptions.Logging
         /// <param name="lineNumber">The line number where the method is called.</param>
         public void Log(Type type, string text, [CallerMemberName] string callerName = null, [CallerLineNumber] int lineNumber = 0)
         {
-            this.LogInternal(type, text, callerName, lineNumber);
+            LogInternal(type, text, callerName, lineNumber);
         }
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Exceptions.Logging
 		[Conditional("TRACE")]
 		private void LogInternal(Type type, string text, string callerName = null, int lineNumber = 0)
         {
-            string message = String.Format("{0} - {1}: {2} {3}:{4}", DateTime.UtcNow.ToString("s"), type.Name, callerName, lineNumber, text);
+            var message = String.Format("{0} - {1}: {2} {3}:{4}", DateTime.UtcNow.ToString("s"), type.Name, callerName, lineNumber, text);
 
             Trace.WriteLine(message);
         }

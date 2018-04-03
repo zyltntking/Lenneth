@@ -57,7 +57,7 @@ namespace Lenneth.Core.Framework.LiteDB
             index.HeadNode = head.Position;
 
             // insert tail node
-            var tail = this.AddNode(index, BsonValue.MaxValue, IndexNode.MAX_LEVEL_LENGTH, null);
+            var tail = AddNode(index, BsonValue.MaxValue, IndexNode.MAX_LEVEL_LENGTH, null);
 
             index.TailNode = tail.Position;
 
@@ -69,7 +69,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public IndexNode AddNode(CollectionIndex index, BsonValue key, IndexNode last)
         {
-            var level = this.FlipCoin();
+            var level = FlipCoin();
 
             // set index collection with max-index level
             if (level > index.MaxLevel)
@@ -80,7 +80,7 @@ namespace Lenneth.Core.Framework.LiteDB
             }
 
             // call AddNode with key value
-            return this.AddNode(index, key, level, last);
+            return AddNode(index, key, level, last);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Lenneth.Core.Framework.LiteDB
             page.AddNode(node);
 
             // now, let's link my index node on right place
-            var cur = this.GetNode(index.HeadNode);
+            var cur = GetNode(index.HeadNode);
 
             // using as cache last
             IndexNode cache = null;
@@ -120,13 +120,13 @@ namespace Lenneth.Core.Framework.LiteDB
             for (var i = index.MaxLevel - 1; i >= 0; i--)
             {
                 // get cache for last node
-                cache = cache != null && cache.Position.Equals(cur.Next[i]) ? cache : this.GetNode(cur.Next[i]);
+                cache = cache != null && cache.Position.Equals(cur.Next[i]) ? cache : GetNode(cur.Next[i]);
 
                 // for(; <while_not_this>; <do_this>) { ... }
                 for (; cur.Next[i].IsEmpty == false; cur = cache)
                 {
                     // get cache for last node
-                    cache = cache != null && cache.Position.Equals(cur.Next[i]) ? cache : this.GetNode(cur.Next[i]);
+                    cache = cache != null && cache.Position.Equals(cur.Next[i]) ? cache : GetNode(cur.Next[i]);
 
                     // read next node to compare
                     var diff = cache.Key.CompareTo(key);
@@ -148,7 +148,7 @@ namespace Lenneth.Core.Framework.LiteDB
                     node.Prev[i] = cur.Position;
                     cur.Next[i] = node.Position;
 
-                    var next = this.GetNode(node.Next[i]);
+                    var next = GetNode(node.Next[i]);
 
                     if (next != null)
                     {
@@ -168,7 +168,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 if (last.NextNode.IsEmpty == false)
                 {
                     // fix link pointer with has more nodes in list
-                    var next = this.GetNode(last.NextNode);
+                    var next = GetNode(last.NextNode);
                     next.PrevNode = node.Position;
                     last.NextNode = node.Position;
                     node.PrevNode = last.Position;
@@ -203,7 +203,7 @@ namespace Lenneth.Core.Framework.LiteDB
             // go forward
             while (next.IsEmpty == false)
             {
-                var n = this.GetNode(next);
+                var n = GetNode(next);
                 next = n.NextNode;
                 yield return n;
             }
@@ -211,7 +211,7 @@ namespace Lenneth.Core.Framework.LiteDB
             // go backward
             while (prev.IsEmpty == false)
             {
-                var p = this.GetNode(prev);
+                var p = GetNode(prev);
                 prev = p.PrevNode;
                 yield return p;
             }
@@ -222,17 +222,17 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public void Delete(CollectionIndex index, PageAddress nodeAddress)
         {
-            var node = this.GetNode(nodeAddress);
+            var node = GetNode(nodeAddress);
             var page = node.Page;
 
             // mark page as dirty here because, if deleted, page type will change
             _pager.SetDirty(page);
 
-            for (int i = node.Prev.Length - 1; i >= 0; i--)
+            for (var i = node.Prev.Length - 1; i >= 0; i--)
             {
                 // get previous and next nodes (between my deleted node)
-                var prev = this.GetNode(node.Prev[i]);
-                var next = this.GetNode(node.Next[i]);
+                var prev = GetNode(node.Prev[i]);
+                var next = GetNode(node.Next[i]);
 
                 if (prev != null)
                 {
@@ -263,8 +263,8 @@ namespace Lenneth.Core.Framework.LiteDB
             }
 
             // now remove node from nodelist 
-            var prevNode = this.GetNode(node.PrevNode);
-            var nextNode = this.GetNode(node.NextNode);
+            var prevNode = GetNode(node.PrevNode);
+            var nextNode = GetNode(node.NextNode);
 
             if (prevNode != null)
             {
@@ -284,7 +284,7 @@ namespace Lenneth.Core.Framework.LiteDB
         public void DropIndex(CollectionIndex index)
         {
             var pages = new HashSet<uint>();
-            var nodes = this.FindAll(index, Query.Ascending);
+            var nodes = FindAll(index, Query.Ascending);
 
             // get reference for pageID from all index nodes
             foreach (var node in nodes)
@@ -292,8 +292,8 @@ namespace Lenneth.Core.Framework.LiteDB
                 pages.Add(node.Position.PageID);
 
                 // for each node I need remove from node list datablock reference
-                var prevNode = this.GetNode(node.PrevNode);
-                var nextNode = this.GetNode(node.NextNode);
+                var prevNode = GetNode(node.PrevNode);
+                var nextNode = GetNode(node.NextNode);
 
                 if (prevNode != null)
                 {
@@ -330,7 +330,7 @@ namespace Lenneth.Core.Framework.LiteDB
         public byte FlipCoin()
         {
             byte level = 1;
-            for (int R = _rand.Next(); (R & 1) == 1; R >>= 1)
+            for (var R = _rand.Next(); (R & 1) == 1; R >>= 1)
             {
                 level++;
                 if (level == IndexNode.MAX_LEVEL_LENGTH) break;
@@ -342,11 +342,11 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public IEnumerable<IndexNode> FindAll(CollectionIndex index, int order)
         {
-            var cur = this.GetNode(order == Query.Ascending ? index.HeadNode : index.TailNode);
+            var cur = GetNode(order == Query.Ascending ? index.HeadNode : index.TailNode);
 
             while (!cur.NextPrev(0, order).IsEmpty)
             {
-                cur = this.GetNode(cur.NextPrev(0, order));
+                cur = GetNode(cur.NextPrev(0, order));
 
                 // stop if node is head/tail
                 if (cur.IsHeadTail(index)) yield break;
@@ -361,13 +361,13 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public IndexNode Find(CollectionIndex index, BsonValue value, bool sibling, int order)
         {
-            var cur = this.GetNode(order == Query.Ascending ? index.HeadNode : index.TailNode);
+            var cur = GetNode(order == Query.Ascending ? index.HeadNode : index.TailNode);
 
             for (var i = index.MaxLevel - 1; i >= 0; i--)
             {
-                for (; cur.NextPrev(i, order).IsEmpty == false; cur = this.GetNode(cur.NextPrev(i, order)))
+                for (; cur.NextPrev(i, order).IsEmpty == false; cur = GetNode(cur.NextPrev(i, order)))
                 {
-                    var next = this.GetNode(cur.NextPrev(i, order));
+                    var next = GetNode(cur.NextPrev(i, order));
                     var diff = next.Key.CompareTo(value);
 
                     if (diff == order && (i > 0 || !sibling)) break;
@@ -382,7 +382,7 @@ namespace Lenneth.Core.Framework.LiteDB
                         // if unique index has no duplicates - just return node
                         if (index.Unique) return next;
 
-                        return this.FindBoundary(index, next, value, order * -1, i);
+                        return FindBoundary(index, next, value, order * -1, i);
                     }
                 }
             }
@@ -400,7 +400,7 @@ namespace Lenneth.Core.Framework.LiteDB
             while (cur.Key.CompareTo(value) == 0)
             {
                 last = cur;
-                cur = this.GetNode(cur.NextPrev(0, order));
+                cur = GetNode(cur.NextPrev(0, order));
                 if (cur.IsHeadTail(index)) break;
             }
 

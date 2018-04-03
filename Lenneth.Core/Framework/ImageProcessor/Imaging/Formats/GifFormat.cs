@@ -59,15 +59,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// <param name="factory">The <see cref="ImageFactory" />.</param>
         public override void ApplyProcessor(Func<ImageFactory, Image> processor, ImageFactory factory)
         {
-            GifDecoder decoder = new GifDecoder(factory.Image, factory.AnimationProcessMode);
-            Image factoryImage = factory.Image;
-            GifEncoder encoder = new GifEncoder(null, null, decoder.LoopCount);
+            var decoder = new GifDecoder(factory.Image, factory.AnimationProcessMode);
+            var factoryImage = factory.Image;
+            var encoder = new GifEncoder(null, null, decoder.LoopCount);
 
-            for (int i = 0; i < decoder.FrameCount; i++)
+            for (var i = 0; i < decoder.FrameCount; i++)
             {
-                GifFrame frame = decoder.GetFrame(factoryImage, i);
+                var frame = decoder.GetFrame(factoryImage, i);
                 factory.Image = frame.Image;
-                frame.Image = this.Quantizer.Quantize(processor.Invoke(factory));
+                frame.Image = Quantizer.Quantize(processor.Invoke(factory));
                 encoder.AddFrame(frame);
             }
 
@@ -79,13 +79,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         public override Image Save(Stream stream, Image image, long bitDepth)
         {
             // Never use default save for gifs. It's terrible.
-            GifDecoder decoder = new GifDecoder(image, AnimationProcessMode.All);
-            GifEncoder encoder = new GifEncoder(null, null, decoder.LoopCount);
+            var decoder = new GifDecoder(image, AnimationProcessMode.All);
+            var encoder = new GifEncoder(null, null, decoder.LoopCount);
 
-            for (int i = 0; i < decoder.FrameCount; i++)
+            for (var i = 0; i < decoder.FrameCount; i++)
             {
-                GifFrame frame = decoder.GetFrame(image, i);
-                frame.Image = this.Quantizer.Quantize(frame.Image);
+                var frame = decoder.GetFrame(image, i);
+                frame.Image = Quantizer.Quantize(frame.Image);
                 encoder.AddFrame(frame);
             }
 
@@ -97,15 +97,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         public override Image Save(string path, Image image, long bitDepth)
         {
             // Never use default save for gifs. It's terrible.
-            using (FileStream fs = File.OpenWrite(path))
+            using (var fs = File.OpenWrite(path))
             {
-                GifDecoder decoder = new GifDecoder(image, AnimationProcessMode.All);
-                GifEncoder encoder = new GifEncoder(null, null, decoder.LoopCount);
+                var decoder = new GifDecoder(image, AnimationProcessMode.All);
+                var encoder = new GifEncoder(null, null, decoder.LoopCount);
 
-                for (int i = 0; i < decoder.FrameCount; i++)
+                for (var i = 0; i < decoder.FrameCount; i++)
                 {
-                    GifFrame frame = decoder.GetFrame(image, i);
-                    frame.Image = this.Quantizer.Quantize(frame.Image);
+                    var frame = decoder.GetFrame(image, i);
+                    frame.Image = Quantizer.Quantize(frame.Image);
                     encoder.AddFrame(frame);
                 }
 

@@ -54,10 +54,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <param name="alpha">The alpha component.</param>
         private HslaColor(float hue, float saturation, float luminosity, float alpha)
         {
-            this.h = Clamp(hue);
-            this.s = Clamp(saturation);
-            this.l = Clamp(luminosity);
-            this.a = Clamp(alpha);
+            h = Clamp(hue);
+            s = Clamp(saturation);
+            l = Clamp(luminosity);
+            a = Clamp(alpha);
         }
 
         /// <summary>
@@ -69,35 +69,35 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         private HslaColor(Color color)
         {
             HslaColor hslColor = color;
-            this.h = hslColor.h;
-            this.s = hslColor.s;
-            this.l = hslColor.l;
-            this.a = hslColor.a;
+            h = hslColor.h;
+            s = hslColor.s;
+            l = hslColor.l;
+            a = hslColor.a;
         }
 
         /// <summary>
         /// Gets the hue component.
         /// <remarks>A value ranging between 0 and 1.</remarks>
         /// </summary>
-        public float H => this.h;
+        public float H => h;
 
         /// <summary>
         /// Gets the luminosity component.
         /// <remarks>A value ranging between 0 and 1.</remarks>
         /// </summary>
-        public float L => this.l;
+        public float L => l;
 
         /// <summary>
         /// Gets the saturation component.
         /// <remarks>A value ranging between 0 and 1.</remarks>
         /// </summary>
-        public float S => this.s;
+        public float S => s;
 
         /// <summary>
         /// Gets the alpha component.
         /// <remarks>A value ranging between 0 and 1.</remarks>
         /// </summary>
-        public float A => this.a;
+        public float A => a;
 
         /// <summary>
         /// Creates a <see cref="HslaColor"/> structure from the three 32-bit HSLA 
@@ -156,7 +156,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public static implicit operator HslaColor(Color color)
         {
-            HslaColor hslColor = new HslaColor(
+            var hslColor = new HslaColor(
                   color.GetHue() / 360.0f,
                   color.GetSaturation(),
                   color.GetBrightness(),
@@ -193,7 +193,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         public static implicit operator HslaColor(YCbCrColor ycbcrColor)
         {
             Color color = ycbcrColor;
-            HslaColor hslColor = new HslaColor(
+            var hslColor = new HslaColor(
                 color.GetHue() / 360.0f,
                 color.GetSaturation(),
                 color.GetBrightness(),
@@ -223,8 +223,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
                 }
                 else
                 {
-                    float temp2 = GetTemp2(hslaColor);
-                    float temp1 = (2.0f * hslaColor.l) - temp2;
+                    var temp2 = GetTemp2(hslaColor);
+                    var temp1 = (2.0f * hslaColor.l) - temp2;
 
                     r = GetColorComponent(temp1, temp2, hslaColor.h + (1.0f / 3.0f));
                     g = GetColorComponent(temp1, temp2, hslaColor.h);
@@ -277,12 +277,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public override string ToString()
         {
-            if (this.IsEmpty())
+            if (IsEmpty())
             {
                 return "HslaColor [ Empty ]";
             }
 
-            return string.Format("HslaColor [ H={0:#0.##}, S={1:#0.##}, L={2:#0.##}, A={3:#0.##}]", this.H, this.S, this.L, this.A);
+            return string.Format("HslaColor [ H={0:#0.##}, S={1:#0.##}, L={2:#0.##}, A={3:#0.##}]", H, S, L, A);
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         {
             if (obj is HslaColor)
             {
-                return this.Equals((HslaColor)obj);
+                return Equals((HslaColor)obj);
             }
 
             return false;
@@ -432,8 +432,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         private bool IsEmpty()
         {
             const float Epsilon = .0001f;
-            return Math.Abs(this.h - 0) <= Epsilon && Math.Abs(this.s - 0) <= Epsilon &&
-                   Math.Abs(this.l - 0) <= Epsilon && Math.Abs(this.a - 0) <= Epsilon;
+            return Math.Abs(h - 0) <= Epsilon && Math.Abs(s - 0) <= Epsilon &&
+                   Math.Abs(l - 0) <= Epsilon && Math.Abs(a - 0) <= Epsilon;
         }
     }
 }

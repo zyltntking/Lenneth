@@ -28,17 +28,17 @@
         {
             var other = (PageAddress)obj;
 
-            return this.PageID == other.PageID && this.Index == other.Index;
+            return PageID == other.PageID && Index == other.Index;
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                int hash = 17;
+                var hash = 17;
                 // Maybe nullity checks, if these are objects not primitives!
-                hash = hash * 23 + (int)this.PageID;
-                hash = hash * 23 + this.Index;
+                hash = hash * 23 + (int)PageID;
+                hash = hash * 23 + Index;
                 return hash;
             }
         }

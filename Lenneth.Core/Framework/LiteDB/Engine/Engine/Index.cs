@@ -10,7 +10,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public bool EnsureIndex(string collection, string field, bool unique = false)
         {
-            return this.EnsureIndex(collection, field, null, unique);
+            return EnsureIndex(collection, field, null, unique);
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Lenneth.Core.Framework.LiteDB
             if (field == "_id") return false; // always exists
             if (expression != null && expression.Length > 200) throw new ArgumentException("expression is limited in 200 characters", "expression");
 
-            return this.Transaction<bool>(collection, true, (col) =>
+            return Transaction<bool>(collection, true, (col) =>
             {
                 // check if index already exists
                 var current = col.GetIndex(field);
@@ -50,7 +50,7 @@ namespace Lenneth.Core.Framework.LiteDB
                     // read binary and deserialize document
                     var buffer = _data.Read(pkNode.DataBlock);
                     var doc = _bsonReader.Deserialize(buffer).AsDocument;
-                    var expr = new Lenneth.Core.Framework.LiteDB.BsonExpression(index.Expression);
+                    var expr = new BsonExpression(index.Expression);
 
                     // get values from expression in document
                     var keys = expr.Execute(doc, true);
@@ -83,7 +83,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             if (field == "_id") throw LiteException.IndexDropId();
 
-            return this.Transaction<bool>(collection, false, (col) =>
+            return Transaction<bool>(collection, false, (col) =>
             {
                 // no collection, no index
                 if (col == null) return false;
@@ -118,7 +118,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             using (_locker.Read())
             {
-                var col = this.GetCollectionPage(collection, false);
+                var col = GetCollectionPage(collection, false);
 
                 if (col == null) yield break;
 

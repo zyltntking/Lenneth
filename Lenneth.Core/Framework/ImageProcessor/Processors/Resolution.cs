@@ -12,11 +12,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using Lenneth.Core.Framework.ImageProcessor.Common.Exceptions;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData;
 
 namespace Lenneth.Core.Framework.ImageProcessor.Processors
 {
+    using Common.Exceptions;
+    using Imaging.MetaData;
+
     /// <summary>
     /// Encapsulates methods to change the resolution of the image.
     /// </summary>
@@ -27,7 +28,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Resolution()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -60,20 +61,20 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            const float InchInCm = 0.3937007874015748f;
-            Image image = factory.Image;
+            const float inchInCm = 0.3937007874015748f;
+            var image = factory.Image;
 
             try
             {
-                Tuple<int, int, PropertyTagResolutionUnit> resolution = this.DynamicParameter;
+                Tuple<int, int, PropertyTagResolutionUnit> resolution = DynamicParameter;
 
                 // Set the bitmap resolution data.
-                // Ensure that the resolution is recalculated for bitmap since it only 
+                // Ensure that the resolution is recalculated for bitmap since it only
                 // supports inches.
                 if (resolution.Item3 == PropertyTagResolutionUnit.Cm)
                 {
-                    float horizontal = resolution.Item1 / InchInCm;
-                    float vertical = resolution.Item2 / InchInCm;
+                    var horizontal = resolution.Item1 / inchInCm;
+                    var vertical = resolution.Item2 / inchInCm;
                     ((Bitmap)image).SetResolution(horizontal, vertical);
                 }
                 else
@@ -84,21 +85,21 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                 if (factory.PreserveExifData && factory.ExifPropertyItems.Any())
                 {
                     // Set the horizontal EXIF data.
-                    Rational<uint> horizontalRational = new Rational<uint>((uint)resolution.Item1, 1);
+                    var horizontalRational = new Rational<uint>((uint)resolution.Item1, 1);
                     factory.SetPropertyItem(ExifPropertyTag.XResolution, horizontalRational);
 
                     // Set the vertical EXIF data.
-                    Rational<uint> verticalRational = new Rational<uint>((uint)resolution.Item2, 1);
+                    var verticalRational = new Rational<uint>((uint)resolution.Item2, 1);
                     factory.SetPropertyItem(ExifPropertyTag.YResolution, verticalRational);
 
                     // Set the unit EXIF data
-                    ushort units = (ushort)resolution.Item3;
+                    var units = (ushort)resolution.Item3;
                     factory.SetPropertyItem(ExifPropertyTag.ResolutionUnit, units);
                 }
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return image;

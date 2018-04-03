@@ -13,12 +13,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
-using Lenneth.Core.Framework.ImageProcessor.Common.Exceptions;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData;
+
 
 namespace Lenneth.Core.Framework.ImageProcessor.Processors
-{
+{using Common.Exceptions;
+using Imaging.Helpers;
+using Imaging.MetaData;
     /// <summary>
     /// Encapsulates the methods to rotate an image without expanding the canvas.
     /// </summary>
@@ -47,14 +47,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </remarks>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                Tuple<float, bool> rotateParams = this.DynamicParameter;
+                Tuple<float, bool> rotateParams = DynamicParameter;
 
                 // Create a rotated image.
-                image = this.RotateImage(image, rotateParams.Item1, rotateParams.Item2);
+                image = RotateImage(image, rotateParams.Item1, rotateParams.Item2);
 
                 if (factory.PreserveExifData && factory.ExifPropertyItems.Any())
                 {
@@ -69,7 +69,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
         }
 
@@ -99,9 +99,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         private Bitmap RotateImage(Image image, float angleInDegrees, bool keepSize)
         {
-            Size newSize = new Size(image.Width, image.Height);
+            var newSize = new Size(image.Width, image.Height);
 
-            float zoom = ImageMaths.ZoomAfterRotation(image.Width, image.Height, angleInDegrees);
+            var zoom = ImageMaths.ZoomAfterRotation(image.Width, image.Height, angleInDegrees);
 
             // if we don't keep the image dimensions, calculate the new ones
             if (!keepSize)
@@ -115,11 +115,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             float rotateAtY = Math.Abs(image.Height / 2);
 
             // Create a new empty bitmap to hold rotated image
-            Bitmap newImage = new Bitmap(newSize.Width, newSize.Height, PixelFormat.Format32bppPArgb);
+            var newImage = new Bitmap(newSize.Width, newSize.Height, PixelFormat.Format32bppPArgb);
             newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
             // Make a graphics object from the empty bitmap
-            using (Graphics graphics = Graphics.FromImage(newImage))
+            using (var graphics = Graphics.FromImage(newImage))
             {
                 GraphicsHelper.SetGraphicsOptions(graphics);
 
@@ -142,8 +142,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                 }
                 else
                 {
-                    float previousX = rotateAtX;
-                    float previousY = rotateAtY;
+                    var previousX = rotateAtX;
+                    var previousY = rotateAtY;
 
                     // Calculate the difference between the center of the original image 
                     // and the center of the new image.

@@ -15,12 +15,12 @@ namespace Lenneth.Core.Framework.LiteDB_V6
         public ExtendPage(uint pageID)
             : base(pageID)
         {
-            this.Data = new byte[0];
+            Data = new byte[0];
         }
 
         protected override void ReadContent(ByteReader reader)
         {
-            this.Data = reader.ReadBytes(this.ItemCount);
+            Data = reader.ReadBytes(ItemCount);
         }
     }
 }

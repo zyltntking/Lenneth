@@ -18,15 +18,15 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
     {
         public bool IsCommand(StringScanner s)
         {
-            return this.IsCollectionCommand(s, "find");
+            return IsCollectionCommand(s, "find");
         }
 
         public IEnumerable<BsonValue> Execute(StringScanner s, LiteEngine engine)
         {
-            var col = this.ReadCollection(engine, s);
-            var query = this.ReadQuery(s, false);
-            var skipLimit = this.ReadSkipLimit(s);
-            var includes = this.ReadIncludes(s);
+            var col = ReadCollection(engine, s);
+            var query = ReadQuery(s, false);
+            var skipLimit = ReadSkipLimit(s);
+            var includes = ReadIncludes(s);
 
             s.ThrowIfNotFinish();
 

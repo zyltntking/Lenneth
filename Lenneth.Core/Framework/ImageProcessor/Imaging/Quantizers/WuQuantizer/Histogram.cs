@@ -35,7 +35,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         public Histogram()
         {
             // 47,436,840 bytes
-            this.Moments = new ColorMoment[SideSize, SideSize, SideSize, SideSize];
+            Moments = new ColorMoment[SideSize, SideSize, SideSize, SideSize];
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </summary>
         internal void Clear()
         {
-            Array.Clear(this.Moments, 0, SideSize * SideSize * SideSize * SideSize);
+            Array.Clear(Moments, 0, SideSize * SideSize * SideSize * SideSize);
         }
     }
 }

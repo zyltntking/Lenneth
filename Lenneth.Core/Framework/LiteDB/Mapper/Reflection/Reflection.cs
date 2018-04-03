@@ -32,7 +32,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             try
             {
-                if (_cacheCtor.TryGetValue(type, out CreateObject c))
+                if (_cacheCtor.TryGetValue(type, out var c))
                 {
                     return c();
                 }
@@ -46,7 +46,7 @@ namespace Lenneth.Core.Framework.LiteDB
             {
                 try
                 {
-                    if (_cacheCtor.TryGetValue(type, out CreateObject c))
+                    if (_cacheCtor.TryGetValue(type, out var c))
                     {
                         return c();
                     }

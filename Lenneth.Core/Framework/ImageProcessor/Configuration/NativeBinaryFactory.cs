@@ -68,7 +68,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
             // Do not re-create Dispose clean-up code here.
             // Calling Dispose(false) is optimal in terms of
             // readability and maintainability.
-            this.Dispose(false);
+            Dispose(false);
         }
 
         /// <summary>
@@ -95,17 +95,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
                 b =>
                 {
                     IntPtr pointer;
-                    string folder = this.Is64BitEnvironment ? "x64" : "x86";
-                    Assembly assembly = Assembly.GetExecutingAssembly();
-                    string targetBasePath = new Uri(assembly.Location).LocalPath;
-                    string targetPath = Path.GetFullPath(Path.Combine(targetBasePath, "..\\" + folder + "\\" + name));
+                    var folder = Is64BitEnvironment ? "x64" : "x86";
+                    var assembly = Assembly.GetExecutingAssembly();
+                    var targetBasePath = new Uri(assembly.Location).LocalPath;
+                    var targetPath = Path.GetFullPath(Path.Combine(targetBasePath, "..\\" + folder + "\\" + name));
 
                     // Copy the file across if necessary.
-                    FileInfo fileInfo = new FileInfo(targetPath);
-                    bool rewrite = true;
+                    var fileInfo = new FileInfo(targetPath);
+                    var rewrite = true;
                     if (fileInfo.Exists)
                     {
-                        byte[] existing = File.ReadAllBytes(targetPath);
+                        var existing = File.ReadAllBytes(targetPath);
 
                         if (resourceBytes.SequenceEqual(existing))
                         {
@@ -116,7 +116,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
                     if (rewrite)
                     {
                         // ReSharper disable once AssignNullToNotNullAttribute
-                        DirectoryInfo directoryInfo = new DirectoryInfo(Path.GetDirectoryName(targetPath));
+                        var directoryInfo = new DirectoryInfo(Path.GetDirectoryName(targetPath));
                         if (!directoryInfo.Exists)
                         {
                             directoryInfo.Create();
@@ -149,7 +149,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
 
             // This object will be cleaned up by the Dispose method.
             // Therefore, you should call GC.SuppressFinalize to
@@ -165,7 +165,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// <param name="disposing">If true, the object gets disposed.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (this.isDisposed)
+            if (isDisposed)
             {
                 return;
             }
@@ -177,10 +177,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
 
             // Call the appropriate methods to clean up
             // unmanaged resources here.
-            this.FreeNativeBinaries();
+            FreeNativeBinaries();
 
             // Note disposing is done.
-            this.isDisposed = true;
+            isDisposed = true;
         }
 
         /// <summary>
@@ -188,9 +188,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// </summary>
         private void FreeNativeBinaries()
         {
-            foreach (KeyValuePair<string, IntPtr> nativeBinary in nativeBinaries)
+            foreach (var nativeBinary in nativeBinaries)
             {
-                IntPtr pointer = nativeBinary.Value;
+                var pointer = nativeBinary.Value;
 
                 // According to http://stackoverflow.com/a/2445558/427899 you need to call this twice.
                 NativeMethods.FreeLibrary(pointer);

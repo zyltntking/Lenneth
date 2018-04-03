@@ -43,10 +43,10 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             var index = _dataBlocks.NextIndex();
 
-            block.Position = new PageAddress(this.PageID, index);
+            block.Position = new PageAddress(PageID, index);
 
-            this.ItemCount++;
-            this.FreeBytes -= block.Length;
+            ItemCount++;
+            FreeBytes -= block.Length;
 
             _dataBlocks.Add(index, block);
         }
@@ -56,7 +56,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public void UpdateBlockData(DataBlock block, byte[] data)
         {
-            this.FreeBytes = this.FreeBytes + block.Data.Length - data.Length;
+            FreeBytes = FreeBytes + block.Data.Length - data.Length;
 
             block.Data = data;
         }
@@ -66,8 +66,8 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public void DeleteBlock(DataBlock block)
         {
-            this.ItemCount--;
-            this.FreeBytes += block.Length;
+            ItemCount--;
+            FreeBytes += block.Length;
 
             _dataBlocks.Remove(block.Position.Index);
         }
@@ -88,7 +88,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 var block = new DataBlock();
 
                 block.Page = this;
-                block.Position = new PageAddress(this.PageID, reader.ReadUInt16());
+                block.Position = new PageAddress(PageID, reader.ReadUInt16());
                 block.ExtendPageID = reader.ReadUInt32();
                 var size = reader.ReadUInt16();
                 block.Data = reader.ReadBytes(size);

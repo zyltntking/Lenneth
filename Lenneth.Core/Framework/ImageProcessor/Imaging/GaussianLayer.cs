@@ -37,9 +37,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </summary>
         public GaussianLayer()
         {
-            this.Size = 3;
-            this.Sigma = 1.4;
-            this.Threshold = 0;
+            Size = 3;
+            Sigma = 1.4;
+            Threshold = 0;
         }
 
         /// <summary>
@@ -56,9 +56,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </param>
         public GaussianLayer(int size, double sigma = 1.4, int threshold = 0)
         {
-            this.Size = size;
-            this.Sigma = sigma;
-            this.Threshold = threshold;
+            Size = size;
+            Sigma = sigma;
+            Threshold = threshold;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         {
             get
             {
-                return this.size;
+                return size;
             }
 
             set
@@ -83,7 +83,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                     value = 0;
                 }
 
-                this.size = value;
+                size = value;
             }
         }
 
@@ -99,7 +99,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         {
             get
             {
-                return this.sigma;
+                return sigma;
             }
 
             set
@@ -109,7 +109,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                     value = 0;
                 }
 
-                this.sigma = value;
+                sigma = value;
             }
         }
 
@@ -125,7 +125,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         {
             get
             {
-                return this.threshold;
+                return threshold;
             }
 
             set
@@ -135,7 +135,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                     value = 0;
                 }
 
-                this.threshold = value;
+                threshold = value;
             }
         }
 
@@ -153,16 +153,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         public override bool Equals(object obj)
         {
-            GaussianLayer gaussianLayer = obj as GaussianLayer;
+            var gaussianLayer = obj as GaussianLayer;
 
             if (gaussianLayer == null)
             {
                 return false;
             }
 
-            return this.Size == gaussianLayer.Size
-                && Math.Abs(this.Sigma - gaussianLayer.Sigma) < 0.0001
-                && this.Threshold == gaussianLayer.Threshold;
+            return Size == gaussianLayer.Size
+                && Math.Abs(Sigma - gaussianLayer.Sigma) < 0.0001
+                && Threshold == gaussianLayer.Threshold;
         }
 
         /// <summary>
@@ -175,9 +175,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         {
             unchecked
             {
-                int hashCode = this.Size;
-                hashCode = (hashCode * 397) ^ this.Size.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.Threshold;
+                var hashCode = Size;
+                hashCode = (hashCode * 397) ^ Size.GetHashCode();
+                hashCode = (hashCode * 397) ^ Threshold;
                 return hashCode;
             }
         }

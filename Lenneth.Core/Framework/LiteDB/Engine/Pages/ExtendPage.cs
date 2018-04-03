@@ -28,8 +28,8 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public void SetData(byte[] data, int offset, int length)
         {
-            this.ItemCount = length;
-            this.FreeBytes = PAGE_AVAILABLE_BYTES - length; // not used on ExtendPage
+            ItemCount = length;
+            FreeBytes = PAGE_AVAILABLE_BYTES - length; // not used on ExtendPage
 
             _data = new byte[length];
 
@@ -48,7 +48,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         protected override void ReadContent(ByteReader reader)
         {
-            _data = reader.ReadBytes(this.ItemCount);
+            _data = reader.ReadBytes(ItemCount);
         }
 
         protected override void WriteContent(ByteWriter writer)

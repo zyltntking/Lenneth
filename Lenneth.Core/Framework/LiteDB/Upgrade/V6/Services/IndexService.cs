@@ -30,11 +30,11 @@ namespace Lenneth.Core.Framework.LiteDB_V6
 
         public IEnumerable<IndexNode> FindAll(CollectionIndex index)
         {
-            var cur = this.GetNode(index.HeadNode);
+            var cur = GetNode(index.HeadNode);
 
             while (!cur.Next[0].IsEmpty)
             {
-                cur = this.GetNode(cur.Next[0]);
+                cur = GetNode(cur.Next[0]);
 
                 // stop if node is head/tail
                 if (cur.IsHeadTail(index)) yield break;

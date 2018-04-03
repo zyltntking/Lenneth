@@ -142,12 +142,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public object Clone()
         {
-            HaarCascadeStage[] newStages = new HaarCascadeStage[Stages.Length];
-            for (int i = 0; i < newStages.Length; i++)
+            var newStages = new HaarCascadeStage[Stages.Length];
+            for (var i = 0; i < newStages.Length; i++)
                 newStages[i] = (HaarCascadeStage)Stages[i].Clone();
 
-            HaarCascade r = new HaarCascade(Width, Height);
-            r.HasTiltedFeatures = this.HasTiltedFeatures;
+            var r = new HaarCascade(Width, Height);
+            r.HasTiltedFeatures = HasTiltedFeatures;
             r.Stages = newStages;
 
             return r;
@@ -195,11 +195,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public static HaarCascade FromXml(TextReader stringReader)
         {
-            XmlTextReader xmlReader = new XmlTextReader(stringReader);
+            var xmlReader = new XmlTextReader(stringReader);
 
             // Gathers the base window size
             xmlReader.ReadToFollowing("size");
-            string size = xmlReader.ReadElementContentAsString();
+            var size = xmlReader.ReadElementContentAsString();
             //xmlReader.ReadToFollowing("height");
             //int baseHeight = int.Parse(xmlReader.ReadElementContentAsString().Trim(), CultureInfo.InvariantCulture);
 
@@ -209,13 +209,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
 
             // Proceeds to load the cascade stages
             xmlReader.ReadToFollowing("stages");
-            XmlSerializer serializer = new XmlSerializer(typeof(HaarCascadeSerializationObject));
+            var serializer = new XmlSerializer(typeof(HaarCascadeSerializationObject));
             var stages = (HaarCascadeSerializationObject)serializer.Deserialize(xmlReader);
 
             // Process base window size
-            string[] s = size.Trim().Split(' ');
-            int baseWidth = int.Parse(s[0], CultureInfo.InvariantCulture);
-            int baseHeight = int.Parse(s[1], CultureInfo.InvariantCulture);
+            var s = size.Trim().Split(' ');
+            var baseWidth = int.Parse(s[0], CultureInfo.InvariantCulture);
+            var baseHeight = int.Parse(s[1], CultureInfo.InvariantCulture);
 
             // Create and return the new cascade
             return new HaarCascade(baseWidth, baseHeight, stages.Stages);

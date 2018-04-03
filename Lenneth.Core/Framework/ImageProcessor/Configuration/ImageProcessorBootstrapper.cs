@@ -35,9 +35,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// </summary>
         private ImageProcessorBootstrapper()
         {
-            this.NativeBinaryFactory = new NativeBinaryFactory();
-            this.LoadSupportedImageFormats();
-            this.LoadLogger();
+            NativeBinaryFactory = new NativeBinaryFactory();
+            LoadSupportedImageFormats();
+            LoadLogger();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// </param>
         public void AddImageFormats(params ISupportedImageFormat[] format)
         {
-            ((List<ISupportedImageFormat>)this.SupportedImageFormats).AddRange(format);
+            ((List<ISupportedImageFormat>)SupportedImageFormats).AddRange(format);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// <param name="logger"></param>
         public void SetLogger(ILogger logger)
         {
-            this.Logger = logger;
+            Logger = logger;
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// </summary>
         private void LoadSupportedImageFormats()
         {
-            List<ISupportedImageFormat> formats = new List<ISupportedImageFormat>
+            var formats = new List<ISupportedImageFormat>
             {
                 new BitmapFormat(),
                 new GifFormat(),
@@ -96,10 +96,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
                 new TiffFormat()
             };
 
-            Type type = typeof(ISupportedImageFormat);
-            if (this.SupportedImageFormats == null)
+            var type = typeof(ISupportedImageFormat);
+            if (SupportedImageFormats == null)
             {
-                List<Type> availableTypes =
+                var availableTypes =
                     TypeFinder.GetAssembliesWithKnownExclusions()
                         .SelectMany(a => AssemblyExtensions.GetLoadableTypes(a))
                         .Where(t => type.IsAssignableFrom(t) && t.IsClass && !t.IsAbstract)
@@ -107,7 +107,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
 
                 formats.AddRange(availableTypes.Select(f => Activator.CreateInstance(f) as ISupportedImageFormat).ToList());
 
-                this.SupportedImageFormats = formats;
+                SupportedImageFormats = formats;
             }
         }
 
@@ -116,10 +116,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// </summary>
         private void LoadLogger()
         {
-            Type type = typeof(ILogger);
-            if (this.Logger == null)
+            var type = typeof(ILogger);
+            if (Logger == null)
             {
-                List<Type> availableTypes =
+                var availableTypes =
                     TypeFinder.GetAssembliesWithKnownExclusions()
                         .SelectMany(a => a.GetLoadableTypes())
                         .Where(t => type.IsAssignableFrom(t) && t.IsClass && !t.IsAbstract)
@@ -128,13 +128,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
                 // There's more than one so load the first that is not our default.
                 if (availableTypes.Count > 1)
                 {
-                    this.Logger = availableTypes.Where(l => l != typeof(DefaultLogger))
+                    Logger = availableTypes.Where(l => l != typeof(DefaultLogger))
                                                 .Select(f => (Activator.CreateInstance(f) as ILogger))
                                                 .First();
                 }
                 else
                 {
-                    this.Logger = new DefaultLogger();
+                    Logger = new DefaultLogger();
                 }
             }
         }

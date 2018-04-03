@@ -42,15 +42,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Photo
         /// </returns>
         public override bool Equals(object obj)
         {
-            IMatrixFilter filter = obj as IMatrixFilter;
+            var filter = obj as IMatrixFilter;
 
             if (filter == null)
             {
                 return false;
             }
 
-            return this.GetType().Name == filter.GetType().Name
-                   && this.Matrix.Equals(filter.Matrix);
+            return GetType().Name == filter.GetType().Name
+                   && Matrix.Equals(filter.Matrix);
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Photo
         {
             unchecked
             {
-                int hashCode = this.GetType().Name.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.Matrix.GetHashCode();
+                var hashCode = GetType().Name.GetHashCode();
+                hashCode = (hashCode * 397) ^ Matrix.GetHashCode();
                 return hashCode;
             }
         }

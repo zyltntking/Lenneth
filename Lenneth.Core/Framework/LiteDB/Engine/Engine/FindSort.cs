@@ -22,7 +22,7 @@ namespace Lenneth.Core.Framework.LiteDB
             _log.Write(Logger.Command, "query-sort documents in '{0}' => {1}", collection, query);
 
             // evaluate orderBy path/expression
-            var expr = new Lenneth.Core.Framework.LiteDB.BsonExpression(orderBy);
+            var expr = new BsonExpression(orderBy);
 
             // lock database for read access
             using (_locker.Read())
@@ -33,10 +33,10 @@ namespace Lenneth.Core.Framework.LiteDB
                 var disk = new TempDiskService();
 
                 // create memory database
-                using (var engine = new Lenneth.Core.Framework.LiteDB.LiteEngine(disk))
+                using (var engine = new LiteEngine(disk))
                 {
                     // get collection page
-                    var col = this.GetCollectionPage(collection, false);
+                    var col = GetCollectionPage(collection, false);
 
                     if (col == null) return new List<BsonDocument>();
 

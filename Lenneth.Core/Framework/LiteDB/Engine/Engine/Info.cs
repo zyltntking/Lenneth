@@ -16,7 +16,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
                 foreach(var colName in header.CollectionPages.Keys)
                 {
-                    var col = this.GetCollectionPage(colName, false);
+                    var col = GetCollectionPage(colName, false);
 
                     var colDoc = new BsonDocument
                     {

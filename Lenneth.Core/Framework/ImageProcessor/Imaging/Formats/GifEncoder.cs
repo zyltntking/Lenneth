@@ -161,7 +161,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </param>
         public GifEncoder(int? width = null, int? height = null, int? repeatCount = null)
         {
-            this.imageStream = new MemoryStream();
+            imageStream = new MemoryStream();
             this.width = width;
             this.height = height;
             this.repeatCount = repeatCount;
@@ -182,20 +182,20 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </param>
         public void AddFrame(GifFrame frame)
         {
-            using (MemoryStream gifStream = new MemoryStream())
+            using (var gifStream = new MemoryStream())
             {
                 frame.Image.Save(gifStream, ImageFormat.Gif);
-                if (this.isFirstImage)
+                if (isFirstImage)
                 {
                     // Steal the global color table info
-                    this.WriteHeaderBlock(gifStream, frame.Image.Width, frame.Image.Height);
+                    WriteHeaderBlock(gifStream, frame.Image.Width, frame.Image.Height);
                 }
 
-                this.WriteGraphicControlBlock(gifStream, Convert.ToInt32(frame.Delay.TotalMilliseconds / 10F));
-                this.WriteImageBlock(gifStream, !this.isFirstImage, frame.X, frame.Y, frame.Image.Width, frame.Image.Height);
+                WriteGraphicControlBlock(gifStream, Convert.ToInt32(frame.Delay.TotalMilliseconds / 10F));
+                WriteImageBlock(gifStream, !isFirstImage, frame.X, frame.Y, frame.Image.Width, frame.Image.Height);
             }
 
-            this.isFirstImage = false;
+            isFirstImage = false;
         }
 
         /// <summary>
@@ -204,19 +204,19 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// <returns>The completed animated gif.</returns>
         public Image Save()
         {
-            if (!this.terminated)
+            if (!terminated)
             {
                 // Complete File
-                this.WriteByte(FileTrailer);
-                this.terminated = true;
+                WriteByte(FileTrailer);
+                terminated = true;
             }
 
             // Push the data
-            this.imageStream.Flush();
-            this.imageStream.Position = 0;
-            this.ImageBytes = this.imageStream.ToArray();
-            this.imageStream.Dispose();
-            return (Image)Converter.ConvertFrom(this.ImageBytes);
+            imageStream.Flush();
+            imageStream.Position = 0;
+            ImageBytes = imageStream.ToArray();
+            imageStream.Dispose();
+            return (Image)Converter.ConvertFrom(ImageBytes);
         }
 
         /// <summary>
@@ -225,11 +225,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// <param name="stream">The stream.</param>
         public void Save(Stream stream)
         {
-            if (!this.terminated)
+            if (!terminated)
             {
                 // Complete File
-                this.WriteByte(FileTrailer);
-                this.terminated = true;
+                WriteByte(FileTrailer);
+                terminated = true;
             }
 
             if (stream.CanSeek)
@@ -238,12 +238,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
             }
 
             // Push the data
-            this.imageStream.Flush();
-            this.imageStream.Position = 0;
+            imageStream.Flush();
+            imageStream.Position = 0;
 
-            this.imageStream.CopyTo(stream);
+            imageStream.CopyTo(stream);
 
-            this.imageStream.Position = 0;
+            imageStream.Position = 0;
         }
         #endregion
 
@@ -263,36 +263,36 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         private void WriteHeaderBlock(Stream sourceGif, int w, int h)
         {
             // File Header signature and version.
-            this.WriteString(FileType);
-            this.WriteString(FileVersion);
+            WriteString(FileType);
+            WriteString(FileVersion);
 
             // Write the logical screen descriptor.
-            this.WriteShort(this.width.GetValueOrDefault(w)); // Initial Logical Width
-            this.WriteShort(this.height.GetValueOrDefault(h)); // Initial Logical Height
+            WriteShort(width.GetValueOrDefault(w)); // Initial Logical Width
+            WriteShort(height.GetValueOrDefault(h)); // Initial Logical Height
 
             // Read the global color table info.
             sourceGif.Position = SourceGlobalColorInfoPosition;
-            this.WriteByte(sourceGif.ReadByte());
+            WriteByte(sourceGif.ReadByte());
 
-            this.WriteByte(255); // Background Color Index
-            this.WriteByte(0); // Pixel aspect ratio
-            this.WriteColorTable(sourceGif);
+            WriteByte(255); // Background Color Index
+            WriteByte(0); // Pixel aspect ratio
+            WriteColorTable(sourceGif);
 
             // Application Extension Header
-            int count = this.repeatCount.GetValueOrDefault(0);
+            var count = repeatCount.GetValueOrDefault(0);
             if (count != 1)
             {
                 // 0 means loop indefinitely. count is set as play n + 1 times.
                 count = Math.Max(0, count - 1);
-                this.WriteShort(ApplicationExtensionBlockIdentifier);
-                this.WriteByte(ApplicationBlockSize);
+                WriteShort(ApplicationExtensionBlockIdentifier);
+                WriteByte(ApplicationBlockSize);
 
-                this.WriteString(ApplicationIdentification);
-                this.WriteByte(3); // Application block length
-                this.WriteByte(1);
-                this.WriteShort(count); // Repeat count for images.
+                WriteString(ApplicationIdentification);
+                WriteByte(3); // Application block length
+                WriteByte(1);
+                WriteShort(count); // Repeat count for images.
 
-                this.WriteByte(0); // Terminator
+                WriteByte(0); // Terminator
             }
         }
 
@@ -304,7 +304,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </param>
         private void WriteByte(int value)
         {
-            this.imageStream.WriteByte(Convert.ToByte(value));
+            imageStream.WriteByte(Convert.ToByte(value));
         }
 
         /// <summary>
@@ -316,9 +316,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         private void WriteColorTable(Stream sourceGif)
         {
             sourceGif.Position = SourceColorBlockPosition; // Locating the image color table
-            byte[] colorTable = new byte[SourceColorBlockLength];
+            var colorTable = new byte[SourceColorBlockLength];
             sourceGif.Read(colorTable, 0, colorTable.Length);
-            this.imageStream.Write(colorTable, 0, colorTable.Length);
+            imageStream.Write(colorTable, 0, colorTable.Length);
         }
 
         /// <summary>
@@ -329,15 +329,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         private void WriteGraphicControlBlock(Stream sourceGif, int frameDelay)
         {
             sourceGif.Position = SourceGraphicControlExtensionPosition; // Locating the source GCE
-            byte[] blockhead = new byte[SourceGraphicControlExtensionLength];
+            var blockhead = new byte[SourceGraphicControlExtensionLength];
             sourceGif.Read(blockhead, 0, blockhead.Length); // Reading source GCE
 
-            this.WriteShort(GraphicControlExtensionBlockIdentifier); // Identifier
-            this.WriteByte(GraphicControlExtensionBlockSize); // Block Size
-            this.WriteByte(blockhead[3] & 0xf7 | 0x08); // Setting disposal flag
-            this.WriteShort(frameDelay); // Setting frame delay
-            this.WriteByte(255); // Transparent color index
-            this.WriteByte(0); // Terminator
+            WriteShort(GraphicControlExtensionBlockIdentifier); // Identifier
+            WriteByte(GraphicControlExtensionBlockSize); // Block Size
+            WriteByte(blockhead[3] & 0xf7 | 0x08); // Setting disposal flag
+            WriteShort(frameDelay); // Setting frame delay
+            WriteByte(255); // Transparent color index
+            WriteByte(0); // Terminator
         }
 
         /// <summary>
@@ -355,43 +355,43 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         {
             // Local Image Descriptor
             sourceGif.Position = SourceImageBlockPosition; // Locating the image block
-            byte[] header = new byte[SourceImageBlockHeaderLength];
+            var header = new byte[SourceImageBlockHeaderLength];
             sourceGif.Read(header, 0, header.Length);
-            this.WriteByte(header[0]); // Separator
-            this.WriteShort(x); // Position X
-            this.WriteShort(y); // Position Y
-            this.WriteShort(h); // Height
-            this.WriteShort(w); // Width
+            WriteByte(header[0]); // Separator
+            WriteShort(x); // Position X
+            WriteShort(y); // Position Y
+            WriteShort(h); // Height
+            WriteShort(w); // Width
 
             if (includeColorTable)
             {
                 // If first frame, use global color table - else use local
                 sourceGif.Position = SourceGlobalColorInfoPosition;
-                this.WriteByte(sourceGif.ReadByte() & 0x3f | 0x80); // Enabling local color table
-                this.WriteColorTable(sourceGif);
+                WriteByte(sourceGif.ReadByte() & 0x3f | 0x80); // Enabling local color table
+                WriteColorTable(sourceGif);
             }
             else
             {
-                this.WriteByte(header[9] & 0x07 | 0x07); // Disabling local color table
+                WriteByte(header[9] & 0x07 | 0x07); // Disabling local color table
             }
 
-            this.WriteByte(header[10]); // LZW Min Code Size
+            WriteByte(header[10]); // LZW Min Code Size
 
             // Read/Write image data
             sourceGif.Position = SourceImageBlockPosition + SourceImageBlockHeaderLength;
 
-            int dataLength = sourceGif.ReadByte();
+            var dataLength = sourceGif.ReadByte();
             while (dataLength > 0)
             {
-                byte[] imgData = new byte[dataLength];
+                var imgData = new byte[dataLength];
                 sourceGif.Read(imgData, 0, dataLength);
 
-                this.imageStream.WriteByte(Convert.ToByte(dataLength));
-                this.imageStream.Write(imgData, 0, dataLength);
+                imageStream.WriteByte(Convert.ToByte(dataLength));
+                imageStream.Write(imgData, 0, dataLength);
                 dataLength = sourceGif.ReadByte();
             }
 
-            this.imageStream.WriteByte(0); // Terminator
+            imageStream.WriteByte(0); // Terminator
         }
 
         /// <summary>
@@ -403,8 +403,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         private void WriteShort(int value)
         {
             // Leave only one significant byte.
-            this.imageStream.WriteByte(Convert.ToByte(value & 0xff));
-            this.imageStream.WriteByte(Convert.ToByte((value >> 8) & 0xff));
+            imageStream.WriteByte(Convert.ToByte(value & 0xff));
+            imageStream.WriteByte(Convert.ToByte((value >> 8) & 0xff));
         }
 
         /// <summary>
@@ -415,7 +415,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </param>
         private void WriteString(string value)
         {
-            this.imageStream.Write(value.ToArray().Select(c => (byte)c).ToArray(), 0, value.Length);
+            imageStream.Write(value.ToArray().Select(c => (byte)c).ToArray(), 0, value.Length);
         }
         #endregion
     }

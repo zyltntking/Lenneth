@@ -51,7 +51,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public bool IsEmpty
         {
-            get { return string.IsNullOrEmpty(this.Field); }
+            get { return string.IsNullOrEmpty(Field); }
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public CollectionIndex()
         {
-            this.Clear();
+            Clear();
         }
 
         /// <summary>
@@ -74,12 +74,12 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public void Clear()
         {
-            this.Field = string.Empty;
-            this.Expression = string.Empty;
-            this.Unique = false;
-            this.HeadNode = PageAddress.Empty;
-            this.FreeIndexPageID = uint.MaxValue;
-            this.MaxLevel = 1;
+            Field = string.Empty;
+            Expression = string.Empty;
+            Unique = false;
+            HeadNode = PageAddress.Empty;
+            FreeIndexPageID = uint.MaxValue;
+            MaxLevel = 1;
         }
     }
 }

@@ -12,12 +12,13 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
-using Lenneth.Core.Framework.ImageProcessor.Common.Exceptions;
-using Lenneth.Core.Framework.ImageProcessor.Imaging;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData;
 
 namespace Lenneth.Core.Framework.ImageProcessor.Processors
 {
+    using Common.Exceptions;
+    using Imaging;
+    using Imaging.MetaData;
+
     /// <summary>
     /// Encapsulates methods to add a watermark text overlay to an image.
     /// </summary>
@@ -28,7 +29,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Watermark()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -61,32 +62,32 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                TextLayer textLayer = this.DynamicParameter;
-                string text = textLayer.Text;
-                int opacity = Math.Min((int)Math.Ceiling((textLayer.Opacity / 100f) * 255), 255);
-                int fontSize = textLayer.FontSize;
-                FontStyle fontStyle = textLayer.Style;
-                bool fallbackUsed = false;
+                TextLayer textLayer = DynamicParameter;
+                var text = textLayer.Text;
+                var opacity = Math.Min((int)Math.Ceiling((textLayer.Opacity / 100f) * 255), 255);
+                var fontSize = textLayer.FontSize;
+                var fontStyle = textLayer.Style;
+                var fallbackUsed = false;
 
-                // We want to make sure that any orientation Metadata is updated to ensure watermarks 
+                // We want to make sure that any orientation Metadata is updated to ensure watermarks
                 // are written correctly.
-                RotateFlipType? flipType = this.GetRotateFlipType(factory);
+                var flipType = GetRotateFlipType(factory);
                 if (flipType.HasValue)
                 {
                     image.RotateFlip(flipType.Value);
                 }
 
-                using (Graphics graphics = Graphics.FromImage(image))
+                using (var graphics = Graphics.FromImage(image))
                 {
-                    using (Font font = this.GetFont(textLayer.FontFamily, fontSize, fontStyle))
+                    using (var font = GetFont(textLayer.FontFamily, fontSize, fontStyle))
                     {
-                        using (StringFormat drawFormat = new StringFormat(StringFormat.GenericTypographic))
+                        using (var drawFormat = new StringFormat(StringFormat.GenericTypographic))
                         {
-                            StringFormatFlags? formatFlags = this.GetFlags(textLayer);
+                            var formatFlags = GetFlags(textLayer);
                             if (formatFlags != null)
                             {
                                 drawFormat.FormatFlags = formatFlags.Value;
@@ -94,18 +95,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
 
                             using (Brush brush = new SolidBrush(Color.FromArgb(opacity, textLayer.FontColor)))
                             {
-                                Point? origin = textLayer.Position;
+                                var origin = textLayer.Position;
 
                                 // Work out the size of the text.
-                                SizeF textSize = graphics.MeasureString(text, font, new SizeF(image.Width, image.Height), drawFormat);
+                                var textSize = graphics.MeasureString(text, font, new SizeF(image.Width, image.Height), drawFormat);
 
                                 // We need to ensure that there is a position set for the watermark
                                 if (origin == null)
                                 {
-                                    int x = textLayer.RightToLeft
+                                    var x = textLayer.RightToLeft
                                         ? 0
                                         : (int)(image.Width - textSize.Width) / 2;
-                                    int y = (int)(image.Height - textSize.Height) / 2;
+                                    var y = (int)(image.Height - textSize.Height) / 2;
                                     origin = new Point(x, y);
 
                                     fallbackUsed = true;
@@ -119,15 +120,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                                 if (textLayer.DropShadow)
                                 {
                                     // Shadow opacity should change with the base opacity.
-                                    int shadowOpacity = opacity - (int)Math.Ceiling((30 / 100f) * 255);
-                                    int finalShadowOpacity = shadowOpacity > 0 ? shadowOpacity : 0;
+                                    var shadowOpacity = opacity - (int)Math.Ceiling((30 / 100f) * 255);
+                                    var finalShadowOpacity = shadowOpacity > 0 ? shadowOpacity : 0;
 
                                     using (Brush shadowBrush = new SolidBrush(Color.FromArgb(finalShadowOpacity, Color.Black)))
                                     {
                                         // Scale the shadow position to match the font size.
                                         // Magic number but it's based on artistic preference.
-                                        int shadowDiff = (int)Math.Ceiling(fontSize / 24f);
-                                        Point shadowPoint = new Point(origin.Value.X + shadowDiff, origin.Value.Y + shadowDiff);
+                                        var shadowDiff = (int)Math.Ceiling(fontSize / 24f);
+                                        var shadowPoint = new Point(origin.Value.X + shadowDiff, origin.Value.Y + shadowDiff);
 
                                         // Set the bounds so any overlapping text will wrap.
                                         if (textLayer.RightToLeft && fallbackUsed)
@@ -161,7 +162,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                     // Flip the image back.
                     if (flipType.HasValue)
                     {
-                        RotateFlipType value = flipType.Value;
+                        var value = flipType.Value;
 
                         if (value == RotateFlipType.Rotate270FlipNone)
                         {
@@ -182,7 +183,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
         }
 
@@ -205,16 +206,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         {
             try
             {
-                // Clone the font family and use it. Disposing of the family in the TextLayer is 
-                // the responsibility of the user. 
-                using (FontFamily clone = new FontFamily(fontFamily.Name))
+                // Clone the font family and use it. Disposing of the family in the TextLayer is
+                // the responsibility of the user.
+                using (var clone = new FontFamily(fontFamily.Name))
                 {
                     return new Font(clone, fontSize, fontStyle, GraphicsUnit.Pixel);
                 }
             }
             catch
             {
-                using (FontFamily genericFontFamily = FontFamily.GenericSansSerif)
+                using (var genericFontFamily = FontFamily.GenericSansSerif)
                 {
                     return new Font(genericFontFamily, fontSize, fontStyle, GraphicsUnit.Pixel);
                 }
@@ -251,7 +252,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         }
 
         /// <summary>
-        /// Gets the correct <see cref="Nullable{RotateFlipType}"/> to ensure that the watermarked image is 
+        /// Gets the correct <see cref="Nullable{RotateFlipType}"/> to ensure that the watermarked image is
         /// correct orientation when the watermark is applied.
         /// </summary>
         /// <param name="factory">The current <see cref="ImageFactory"/>.</param>
@@ -260,10 +261,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         private RotateFlipType? GetRotateFlipType(ImageFactory factory)
         {
-            const int Orientation = (int)ExifPropertyTag.Orientation;
-            if (factory.PreserveExifData && factory.ExifPropertyItems.ContainsKey(Orientation))
+            const int orientation = (int)ExifPropertyTag.Orientation;
+            if (factory.PreserveExifData && factory.ExifPropertyItems.ContainsKey(orientation))
             {
-                int rotationValue = factory.ExifPropertyItems[Orientation].Value[0];
+                int rotationValue = factory.ExifPropertyItems[orientation].Value[0];
                 switch (rotationValue)
                 {
                     case 8: // Rotated 90 right

@@ -42,23 +42,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
                 stream.Position = 0;
             }
 
-            IEnumerable<ISupportedImageFormat> supportedImageFormats =
+            var supportedImageFormats =
                 ImageProcessorBootstrapper.Instance.SupportedImageFormats;
 
             // It's actually a list.
             // ReSharper disable once PossibleMultipleEnumeration
-            int numberOfBytesToRead = supportedImageFormats.Max(f => f.FileHeaders.Max(h=>h.Length));
+            var numberOfBytesToRead = supportedImageFormats.Max(f => f.FileHeaders.Max(h=>h.Length));
 
-            byte[] buffer = new byte[numberOfBytesToRead];
+            var buffer = new byte[numberOfBytesToRead];
             stream.Read(buffer, 0, buffer.Length);
 
             // ReSharper disable once PossibleMultipleEnumeration
-            foreach (ISupportedImageFormat supportedImageFormat in supportedImageFormats)
+            foreach (var supportedImageFormat in supportedImageFormats)
             {
-                byte[][] headers = supportedImageFormat.FileHeaders;
+                var headers = supportedImageFormat.FileHeaders;
 
                 // ReSharper disable once LoopCanBeConvertedToQuery
-                foreach (byte[] header in headers)
+                foreach (var header in headers)
                 {
                     if (header.SequenceEqual(buffer.Take(header.Length)))
                     {
@@ -158,8 +158,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </returns>
         public static PropertyItem CreatePropertyItem()
         {
-            Type type = typeof(PropertyItem);
-            ConstructorInfo constructor = type.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public, null, new Type[] { }, null);
+            var type = typeof(PropertyItem);
+            var constructor = type.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public, null, new Type[] { }, null);
 
             return (PropertyItem)constructor.Invoke(null);
         }

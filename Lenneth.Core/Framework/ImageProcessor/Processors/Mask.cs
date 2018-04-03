@@ -30,7 +30,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Mask()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -67,26 +67,26 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             Bitmap mask = null;
             Bitmap maskCropped = null;
             Bitmap maskPositioned = null;
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                int width = image.Width;
-                int height = image.Height;
-                ImageLayer parameters = this.DynamicParameter;
+                var width = image.Width;
+                var height = image.Height;
+                ImageLayer parameters = DynamicParameter;
                 mask = new Bitmap(parameters.Image);
                 mask.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-                Point? position = parameters.Position;
+                var position = parameters.Position;
 
                 if (mask.Size != image.Size)
                 {
-                    Rectangle parent = new Rectangle(0, 0, width, height);
-                    Rectangle child = ImageMaths.GetFilteredBoundingRectangle(mask, 0, RgbaComponent.A);
+                    var parent = new Rectangle(0, 0, width, height);
+                    var child = ImageMaths.GetFilteredBoundingRectangle(mask, 0, RgbaComponent.A);
                     maskCropped = new Bitmap(child.Width, child.Height, PixelFormat.Format32bppPArgb);
                     maskCropped.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
                     // First crop any bounding transparency.
-                    using (Graphics graphics = Graphics.FromImage(maskCropped))
+                    using (var graphics = Graphics.FromImage(maskCropped))
                     {
                         GraphicsHelper.SetGraphicsOptions(graphics);
 
@@ -104,7 +104,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                     // Now position the mask in an image of the same dimensions as the original.
                     maskPositioned = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
                     maskPositioned.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-                    using (Graphics graphics = Graphics.FromImage(maskPositioned))
+                    using (var graphics = Graphics.FromImage(maskPositioned))
                     {
                         GraphicsHelper.SetGraphicsOptions(graphics, true);
                         graphics.Clear(Color.Transparent);
@@ -117,7 +117,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                         else
                         {
                             // Center it instead
-                            RectangleF centered = ImageMaths.CenteredRectangle(parent, child);
+                            var centered = ImageMaths.CenteredRectangle(parent, child);
                             graphics.DrawImage(maskCropped, new PointF(centered.X, centered.Y));
                         }
                     }
@@ -145,7 +145,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
 
                 newImage?.Dispose();
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return image;

@@ -25,9 +25,9 @@ namespace Lenneth.Core.Framework.LiteDB
         public void Serialize(BsonValue value)
         {
             _indent = 0;
-            _spacer = this.Pretty ? " " : "";
+            _spacer = Pretty ? " " : "";
 
-            this.WriteValue(value ?? BsonValue.Null);
+            WriteValue(value ?? BsonValue.Null);
         }
 
         private void WriteValue(BsonValue value)
@@ -40,11 +40,11 @@ namespace Lenneth.Core.Framework.LiteDB
                     break;
 
                 case BsonType.Array:
-                    this.WriteArray(new BsonArray((List<BsonValue>)value.RawValue));
+                    WriteArray(new BsonArray((List<BsonValue>)value.RawValue));
                     break;
 
                 case BsonType.Document:
-                    this.WriteObject(new BsonDocument((Dictionary<string, BsonValue>)value.RawValue));
+                    WriteObject(new BsonDocument((Dictionary<string, BsonValue>)value.RawValue));
                     break;
 
                 case BsonType.Boolean:
@@ -52,7 +52,7 @@ namespace Lenneth.Core.Framework.LiteDB
                     break;
 
                 case BsonType.String:
-                    this.WriteString((string)value.RawValue);
+                    WriteString((string)value.RawValue);
                     break;
 
                 case BsonType.Int32:
@@ -65,35 +65,35 @@ namespace Lenneth.Core.Framework.LiteDB
 
                 case BsonType.Binary:
                     var bytes = (byte[])value.RawValue;
-                    this.WriteExtendDataType("$binary", this.WriteBinary ? Convert.ToBase64String(bytes, 0, bytes.Length) : "-- " + bytes.Length + " bytes --");
+                    WriteExtendDataType("$binary", WriteBinary ? Convert.ToBase64String(bytes, 0, bytes.Length) : "-- " + bytes.Length + " bytes --");
                     break;
 
                 case BsonType.ObjectId:
-                    this.WriteExtendDataType("$oid", ((ObjectId)value.RawValue).ToString());
+                    WriteExtendDataType("$oid", ((ObjectId)value.RawValue).ToString());
                     break;
 
                 case BsonType.Guid:
-                    this.WriteExtendDataType("$guid", ((Guid)value.RawValue).ToString());
+                    WriteExtendDataType("$guid", ((Guid)value.RawValue).ToString());
                     break;
 
                 case BsonType.DateTime:
-                    this.WriteExtendDataType("$date", ((DateTime)value.RawValue).ToUniversalTime().ToString("o"));
+                    WriteExtendDataType("$date", ((DateTime)value.RawValue).ToUniversalTime().ToString("o"));
                     break;
 
                 case BsonType.Int64:
-                    this.WriteExtendDataType("$numberLong", ((Int64)value.RawValue).ToString());
+                    WriteExtendDataType("$numberLong", ((Int64)value.RawValue).ToString());
                     break;
 
                 case BsonType.Decimal:
-                    this.WriteExtendDataType("$numberDecimal", ((Decimal)value.RawValue).ToString());
+                    WriteExtendDataType("$numberDecimal", ((Decimal)value.RawValue).ToString());
                     break;
 
                 case BsonType.MinValue:
-                    this.WriteExtendDataType("$minValue", "1");
+                    WriteExtendDataType("$minValue", "1");
                     break;
 
                 case BsonType.MaxValue:
-                    this.WriteExtendDataType("$maxValue", "1");
+                    WriteExtendDataType("$maxValue", "1");
                     break;
             }
         }
@@ -103,53 +103,53 @@ namespace Lenneth.Core.Framework.LiteDB
             var length = obj.Keys.Count();
             var hasData = length > 0;
 
-            this.WriteStartBlock("{", hasData);
+            WriteStartBlock("{", hasData);
 
             var index = 0;
 
             foreach (var key in obj.Keys)
             {
-                this.WriteKeyValue(key, obj[key], index++ < length - 1);
+                WriteKeyValue(key, obj[key], index++ < length - 1);
             }
 
-            this.WriteEndBlock("}", hasData);
+            WriteEndBlock("}", hasData);
         }
 
         private void WriteArray(BsonArray arr)
         {
             var hasData = arr.Count > 0;
 
-            this.WriteStartBlock("[", hasData);
+            WriteStartBlock("[", hasData);
 
             for (var i = 0; i < arr.Count; i++)
             {
                 var item = arr[i];
 
                 // do not do this tests if is not pretty format - to better performance
-                if (this.Pretty)
+                if (Pretty)
                 {
                     if (!((item.IsDocument && item.AsDocument.Keys.Any()) || (item.IsArray && item.AsArray.Count > 0)))
                     {
-                        this.WriteIndent();
+                        WriteIndent();
                     }
                 }
 
-                this.WriteValue(item ?? BsonValue.Null);
+                WriteValue(item ?? BsonValue.Null);
 
                 if (i < arr.Count - 1)
                 {
                     _writer.Write(',');
                 }
-                this.WriteNewLine();
+                WriteNewLine();
             }
 
-            this.WriteEndBlock("]", hasData);
+            WriteEndBlock("]", hasData);
         }
 
         private void WriteString(string s)
         {
             _writer.Write('\"');
-            int l = s.Length;
+            var l = s.Length;
             for (var index = 0; index < l; index++)
             {
                 var c = s[index];
@@ -184,7 +184,7 @@ namespace Lenneth.Core.Framework.LiteDB
                         break;
 
                     default:
-                        int i = (int)c;
+                        var i = (int)c;
                         if (i < 32 || i > 127)
                         {
                             _writer.Write("\\u");
@@ -215,40 +215,40 @@ namespace Lenneth.Core.Framework.LiteDB
 
         private void WriteKeyValue(string key, BsonValue value, bool comma)
         {
-            this.WriteIndent();
+            WriteIndent();
 
             _writer.Write('\"');
             _writer.Write(key);
             _writer.Write("\":");
 
             // do not do this tests if is not pretty format - to better performance
-            if (this.Pretty)
+            if (Pretty)
             {
                 _writer.Write(' ');
 
                 if ((value.IsDocument && value.AsDocument.Keys.Any()) || (value.IsArray && value.AsArray.Count > 0))
                 {
-                    this.WriteNewLine();
+                    WriteNewLine();
                 }
             }
 
-            this.WriteValue(value ?? BsonValue.Null);
+            WriteValue(value ?? BsonValue.Null);
 
             if (comma)
             {
                 _writer.Write(',');
             }
 
-            this.WriteNewLine();
+            WriteNewLine();
         }
 
         private void WriteStartBlock(string str, bool hasData)
         {
             if (hasData)
             {
-                this.WriteIndent();
+                WriteIndent();
                 _writer.Write(str);
-                this.WriteNewLine();
+                WriteNewLine();
                 _indent++;
             }
             else
@@ -262,7 +262,7 @@ namespace Lenneth.Core.Framework.LiteDB
             if (hasData)
             {
                 _indent--;
-                this.WriteIndent();
+                WriteIndent();
                 _writer.Write(str);
             }
             else
@@ -273,7 +273,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         private void WriteNewLine()
         {
-            if (this.Pretty)
+            if (Pretty)
             {
                 _writer.WriteLine();
             }
@@ -281,7 +281,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         private void WriteIndent()
         {
-            if (this.Pretty)
+            if (Pretty)
             {
                 _writer.Write("".PadRight(_indent * INDENT_SIZE, ' '));
             }

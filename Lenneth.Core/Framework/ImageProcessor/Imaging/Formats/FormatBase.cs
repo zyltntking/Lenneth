@@ -25,7 +25,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </summary>
         protected FormatBase()
         {
-            this.Quality = 90;
+            Quality = 90;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// <summary>
         /// Gets the default file extension.
         /// </summary>
-        public string DefaultExtension => this.MimeType.Replace("image/", string.Empty);
+        public string DefaultExtension => MimeType.Replace("image/", string.Empty);
 
         /// <summary>
         /// Gets the file format of the image. 
@@ -105,7 +105,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </returns>
         public virtual Image Save(Stream stream, Image image, long bitDepth)
         {
-            image.Save(stream, this.ImageFormat);
+            image.Save(stream, ImageFormat);
             return image;
         }
 
@@ -124,7 +124,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </returns>
         public virtual Image Save(string path, Image image, long bitDepth)
         {
-            image.Save(path, this.ImageFormat);
+            image.Save(path, ImageFormat);
             return image;
         }
 
@@ -137,14 +137,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </returns>
         public override bool Equals(object obj)
         {
-            ISupportedImageFormat format = obj as ISupportedImageFormat;
+            var format = obj as ISupportedImageFormat;
 
             if (format == null)
             {
                 return false;
             }
 
-            return this.MimeType.Equals(format.MimeType) && this.IsIndexed.Equals(format.IsIndexed);
+            return MimeType.Equals(format.MimeType) && IsIndexed.Equals(format.IsIndexed);
         }
 
         /// <summary>
@@ -157,9 +157,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         {
             unchecked
             {
-                int hashCode = this.MimeType.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.IsIndexed.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.Quality;
+                var hashCode = MimeType.GetHashCode();
+                hashCode = (hashCode * 397) ^ IsIndexed.GetHashCode();
+                hashCode = (hashCode * 397) ^ Quality;
                 return hashCode;
             }
         }

@@ -20,7 +20,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         internal override IEnumerable<IndexNode> ExecuteIndex(IndexService indexer, CollectionIndex index)
         {
-            foreach (var node in indexer.FindAll(index, Query.Ascending))
+            foreach (var node in indexer.FindAll(index, Ascending))
             {
                 // compares only with are same type
                 if (node.Key.Type == _value.Type || (node.Key.IsNumber && _value.IsNumber))
@@ -38,7 +38,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         internal override bool FilterDocument(BsonDocument doc)
         {
-            return this.Expression.Execute(doc, true)
+            return Expression.Execute(doc, true)
                 .Where(x => x.Type == _value.Type || (x.IsNumber && _value.IsNumber))
                 .Any(x => x.CompareTo(_value) <= (_equals ? 0 : -1));
         }
@@ -46,8 +46,8 @@ namespace Lenneth.Core.Framework.LiteDB
         public override string ToString()
         {
             return string.Format("{0}({1} <{2} {3})",
-                this.UseFilter ? "Filter" : this.UseIndex ? "Seek" : "",
-                this.Expression?.ToString() ?? this.Field,
+                UseFilter ? "Filter" : UseIndex ? "Seek" : "",
+                Expression?.ToString() ?? Field,
                 _equals ? "=" : "",
                 _value);
         }

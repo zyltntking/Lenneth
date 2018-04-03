@@ -21,12 +21,12 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
     {
         public bool IsCommand(StringScanner s)
         {
-            return this.IsCollectionCommand(s, "select");
+            return IsCollectionCommand(s, "select");
         }
 
         public IEnumerable<BsonValue> Execute(StringScanner s, LiteEngine engine)
         {
-            var col = this.ReadCollection(engine, s);
+            var col = ReadCollection(engine, s);
 
             // try read any kind of expression
             var expression = BsonExpression.ReadExpression(s, false, false);
@@ -56,11 +56,11 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
 
             if (s.Scan(@"\s*where\s*").Length > 0)
             {
-                query = this.ReadQuery(s, true);
+                query = ReadQuery(s, true);
             }
 
-            var skipLimit = this.ReadSkipLimit(s);
-            var includes = this.ReadIncludes(s);
+            var skipLimit = ReadSkipLimit(s);
+            var includes = ReadIncludes(s);
 
             s.ThrowIfNotFinish();
 
@@ -69,14 +69,14 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
             if (into.Length > 0)
             {
                 // insert into results to other collection collection
-                var count = engine.InsertBulk(into, this.Execute(docs, expression), autoId: autoId);
+                var count = engine.InsertBulk(into, Execute(docs, expression), autoId: autoId);
 
                 // return inserted documents
                 return new BsonValue[] { count };
             }
             else
             {
-                return this.Execute(docs, expression).Select(x => x as BsonValue);
+                return Execute(docs, expression).Select(x => x as BsonValue);
             }
         }
 

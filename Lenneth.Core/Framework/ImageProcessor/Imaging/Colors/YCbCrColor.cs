@@ -58,19 +58,19 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// Gets the Y luminance component.
         /// <remarks>A value ranging between 0 and 255.</remarks>
         /// </summary>
-        public float Y => this.y;
+        public float Y => y;
 
         /// <summary>
         /// Gets the U chroma component.
         /// <remarks>A value ranging between 0 and 255.</remarks>
         /// </summary>
-        public float Cb => this.cb;
+        public float Cb => cb;
 
         /// <summary>
         /// Gets the V chroma component.
         /// <remarks>A value ranging between 0 and 255.</remarks>
         /// </summary>
-        public float Cr => this.cr;
+        public float Cr => cr;
 
         /// <summary>
         /// Creates a <see cref="YCbCrColor"/> structure from the three 32-bit YCbCr 
@@ -98,13 +98,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public static YCbCrColor FromColor(Color color)
         {
-            byte r = color.R;
-            byte g = color.G;
-            byte b = color.B;
+            var r = color.R;
+            var g = color.G;
+            var b = color.B;
 
-            float y = (float)((0.299 * r) + (0.587 * g) + (0.114 * b));
-            float cb = 128 + (float)((-0.168736 * r) - (0.331264 * g) + (0.5 * b));
-            float cr = 128 + (float)((0.5 * r) - (0.418688 * g) - (0.081312 * b));
+            var y = (float)((0.299 * r) + (0.587 * g) + (0.114 * b));
+            var cb = 128 + (float)((-0.168736 * r) - (0.331264 * g) + (0.5 * b));
+            var cr = 128 + (float)((0.5 * r) - (0.418688 * g) - (0.081312 * b));
 
             return new YCbCrColor(y, cb, cr);
         }
@@ -166,13 +166,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public static implicit operator Color(YCbCrColor ycbcrColor)
         {
-            float y = ycbcrColor.Y;
-            float cb = ycbcrColor.Cb - 128;
-            float cr = ycbcrColor.Cr - 128;
+            var y = ycbcrColor.Y;
+            var cb = ycbcrColor.Cb - 128;
+            var cr = ycbcrColor.Cr - 128;
 
-            byte r = Convert.ToByte(ImageMaths.Clamp(y + (1.402 * cr), 0, 255));
-            byte g = Convert.ToByte(ImageMaths.Clamp(y - (0.34414 * cb) - (0.71414 * cr), 0, 255));
-            byte b = Convert.ToByte(ImageMaths.Clamp(y + (1.772 * cb), 0, 255));
+            var r = Convert.ToByte(ImageMaths.Clamp(y + (1.402 * cr), 0, 255));
+            var g = Convert.ToByte(ImageMaths.Clamp(y - (0.34414 * cb) - (0.71414 * cr), 0, 255));
+            var b = Convert.ToByte(ImageMaths.Clamp(y + (1.772 * cb), 0, 255));
 
             return Color.FromArgb(255, r, g, b);
         }
@@ -185,12 +185,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public override string ToString()
         {
-            if (this.IsEmpty())
+            if (IsEmpty())
             {
                 return "YCbCrColor [ Empty ]";
             }
 
-            return string.Format("YCbCrColor [ Y={0:#0.##}, Cb={1:#0.##}, Cr={2:#0.##}]", this.Y, this.Cb, this.Cr);
+            return string.Format("YCbCrColor [ Y={0:#0.##}, Cb={1:#0.##}, Cr={2:#0.##}]", Y, Cb, Cr);
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         {
             if (obj is YCbCrColor)
             {
-                return this.Equals((YCbCrColor)obj);
+                return Equals((YCbCrColor)obj);
             }
 
             return false;
@@ -243,8 +243,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         private bool IsEmpty()
         {
             const float Epsilon = .0001f;
-            return Math.Abs(this.y - 0) <= Epsilon && Math.Abs(this.cb - 0) <= Epsilon &&
-                   Math.Abs(this.cr - 0) <= Epsilon;
+            return Math.Abs(y - 0) <= Epsilon && Math.Abs(cb - 0) <= Epsilon &&
+                   Math.Abs(cr - 0) <= Epsilon;
         }
     }
 }

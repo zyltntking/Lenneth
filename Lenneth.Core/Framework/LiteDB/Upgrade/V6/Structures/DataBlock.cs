@@ -32,15 +32,15 @@ namespace Lenneth.Core.Framework.LiteDB_V6
 
         public DataBlock()
         {
-            this.Position = PageAddress.Empty;
-            this.ExtendPageID = uint.MaxValue;
-            this.Data = new byte[0];
+            Position = PageAddress.Empty;
+            ExtendPageID = uint.MaxValue;
+            Data = new byte[0];
 
-            this.IndexRef = new PageAddress[CollectionIndex.INDEX_PER_COLLECTION];
+            IndexRef = new PageAddress[CollectionIndex.INDEX_PER_COLLECTION];
 
             for (var i = 0; i < CollectionIndex.INDEX_PER_COLLECTION; i++)
             {
-                this.IndexRef[i] = PageAddress.Empty;
+                IndexRef[i] = PageAddress.Empty;
             }
         }
     }

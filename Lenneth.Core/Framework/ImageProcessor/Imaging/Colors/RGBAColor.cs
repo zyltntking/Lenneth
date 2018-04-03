@@ -57,10 +57,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </param>
         private RgbaColor(byte red, byte green, byte blue, byte alpha)
         {
-            this.r = red;
-            this.g = green;
-            this.b = blue;
-            this.a = alpha;
+            r = red;
+            g = green;
+            b = blue;
+            a = alpha;
         }
 
         /// <summary>
@@ -71,31 +71,31 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </param>
         private RgbaColor(Color color)
         {
-            this.r = color.R;
-            this.g = color.G;
-            this.b = color.B;
-            this.a = color.A;
+            r = color.R;
+            g = color.G;
+            b = color.B;
+            a = color.A;
         }
 
         /// <summary>
         /// Gets the red component.
         /// </summary>
-        public byte R => this.r;
+        public byte R => r;
 
         /// <summary>
         /// Gets the green component.
         /// </summary>
-        public byte G => this.g;
+        public byte G => g;
 
         /// <summary>
         /// Gets the blue component.
         /// </summary>
-        public byte B => this.b;
+        public byte B => b;
 
         /// <summary>
         /// Gets the alpha component.
         /// </summary>
-        public byte A => this.a;
+        public byte A => a;
 
         /// <summary>
         /// Creates a <see cref="RgbaColor"/> structure from the three 8-bit RGBA 
@@ -225,12 +225,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public override string ToString()
         {
-            if (this.R == 0 && this.G == 0 && this.B == 0 && this.A == 0)
+            if (R == 0 && G == 0 && B == 0 && A == 0)
             {
                 return "RGBA [ Empty ]";
             }
 
-            return string.Format("RGBA [R={0}, G={1}, B={2}, A={3}]", this.R, this.G, this.B, this.A);
+            return string.Format("RGBA [R={0}, G={1}, B={2}, A={3}]", R, G, B, A);
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         {
             if (obj is RgbaColor)
             {
-                return this.Equals((RgbaColor)obj);
+                return Equals((RgbaColor)obj);
             }
 
             return false;

@@ -20,13 +20,13 @@ namespace Lenneth.Core.Framework.LiteDB_V6
         public HeaderPage()
             : base(0)
         {
-            this.FreeEmptyPageID = uint.MaxValue;
-            this.ChangeID = 0;
-            this.LastPageID = 0;
-            this.ItemCount = 1; // fixed for header
-            this.DbVersion = 0;
-            this.Password = new byte[20];
-            this.CollectionPages = new Dictionary<string, uint>(StringComparer.OrdinalIgnoreCase);
+            FreeEmptyPageID = uint.MaxValue;
+            ChangeID = 0;
+            LastPageID = 0;
+            ItemCount = 1; // fixed for header
+            DbVersion = 0;
+            Password = new byte[20];
+            CollectionPages = new Dictionary<string, uint>(StringComparer.OrdinalIgnoreCase);
         }
 
         protected override void ReadContent(ByteReader reader)
@@ -34,17 +34,17 @@ namespace Lenneth.Core.Framework.LiteDB_V6
             var info = reader.ReadString(HEADER_INFO.Length);
             var ver = reader.ReadByte();
 
-            this.ChangeID = reader.ReadUInt16();
-            this.FreeEmptyPageID = reader.ReadUInt32();
-            this.LastPageID = reader.ReadUInt32();
-            this.DbVersion = reader.ReadUInt16();
-            this.Password = reader.ReadBytes(this.Password.Length);
+            ChangeID = reader.ReadUInt16();
+            FreeEmptyPageID = reader.ReadUInt32();
+            LastPageID = reader.ReadUInt32();
+            DbVersion = reader.ReadUInt16();
+            Password = reader.ReadBytes(Password.Length);
 
             // read page collections references (position on end of page)
             var cols = reader.ReadByte();
             for (var i = 0; i < cols; i++)
             {
-                this.CollectionPages.Add(reader.ReadString(), reader.ReadUInt32());
+                CollectionPages.Add(reader.ReadString(), reader.ReadUInt32());
             }
         }
     }

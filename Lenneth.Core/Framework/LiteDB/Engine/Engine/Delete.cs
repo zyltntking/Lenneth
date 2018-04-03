@@ -10,7 +10,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public bool Delete(string collection, BsonValue id)
         {
-            return this.Delete(collection, Query.EQ("_id", id)) == 1;
+            return Delete(collection, Query.EQ("_id", id)) == 1;
         }
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace Lenneth.Core.Framework.LiteDB
             if (collection.IsNullOrWhiteSpace()) throw new ArgumentNullException(nameof(collection));
             if (query == null) throw new ArgumentNullException(nameof(query));
 
-            return this.Transaction<int>(collection, false, (col) =>
+            return Transaction<int>(collection, false, (col) =>
             {
                 if (col == null) return 0;
 

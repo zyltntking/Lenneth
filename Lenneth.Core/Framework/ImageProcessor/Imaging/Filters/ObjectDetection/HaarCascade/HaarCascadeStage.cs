@@ -63,7 +63,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public HaarCascadeStage(double threshold)
         {
-            this.Threshold = threshold;
+            Threshold = threshold;
         }
 
         /// <summary>
@@ -72,9 +72,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public HaarCascadeStage(double threshold, int parentIndex, int nextIndex)
         {
-            this.Threshold = threshold;
-            this.ParentIndex = parentIndex;
-            this.NextIndex = nextIndex;
+            Threshold = threshold;
+            ParentIndex = parentIndex;
+            NextIndex = nextIndex;
         }
 
         /// <summary>
@@ -86,17 +86,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
             double value = 0;
 
             // For each feature in the feature tree of the current stage,
-            foreach (HaarFeatureNode[] tree in Trees)
+            foreach (var tree in Trees)
             {
-                int current = 0;
+                var current = 0;
 
                 do
                 {
                     // Get the feature node from the tree
-                    HaarFeatureNode node = tree[current];
+                    var node = tree[current];
 
                     // Evaluate the node's feature
-                    double sum = node.Feature.GetSum(image, x, y);
+                    var sum = node.Feature.GetSum(image, x, y);
 
                     // And increase the value accumulator
                     if (sum < node.Threshold * factor)
@@ -119,7 +119,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
             // After we have evaluated the output for the
             //  current stage, we will check if the value
             //  is still lesser than the stage threshold. 
-            if (value < this.Threshold)
+            if (value < Threshold)
             {
                 // If it is, the stage has rejected the current
                 // image and it doesn't contains our object.
@@ -143,19 +143,19 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public object Clone()
         {
-            HaarFeatureNode[][] newTrees = new HaarFeatureNode[Trees.Length][];
+            var newTrees = new HaarFeatureNode[Trees.Length][];
 
-            for (int i = 0; i < newTrees.Length; i++)
+            for (var i = 0; i < newTrees.Length; i++)
             {
-                HaarFeatureNode[] tree = Trees[i];
-                HaarFeatureNode[] newTree = newTrees[i] =
+                var tree = Trees[i];
+                var newTree = newTrees[i] =
                     new HaarFeatureNode[tree.Length];
 
-                for (int j = 0; j < newTree.Length; j++)
+                for (var j = 0; j < newTree.Length; j++)
                     newTree[j] = (HaarFeatureNode)tree[j].Clone();
             }
 
-            HaarCascadeStage r = new HaarCascadeStage();
+            var r = new HaarCascadeStage();
             r.NextIndex = NextIndex;
             r.ParentIndex = ParentIndex;
             r.Threshold = Threshold;

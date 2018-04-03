@@ -62,7 +62,7 @@ namespace Lenneth.Core.Framework.Http.Client
             {
                 if (fileData.ContentTransferEncoding == HttpContentTransferEncoding.Base64)
                 {
-                    string str = Convert.ToBase64String(buffer, 0, count);
+                    var str = Convert.ToBase64String(buffer, 0, count);
 
                     requestStream.WriteString(str);
                 }

@@ -29,7 +29,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public ReplaceColor()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -63,56 +63,56 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         public Image ProcessImage(ImageFactory factory)
         {
             Bitmap newImage = null;
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                Tuple<Color, Color, int> parameters = this.DynamicParameter;
-                Color original = parameters.Item1;
-                Color replacement = parameters.Item2;
+                Tuple<Color, Color, int> parameters = DynamicParameter;
+                var original = parameters.Item1;
+                var replacement = parameters.Item2;
 
-                byte originalR = original.R;
-                byte originalG = original.G;
-                byte originalB = original.B;
-                byte originalA = original.A;
+                var originalR = original.R;
+                var originalG = original.G;
+                var originalB = original.B;
+                var originalA = original.A;
 
-                byte replacementR = replacement.R;
-                byte replacementG = replacement.G;
-                byte replacementB = replacement.B;
-                byte replacementA = replacement.A;
+                var replacementR = replacement.R;
+                var replacementG = replacement.G;
+                var replacementB = replacement.B;
+                var replacementA = replacement.A;
 
-                int fuzziness = parameters.Item3;
+                var fuzziness = parameters.Item3;
 
-                byte minR = (originalR - fuzziness).ToByte();
-                byte minG = (originalG - fuzziness).ToByte();
-                byte minB = (originalB - fuzziness).ToByte();
+                var minR = (originalR - fuzziness).ToByte();
+                var minG = (originalG - fuzziness).ToByte();
+                var minB = (originalB - fuzziness).ToByte();
 
-                byte maxR = (originalR + fuzziness).ToByte();
-                byte maxG = (originalG + fuzziness).ToByte();
-                byte maxB = (originalB + fuzziness).ToByte();
+                var maxR = (originalR + fuzziness).ToByte();
+                var maxG = (originalG + fuzziness).ToByte();
+                var maxB = (originalB + fuzziness).ToByte();
 
                 newImage = new Bitmap(image);
                 newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-                int width = image.Width;
-                int height = image.Height;
+                var width = image.Width;
+                var height = image.Height;
 
-                using (FastBitmap fastBitmap = new FastBitmap(newImage))
+                using (var fastBitmap = new FastBitmap(newImage))
                 {
                     Parallel.For(
                         0,
                         height,
                         y =>
                         {
-                            for (int x = 0; x < width; x++)
+                            for (var x = 0; x < width; x++)
                             {
                                 // Get the pixel color.
                                 // ReSharper disable once AccessToDisposedClosure
-                                Color currentColor = fastBitmap.GetPixel(x, y);
+                                var currentColor = fastBitmap.GetPixel(x, y);
 
-                                byte currentR = currentColor.R;
-                                byte currentG = currentColor.G;
-                                byte currentB = currentColor.B;
-                                byte currentA = currentColor.A;
+                                var currentR = currentColor.R;
+                                var currentG = currentColor.G;
+                                var currentB = currentColor.B;
+                                var currentA = currentColor.A;
 
                                 // Test whether it is in the expected range.
                                 if (ImageMaths.InRange(currentR, minR, maxR))
@@ -123,12 +123,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                                         {
                                             // Ensure the values are within an acceptable byte range
                                             // and set the new value.
-                                            byte r = (originalR - currentR + replacementR).ToByte();
-                                            byte g = (originalG - currentG + replacementG).ToByte();
-                                            byte b = (originalB - currentB + replacementB).ToByte();
+                                            var r = (originalR - currentR + replacementR).ToByte();
+                                            var g = (originalG - currentG + replacementG).ToByte();
+                                            var b = (originalB - currentB + replacementB).ToByte();
 
                                             // Allow replacement with transparent color.
-                                            byte a = currentA;
+                                            var a = currentA;
                                             if (originalA != replacementA)
                                             {
                                                 a = replacementA;
@@ -150,7 +150,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             {
                 newImage?.Dispose();
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return image;

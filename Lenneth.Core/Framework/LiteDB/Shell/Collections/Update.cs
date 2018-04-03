@@ -18,12 +18,12 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
     {
         public bool IsCommand(StringScanner s)
         {
-            return this.IsCollectionCommand(s, "update");
+            return IsCollectionCommand(s, "update");
         }
 
         public IEnumerable<BsonValue> Execute(StringScanner s, LiteEngine engine)
         {
-            var col = this.ReadCollection(engine, s);
+            var col = ReadCollection(engine, s);
 
             // single document update
             if(s.Match(@"\s*\{"))
@@ -50,7 +50,7 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
                 {
                     var path = BsonExpression.ReadExpression(s, true, true).Source;
                     var action = s.Scan(@"\s*\+?=\s*").Trim().ThrowIfEmpty("Invalid operator (support = or +=)", s);
-                    var value = this.ReadBsonValue(s);
+                    var value = ReadBsonValue(s);
                     var expr = value == null ? BsonExpression.ReadExpression(s, true, false) : null;
 
                     if (action != "+=" && action != "=") throw LiteException.SyntaxError(s);
@@ -67,13 +67,13 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
                 
                 if(!s.HasTerminated)
                 {
-                    query = this.ReadQuery(s, false);
+                    query = ReadQuery(s, false);
                 }
                 
                 s.ThrowIfNotFinish();
 
                 // fetch documents to update
-                var count = engine.Update(col, this.FetchDocuments(engine, col, query, updates));
+                var count = engine.Update(col, FetchDocuments(engine, col, query, updates));
 
                 yield return count;
             }

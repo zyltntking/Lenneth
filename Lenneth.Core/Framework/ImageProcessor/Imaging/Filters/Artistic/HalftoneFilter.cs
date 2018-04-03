@@ -75,12 +75,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return this.cyanAngle;
+                return cyanAngle;
             }
 
             set
             {
-                this.cyanAngle = value;
+                cyanAngle = value;
             }
         }
 
@@ -91,12 +91,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return this.magentaAngle;
+                return magentaAngle;
             }
 
             set
             {
-                this.magentaAngle = value;
+                magentaAngle = value;
             }
         }
 
@@ -107,12 +107,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return this.yellowAngle;
+                return yellowAngle;
             }
 
             set
             {
-                this.yellowAngle = value;
+                yellowAngle = value;
             }
         }
 
@@ -123,12 +123,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return this.keylineAngle;
+                return keylineAngle;
             }
 
             set
             {
-                this.keylineAngle = value;
+                keylineAngle = value;
             }
         }
 
@@ -139,12 +139,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return this.distance;
+                return distance;
             }
 
             set
             {
-                this.distance = value;
+                distance = value;
             }
         }
 
@@ -169,45 +169,45 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
 
             try
             {
-                int sourceWidth = source.Width;
-                int sourceHeight = source.Height;
-                int width = source.Width + this.distance;
-                int height = source.Height + this.distance;
+                var sourceWidth = source.Width;
+                var sourceHeight = source.Height;
+                var width = source.Width + distance;
+                var height = source.Height + distance;
 
                 // Draw a slightly larger image, flipping the top/left pixels to prevent
                 // jagged edge of output.
                 padded = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
                 padded.SetResolution(source.HorizontalResolution, source.VerticalResolution);
-                using (Graphics graphicsPadded = Graphics.FromImage(padded))
+                using (var graphicsPadded = Graphics.FromImage(padded))
                 {
                     graphicsPadded.Clear(Color.White);
-                    Rectangle destinationRectangle = new Rectangle(0, 0, sourceWidth + this.distance, source.Height + this.distance);
-                    using (TextureBrush tb = new TextureBrush(source))
+                    var destinationRectangle = new Rectangle(0, 0, sourceWidth + distance, source.Height + distance);
+                    using (var tb = new TextureBrush(source))
                     {
                         tb.WrapMode = WrapMode.TileFlipXY;
-                        tb.TranslateTransform(this.distance, this.distance);
+                        tb.TranslateTransform(distance, distance);
                         graphicsPadded.FillRectangle(tb, destinationRectangle);
                     }
                 }
 
                 // Calculate min and max widths/heights.
-                Rectangle rotatedBounds = this.GetBoundingRectangle(width, height);
-                int minY = -(rotatedBounds.Height + height);
-                int maxY = rotatedBounds.Height + height;
-                int minX = -(rotatedBounds.Width + width);
-                int maxX = rotatedBounds.Width + width;
-                Point center = Point.Empty;
+                var rotatedBounds = GetBoundingRectangle(width, height);
+                var minY = -(rotatedBounds.Height + height);
+                var maxY = rotatedBounds.Height + height;
+                var minX = -(rotatedBounds.Width + width);
+                var maxX = rotatedBounds.Width + width;
+                var center = Point.Empty;
 
                 // Yellow oversaturates the output.
-                int offset = this.distance;
-                float yellowMultiplier = this.distance * 1.587f;
-                float magentaMultiplier = this.distance * 2.176f;
-                float multiplier = this.distance * 2.2f;
-                float max = this.distance * (float)Math.Sqrt(2);
-                float magentaMax = this.distance * (float)Math.Sqrt(1.4545);
+                var offset = distance;
+                var yellowMultiplier = distance * 1.587f;
+                var magentaMultiplier = distance * 2.176f;
+                var multiplier = distance * 2.2f;
+                var max = distance * (float)Math.Sqrt(2);
+                var magentaMax = distance * (float)Math.Sqrt(1.4545);
 
                 // Bump up the keyline max so that black looks black.
-                float keylineMax = max * (float)Math.Sqrt(2);
+                var keylineMax = max * (float)Math.Sqrt(2);
 
                 // Color sampled process colours from Wikipedia pages. 
                 // Keyline brush is declared separately.
@@ -230,12 +230,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                 newImage.SetResolution(source.HorizontalResolution, source.VerticalResolution);
 
                 // Check bounds against this.
-                Rectangle rectangle = new Rectangle(0, 0, width, height);
+                var rectangle = new Rectangle(0, 0, width, height);
 
-                using (Graphics graphicsCyan = Graphics.FromImage(cyan))
-                using (Graphics graphicsMagenta = Graphics.FromImage(magenta))
-                using (Graphics graphicsYellow = Graphics.FromImage(yellow))
-                using (Graphics graphicsKeyline = Graphics.FromImage(keyline))
+                using (var graphicsCyan = Graphics.FromImage(cyan))
+                using (var graphicsMagenta = Graphics.FromImage(magenta))
+                using (var graphicsYellow = Graphics.FromImage(yellow))
+                using (var graphicsKeyline = Graphics.FromImage(keyline))
                 {
                     // Set the quality properties.
                     graphicsCyan.PixelOffsetMode = PixelOffsetMode.Half;
@@ -261,20 +261,20 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
 
                     // This is too slow. The graphics object can't be called within a parallel 
                     // loop so we have to do it old school. :(
-                    using (FastBitmap sourceBitmap = new FastBitmap(padded))
+                    using (var sourceBitmap = new FastBitmap(padded))
                     {
-                        for (int y = minY; y < maxY; y += offset)
+                        for (var y = minY; y < maxY; y += offset)
                         {
-                            for (int x = minX; x < maxX; x += offset)
+                            for (var x = minX; x < maxX; x += offset)
                             {
                                 Color color;
                                 CmykColor cmykColor;
                                 float brushWidth;
 
                                 // Cyan
-                                Point rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), this.cyanAngle, center);
-                                int angledX = rotatedPoint.X;
-                                int angledY = rotatedPoint.Y;
+                                var rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), cyanAngle, center);
+                                var angledX = rotatedPoint.X;
+                                var angledY = rotatedPoint.Y;
                                 if (rectangle.Contains(new Point(angledX, angledY)))
                                 {
                                     color = sourceBitmap.GetPixel(angledX, angledY);
@@ -284,7 +284,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                                 }
 
                                 // Magenta
-                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), this.magentaAngle, center);
+                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), magentaAngle, center);
                                 angledX = rotatedPoint.X;
                                 angledY = rotatedPoint.Y;
                                 if (rectangle.Contains(new Point(angledX, angledY)))
@@ -296,7 +296,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                                 }
 
                                 // Yellow
-                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), this.yellowAngle, center);
+                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), yellowAngle, center);
                                 angledX = rotatedPoint.X;
                                 angledY = rotatedPoint.Y;
                                 if (rectangle.Contains(new Point(angledX, angledY)))
@@ -308,7 +308,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                                 }
 
                                 // Keyline 
-                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), this.keylineAngle, center);
+                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), keylineAngle, center);
                                 angledX = rotatedPoint.X;
                                 angledY = rotatedPoint.Y;
                                 if (rectangle.Contains(new Point(angledX, angledY)))
@@ -326,36 +326,36 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                     }
 
                     // Set our white background.
-                    using (Graphics graphics = Graphics.FromImage(newImage))
+                    using (var graphics = Graphics.FromImage(newImage))
                     {
                         graphics.Clear(Color.White);
                     }
 
                     // Blend the colors now to mimic adaptive blending.
-                    using (FastBitmap cyanBitmap = new FastBitmap(cyan))
-                    using (FastBitmap magentaBitmap = new FastBitmap(magenta))
-                    using (FastBitmap yellowBitmap = new FastBitmap(yellow))
-                    using (FastBitmap keylineBitmap = new FastBitmap(keyline))
-                    using (FastBitmap destinationBitmap = new FastBitmap(newImage))
+                    using (var cyanBitmap = new FastBitmap(cyan))
+                    using (var magentaBitmap = new FastBitmap(magenta))
+                    using (var yellowBitmap = new FastBitmap(yellow))
+                    using (var keylineBitmap = new FastBitmap(keyline))
+                    using (var destinationBitmap = new FastBitmap(newImage))
                     {
                         Parallel.For(
                             offset,
                             height,
                             y =>
                             {
-                                for (int x = offset; x < width; x++)
+                                for (var x = offset; x < width; x++)
                                 {
                                     // ReSharper disable AccessToDisposedClosure
-                                    Color cyanPixel = cyanBitmap.GetPixel(x, y);
-                                    Color magentaPixel = magentaBitmap.GetPixel(x, y);
-                                    Color yellowPixel = yellowBitmap.GetPixel(x, y);
-                                    Color keylinePixel = keylineBitmap.GetPixel(x, y);
+                                    var cyanPixel = cyanBitmap.GetPixel(x, y);
+                                    var magentaPixel = magentaBitmap.GetPixel(x, y);
+                                    var yellowPixel = yellowBitmap.GetPixel(x, y);
+                                    var keylinePixel = keylineBitmap.GetPixel(x, y);
 
                                     // Negate the offset.
-                                    int xBack = x - offset;
-                                    int yBack = y - offset;
+                                    var xBack = x - offset;
+                                    var yBack = y - offset;
 
-                                    CmykColor blended = cyanPixel.AddAsCmykColor(magentaPixel, yellowPixel, keylinePixel);
+                                    var blended = cyanPixel.AddAsCmykColor(magentaPixel, yellowPixel, keylinePixel);
                                     if (rectangle.Contains(new Point(xBack, yBack)))
                                     {
                                         destinationBitmap.SetPixel(xBack, yBack, blended);
@@ -424,13 +424,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         /// </returns>
         private Rectangle GetBoundingRectangle(int width, int height)
         {
-            int maxWidth = 0;
-            int maxHeight = 0;
-            List<float> angles = new List<float> { this.CyanAngle, this.MagentaAngle, this.YellowAngle, this.KeylineAngle };
+            var maxWidth = 0;
+            var maxHeight = 0;
+            var angles = new List<float> { CyanAngle, MagentaAngle, YellowAngle, KeylineAngle };
 
-            foreach (float angle in angles)
+            foreach (var angle in angles)
             {
-                Size rotatedSize = ImageMaths.GetBoundingRotatedRectangle(width, height, angle).Size;
+                var rotatedSize = ImageMaths.GetBoundingRotatedRectangle(width, height, angle).Size;
                 maxWidth = Math.Max(maxWidth, rotatedSize.Width);
                 maxHeight = Math.Max(maxHeight, rotatedSize.Height);
             }

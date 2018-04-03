@@ -28,7 +28,7 @@ namespace Lenneth.Core.Framework.LiteDB
         public LiteFileStream OpenWrite(string id, string filename, BsonDocument metadata = null)
         {
             // checks if file exists
-            var file = this.FindById(id);
+            var file = FindById(id);
 
             if (file == null)
             {
@@ -55,7 +55,7 @@ namespace Lenneth.Core.Framework.LiteDB
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
             // checks if file exists
-            var file = this.FindById(id);
+            var file = FindById(id);
 
             if (file == null)
             {
@@ -83,7 +83,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             using (var stream = File.OpenRead(filename))
             {
-                return this.Upload(id, Path.GetFileName(filename), stream);
+                return Upload(id, Path.GetFileName(filename), stream);
             }
         }
 
@@ -92,7 +92,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public bool SetMetadata(string id, BsonDocument metadata)
         {
-            var file = this.FindById(id);
+            var file = FindById(id);
             if (file == null) return false;
             file.Metadata = metadata ?? new BsonDocument();
             _engine.Update(FILES, file.AsDocument);
@@ -108,7 +108,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public LiteFileStream OpenRead(string id)
         {
-            var file = this.FindById(id);
+            var file = FindById(id);
 
             if (file == null) throw LiteException.FileNotFound(id);
 
@@ -122,7 +122,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if (stream == null) throw new ArgumentNullException(nameof(stream));
 
-            var file = this.FindById(id);
+            var file = FindById(id);
 
             if (file == null) throw LiteException.FileNotFound(id);
 
@@ -181,7 +181,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public IEnumerable<LiteFileInfo> FindAll()
         {
-            return this.Find(null);
+            return Find(null);
         }
 
         #endregion

@@ -43,22 +43,22 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         /// </param>
         public GifDecoder(Image image, AnimationProcessMode animationProcessMode)
         {
-            this.Height = image.Height;
-            this.Width = image.Width;
+            Height = image.Height;
+            Width = image.Width;
 
             if (FormatUtilities.IsAnimated(image) && animationProcessMode == AnimationProcessMode.All)
             {
-                this.IsAnimated = true;
-                this.FrameCount = image.GetFrameCount(FrameDimension.Time);
+                IsAnimated = true;
+                FrameCount = image.GetFrameCount(FrameDimension.Time);
 
                 // Loop info is stored at byte 20737. Default to infinite loop if not found.
-                this.LoopCount = image.PropertyIdList.Contains((int)ExifPropertyTag.LoopCount)
+                LoopCount = image.PropertyIdList.Contains((int)ExifPropertyTag.LoopCount)
                     ? BitConverter.ToInt16(image.GetPropertyItem((int)ExifPropertyTag.LoopCount).Value, 0)
                     : 0;
             }
             else
             {
-                this.FrameCount = 1;
+                FrameCount = 1;
             }
         }
 
@@ -99,20 +99,20 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Formats
         {
             // Find the frame
             image.SelectActiveFrame(FrameDimension.Time, index);
-            Bitmap frame = new Bitmap(image);
+            var frame = new Bitmap(image);
             frame.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
             // Reset the image
             image.SelectActiveFrame(FrameDimension.Time, 0);
 
             // Get the times stored in the gif. Default to 0 if not found.
-            byte[] times = image.PropertyIdList.Contains((int)ExifPropertyTag.FrameDelay)
+            var times = image.PropertyIdList.Contains((int)ExifPropertyTag.FrameDelay)
                                ? image.GetPropertyItem((int)ExifPropertyTag.FrameDelay).Value
                                : new byte[4];
 
             // Convert each 4-byte chunk into an integer.
             // GDI returns a single array with all delays, while Mono returns a different array for each frame.
-            TimeSpan delay = TimeSpan.FromMilliseconds(BitConverter.ToInt32(times, (4 * index) % times.Length) * 10);
+            var delay = TimeSpan.FromMilliseconds(BitConverter.ToInt32(times, (4 * index) % times.Length) * 10);
 
             return new GifFrame { Delay = delay, Image = frame };
         }

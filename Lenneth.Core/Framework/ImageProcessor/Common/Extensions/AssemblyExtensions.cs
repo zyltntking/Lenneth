@@ -68,9 +68,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Extensions
         {
             encoding = encoding ?? Encoding.UTF8;
 
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
-                using (Stream manifestResourceStream = assembly.GetManifestResourceStream(resource))
+                using (var manifestResourceStream = assembly.GetManifestResourceStream(resource))
                 {
                     manifestResourceStream?.CopyTo(ms);
                 }
@@ -88,9 +88,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Extensions
         /// <returns>The <see cref="FileInfo"/></returns>
         public static FileInfo GetAssemblyFile(this Assembly assembly)
         {
-            string codeBase = assembly.CodeBase;
-            Uri uri = new Uri(codeBase);
-            string path = uri.LocalPath;
+            var codeBase = assembly.CodeBase;
+            var uri = new Uri(codeBase);
+            var path = uri.LocalPath;
             return new FileInfo(path);
         }
 
@@ -103,9 +103,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Extensions
         /// <returns>The <see cref="FileInfo"/></returns>
         public static FileInfo GetAssemblyFile(this AssemblyName assemblyName)
         {
-            string codeBase = assemblyName.CodeBase;
-            Uri uri = new Uri(codeBase);
-            string path = uri.LocalPath;
+            var codeBase = assemblyName.CodeBase;
+            var uri = new Uri(codeBase);
+            var path = uri.LocalPath;
             return new FileInfo(path);
         }
     }

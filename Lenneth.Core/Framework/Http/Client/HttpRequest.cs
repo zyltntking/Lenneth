@@ -218,7 +218,7 @@ namespace Lenneth.Core.Framework.Http.Client
 
                 var buffer = new byte[81982];
 
-                int bytesRead = fileStream.Read(buffer, 0, buffer.Length);
+                var bytesRead = fileStream.Read(buffer, 0, buffer.Length);
                 while (bytesRead > 0)
                 {
                     requestStream.Write(buffer, 0, bytesRead);

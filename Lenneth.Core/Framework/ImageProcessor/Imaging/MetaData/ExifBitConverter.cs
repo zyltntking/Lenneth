@@ -38,7 +38,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// <summary>
         /// Indicates the byte order ("endianness") in which data is converted using this class.
         /// </summary>
-        public override Endianness Endianness => this.IsLittleEndian() ? Endianness.LittleEndian : Endianness.BigEndian;
+        public override Endianness Endianness => IsLittleEndian() ? Endianness.LittleEndian : Endianness.BigEndian;
 
         /// <summary>
         /// Indicates the byte order ("endianness") in which data is converted using this class.
@@ -51,7 +51,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// <returns>true if this converter is little-endian, false otherwise.</returns>
         public override bool IsLittleEndian()
         {
-            return this.computerArchitectureInfo.IsLittleEndian();
+            return computerArchitectureInfo.IsLittleEndian();
         }
 
         /// <summary>
@@ -69,9 +69,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
                 value += '\0';
             }
 
-            byte[] bytes = Encoding.ASCII.GetBytes(value);
+            var bytes = Encoding.ASCII.GetBytes(value);
 
-            if (!this.IsLittleEndian())
+            if (!IsLittleEndian())
             {
                 Array.Reverse(bytes);
             }
@@ -88,7 +88,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </returns>
         public byte[] GetBytes(string value)
         {
-            return this.GetBytes(value, false);
+            return GetBytes(value, false);
         }
 
         /// <summary>
@@ -102,9 +102,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </returns>
         public byte[] GetBytes(Rational<uint> value)
         {
-            byte[] num = this.GetBytes(value.Numerator);
-            byte[] den = this.GetBytes(value.Denominator);
-            byte[] data = new byte[8];
+            var num = GetBytes(value.Numerator);
+            var den = GetBytes(value.Denominator);
+            var data = new byte[8];
             Array.Copy(num, 0, data, 0, 4);
             Array.Copy(den, 0, data, 4, 4);
             return data;
@@ -121,9 +121,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// </returns>
         public byte[] GetBytes(Rational<int> value)
         {
-            byte[] num = this.GetBytes(value.Numerator);
-            byte[] den = this.GetBytes(value.Denominator);
-            byte[] data = new byte[8];
+            var num = GetBytes(value.Numerator);
+            var den = GetBytes(value.Denominator);
+            var data = new byte[8];
             Array.Copy(num, 0, data, 0, 4);
             Array.Copy(den, 0, data, 4, 4);
             return data;
@@ -140,7 +140,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// <returns>The converted number</returns>
         protected internal override long FromBytes(byte[] value, int startIndex, int bytesToConvert)
         {
-            if (this.IsLittleEndian())
+            if (IsLittleEndian())
             {
                 return Little.FromBytes(value, startIndex, bytesToConvert);
             }
@@ -161,7 +161,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData
         /// <param name="index">The first index into the array to copy the bytes into</param>
         protected internal override void CopyBytesImpl(long value, int bytes, byte[] buffer, int index)
         {
-            if (this.IsLittleEndian())
+            if (IsLittleEndian())
             {
                 Little.CopyBytesImpl(value, bytes, buffer, index);
             }

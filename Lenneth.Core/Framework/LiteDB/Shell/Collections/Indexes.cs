@@ -13,12 +13,12 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
     {
         public bool IsCommand(StringScanner s)
         {
-            return this.IsCollectionCommand(s, "indexes");
+            return IsCollectionCommand(s, "indexes");
         }
 
         public IEnumerable<BsonValue> Execute(StringScanner s, LiteEngine engine)
         {
-            var col = this.ReadCollection(engine, s);
+            var col = ReadCollection(engine, s);
 
             s.ThrowIfNotFinish();
 

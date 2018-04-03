@@ -54,22 +54,22 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
         public Bitmap Quantize(Image source)
         {
             // Get the size of the source image
-            int height = source.Height;
-            int width = source.Width;
+            var height = source.Height;
+            var width = source.Width;
 
             // And construct a rectangle from these dimensions
-            Rectangle bounds = new Rectangle(0, 0, width, height);
+            var bounds = new Rectangle(0, 0, width, height);
 
             // First off take a 32bpp copy of the image
-            Bitmap copy = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
+            var copy = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
             copy.SetResolution(source.HorizontalResolution, source.VerticalResolution);
 
             // And construct an 8bpp version
-            Bitmap output = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
+            var output = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
             output.SetResolution(source.HorizontalResolution, source.VerticalResolution);
 
             // Now lock the bitmap into memory
-            using (Graphics g = Graphics.FromImage(copy))
+            using (var g = Graphics.FromImage(copy))
             {
                 g.PageUnit = GraphicsUnit.Pixel;
 
@@ -89,17 +89,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
                 // Call the FirstPass function if not a single pass algorithm.
                 // For something like an Octree quantizer, this will run through
                 // all image pixels, build a data structure, and create a palette.
-                if (!this.singlePass)
+                if (!singlePass)
                 {
-                    this.FirstPass(sourceData, width, height);
+                    FirstPass(sourceData, width, height);
                 }
 
                 // Then set the color palette on the output bitmap. I'm passing in the current palette
                 // as there's no way to construct a new, empty palette.
-                output.Palette = this.GetPalette(output.Palette);
+                output.Palette = GetPalette(output.Palette);
 
                 // Then call the second pass which actually does the conversion
-                this.SecondPass(sourceData, output, width, height, bounds);
+                SecondPass(sourceData, output, width, height, bounds);
             }
             finally
             {
@@ -121,19 +121,19 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
         {
             // Define the source data pointers. The source row is a byte to
             // keep addition of the stride value easier (as this is in bytes)
-            byte* sourceRow = (byte*)sourceData.Scan0.ToPointer();
+            var sourceRow = (byte*)sourceData.Scan0.ToPointer();
 
             // Loop through each row
-            for (int row = 0; row < height; row++)
+            for (var row = 0; row < height; row++)
             {
                 // Set the source pixel to the first pixel in this row
-                int* sourcePixel = (int*)sourceRow;
+                var sourcePixel = (int*)sourceRow;
 
                 // And loop through each column
-                for (int col = 0; col < width; col++, sourcePixel++)
+                for (var col = 0; col < width; col++, sourcePixel++)
                 {
                     // Now I have the pixel, call the FirstPassQuantize function...
-                    this.InitialQuantizePixel((Color32*)sourcePixel);
+                    InitialQuantizePixel((Color32*)sourcePixel);
                 }
 
                 // Add the stride to the source row
@@ -170,22 +170,22 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
 
                 // Define the source data pointers. The source row is a byte to
                 // keep addition of the stride value easier (as this is in bytes)
-                byte* sourceRow = (byte*)sourceData.Scan0.ToPointer();
-                int* sourcePixel = (int*)sourceRow;
-                int* previousPixel = sourcePixel;
+                var sourceRow = (byte*)sourceData.Scan0.ToPointer();
+                var sourcePixel = (int*)sourceRow;
+                var previousPixel = sourcePixel;
 
                 // Now define the destination data pointers
-                byte* destinationRow = (byte*)outputData.Scan0.ToPointer();
-                byte* destinationPixel = destinationRow;
+                var destinationRow = (byte*)outputData.Scan0.ToPointer();
+                var destinationPixel = destinationRow;
 
                 // And convert the first pixel, so that I have values going into the loop
-                byte pixelValue = this.QuantizePixel((Color32*)sourcePixel);
+                var pixelValue = QuantizePixel((Color32*)sourcePixel);
 
                 // Assign the value of the first pixel
                 *destinationPixel = pixelValue;
 
                 // Loop through each row
-                for (int row = 0; row < height; row++)
+                for (var row = 0; row < height; row++)
                 {
                     // Set the source pixel to the first pixel in this row
                     sourcePixel = (int*)sourceRow;
@@ -194,14 +194,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
                     destinationPixel = destinationRow;
 
                     // Loop through each pixel on this scan line
-                    for (int col = 0; col < width; col++, sourcePixel++, destinationPixel++)
+                    for (var col = 0; col < width; col++, sourcePixel++, destinationPixel++)
                     {
                         // Check if this is the same as the last pixel. If so use that value
                         // rather than calculating it again. This is an inexpensive optimization.
                         if (*previousPixel != *sourcePixel)
                         {
                             // Quantize the pixel
-                            pixelValue = this.QuantizePixel((Color32*)sourcePixel);
+                            pixelValue = QuantizePixel((Color32*)sourcePixel);
 
                             // And setup the previous pointer
                             previousPixel = sourcePixel;

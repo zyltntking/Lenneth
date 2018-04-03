@@ -4,7 +4,7 @@
     {
         public static string ToHex(this byte[] bytes)
         {
-            char[] c = new char[bytes.Length * 2];
+            var c = new char[bytes.Length * 2];
 
             byte b;
 

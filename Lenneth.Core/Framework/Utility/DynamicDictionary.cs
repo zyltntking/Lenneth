@@ -94,7 +94,7 @@ namespace Lenneth.Core.Framework.Utility
         /// <returns>如果操作成功，则为 true；否则为 false。 如果此方法返回 false, ，语言运行时联编程序确定的行为。 （在大多数情况下，特定于语言的运行时异常引发。）</returns>
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
-            Type dictType = typeof(Dictionary<string, object>);
+            var dictType = typeof(Dictionary<string, object>);
             try
             {
                 result = dictType.InvokeMember(

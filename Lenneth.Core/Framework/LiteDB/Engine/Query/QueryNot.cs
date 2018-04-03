@@ -24,8 +24,8 @@ namespace Lenneth.Core.Framework.LiteDB
             // run base query
             var result = _query.Run(col, indexer);
 
-            this.UseIndex = _query.UseIndex;
-            this.UseFilter = _query.UseFilter;
+            UseIndex = _query.UseIndex;
+            UseFilter = _query.UseFilter;
 
             if (_query.UseIndex)
             {

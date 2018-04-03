@@ -11,12 +11,12 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public BsonRefAttribute(string collection)
         {
-            this.Collection = collection;
+            Collection = collection;
         }
 
         public BsonRefAttribute()
         {
-            this.Collection = null;
+            Collection = null;
         }
     }
 }

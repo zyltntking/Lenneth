@@ -84,12 +84,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         {
             get
             {
-                return this.threshold;
+                return threshold;
             }
 
             set
             {
-                this.threshold = value;
+                threshold = value;
             }
         }
 
@@ -100,12 +100,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         {
             get
             {
-                return this.fade;
+                return fade;
             }
 
             set
             {
-                this.fade = value;
+                fade = value;
             }
         }
 
@@ -120,7 +120,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </returns>
         public Bitmap Quantize(Image source)
         {
-            return this.Quantize(source, this.Threshold, this.Fade);
+            return Quantize(source, Threshold, Fade);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </returns>
         public Bitmap Quantize(Image source, int alphaThreshold, int alphaFader)
         {
-            return this.Quantize(source, alphaThreshold, alphaFader, null, 256);
+            return Quantize(source, alphaThreshold, alphaFader, null, 256);
         }
 
         /// <summary>
@@ -173,10 +173,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
                 // The image has to be a 32 bit per pixel Argb image.
                 if (Image.GetPixelFormatSize(source.PixelFormat) != 32)
                 {
-                    Bitmap clone = new Bitmap(source.Width, source.Height, PixelFormat.Format32bppPArgb);
+                    var clone = new Bitmap(source.Width, source.Height, PixelFormat.Format32bppPArgb);
                     clone.SetResolution(source.HorizontalResolution, source.VerticalResolution);
 
-                    using (Graphics graphics = Graphics.FromImage(clone))
+                    using (var graphics = Graphics.FromImage(clone))
                     {
                         graphics.PageUnit = GraphicsUnit.Pixel;
                         graphics.Clear(Color.Transparent);
@@ -202,9 +202,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
 
                 BuildHistogram(histogram, buffer, alphaThreshold, alphaFader);
                 CalculateMoments(histogram.Moments);
-                Box[] cubes = SplitData(ref maxColors, histogram.Moments);
-                Color32[] lookups = BuildLookups(cubes, histogram.Moments);
-                return this.GetQuantizedImage(buffer, maxColors, lookups, alphaThreshold);
+                var cubes = SplitData(ref maxColors, histogram.Moments);
+                var lookups = BuildLookups(cubes, histogram.Moments);
+                return GetQuantizedImage(buffer, maxColors, lookups, alphaThreshold);
             }
             catch (Exception ex)
             {
@@ -250,24 +250,24 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1001:CommasMustBeSpacedCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private static void BuildHistogram(Histogram histogram, ImageBuffer imageBuffer, int alphaThreshold, int alphaFader)
         {
-            ColorMoment[,,,] moments = histogram.Moments;
+            var moments = histogram.Moments;
 
-            foreach (Color32[] pixelLine in imageBuffer.PixelLines)
+            foreach (var pixelLine in imageBuffer.PixelLines)
             {
-                foreach (Color32 pixel in pixelLine)
+                foreach (var pixel in pixelLine)
                 {
-                    byte pixelAlpha = pixel.A;
+                    var pixelAlpha = pixel.A;
                     if (pixelAlpha > alphaThreshold)
                     {
                         if (pixelAlpha < 255)
                         {
-                            int alpha = pixel.A + (pixel.A % alphaFader);
+                            var alpha = pixel.A + (pixel.A % alphaFader);
                             pixelAlpha = (byte)(alpha > 255 ? 255 : alpha);
                         }
 
-                        byte pixelRed = pixel.R;
-                        byte pixelGreen = pixel.G;
-                        byte pixelBlue = pixel.B;
+                        var pixelRed = pixel.R;
+                        var pixelGreen = pixel.G;
+                        var pixelBlue = pixel.B;
 
                         pixelAlpha = (byte)((pixelAlpha >> 3) + 1);
                         pixelRed = (byte)((pixelRed >> 3) + 1);
@@ -291,23 +291,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1001:CommasMustBeSpacedCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private static void CalculateMoments(ColorMoment[,,,] moments)
         {
-            ColorMoment[,] areaSquared = new ColorMoment[SideSize, SideSize];
-            ColorMoment[] area = new ColorMoment[SideSize];
-            for (int alphaIndex = 1; alphaIndex < SideSize; alphaIndex++)
+            var areaSquared = new ColorMoment[SideSize, SideSize];
+            var area = new ColorMoment[SideSize];
+            for (var alphaIndex = 1; alphaIndex < SideSize; alphaIndex++)
             {
-                for (int redIndex = 1; redIndex < SideSize; redIndex++)
+                for (var redIndex = 1; redIndex < SideSize; redIndex++)
                 {
                     Array.Clear(area, 0, area.Length);
-                    for (int greenIndex = 1; greenIndex < SideSize; greenIndex++)
+                    for (var greenIndex = 1; greenIndex < SideSize; greenIndex++)
                     {
-                        ColorMoment line = new ColorMoment();
-                        for (int blueIndex = 1; blueIndex < SideSize; blueIndex++)
+                        var line = new ColorMoment();
+                        for (var blueIndex = 1; blueIndex < SideSize; blueIndex++)
                         {
                             line.AddFast(ref moments[alphaIndex, redIndex, greenIndex, blueIndex]);
                             area[blueIndex].AddFast(ref line);
                             areaSquared[greenIndex, blueIndex].AddFast(ref area[blueIndex]);
 
-                            ColorMoment moment = moments[alphaIndex - 1, redIndex, greenIndex, blueIndex];
+                            var moment = moments[alphaIndex - 1, redIndex, greenIndex, blueIndex];
                             moment.AddFast(ref areaSquared[greenIndex, blueIndex]);
                             moments[alphaIndex, redIndex, greenIndex, blueIndex] = moment;
                         }
@@ -476,19 +476,19 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1001:CommasMustBeSpacedCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private static CubeCut Maximize(ColorMoment[,,,] moments, Box cube, int direction, byte first, byte last, ColorMoment whole)
         {
-            ColorMoment bottom = Bottom(cube, direction, moments);
-            float result = 0.0f;
+            var bottom = Bottom(cube, direction, moments);
+            var result = 0.0f;
             byte? cutPoint = null;
 
-            for (byte position = first; position < last; ++position)
+            for (var position = first; position < last; ++position)
             {
-                ColorMoment half = bottom + Top(cube, direction, position, moments);
+                var half = bottom + Top(cube, direction, position, moments);
                 if (half.Weight == 0)
                 {
                     continue;
                 }
 
-                long temp = half.WeightedDistance();
+                var temp = half.WeightedDistance();
 
                 half = whole - half;
                 if (half.Weight != 0)
@@ -525,11 +525,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         private static bool Cut(ColorMoment[,,,] moments, ref Box first, ref Box second)
         {
             int direction;
-            ColorMoment whole = Volume(moments, first);
-            CubeCut maxAlpha = Maximize(moments, first, Alpha, (byte)(first.AlphaMinimum + 1), first.AlphaMaximum, whole);
-            CubeCut maxRed = Maximize(moments, first, Red, (byte)(first.RedMinimum + 1), first.RedMaximum, whole);
-            CubeCut maxGreen = Maximize(moments, first, Green, (byte)(first.GreenMinimum + 1), first.GreenMaximum, whole);
-            CubeCut maxBlue = Maximize(moments, first, Blue, (byte)(first.BlueMinimum + 1), first.BlueMaximum, whole);
+            var whole = Volume(moments, first);
+            var maxAlpha = Maximize(moments, first, Alpha, (byte)(first.AlphaMinimum + 1), first.AlphaMaximum, whole);
+            var maxRed = Maximize(moments, first, Red, (byte)(first.RedMinimum + 1), first.RedMaximum, whole);
+            var maxGreen = Maximize(moments, first, Green, (byte)(first.GreenMinimum + 1), first.GreenMaximum, whole);
+            var maxBlue = Maximize(moments, first, Blue, (byte)(first.BlueMinimum + 1), first.BlueMaximum, whole);
 
             if ((maxAlpha.Value >= maxRed.Value) && (maxAlpha.Value >= maxGreen.Value) && (maxAlpha.Value >= maxBlue.Value))
             {
@@ -634,7 +634,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1001:CommasMustBeSpacedCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private static float CalculateVariance(ColorMoment[,,,] moments, Box cube)
         {
-            ColorMoment volume = Volume(moments, cube);
+            var volume = Volume(moments, cube);
             return volume.Variance();
         }
 
@@ -688,14 +688,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         private static Box[] SplitData(ref int colorCount, ColorMoment[,,,] moments)
         {
             --colorCount;
-            int next = 0;
-            float[] volumeVariance = new float[colorCount];
-            Box[] cubes = new Box[colorCount];
+            var next = 0;
+            var volumeVariance = new float[colorCount];
+            var cubes = new Box[colorCount];
             cubes[0].AlphaMaximum = MaxSideIndex;
             cubes[0].RedMaximum = MaxSideIndex;
             cubes[0].GreenMaximum = MaxSideIndex;
             cubes[0].BlueMaximum = MaxSideIndex;
-            for (int cubeIndex = 1; cubeIndex < colorCount; ++cubeIndex)
+            for (var cubeIndex = 1; cubeIndex < colorCount; ++cubeIndex)
             {
                 if (Cut(moments, ref cubes[next], ref cubes[cubeIndex]))
                 {
@@ -709,9 +709,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
                 }
 
                 next = 0;
-                float temp = volumeVariance[0];
+                var temp = volumeVariance[0];
 
-                for (int index = 1; index <= cubeIndex; ++index)
+                for (var index = 1; index <= cubeIndex; ++index)
                 {
                     if (volumeVariance[index] <= temp)
                     {
@@ -749,18 +749,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1001:CommasMustBeSpacedCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         private static Color32[] BuildLookups(Box[] cubes, ColorMoment[,,,] moments)
         {
-            Color32[] lookups = new Color32[cubes.Length];
+            var lookups = new Color32[cubes.Length];
 
-            for (int cubeIndex = 0; cubeIndex < cubes.Length; cubeIndex++)
+            for (var cubeIndex = 0; cubeIndex < cubes.Length; cubeIndex++)
             {
-                ColorMoment volume = Volume(moments, cubes[cubeIndex]);
+                var volume = Volume(moments, cubes[cubeIndex]);
 
                 if (volume.Weight <= 0)
                 {
                     continue;
                 }
 
-                Color32 lookup = new Color32
+                var lookup = new Color32
                 {
                     A = (byte)(volume.Alpha / volume.Weight),
                     R = (byte)(volume.Red / volume.Weight),

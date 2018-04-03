@@ -64,15 +64,15 @@ namespace Lenneth.Core.Framework.LiteDB
         public HeaderPage()
             : base(0)
         {
-            this.ChangeID = 0;
-            this.FreeEmptyPageID = uint.MaxValue;
-            this.LastPageID = 0;
-            this.ItemCount = 1; // fixed for header
-            this.FreeBytes = 0; // no free bytes on header
-            this.UserVersion = 0;
-            this.Password = new byte[20];
-            this.Salt = new byte[16];
-            this.CollectionPages = new Dictionary<string, uint>(StringComparer.OrdinalIgnoreCase);
+            ChangeID = 0;
+            FreeEmptyPageID = uint.MaxValue;
+            LastPageID = 0;
+            ItemCount = 1; // fixed for header
+            FreeBytes = 0; // no free bytes on header
+            UserVersion = 0;
+            Password = new byte[20];
+            Salt = new byte[16];
+            CollectionPages = new Dictionary<string, uint>(StringComparer.OrdinalIgnoreCase);
         }
 
         #region Read/Write pages
@@ -85,46 +85,46 @@ namespace Lenneth.Core.Framework.LiteDB
             if (info != HEADER_INFO) throw LiteException.InvalidDatabase();
             if (ver != FILE_VERSION) throw LiteException.InvalidDatabaseVersion(ver);
 
-            this.ChangeID = reader.ReadUInt16();
-            this.FreeEmptyPageID = reader.ReadUInt32();
-            this.LastPageID = reader.ReadUInt32();
-            this.UserVersion = reader.ReadUInt16();
-            this.Password = reader.ReadBytes(this.Password.Length);
-            this.Salt = reader.ReadBytes(this.Salt.Length);
+            ChangeID = reader.ReadUInt16();
+            FreeEmptyPageID = reader.ReadUInt32();
+            LastPageID = reader.ReadUInt32();
+            UserVersion = reader.ReadUInt16();
+            Password = reader.ReadBytes(Password.Length);
+            Salt = reader.ReadBytes(Salt.Length);
 
             // read page collections references (position on end of page)
             var cols = reader.ReadByte();
             for (var i = 0; i < cols; i++)
             {
-                this.CollectionPages.Add(reader.ReadString(), reader.ReadUInt32());
+                CollectionPages.Add(reader.ReadString(), reader.ReadUInt32());
             }
 
             // use last page byte position for recovery mode only because i forgot to reserve area before collection names!
             // TODO: fix this in next change data structure
-            reader.Position = BasePage.PAGE_SIZE - 1;
-            this.Recovery = reader.ReadBoolean();
+            reader.Position = PAGE_SIZE - 1;
+            Recovery = reader.ReadBoolean();
         }
 
         protected override void WriteContent(ByteWriter writer)
         {
             writer.Write(HEADER_INFO, HEADER_INFO.Length);
             writer.Write(FILE_VERSION);
-            writer.Write(this.ChangeID);
-            writer.Write(this.FreeEmptyPageID);
-            writer.Write(this.LastPageID);
-            writer.Write(this.UserVersion);
-            writer.Write(this.Password);
-            writer.Write(this.Salt);
+            writer.Write(ChangeID);
+            writer.Write(FreeEmptyPageID);
+            writer.Write(LastPageID);
+            writer.Write(UserVersion);
+            writer.Write(Password);
+            writer.Write(Salt);
 
-            writer.Write((byte)this.CollectionPages.Count);
-            foreach (var key in this.CollectionPages.Keys)
+            writer.Write((byte)CollectionPages.Count);
+            foreach (var key in CollectionPages.Keys)
             {
                 writer.Write(key);
-                writer.Write(this.CollectionPages[key]);
+                writer.Write(CollectionPages[key]);
             }
 
-            writer.Position = BasePage.PAGE_SIZE - 1;
-            writer.Write(this.Recovery);
+            writer.Position = PAGE_SIZE - 1;
+            writer.Write(Recovery);
         }
 
         #endregion

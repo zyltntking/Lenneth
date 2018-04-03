@@ -183,7 +183,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public T SingleById<T>(BsonValue id, string collectionName = null)
         {
-            return this.Query<T>(collectionName).SingleById(id);
+            return Query<T>(collectionName).SingleById(id);
         }
 
         /// <summary>
@@ -191,8 +191,8 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public List<T> Fetch<T>(Query query = null, string collectionName = null)
         {
-            return this.Query<T>(collectionName)
-                .Where(query ?? global::Lenneth.Core.Framework.LiteDB.Query.All())
+            return Query<T>(collectionName)
+                .Where(query ?? LiteDB.Query.All())
                 .ToList();
         }
 
@@ -201,7 +201,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public List<T> Fetch<T>(Expression<Func<T, bool>> predicate, string collectionName = null)
         {
-            return this.Query<T>(collectionName)
+            return Query<T>(collectionName)
                 .Where(predicate)
                 .ToList();
         }
@@ -211,8 +211,8 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public T First<T>(Query query = null, string collectionName = null)
         {
-            return this.Query<T>(collectionName)
-                .Where(query ?? global::Lenneth.Core.Framework.LiteDB.Query.All())
+            return Query<T>(collectionName)
+                .Where(query ?? LiteDB.Query.All())
                 .First();
         }
 
@@ -221,7 +221,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public T First<T>(Expression<Func<T, bool>> predicate, string collectionName = null)
         {
-            return this.Query<T>(collectionName)
+            return Query<T>(collectionName)
                 .Where(predicate)
                 .First();
         }
@@ -231,8 +231,8 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public T FirstOrDefault<T>(Query query = null, string collectionName = null)
         {
-            return this.Query<T>(collectionName)
-                .Where(query ?? global::Lenneth.Core.Framework.LiteDB.Query.All())
+            return Query<T>(collectionName)
+                .Where(query ?? LiteDB.Query.All())
                 .FirstOrDefault();
         }
 
@@ -241,7 +241,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public T FirstOrDefault<T>(Expression<Func<T, bool>> predicate, string collectionName = null)
         {
-            return this.Query<T>(collectionName)
+            return Query<T>(collectionName)
                 .Where(predicate)
                 .FirstOrDefault();
         }
@@ -251,8 +251,8 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public T Single<T>(Query query = null, string collectionName = null)
         {
-            return this.Query<T>(collectionName)
-                .Where(query ?? global::Lenneth.Core.Framework.LiteDB.Query.All())
+            return Query<T>(collectionName)
+                .Where(query ?? LiteDB.Query.All())
                 .Single();
         }
 
@@ -261,7 +261,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public T Single<T>(Expression<Func<T, bool>> predicate, string collectionName = null)
         {
-            return this.Query<T>(collectionName)
+            return Query<T>(collectionName)
                 .Where(predicate)
                 .Single();
         }
@@ -271,8 +271,8 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public T SingleOrDefault<T>(Query query = null, string collectionName = null)
         {
-            return this.Query<T>(collectionName)
-                .Where(query ?? global::Lenneth.Core.Framework.LiteDB.Query.All())
+            return Query<T>(collectionName)
+                .Where(query ?? LiteDB.Query.All())
                 .SingleOrDefault();
         }
 
@@ -281,7 +281,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public T SingleOrDefault<T>(Expression<Func<T, bool>> predicate, string collectionName = null)
         {
-            return this.Query<T>(collectionName)
+            return Query<T>(collectionName)
                 .Where(predicate)
                 .SingleOrDefault();
         }

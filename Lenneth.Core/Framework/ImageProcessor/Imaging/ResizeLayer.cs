@@ -62,14 +62,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
             List<Size> restrictedSizes = null,
             Point? anchorPoint = null)
         {
-            this.Size = size;
-            this.Upscale = upscale;
-            this.ResizeMode = resizeMode;
-            this.AnchorPosition = anchorPosition;
-            this.CenterCoordinates = centerCoordinates ?? new float[] { };
-            this.MaxSize = maxSize;
-            this.RestrictedSizes = restrictedSizes ?? new List<Size>();
-            this.AnchorPoint = anchorPoint;
+            Size = size;
+            Upscale = upscale;
+            ResizeMode = resizeMode;
+            AnchorPosition = anchorPosition;
+            CenterCoordinates = centerCoordinates ?? new float[] { };
+            MaxSize = maxSize;
+            RestrictedSizes = restrictedSizes ?? new List<Size>();
+            AnchorPoint = anchorPoint;
         }
 
         /// <summary>
@@ -127,27 +127,27 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         public override bool Equals(object obj)
         {
-            ResizeLayer resizeLayer = obj as ResizeLayer;
+            var resizeLayer = obj as ResizeLayer;
 
             if (resizeLayer == null)
             {
                 return false;
             }
 
-            return this.Size == resizeLayer.Size
-                && this.ResizeMode == resizeLayer.ResizeMode
-                && this.AnchorPosition == resizeLayer.AnchorPosition
-                && this.Upscale == resizeLayer.Upscale
-                && ((this.CenterCoordinates != null
+            return Size == resizeLayer.Size
+                && ResizeMode == resizeLayer.ResizeMode
+                && AnchorPosition == resizeLayer.AnchorPosition
+                && Upscale == resizeLayer.Upscale
+                && ((CenterCoordinates != null
                     && resizeLayer.CenterCoordinates != null
-                    && this.CenterCoordinates.SequenceEqual(resizeLayer.CenterCoordinates))
-                    || (this.CenterCoordinates == resizeLayer.CenterCoordinates))
-                && this.MaxSize == resizeLayer.MaxSize
-                && ((this.RestrictedSizes != null
+                    && CenterCoordinates.SequenceEqual(resizeLayer.CenterCoordinates))
+                    || (CenterCoordinates == resizeLayer.CenterCoordinates))
+                && MaxSize == resizeLayer.MaxSize
+                && ((RestrictedSizes != null
                     && resizeLayer.RestrictedSizes != null
-                    && this.RestrictedSizes.SequenceEqual(resizeLayer.RestrictedSizes))
-                    || (this.RestrictedSizes == resizeLayer.RestrictedSizes))
-                && this.AnchorPoint == resizeLayer.AnchorPoint;
+                    && RestrictedSizes.SequenceEqual(resizeLayer.RestrictedSizes))
+                    || (RestrictedSizes == resizeLayer.RestrictedSizes))
+                && AnchorPoint == resizeLayer.AnchorPoint;
         }
 
         /// <summary>
@@ -160,14 +160,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         {
             unchecked
             {
-                int hashCode = this.Size.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.MaxSize.GetHashCode();
-                hashCode = (hashCode * 397) ^ (this.RestrictedSizes?.GetHashCode() ?? 0);
-                hashCode = (hashCode * 397) ^ (int)this.ResizeMode;
-                hashCode = (hashCode * 397) ^ (int)this.AnchorPosition;
-                hashCode = (hashCode * 397) ^ this.Upscale.GetHashCode();
-                hashCode = (hashCode * 397) ^ (this.CenterCoordinates?.GetHashCode() ?? 0);
-                hashCode = (hashCode * 397) ^ this.AnchorPoint.GetHashCode();
+                var hashCode = Size.GetHashCode();
+                hashCode = (hashCode * 397) ^ MaxSize.GetHashCode();
+                hashCode = (hashCode * 397) ^ (RestrictedSizes?.GetHashCode() ?? 0);
+                hashCode = (hashCode * 397) ^ (int)ResizeMode;
+                hashCode = (hashCode * 397) ^ (int)AnchorPosition;
+                hashCode = (hashCode * 397) ^ Upscale.GetHashCode();
+                hashCode = (hashCode * 397) ^ (CenterCoordinates?.GetHashCode() ?? 0);
+                hashCode = (hashCode * 397) ^ AnchorPoint.GetHashCode();
                 return hashCode;
             }
         }

@@ -35,11 +35,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </param>
         public RoundedCornerLayer(int radius, bool topLeft = true, bool topRight = true, bool bottomLeft = true, bool bottomRight = true)
         {
-            this.Radius = radius;
-            this.TopLeft = topLeft;
-            this.TopRight = topRight;
-            this.BottomLeft = bottomLeft;
-            this.BottomRight = bottomRight;
+            Radius = radius;
+            TopLeft = topLeft;
+            TopRight = topRight;
+            BottomLeft = bottomLeft;
+            BottomRight = bottomRight;
         }
 
         #region Properties
@@ -83,16 +83,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         public override bool Equals(object obj)
         {
-            RoundedCornerLayer rounded = obj as RoundedCornerLayer;
+            var rounded = obj as RoundedCornerLayer;
 
             if (rounded == null)
             {
                 return false;
             }
 
-            return this.Radius == rounded.Radius
-                   && this.TopLeft == rounded.TopLeft && this.TopRight == rounded.TopRight
-                   && this.BottomLeft == rounded.BottomLeft && this.BottomRight == rounded.BottomRight;
+            return Radius == rounded.Radius
+                   && TopLeft == rounded.TopLeft && TopRight == rounded.TopRight
+                   && BottomLeft == rounded.BottomLeft && BottomRight == rounded.BottomRight;
         }
 
         /// <summary>
@@ -105,11 +105,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         {
             unchecked
             {
-                int hashCode = this.Radius;
-                hashCode = (hashCode * 397) ^ this.TopLeft.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.TopRight.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.BottomLeft.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.BottomRight.GetHashCode();
+                var hashCode = Radius;
+                hashCode = (hashCode * 397) ^ TopLeft.GetHashCode();
+                hashCode = (hashCode * 397) ^ TopRight.GetHashCode();
+                hashCode = (hashCode * 397) ^ BottomLeft.GetHashCode();
+                hashCode = (hashCode * 397) ^ BottomRight.GetHashCode();
                 return hashCode;
             }
         }

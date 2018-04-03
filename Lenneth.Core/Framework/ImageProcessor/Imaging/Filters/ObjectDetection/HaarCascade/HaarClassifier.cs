@@ -115,23 +115,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public float Scale
         {
-            get { return this.scale; }
+            get { return scale; }
             set
             {
-                if (this.scale == value)
+                if (scale == value)
                     return;
 
-                this.scale = value;
-                this.invArea = 1f / (cascade.Width * cascade.Height * scale * scale);
+                scale = value;
+                invArea = 1f / (cascade.Width * cascade.Height * scale * scale);
 
                 // For each stage in the cascade 
-                foreach (HaarCascadeStage stage in cascade.Stages)
+                foreach (var stage in cascade.Stages)
                 {
                     // For each tree in the cascade
-                    foreach (HaarFeatureNode[] tree in stage.Trees)
+                    foreach (var tree in stage.Trees)
                     {
                         // For each feature node in the tree
-                        foreach (HaarFeatureNode node in tree)
+                        foreach (var node in tree)
                         {
                             // Set the scale and weight for the node feature
                             node.Feature.SetScaleAndWeight(value, invArea);
@@ -147,18 +147,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// </summary>
         public bool Compute(FastBitmap image, Rectangle rectangle)
         {
-            int x = rectangle.X;
-            int y = rectangle.Y;
-            int w = rectangle.Width;
-            int h = rectangle.Height;
+            var x = rectangle.X;
+            var y = rectangle.Y;
+            var w = rectangle.Width;
+            var h = rectangle.Height;
 
             double mean = image.GetSum(x, y, w, h) * invArea;
-            double var = image.GetSum2(x, y, w, h) * invArea - (mean * mean);
+            var var = image.GetSum2(x, y, w, h) * invArea - (mean * mean);
 
-            double sdev = (var >= 0) ? Math.Sqrt(var) : 1;
+            var sdev = (var >= 0) ? Math.Sqrt(var) : 1;
 
             // For each classification stage in the cascade
-            foreach (HaarCascadeStage stage in cascade.Stages)
+            foreach (var stage in cascade.Stages)
             {
                 // Check if the stage has rejected the image
                 if (stage.Classify(image, x, y, sdev) == false)

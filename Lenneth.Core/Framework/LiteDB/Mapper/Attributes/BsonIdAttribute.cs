@@ -11,12 +11,12 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public BsonIdAttribute()
         {
-            this.AutoId = true;
+            AutoId = true;
         }
 
         public BsonIdAttribute(bool autoId)
         {
-            this.AutoId = autoId;
+            AutoId = autoId;
         }
     }
 }

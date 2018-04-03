@@ -21,7 +21,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         internal override bool FilterDocument(BsonDocument doc)
         {
-            return this.Expression.Execute(doc, true)
+            return Expression.Execute(doc, true)
                 .Any(x => _func(x));
         }
 
@@ -35,9 +35,9 @@ namespace Lenneth.Core.Framework.LiteDB
         public override string ToString()
         {
             return string.Format("{0}({1}[{2}])",
-                this.UseFilter ? "Filter" : this.UseIndex ? "Scan" : "",
+                UseFilter ? "Filter" : UseIndex ? "Scan" : "",
                 _func.ToString(),
-                this.Expression?.ToString() ?? this.Field);
+                Expression?.ToString() ?? Field);
         }
     }
 }

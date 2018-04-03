@@ -15,19 +15,19 @@ namespace Lenneth.Core.Framework.LiteDB
             // if temp disk are not passed, use memory stream disk
             using (var temp = tempDisk ?? new StreamDiskService(new MemoryStream()))
             using (_locker.Write())
-            using (var engine = new Lenneth.Core.Framework.LiteDB.LiteEngine(temp, password))
+            using (var engine = new LiteEngine(temp, password))
             {
                 // read all collection
-                foreach (var collectionName in this.GetCollectionNames())
+                foreach (var collectionName in GetCollectionNames())
                 {
                     // first create all user indexes (exclude _id index)
-                    foreach (var index in this.GetIndexes(collectionName).Where(x => x.Field != "_id"))
+                    foreach (var index in GetIndexes(collectionName).Where(x => x.Field != "_id"))
                     {
                         engine.EnsureIndex(collectionName, index.Field, index.Unique);
                     }
 
                     // now copy documents 
-                    var docs = this.Find(collectionName, Query.All());
+                    var docs = Find(collectionName, Query.All());
 
                     engine.InsertBulk(collectionName, docs);
 
@@ -44,7 +44,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 }
 
                 // copy user version
-                engine.UserVersion = this.UserVersion;
+                engine.UserVersion = UserVersion;
 
                 // set current disk size to exact new disk usage
                 _disk.SetLength(temp.FileLength);
@@ -69,7 +69,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 _crypto = password == null ? null : new AesEncryption(password, header.Salt);
 
                 // initialize all services again (crypto can be changed)
-                this.InitializeServices();
+                InitializeServices();
                 
                 // return how many bytes are reduced
                 return originalSize - temp.FileLength;

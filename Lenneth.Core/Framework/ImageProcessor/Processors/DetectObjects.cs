@@ -28,7 +28,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public DetectObjects()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -63,16 +63,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         {
             Bitmap newImage = null;
             Bitmap grey = null;
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                HaarCascade cascade = this.DynamicParameter;
+                HaarCascade cascade = DynamicParameter;
                 grey = new Bitmap(image.Width, image.Height);
                 grey.SetResolution(image.HorizontalResolution, image.VerticalResolution);
                 grey = MatrixFilters.GreyScale.TransformImage(image, grey);
 
-                HaarObjectDetector detector = new HaarObjectDetector(cascade)
+                var detector = new HaarObjectDetector(cascade)
                 {
                     SearchMode = ObjectDetectorSearchMode.NoOverlap,
                     ScalingMode = ObjectDetectorScalingMode.GreaterToSmaller,
@@ -80,14 +80,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                 };
 
                 // Process frame to detect objects
-                Rectangle[] rectangles = detector.ProcessFrame(grey);
+                var rectangles = detector.ProcessFrame(grey);
                 grey.Dispose();
 
                 newImage = new Bitmap(image);
                 newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-                using (Graphics graphics = Graphics.FromImage(newImage))
+                using (var graphics = Graphics.FromImage(newImage))
                 {
-                    using (Pen blackPen = new Pen(Color.White))
+                    using (var blackPen = new Pen(Color.White))
                     {
                         blackPen.Width = 4;
                         graphics.DrawRectangles(blackPen, rectangles);
@@ -109,7 +109,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                     newImage.Dispose();
                 }
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return image;

@@ -96,12 +96,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
         {
             get
             {
-                return this.threshold;
+                return threshold;
             }
 
             set
             {
-                this.threshold = value;
+                threshold = value;
             }
         }
 
@@ -114,7 +114,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
         protected override void FirstPass(BitmapData sourceData, int width, int height)
         {
             // Construct the Octree
-            this.octree = new Octree(this.maxColorBits);
+            octree = new Octree(maxColorBits);
 
             base.FirstPass(sourceData, width, height);
         }
@@ -132,7 +132,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
         protected override void InitialQuantizePixel(Color32* pixel)
         {
             // Add the color to the Octree
-            this.octree.AddColor(pixel);
+            octree.AddColor(pixel);
         }
 
         /// <summary>
@@ -147,12 +147,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
         protected override byte QuantizePixel(Color32* pixel)
         {
             // The color at [maxColors] is set to transparent
-            byte paletteIndex = (byte)this.maxColors;
+            var paletteIndex = (byte)maxColors;
 
             // Get the palette index if this non-transparent
-            if (pixel->A > this.threshold)
+            if (pixel->A > threshold)
             {
-                paletteIndex = (byte)this.octree.GetPaletteIndex(pixel);
+                paletteIndex = (byte)octree.GetPaletteIndex(pixel);
             }
 
             return paletteIndex;
@@ -170,22 +170,22 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
         protected override ColorPalette GetPalette(ColorPalette original)
         {
             // Clear out the original pallete
-            for (int i = 0; i < original.Entries.Length; i++)
+            for (var i = 0; i < original.Entries.Length; i++)
             {
                 original.Entries[i] = Color.FromArgb(0, 0, 0, 0);
             }
 
             // First off convert the Octree to maxColors colors
-            List<Color> palette = this.octree.Palletize(Math.Max(this.maxColors - 1, 1));
+            var palette = octree.Palletize(Math.Max(maxColors - 1, 1));
 
             // Then convert the palette based on those colors
-            for (int index = 0; index < palette.Count; index++)
+            for (var index = 0; index < palette.Count; index++)
             {
                 original.Entries[index] = palette[index];
             }
 
             // Add the transparent color
-            original.Entries[this.maxColors] = Color.FromArgb(0, 0, 0, 0);
+            original.Entries[maxColors] = Color.FromArgb(0, 0, 0, 0);
 
             return original;
         }
@@ -239,11 +239,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
             public Octree(int maxColorBits)
             {
                 this.maxColorBits = maxColorBits;
-                this.leafCount = 0;
-                this.reducibleNodes = new OctreeNode[9];
-                this.root = new OctreeNode(0, this.maxColorBits, this);
-                this.previousColor = 0;
-                this.previousNode = null;
+                leafCount = 0;
+                reducibleNodes = new OctreeNode[9];
+                root = new OctreeNode(0, this.maxColorBits, this);
+                previousColor = 0;
+                previousNode = null;
             }
 
             /// <summary>
@@ -251,14 +251,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
             /// </summary>
             private int Leaves
             {
-                get { return this.leafCount; }
-                set { this.leafCount = value; }
+                get { return leafCount; }
+                set { leafCount = value; }
             }
 
             /// <summary>
             /// Gets the array of reducible nodes
             /// </summary>
-            private OctreeNode[] ReducibleNodes => this.reducibleNodes;
+            private OctreeNode[] ReducibleNodes => reducibleNodes;
 
             /// <summary>
             /// Add a given color value to the Octree
@@ -269,25 +269,25 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
             public void AddColor(Color32* pixel)
             {
                 // Check if this request is for the same color as the last
-                if (this.previousColor == pixel->Argb)
+                if (previousColor == pixel->Argb)
                 {
                     // If so, check if I have a previous node setup. This will only occur if the first color in the image
                     // happens to be black, with an alpha component of zero.
-                    if (this.previousNode == null)
+                    if (previousNode == null)
                     {
-                        this.previousColor = pixel->Argb;
-                        this.root.AddColor(pixel, this.maxColorBits, 0, this);
+                        previousColor = pixel->Argb;
+                        root.AddColor(pixel, maxColorBits, 0, this);
                     }
                     else
                     {
                         // Just update the previous node
-                        this.previousNode.Increment(pixel);
+                        previousNode.Increment(pixel);
                     }
                 }
                 else
                 {
-                    this.previousColor = pixel->Argb;
-                    this.root.AddColor(pixel, this.maxColorBits, 0, this);
+                    previousColor = pixel->Argb;
+                    root.AddColor(pixel, maxColorBits, 0, this);
                 }
             }
 
@@ -302,15 +302,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
             /// </returns>
             public List<Color> Palletize(int colorCount)
             {
-                while (this.Leaves > colorCount)
+                while (Leaves > colorCount)
                 {
-                    this.Reduce();
+                    Reduce();
                 }
 
                 // Now palletize the nodes
-                List<Color> palette = new List<Color>(this.Leaves);
-                int paletteIndex = 0;
-                this.root.ConstructPalette(palette, ref paletteIndex);
+                var palette = new List<Color>(Leaves);
+                var paletteIndex = 0;
+                root.ConstructPalette(palette, ref paletteIndex);
 
                 // And return the palette
                 return palette;
@@ -327,7 +327,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
             /// </returns>
             public int GetPaletteIndex(Color32* pixel)
             {
-                return this.root.GetPaletteIndex(pixel, 0);
+                return root.GetPaletteIndex(pixel, 0);
             }
 
             /// <summary>
@@ -338,7 +338,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
             /// </param>
             protected void TrackPrevious(OctreeNode node)
             {
-                this.previousNode = node;
+                previousNode = node;
             }
 
             /// <summary>
@@ -347,22 +347,22 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
             private void Reduce()
             {
                 // Find the deepest level containing at least one reducible node
-                int index = this.maxColorBits - 1;
-                while ((index > 0) && (this.reducibleNodes[index] == null))
+                var index = maxColorBits - 1;
+                while ((index > 0) && (reducibleNodes[index] == null))
                 {
                     index--;
                 }
 
                 // Reduce the node most recently added to the list at level 'index'
-                OctreeNode node = this.reducibleNodes[index];
-                this.reducibleNodes[index] = node.NextReducible;
+                var node = reducibleNodes[index];
+                reducibleNodes[index] = node.NextReducible;
 
                 // Decrement the leaf count after reducing the node
-                this.leafCount -= node.Reduce();
+                leafCount -= node.Reduce();
 
                 // And just in case I've reduced the last color to be added, and the next color to
                 // be added is the same, invalidate the previousNode...
-                this.previousNode = null;
+                previousNode = null;
             }
 
             /// <summary>
@@ -420,24 +420,24 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
                 public OctreeNode(int level, int colorBits, Octree octree)
                 {
                     // Construct the new node
-                    this.leaf = level == colorBits;
+                    leaf = level == colorBits;
 
-                    this.red = this.green = this.blue = 0;
-                    this.pixelCount = 0;
+                    red = green = blue = 0;
+                    pixelCount = 0;
 
                     // If a leaf, increment the leaf count
-                    if (this.leaf)
+                    if (leaf)
                     {
                         octree.Leaves++;
-                        this.NextReducible = null;
-                        this.children = null;
+                        NextReducible = null;
+                        children = null;
                     }
                     else
                     {
                         // Otherwise add this to the reducible nodes
-                        this.NextReducible = octree.ReducibleNodes[level];
+                        NextReducible = octree.ReducibleNodes[level];
                         octree.ReducibleNodes[level] = this;
-                        this.children = new OctreeNode[8];
+                        children = new OctreeNode[8];
                     }
                 }
 
@@ -464,9 +464,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
                 public void AddColor(Color32* pixel, int colorBits, int level, Octree octree)
                 {
                     // Update the color information if this is a leaf
-                    if (this.leaf)
+                    if (leaf)
                     {
-                        this.Increment(pixel);
+                        Increment(pixel);
 
                         // Setup the previous node
                         octree.TrackPrevious(this);
@@ -474,18 +474,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
                     else
                     {
                         // Go to the next level down in the tree
-                        int shift = 7 - level;
-                        int index = ((pixel->R & Mask[level]) >> (shift - 2)) |
+                        var shift = 7 - level;
+                        var index = ((pixel->R & Mask[level]) >> (shift - 2)) |
                                     ((pixel->G & Mask[level]) >> (shift - 1)) |
                                     ((pixel->B & Mask[level]) >> shift);
 
-                        OctreeNode child = this.children[index];
+                        var child = children[index];
 
                         if (child == null)
                         {
                             // Create a new child node & store in the array
                             child = new OctreeNode(level + 1, colorBits, octree);
-                            this.children[index] = child;
+                            children[index] = child;
                         }
 
                         // Add the color to the child node
@@ -499,25 +499,25 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
                 /// <returns>The number of leaves removed</returns>
                 public int Reduce()
                 {
-                    this.red = this.green = this.blue = 0;
-                    int childNodes = 0;
+                    red = green = blue = 0;
+                    var childNodes = 0;
 
                     // Loop through all children and add their information to this node
-                    for (int index = 0; index < 8; index++)
+                    for (var index = 0; index < 8; index++)
                     {
-                        if (this.children[index] != null)
+                        if (children[index] != null)
                         {
-                            this.red += this.children[index].red;
-                            this.green += this.children[index].green;
-                            this.blue += this.children[index].blue;
-                            this.pixelCount += this.children[index].pixelCount;
+                            red += children[index].red;
+                            green += children[index].green;
+                            blue += children[index].blue;
+                            pixelCount += children[index].pixelCount;
                             ++childNodes;
-                            this.children[index] = null;
+                            children[index] = null;
                         }
                     }
 
                     // Now change this to a leaf node
-                    this.leaf = true;
+                    leaf = true;
 
                     // Return the number of nodes to decrement the leaf count by
                     return childNodes - 1;
@@ -534,14 +534,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
                 /// </param>
                 public void ConstructPalette(List<Color> palette, ref int index)
                 {
-                    if (this.leaf)
+                    if (leaf)
                     {
                         // Consume the next palette index
-                        this.paletteIndex = index++;
+                        paletteIndex = index++;
 
-                        byte r = (this.red / this.pixelCount).ToByte();
-                        byte g = (this.green / this.pixelCount).ToByte();
-                        byte b = (this.blue / this.pixelCount).ToByte();
+                        var r = (red / pixelCount).ToByte();
+                        var g = (green / pixelCount).ToByte();
+                        var b = (blue / pixelCount).ToByte();
 
                         // And set the color of the palette entry
                         palette.Add(Color.FromArgb(r, g, b));
@@ -549,11 +549,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
                     else
                     {
                         // Loop through children looking for leaves
-                        for (int i = 0; i < 8; i++)
+                        for (var i = 0; i < 8; i++)
                         {
-                            if (this.children[i] != null)
+                            if (children[i] != null)
                             {
-                                this.children[i].ConstructPalette(palette, ref index);
+                                children[i].ConstructPalette(palette, ref index);
                             }
                         }
                     }
@@ -573,18 +573,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
                 /// </returns>
                 public int GetPaletteIndex(Color32* pixel, int level)
                 {
-                    int index = this.paletteIndex;
+                    var index = paletteIndex;
 
-                    if (!this.leaf)
+                    if (!leaf)
                     {
-                        int shift = 7 - level;
-                        int pixelIndex = ((pixel->R & Mask[level]) >> (shift - 2)) |
+                        var shift = 7 - level;
+                        var pixelIndex = ((pixel->R & Mask[level]) >> (shift - 2)) |
                                     ((pixel->G & Mask[level]) >> (shift - 1)) |
                                     ((pixel->B & Mask[level]) >> shift);
 
-                        if (this.children[pixelIndex] != null)
+                        if (children[pixelIndex] != null)
                         {
-                            index = this.children[pixelIndex].GetPaletteIndex(pixel, level + 1);
+                            index = children[pixelIndex].GetPaletteIndex(pixel, level + 1);
                         }
                         else
                         {
@@ -603,10 +603,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers
                 /// </param>
                 public void Increment(Color32* pixel)
                 {
-                    this.pixelCount++;
-                    this.red += pixel->R;
-                    this.green += pixel->G;
-                    this.blue += pixel->B;
+                    pixelCount++;
+                    red += pixel->R;
+                    green += pixel->G;
+                    blue += pixel->B;
                 }
             }
         }

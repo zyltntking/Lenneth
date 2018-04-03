@@ -31,14 +31,14 @@
         /// </summary>
         public int Length
         {
-            get { return DataBlock.DATA_BLOCK_FIXED_SIZE + this.Data.Length; }
+            get { return DATA_BLOCK_FIXED_SIZE + Data.Length; }
         }
 
         public DataBlock()
         {
-            this.Position = PageAddress.Empty;
-            this.ExtendPageID = uint.MaxValue;
-            this.Data = new byte[0];
+            Position = PageAddress.Empty;
+            ExtendPageID = uint.MaxValue;
+            Data = new byte[0];
         }
     }
 }

@@ -16,13 +16,13 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
     {
         public bool IsCommand(StringScanner s)
         {
-            return this.IsFileCommand(s, "upload");
+            return IsFileCommand(s, "upload");
         }
 
         public IEnumerable<BsonValue> Execute(StringScanner s, LiteEngine engine)
         {
             var fs = new LiteStorage(engine);
-            var id = this.ReadId(s);
+            var id = ReadId(s);
 
             var filename = s.Scan(@"\s*.*").Trim();
 

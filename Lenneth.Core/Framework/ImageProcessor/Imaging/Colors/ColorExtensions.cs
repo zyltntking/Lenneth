@@ -33,13 +33,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public static Color Add(this Color color, params Color[] colors)
         {
-            int red = color.A > 0 ? color.R : 0;
-            int green = color.A > 0 ? color.G : 0;
-            int blue = color.A > 0 ? color.B : 0;
+            var red = color.A > 0 ? color.R : 0;
+            var green = color.A > 0 ? color.G : 0;
+            var blue = color.A > 0 ? color.B : 0;
             int alpha = color.A;
 
-            int counter = 0;
-            foreach (Color addColor in colors)
+            var counter = 0;
+            foreach (var addColor in colors)
             {
                 if (addColor.A > 0)
                 {
@@ -71,12 +71,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         public static CmykColor AddAsCmykColor(this Color color, params Color[] colors)
         {
             CmykColor cmyk = color;
-            float c = color.A > 0 ? cmyk.C : 0;
-            float m = color.A > 0 ? cmyk.M : 0;
-            float y = color.A > 0 ? cmyk.Y : 0;
-            float k = color.A > 0 ? cmyk.K : 0;
+            var c = color.A > 0 ? cmyk.C : 0;
+            var m = color.A > 0 ? cmyk.M : 0;
+            var y = color.A > 0 ? cmyk.Y : 0;
+            var k = color.A > 0 ? cmyk.K : 0;
 
-            foreach (Color addColor in colors)
+            foreach (var addColor in colors)
             {
                 if (addColor.A > 0)
                 {

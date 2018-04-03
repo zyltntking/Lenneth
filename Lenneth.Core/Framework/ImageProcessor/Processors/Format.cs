@@ -26,7 +26,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Format()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -61,12 +61,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         {
             try
             {
-                ISupportedImageFormat format = this.DynamicParameter;
+                ISupportedImageFormat format = DynamicParameter;
                 factory.Format(format);
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return factory.Image;

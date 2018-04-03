@@ -134,7 +134,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 }
 
                 // initialize all services
-                this.InitializeServices();
+                InitializeServices();
 
                 // if header are marked with recovery, do it now
                 if (header.Recovery)
@@ -145,7 +145,7 @@ namespace Lenneth.Core.Framework.LiteDB
             catch (Exception)
             {
                 // explicit dispose
-                this.Dispose();
+                Dispose();
                 throw;
             }
         }
@@ -196,7 +196,7 @@ namespace Lenneth.Core.Framework.LiteDB
             {
                 try
                 {
-                    var col = this.GetCollectionPage(collection, addIfNotExists);
+                    var col = GetCollectionPage(collection, addIfNotExists);
 
                     var result = action(col);
 

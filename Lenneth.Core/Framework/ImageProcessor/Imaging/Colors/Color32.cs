@@ -65,10 +65,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         public Color32(byte alpha, byte red, byte green, byte blue)
             : this()
         {
-            this.A = alpha;
-            this.R = red;
-            this.G = green;
-            this.B = blue;
+            A = alpha;
+            R = red;
+            G = green;
+            B = blue;
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         public Color32(int argb)
             : this()
         {
-            this.Argb = argb;
+            Argb = argb;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </summary>
         public Color Color
         {
-            get { return Color.FromArgb(this.A, this.R, this.G, this.B); }
+            get { return Color.FromArgb(A, R, G, B); }
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         {
             if (obj is Color32)
             {
-                return this.Equals((Color32)obj);
+                return Equals((Color32)obj);
             }
 
             return false;
@@ -115,7 +115,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
         public bool Equals(Color32 other)
         {
-            return this.Argb.Equals(other.Argb);
+            return Argb.Equals(other.Argb);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         public override int GetHashCode()
         {
-            return this.GetHashCode(this);
+            return GetHashCode(this);
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         {
             unchecked
             {
-                int hashCode = obj.B.GetHashCode();
+                var hashCode = obj.B.GetHashCode();
                 hashCode = (hashCode * 397) ^ obj.G.GetHashCode();
                 hashCode = (hashCode * 397) ^ obj.R.GetHashCode();
                 hashCode = (hashCode * 397) ^ obj.A.GetHashCode();

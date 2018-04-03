@@ -13,14 +13,14 @@ namespace Lenneth.Core.Framework.LiteDB_V6
         public IndexPage(uint pageID)
             : base(pageID)
         {
-            this.Nodes = new Dictionary<ushort, IndexNode>();
+            Nodes = new Dictionary<ushort, IndexNode>();
         }
 		
         protected override void ReadContent(ByteReader reader)
         {
-            this.Nodes = new Dictionary<ushort, IndexNode>(this.ItemCount);
+            Nodes = new Dictionary<ushort, IndexNode>(ItemCount);
 
-            for (var i = 0; i < this.ItemCount; i++)
+            for (var i = 0; i < ItemCount; i++)
             {
                 var index = reader.ReadUInt16();
                 var levels = reader.ReadByte();
@@ -28,7 +28,7 @@ namespace Lenneth.Core.Framework.LiteDB_V6
                 var node = new IndexNode(levels);
 
                 node.Page = this;
-                node.Position = new PageAddress(this.PageID, index);
+                node.Position = new PageAddress(PageID, index);
                 node.KeyLength = reader.ReadUInt16();
                 node.Key = ReadBsonValue(reader, node.KeyLength);
                 node.DataBlock = reader.ReadPageAddress();
@@ -39,7 +39,7 @@ namespace Lenneth.Core.Framework.LiteDB_V6
                     node.Next[j] = reader.ReadPageAddress();
                 }
 
-                this.Nodes.Add(node.Position.Index, node);
+                Nodes.Add(node.Position.Index, node);
             }
         }
         /// <summary>

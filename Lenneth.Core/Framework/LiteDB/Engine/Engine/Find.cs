@@ -21,7 +21,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 using (_locker.Read())
                 {
                     // get my collection page
-                    var col = this.GetCollectionPage(collection, false);
+                    var col = GetCollectionPage(collection, false);
 
                     // no collection, no documents
                     if (col == null) yield break;
@@ -47,7 +47,7 @@ namespace Lenneth.Core.Framework.LiteDB
                         // if file was changed, re-run query and skip already returned documents
                         if (l.Changed)
                         {
-                            var col = this.GetCollectionPage(collection, false);
+                            var col = GetCollectionPage(collection, false);
                             
                             if (col == null) yield break;
                             
@@ -70,7 +70,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public BsonDocument FindOne(string collection, Query query)
         {
-            return this.Find(collection, query).FirstOrDefault();
+            return Find(collection, query).FirstOrDefault();
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Lenneth.Core.Framework.LiteDB
         {
             if (id == null || id.IsNull) throw new ArgumentNullException(nameof(id));
 
-            return this.Find(collection, Query.EQ("_id", id)).FirstOrDefault();
+            return Find(collection, Query.EQ("_id", id)).FirstOrDefault();
         }
 
 
@@ -89,7 +89,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public IEnumerable<BsonDocument> FindAll(string collection)
         {
-            return this.Find(collection, Query.All());
+            return Find(collection, Query.All());
         }
 
         #endregion

@@ -203,10 +203,10 @@ namespace Lenneth.Core.Framework.QR.Base
 
             private static string ReverseString(string inp)
             {
-                string newStr = string.Empty;
+                var newStr = string.Empty;
                 if (inp.Length > 0)
                 {
-                    for (int i = inp.Length - 1; i >= 0; i--)
+                    for (var i = inp.Length - 1; i >= 0; i--)
                         newStr += inp[i];
                 }
                 return newStr;
@@ -311,7 +311,7 @@ namespace Lenneth.Core.Framework.QR.Base
                 var size = qrCode.ModuleMatrix.Count;
                 var up = true;
                 var datawords = new Queue<bool>();
-                for (int i = 0; i < data.Length; i++)
+                for (var i = 0; i < data.Length; i++)
                 {
                     datawords.Enqueue(data[i] != '0');
                 }
@@ -707,12 +707,12 @@ namespace Lenneth.Core.Framework.QR.Base
 
         private EncodingMode GetEncodingFromPlaintext(string plainText, bool forceUtf8)
         {
-            EncodingMode result = EncodingMode.Numeric;
+            var result = EncodingMode.Numeric;
 
             if (forceUtf8)
                 return EncodingMode.Byte;
 
-            foreach (char c in plainText)
+            foreach (var c in plainText)
             {
                 if (NumTable.Contains(c))
                     continue;

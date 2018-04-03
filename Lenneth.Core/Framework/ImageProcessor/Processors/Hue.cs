@@ -27,7 +27,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Hue()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -52,43 +52,43 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                Tuple<int, bool> parameters = this.DynamicParameter;
-                int degrees = parameters.Item1;
+                Tuple<int, bool> parameters = DynamicParameter;
+                var degrees = parameters.Item1;
 
                 if (degrees == 0)
                 {
                     return image;
                 }
 
-                bool rotate = parameters.Item2;
-                int width = image.Width;
-                int height = image.Height;
-                using (FastBitmap fastBitmap = new FastBitmap(image))
+                var rotate = parameters.Item2;
+                var width = image.Width;
+                var height = image.Height;
+                using (var fastBitmap = new FastBitmap(image))
                 {
                     if (!rotate)
                     {
-                        for (int y = 0; y < height; y++)
+                        for (var y = 0; y < height; y++)
                         {
-                            for (int x = 0; x < width; x++)
+                            for (var x = 0; x < width; x++)
                             {
-                                HslaColor original = HslaColor.FromColor(fastBitmap.GetPixel(x, y));
-                                HslaColor altered = HslaColor.FromHslaColor(degrees / 360f, original.S, original.L, original.A);
+                                var original = HslaColor.FromColor(fastBitmap.GetPixel(x, y));
+                                var altered = HslaColor.FromHslaColor(degrees / 360f, original.S, original.L, original.A);
                                 fastBitmap.SetPixel(x, y, altered);
                             }
                         }
                     }
                     else
                     {
-                        for (int y = 0; y < height; y++)
+                        for (var y = 0; y < height; y++)
                         {
-                            for (int x = 0; x < width; x++)
+                            for (var x = 0; x < width; x++)
                             {
-                                HslaColor original = HslaColor.FromColor(fastBitmap.GetPixel(x, y));
-                                HslaColor altered = HslaColor.FromHslaColor((original.H + (degrees / 360f)) % 1, original.S, original.L, original.A);
+                                var original = HslaColor.FromColor(fastBitmap.GetPixel(x, y));
+                                var altered = HslaColor.FromHslaColor((original.H + (degrees / 360f)) % 1, original.S, original.L, original.A);
                                 fastBitmap.SetPixel(x, y, altered);
                             }
                         }
@@ -99,7 +99,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
         }
     }

@@ -27,7 +27,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public BackgroundColor()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -52,19 +52,19 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         public Image ProcessImage(ImageFactory factory)
         {
             Bitmap newImage = null;
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                int width = image.Width;
-                int height = image.Height;
+                var width = image.Width;
+                var height = image.Height;
 
-                Color backgroundColor = this.DynamicParameter;
+                Color backgroundColor = DynamicParameter;
                 newImage = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
                 newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
                 // Make a graphics object from the empty bitmap.
-                using (Graphics graphics = Graphics.FromImage(newImage))
+                using (var graphics = Graphics.FromImage(newImage))
                 {
                     GraphicsHelper.SetGraphicsOptions(graphics, true);
 
@@ -82,7 +82,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             {
                 newImage?.Dispose();
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return image;

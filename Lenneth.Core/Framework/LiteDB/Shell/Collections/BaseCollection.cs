@@ -85,25 +85,25 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
                 return Query.All();
             }
 
-            return this.ReadInlineQuery(s);
+            return ReadInlineQuery(s);
         }
 
         private Query ReadInlineQuery(StringScanner s)
         {
-            var left = this.ReadOneQuery(s);
+            var left = ReadOneQuery(s);
             var oper = s.Scan(@"\s+(and|or)\s+").ToLower().Trim();
 
             // there is no right side
             if (oper.Length == 0) return left;
 
-            var right = this.ReadInlineQuery(s);
+            var right = ReadInlineQuery(s);
 
             return oper == "and" ? Query.And(left, right) : Query.Or(left, right);
         }
 
         private Query ReadOneQuery(StringScanner s)
         {
-            var field = BsonExpression.ReadExpression(s, false, false)?.Source ?? s.Scan(this.FieldPattern).Trim().ThrowIfEmpty("Invalid field", s);
+            var field = BsonExpression.ReadExpression(s, false, false)?.Source ?? s.Scan(FieldPattern).Trim().ThrowIfEmpty("Invalid field", s);
             var oper = s.Scan(@"\s*(=|!=|>=|<=|>|<|like|starts[Ww]ith|in|between|contains)\s*").Trim().ToLower().ThrowIfEmpty("Invalid query operator", s);
 
             if (s.HasTerminated) throw LiteException.SyntaxError(s, "Missing value");

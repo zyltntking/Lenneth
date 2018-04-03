@@ -28,7 +28,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Pixelate()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -62,37 +62,37 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         public Image ProcessImage(ImageFactory factory)
         {
             Bitmap newImage = null;
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                Tuple<int, Rectangle?> parameters = this.DynamicParameter;
-                int size = parameters.Item1;
-                Rectangle rectangle = parameters.Item2 ?? new Rectangle(0, 0, image.Width, image.Height);
-                int x = rectangle.X;
-                int y = rectangle.Y;
-                int offset = size / 2;
-                int width = rectangle.Width;
-                int height = rectangle.Height;
-                int maxWidth = image.Width;
-                int maxHeight = image.Height;
+                Tuple<int, Rectangle?> parameters = DynamicParameter;
+                var size = parameters.Item1;
+                var rectangle = parameters.Item2 ?? new Rectangle(0, 0, image.Width, image.Height);
+                var x = rectangle.X;
+                var y = rectangle.Y;
+                var offset = size / 2;
+                var width = rectangle.Width;
+                var height = rectangle.Height;
+                var maxWidth = image.Width;
+                var maxHeight = image.Height;
 
                 newImage = new Bitmap(image);
                 newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
-                using (FastBitmap fastBitmap = new FastBitmap(newImage))
+                using (var fastBitmap = new FastBitmap(newImage))
                 {
                     // Get the range on the y-plane to choose from.
-                    IEnumerable<int> range = EnumerableExtensions.SteppedRange(y, i => i < y + height && i < maxHeight, size);
+                    var range = EnumerableExtensions.SteppedRange(y, i => i < y + height && i < maxHeight, size);
 
                     Parallel.ForEach(
                         range,
                         j =>
                         {
-                            for (int i = x; i < x + width && i < maxWidth; i += size)
+                            for (var i = x; i < x + width && i < maxWidth; i += size)
                             {
-                                int offsetX = offset;
-                                int offsetY = offset;
+                                var offsetX = offset;
+                                var offsetY = offset;
 
                                 // Make sure that the offset is within the boundary of the image.
                                 while (j + offsetY >= maxHeight)
@@ -107,12 +107,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
 
                                 // Get the pixel color in the centre of the soon to be pixelated area.
                                 // ReSharper disable AccessToDisposedClosure
-                                Color pixel = fastBitmap.GetPixel(i + offsetX, j + offsetY);
+                                var pixel = fastBitmap.GetPixel(i + offsetX, j + offsetY);
 
                                 // For each pixel in the pixelate size, set it to the centre color.
-                                for (int l = j; l < j + size && l < maxHeight; l++)
+                                for (var l = j; l < j + size && l < maxHeight; l++)
                                 {
-                                    for (int k = i; k < i + size && k < maxWidth; k++)
+                                    for (var k = i; k < i + size && k < maxWidth; k++)
                                     {
                                         fastBitmap.SetPixel(k, l, pixel);
                                     }
@@ -129,7 +129,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             {
                 newImage?.Dispose();
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return image;

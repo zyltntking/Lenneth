@@ -11,11 +11,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Lenneth.Core.Framework.ImageProcessor.Common.Exceptions;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers;
 
 namespace Lenneth.Core.Framework.ImageProcessor.Processors
 {
+    using Common.Exceptions;
+    using Imaging.Helpers;
+
     /// <summary>
     /// Encapsulates methods with which to add a vignette image effect to an image.
     /// </summary>
@@ -26,8 +27,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Vignette()
         {
-            this.DynamicParameter = Color.Black;
-            this.Settings = new Dictionary<string, string>();
+            DynamicParameter = Color.Black;
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -60,16 +61,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
+            var image = factory.Image;
 
             try
             {
-                Color baseColor = (Color)this.DynamicParameter;
+                var baseColor = (Color)DynamicParameter;
                 return Effects.Vignette(image, baseColor);
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
         }
     }

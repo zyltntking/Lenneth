@@ -34,7 +34,7 @@ namespace Lenneth.Core.Framework.LiteDB
             _filename = Path.Combine(Path.GetTempPath(), "litedb-sort-" + Guid.NewGuid().ToString("n").Substring(0, 6) + ".db");
             
             // create disk 
-            _stream = this.CreateFileStream(_filename, System.IO.FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None);
+            _stream = CreateFileStream(_filename, System.IO.FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None);
         }
 
         //public virtual void Dispose()
@@ -70,7 +70,7 @@ namespace Lenneth.Core.Framework.LiteDB
             }
             else if (_stream == null)
             {
-                this.InternalInitialize();
+                InternalInitialize();
             }
 
             var buffer = new byte[BasePage.PAGE_SIZE];
@@ -93,7 +93,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public virtual void WritePage(uint pageID, byte[] buffer)
         {
-            if (_stream == null) this.InternalInitialize();
+            if (_stream == null) InternalInitialize();
 
             var position = BasePage.GetSizeOfPages(pageID);
 
@@ -111,7 +111,7 @@ namespace Lenneth.Core.Framework.LiteDB
         /// </summary>
         public void SetLength(long fileSize)
         {
-            if (_stream == null) this.InternalInitialize();
+            if (_stream == null) InternalInitialize();
 
             // fileSize parameter tell me final size of data file - helpful to extend first datafile
             _stream.SetLength(fileSize);

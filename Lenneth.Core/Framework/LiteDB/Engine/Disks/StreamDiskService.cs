@@ -38,7 +38,7 @@ namespace Lenneth.Core.Framework.LiteDB
                 _log.Write(Logger.Disk, "initialize new datafile");
 
                 // create datafile
-                Lenneth.Core.Framework.LiteDB.LiteEngine.CreateDatabase(_stream, password);
+                LiteEngine.CreateDatabase(_stream, password);
             }
         }
 

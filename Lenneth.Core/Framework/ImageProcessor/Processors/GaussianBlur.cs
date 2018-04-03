@@ -26,7 +26,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public GaussianBlur()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -49,19 +49,19 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Bitmap image = (Bitmap)factory.Image;
+            var image = (Bitmap)factory.Image;
 
             try
             {
-                GaussianLayer gaussianLayer = this.DynamicParameter;
-                Convolution convolution = new Convolution(gaussianLayer.Sigma) { Threshold = gaussianLayer.Threshold };
-                double[,] kernel = convolution.CreateGuassianBlurFilter(gaussianLayer.Size);
+                GaussianLayer gaussianLayer = DynamicParameter;
+                var convolution = new Convolution(gaussianLayer.Sigma) { Threshold = gaussianLayer.Threshold };
+                var kernel = convolution.CreateGuassianBlurFilter(gaussianLayer.Size);
 
                 return convolution.ProcessKernel(image, kernel, factory.FixGamma);
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
         }
     }

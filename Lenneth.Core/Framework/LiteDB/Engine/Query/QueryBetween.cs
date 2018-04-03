@@ -23,7 +23,7 @@ namespace Lenneth.Core.Framework.LiteDB
         internal override IEnumerable<IndexNode> ExecuteIndex(IndexService indexer, CollectionIndex index)
         {
             // define order
-            var order = _start.CompareTo(_end) <= 0 ? Query.Ascending : Query.Descending;
+            var order = _start.CompareTo(_end) <= 0 ? Ascending : Descending;
 
             // find first indexNode
             var node = indexer.Find(index, _start, true, order);
@@ -68,7 +68,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         internal override bool FilterDocument(BsonDocument doc)
         {
-            return this.Expression.Execute(doc, false)
+            return Expression.Execute(doc, false)
                 .Any(x =>
                 {
                     return
@@ -80,8 +80,8 @@ namespace Lenneth.Core.Framework.LiteDB
         public override string ToString()
         {
             return string.Format("{0}({1} between {2}{3} and {4}{5})",
-                this.UseFilter ? "Filter" : this.UseIndex ? "IndexSeek" : "",
-                this.Expression?.ToString() ?? this.Field,
+                UseFilter ? "Filter" : UseIndex ? "IndexSeek" : "",
+                Expression?.ToString() ?? Field,
                 _startEquals ? "[" : "(",
                 _start, 
                 _end,

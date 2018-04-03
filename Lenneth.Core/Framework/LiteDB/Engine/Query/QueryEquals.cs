@@ -15,7 +15,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         internal override IEnumerable<IndexNode> ExecuteIndex(IndexService indexer, CollectionIndex index)
         {
-            var node = indexer.Find(index, _value, false, Query.Ascending);
+            var node = indexer.Find(index, _value, false, Ascending);
 
             if (node == null) yield break;
 
@@ -35,15 +35,15 @@ namespace Lenneth.Core.Framework.LiteDB
 
         internal override bool FilterDocument(BsonDocument doc)
         {
-            return this.Expression.Execute(doc, true)
+            return Expression.Execute(doc, true)
                 .Any(x => x.CompareTo(_value) == 0);
         }
 
         public override string ToString()
         {
             return string.Format("{0}({1} = {2})",
-                this.UseFilter ? "Filter" : this.UseIndex ? "Seek" : "",
-                this.Expression?.ToString() ?? this.Field,
+                UseFilter ? "Filter" : UseIndex ? "Seek" : "",
+                Expression?.ToString() ?? Field,
                 _value);
         }
     }

@@ -55,30 +55,30 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
         /// <returns>A processed bitmap.</returns>
         public Bitmap ProcessFilter(Image source)
         {
-            int width = source.Width;
-            int height = source.Height;
-            int maxWidth = width + 1;
-            int maxHeight = height + 1;
-            int bufferedWidth = width + 2;
-            int bufferedHeight = height + 2;
+            var width = source.Width;
+            var height = source.Height;
+            var maxWidth = width + 1;
+            var maxHeight = height + 1;
+            var bufferedWidth = width + 2;
+            var bufferedHeight = height + 2;
 
-            Bitmap destination = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
-            Bitmap input = new Bitmap(bufferedWidth, bufferedHeight, PixelFormat.Format32bppPArgb);
+            var destination = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
+            var input = new Bitmap(bufferedWidth, bufferedHeight, PixelFormat.Format32bppPArgb);
             destination.SetResolution(source.HorizontalResolution, source.VerticalResolution);
             input.SetResolution(source.HorizontalResolution, source.VerticalResolution);
 
-            using (Graphics graphics = Graphics.FromImage(input))
+            using (var graphics = Graphics.FromImage(input))
             {
                 // Fixes an issue with transparency not converting properly.
                 graphics.Clear(Color.Transparent);
 
-                Rectangle destinationRectangle = new Rectangle(0, 0, bufferedWidth, bufferedHeight);
-                Rectangle rectangle = new Rectangle(0, 0, width, height);
+                var destinationRectangle = new Rectangle(0, 0, bufferedWidth, bufferedHeight);
+                var rectangle = new Rectangle(0, 0, width, height);
 
                 // If it's greyscale apply a colormatrix to the image.
-                using (ImageAttributes attributes = new ImageAttributes())
+                using (var attributes = new ImageAttributes())
                 {
-                    if (this.greyscale)
+                    if (greyscale)
                     {
                         attributes.SetColorMatrix(ColorMatrixes.GreyScale);
                     }
@@ -86,7 +86,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                     // We use a trick here to detect right to the edges of the image.
                     // flip/tile the image with a pixel in excess in each direction to duplicate pixels.
                     // Later on we draw pixels without that excess.
-                    using (TextureBrush tb = new TextureBrush(source, rectangle, attributes))
+                    using (var tb = new TextureBrush(source, rectangle, attributes))
                     {
                         tb.WrapMode = WrapMode.TileFlipXY;
                         tb.TranslateTransform(1, 1);
@@ -98,14 +98,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
 
             try
             {
-                double[,] horizontalFilter = this.edgeFilter.HorizontalGradientOperator;
+                var horizontalFilter = edgeFilter.HorizontalGradientOperator;
 
-                int kernelLength = horizontalFilter.GetLength(0);
-                int radius = kernelLength >> 1;
+                var kernelLength = horizontalFilter.GetLength(0);
+                var radius = kernelLength >> 1;
 
-                using (FastBitmap sourceBitmap = new FastBitmap(input))
+                using (var sourceBitmap = new FastBitmap(input))
                 {
-                    using (FastBitmap destinationBitmap = new FastBitmap(destination))
+                    using (var destinationBitmap = new FastBitmap(destination))
                     {
                         // Loop through the pixels.
                         Parallel.For(
@@ -113,17 +113,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                             bufferedHeight,
                             y =>
                             {
-                                for (int x = 0; x < bufferedWidth; x++)
+                                for (var x = 0; x < bufferedWidth; x++)
                                 {
                                     double rX = 0;
                                     double gX = 0;
                                     double bX = 0;
 
                                     // Apply each matrix multiplier to the color components for each pixel.
-                                    for (int fy = 0; fy < kernelLength; fy++)
+                                    for (var fy = 0; fy < kernelLength; fy++)
                                     {
-                                        int fyr = fy - radius;
-                                        int offsetY = y + fyr;
+                                        var fyr = fy - radius;
+                                        var offsetY = y + fyr;
 
                                         // Skip the current row
                                         if (offsetY < 0)
@@ -137,10 +137,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                                             break;
                                         }
 
-                                        for (int fx = 0; fx < kernelLength; fx++)
+                                        for (var fx = 0; fx < kernelLength; fx++)
                                         {
-                                            int fxr = fx - radius;
-                                            int offsetX = x + fxr;
+                                            var fxr = fx - radius;
+                                            var offsetX = x + fxr;
 
                                             // Skip the column
                                             if (offsetX < 0)
@@ -151,7 +151,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                                             if (offsetX < bufferedWidth)
                                             {
                                                 // ReSharper disable once AccessToDisposedClosure
-                                                Color currentColor = sourceBitmap.GetPixel(offsetX, offsetY);
+                                                var currentColor = sourceBitmap.GetPixel(offsetX, offsetY);
                                                 double r = currentColor.R;
                                                 double g = currentColor.G;
                                                 double b = currentColor.B;
@@ -166,11 +166,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                                     }
 
                                     // Apply the equation and sanitize.
-                                    byte red = rX.ToByte();
-                                    byte green = gX.ToByte();
-                                    byte blue = bX.ToByte();
+                                    var red = rX.ToByte();
+                                    var green = gX.ToByte();
+                                    var blue = bX.ToByte();
 
-                                    Color newColor = Color.FromArgb(red, green, blue);
+                                    var newColor = Color.FromArgb(red, green, blue);
                                     if (y > 0 && x > 0 && y < maxHeight && x < maxWidth)
                                     {
                                         // ReSharper disable once AccessToDisposedClosure
@@ -197,30 +197,30 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
         /// <returns>A processed bitmap.</returns>
         public Bitmap Process2DFilter(Image source)
         {
-            int width = source.Width;
-            int height = source.Height;
-            int maxWidth = width + 1;
-            int maxHeight = height + 1;
-            int bufferedWidth = width + 2;
-            int bufferedHeight = height + 2;
+            var width = source.Width;
+            var height = source.Height;
+            var maxWidth = width + 1;
+            var maxHeight = height + 1;
+            var bufferedWidth = width + 2;
+            var bufferedHeight = height + 2;
 
-            Bitmap destination = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
-            Bitmap input = new Bitmap(bufferedWidth, bufferedHeight, PixelFormat.Format32bppPArgb);
+            var destination = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
+            var input = new Bitmap(bufferedWidth, bufferedHeight, PixelFormat.Format32bppPArgb);
             destination.SetResolution(source.HorizontalResolution, source.VerticalResolution);
             input.SetResolution(source.HorizontalResolution, source.VerticalResolution);
 
-            using (Graphics graphics = Graphics.FromImage(input))
+            using (var graphics = Graphics.FromImage(input))
             {
                 // Fixes an issue with transparency not converting properly.
                 graphics.Clear(Color.Transparent);
 
-                Rectangle destinationRectangle = new Rectangle(0, 0, bufferedWidth, bufferedHeight);
-                Rectangle rectangle = new Rectangle(0, 0, width, height);
+                var destinationRectangle = new Rectangle(0, 0, bufferedWidth, bufferedHeight);
+                var rectangle = new Rectangle(0, 0, width, height);
 
                 // If it's greyscale apply a colormatrix to the image.
-                using (ImageAttributes attributes = new ImageAttributes())
+                using (var attributes = new ImageAttributes())
                 {
-                    if (this.greyscale)
+                    if (greyscale)
                     {
                         attributes.SetColorMatrix(ColorMatrixes.GreyScale);
                     }
@@ -228,7 +228,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                     // We use a trick here to detect right to the edges of the image.
                     // flip/tile the image with a pixel in excess in each direction to duplicate pixels.
                     // Later on we draw pixels without that excess.
-                    using (TextureBrush tb = new TextureBrush(source, rectangle, attributes))
+                    using (var tb = new TextureBrush(source, rectangle, attributes))
                     {
                         tb.WrapMode = WrapMode.TileFlipXY;
                         tb.TranslateTransform(1, 1);
@@ -240,15 +240,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
 
             try
             {
-                double[,] horizontalFilter = this.edgeFilter.HorizontalGradientOperator;
-                double[,] verticalFilter = ((I2DEdgeFilter)this.edgeFilter).VerticalGradientOperator;
+                var horizontalFilter = edgeFilter.HorizontalGradientOperator;
+                var verticalFilter = ((I2DEdgeFilter)edgeFilter).VerticalGradientOperator;
 
-                int kernelLength = horizontalFilter.GetLength(0);
-                int radius = kernelLength >> 1;
+                var kernelLength = horizontalFilter.GetLength(0);
+                var radius = kernelLength >> 1;
 
-                using (FastBitmap sourceBitmap = new FastBitmap(input))
+                using (var sourceBitmap = new FastBitmap(input))
                 {
-                    using (FastBitmap destinationBitmap = new FastBitmap(destination))
+                    using (var destinationBitmap = new FastBitmap(destination))
                     {
                         // Loop through the pixels.
                         Parallel.For(
@@ -256,7 +256,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                             bufferedHeight,
                             y =>
                             {
-                                for (int x = 0; x < bufferedWidth; x++)
+                                for (var x = 0; x < bufferedWidth; x++)
                                 {
                                     double rX = 0;
                                     double rY = 0;
@@ -266,10 +266,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                                     double bY = 0;
 
                                     // Apply each matrix multiplier to the color components for each pixel.
-                                    for (int fy = 0; fy < kernelLength; fy++)
+                                    for (var fy = 0; fy < kernelLength; fy++)
                                     {
-                                        int fyr = fy - radius;
-                                        int offsetY = y + fyr;
+                                        var fyr = fy - radius;
+                                        var offsetY = y + fyr;
 
                                         // Skip the current row
                                         if (offsetY < 0)
@@ -283,10 +283,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                                             break;
                                         }
 
-                                        for (int fx = 0; fx < kernelLength; fx++)
+                                        for (var fx = 0; fx < kernelLength; fx++)
                                         {
-                                            int fxr = fx - radius;
-                                            int offsetX = x + fxr;
+                                            var fxr = fx - radius;
+                                            var offsetX = x + fxr;
 
                                             // Skip the column
                                             if (offsetX < 0)
@@ -297,7 +297,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                                             if (offsetX < bufferedWidth)
                                             {
                                                 // ReSharper disable once AccessToDisposedClosure
-                                                Color currentColor = sourceBitmap.GetPixel(offsetX, offsetY);
+                                                var currentColor = sourceBitmap.GetPixel(offsetX, offsetY);
                                                 double r = currentColor.R;
                                                 double g = currentColor.G;
                                                 double b = currentColor.B;
@@ -315,11 +315,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                                     }
 
                                     // Apply the equation and sanitize.
-                                    byte red = Math.Sqrt((rX * rX) + (rY * rY)).ToByte();
-                                    byte green = Math.Sqrt((gX * gX) + (gY * gY)).ToByte();
-                                    byte blue = Math.Sqrt((bX * bX) + (bY * bY)).ToByte();
+                                    var red = Math.Sqrt((rX * rX) + (rY * rY)).ToByte();
+                                    var green = Math.Sqrt((gX * gX) + (gY * gY)).ToByte();
+                                    var blue = Math.Sqrt((bX * bX) + (bY * bY)).ToByte();
 
-                                    Color newColor = Color.FromArgb(red, green, blue);
+                                    var newColor = Color.FromArgb(red, green, blue);
                                     if (y > 0 && x > 0 && y < maxHeight && x < maxWidth)
                                     {
                                         // ReSharper disable once AccessToDisposedClosure

@@ -137,7 +137,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>A character formed by two bytes beginning at startIndex.</returns>
         public char ToChar(byte[] value, int startIndex)
         {
-            return unchecked((char)this.CheckedFromBytes(value, startIndex, 2));
+            return unchecked((char)CheckedFromBytes(value, startIndex, 2));
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>A double precision floating point number formed by eight bytes beginning at startIndex.</returns>
         public double ToDouble(byte[] value, int startIndex)
         {
-            return this.Int64BitsToDouble(this.ToInt64(value, startIndex));
+            return Int64BitsToDouble(ToInt64(value, startIndex));
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>A single precision floating point number formed by four bytes beginning at startIndex.</returns>
         public float ToSingle(byte[] value, int startIndex)
         {
-            return this.Int32BitsToSingle(this.ToInt32(value, startIndex));
+            return Int32BitsToSingle(ToInt32(value, startIndex));
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>A 16-bit signed integer formed by two bytes beginning at startIndex.</returns>
         public short ToInt16(byte[] value, int startIndex)
         {
-            return unchecked((short)this.CheckedFromBytes(value, startIndex, 2));
+            return unchecked((short)CheckedFromBytes(value, startIndex, 2));
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>A 32-bit signed integer formed by four bytes beginning at startIndex.</returns>
         public int ToInt32(byte[] value, int startIndex)
         {
-            return unchecked((int)this.CheckedFromBytes(value, startIndex, 4));
+            return unchecked((int)CheckedFromBytes(value, startIndex, 4));
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>A 64-bit signed integer formed by eight bytes beginning at startIndex.</returns>
         public long ToInt64(byte[] value, int startIndex)
         {
-            return this.CheckedFromBytes(value, startIndex, 8);
+            return CheckedFromBytes(value, startIndex, 8);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>A 16-bit unsigned integer formed by two bytes beginning at startIndex.</returns>
         public ushort ToUInt16(byte[] value, int startIndex)
         {
-            return unchecked((ushort)this.CheckedFromBytes(value, startIndex, 2));
+            return unchecked((ushort)CheckedFromBytes(value, startIndex, 2));
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>A 32-bit unsigned integer formed by four bytes beginning at startIndex.</returns>
         public uint ToUInt32(byte[] value, int startIndex)
         {
-            return unchecked((uint)this.CheckedFromBytes(value, startIndex, 4));
+            return unchecked((uint)CheckedFromBytes(value, startIndex, 4));
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>A 64-bit unsigned integer formed by eight bytes beginning at startIndex.</returns>
         public ulong ToUInt64(byte[] value, int startIndex)
         {
-            return unchecked((ulong)this.CheckedFromBytes(value, startIndex, 8));
+            return unchecked((ulong)CheckedFromBytes(value, startIndex, 8));
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         private long CheckedFromBytes(byte[] value, int startIndex, int bytesToConvert)
         {
             CheckByteArgument(value, startIndex, bytesToConvert);
-            return this.FromBytes(value, startIndex, bytesToConvert);
+            return FromBytes(value, startIndex, bytesToConvert);
         }
         #endregion
 
@@ -340,10 +340,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
             // HACK: This always assumes four parts, each in their own endianness,
             // starting with the first part at the start of the byte array.
             // On the other hand, there's no real format specified...
-            int[] parts = new int[4];
-            for (int i = 0; i < 4; i++)
+            var parts = new int[4];
+            for (var i = 0; i < 4; i++)
             {
-                parts[i] = this.ToInt32(value, startIndex + (i * 4));
+                parts[i] = ToInt32(value, startIndex + (i * 4));
             }
 
             return new decimal(parts);
@@ -356,11 +356,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>An array of bytes with length 16.</returns>
         public byte[] GetBytes(decimal value)
         {
-            byte[] bytes = new byte[16];
-            int[] parts = decimal.GetBits(value);
-            for (int i = 0; i < 4; i++)
+            var bytes = new byte[16];
+            var parts = decimal.GetBits(value);
+            for (var i = 0; i < 4; i++)
             {
-                this.CopyBytesImpl(parts[i], 4, bytes, i * 4);
+                CopyBytesImpl(parts[i], 4, bytes, i * 4);
             }
 
             return bytes;
@@ -375,10 +375,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <param name="index">The first index into the array to copy the bytes into</param>
         public void CopyBytes(decimal value, byte[] buffer, int index)
         {
-            int[] parts = decimal.GetBits(value);
-            for (int i = 0; i < 4; i++)
+            var parts = decimal.GetBits(value);
+            for (var i = 0; i < 4; i++)
             {
-                this.CopyBytesImpl(parts[i], 4, buffer, (i * 4) + index);
+                CopyBytesImpl(parts[i], 4, buffer, (i * 4) + index);
             }
         }
         #endregion
@@ -396,8 +396,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// </returns>
         private byte[] GetBytes(long value, int bytes)
         {
-            byte[] buffer = new byte[bytes];
-            this.CopyBytes(value, bytes, buffer, 0);
+            var buffer = new byte[bytes];
+            CopyBytes(value, bytes, buffer, 0);
             return buffer;
         }
 
@@ -424,7 +424,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// </returns>
         public byte[] GetBytes(char value)
         {
-            return this.GetBytes(value, 2);
+            return GetBytes(value, 2);
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>An array of bytes with length 8.</returns>
         public byte[] GetBytes(double value)
         {
-            return this.GetBytes(this.DoubleToInt64Bits(value), 8);
+            return GetBytes(DoubleToInt64Bits(value), 8);
         }
 
         /// <summary>
@@ -444,7 +444,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>An array of bytes with length 2.</returns>
         public byte[] GetBytes(short value)
         {
-            return this.GetBytes(value, 2);
+            return GetBytes(value, 2);
         }
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>An array of bytes with length 4.</returns>
         public byte[] GetBytes(int value)
         {
-            return this.GetBytes(value, 4);
+            return GetBytes(value, 4);
         }
 
         /// <summary>
@@ -464,7 +464,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>An array of bytes with length 8.</returns>
         public byte[] GetBytes(long value)
         {
-            return this.GetBytes(value, 8);
+            return GetBytes(value, 8);
         }
 
         /// <summary>
@@ -474,7 +474,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>An array of bytes with length 4.</returns>
         public byte[] GetBytes(float value)
         {
-            return this.GetBytes(this.SingleToInt32Bits(value), 4);
+            return GetBytes(SingleToInt32Bits(value), 4);
         }
 
         /// <summary>
@@ -484,7 +484,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>An array of bytes with length 2.</returns>
         public byte[] GetBytes(ushort value)
         {
-            return this.GetBytes(value, 2);
+            return GetBytes(value, 2);
         }
 
         /// <summary>
@@ -494,7 +494,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>An array of bytes with length 4.</returns>
         public byte[] GetBytes(uint value)
         {
-            return this.GetBytes(value, 4);
+            return GetBytes(value, 4);
         }
 
         /// <summary>
@@ -504,7 +504,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <returns>An array of bytes with length 8.</returns>
         public byte[] GetBytes(ulong value)
         {
-            return this.GetBytes(unchecked((long)value), 8);
+            return GetBytes(unchecked((long)value), 8);
         }
 
         #endregion
@@ -532,7 +532,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
                 throw new ArgumentOutOfRangeException(nameof(buffer), "Buffer not big enough for value");
             }
 
-            this.CopyBytesImpl(value, bytes, buffer, index);
+            CopyBytesImpl(value, bytes, buffer, index);
         }
 
         /// <summary>
@@ -557,7 +557,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <param name="index">The first index into the array to copy the bytes into</param>
         public void CopyBytes(bool value, byte[] buffer, int index)
         {
-            this.CopyBytes(value ? 1 : 0, 1, buffer, index);
+            CopyBytes(value ? 1 : 0, 1, buffer, index);
         }
 
         /// <summary>
@@ -569,7 +569,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <param name="index">The first index into the array to copy the bytes into</param>
         public void CopyBytes(char value, byte[] buffer, int index)
         {
-            this.CopyBytes(value, 2, buffer, index);
+            CopyBytes(value, 2, buffer, index);
         }
 
         /// <summary>
@@ -581,7 +581,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <param name="index">The first index into the array to copy the bytes into</param>
         public void CopyBytes(double value, byte[] buffer, int index)
         {
-            this.CopyBytes(this.DoubleToInt64Bits(value), 8, buffer, index);
+            CopyBytes(DoubleToInt64Bits(value), 8, buffer, index);
         }
 
         /// <summary>
@@ -593,7 +593,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <param name="index">The first index into the array to copy the bytes into</param>
         public void CopyBytes(short value, byte[] buffer, int index)
         {
-            this.CopyBytes(value, 2, buffer, index);
+            CopyBytes(value, 2, buffer, index);
         }
 
         /// <summary>
@@ -605,7 +605,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <param name="index">The first index into the array to copy the bytes into</param>
         public void CopyBytes(int value, byte[] buffer, int index)
         {
-            this.CopyBytes(value, 4, buffer, index);
+            CopyBytes(value, 4, buffer, index);
         }
 
         /// <summary>
@@ -617,7 +617,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <param name="index">The first index into the array to copy the bytes into</param>
         public void CopyBytes(long value, byte[] buffer, int index)
         {
-            this.CopyBytes(value, 8, buffer, index);
+            CopyBytes(value, 8, buffer, index);
         }
 
         /// <summary>
@@ -629,7 +629,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <param name="index">The first index into the array to copy the bytes into</param>
         public void CopyBytes(float value, byte[] buffer, int index)
         {
-            this.CopyBytes(this.SingleToInt32Bits(value), 4, buffer, index);
+            CopyBytes(SingleToInt32Bits(value), 4, buffer, index);
         }
 
         /// <summary>
@@ -641,7 +641,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <param name="index">The first index into the array to copy the bytes into</param>
         public void CopyBytes(ushort value, byte[] buffer, int index)
         {
-            this.CopyBytes(value, 2, buffer, index);
+            CopyBytes(value, 2, buffer, index);
         }
 
         /// <summary>
@@ -653,7 +653,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <param name="index">The first index into the array to copy the bytes into</param>
         public void CopyBytes(uint value, byte[] buffer, int index)
         {
-            this.CopyBytes(value, 4, buffer, index);
+            CopyBytes(value, 4, buffer, index);
         }
 
         /// <summary>
@@ -665,7 +665,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
         /// <param name="index">The first index into the array to copy the bytes into</param>
         public void CopyBytes(ulong value, byte[] buffer, int index)
         {
-            this.CopyBytes(unchecked((long)value), 8, buffer, index);
+            CopyBytes(unchecked((long)value), 8, buffer, index);
         }
 
         #endregion
@@ -695,7 +695,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
             /// <param name="i">The integer value of the new instance.</param>
             internal Int32SingleUnion(int i)
             {
-                this.f = 0; // Just to keep the compiler happy
+                f = 0; // Just to keep the compiler happy
                 this.i = i;
             }
 
@@ -707,19 +707,19 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers.Converters
             /// </param>
             internal Int32SingleUnion(float f)
             {
-                this.i = 0; // Just to keep the compiler happy
+                i = 0; // Just to keep the compiler happy
                 this.f = f;
             }
 
             /// <summary>
             /// Gets the value of the instance as an integer.
             /// </summary>
-            internal int AsInt32 => this.i;
+            internal int AsInt32 => i;
 
             /// <summary>
             /// Gets the value of the instance as a floating point number.
             /// </summary>
-            internal float AsSingle => this.f;
+            internal float AsSingle => f;
         }
         #endregion
     }

@@ -57,12 +57,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
                 throw new ArgumentOutOfRangeException(nameof(percentage), "Percentage should be between 0 and 100.");
             }
 
-            float factor = (float)percentage / 100;
-            int width = source.Width;
-            int height = source.Height;
+            var factor = (float)percentage / 100;
+            var width = source.Width;
+            var height = source.Height;
 
             // Traditional examples using a color matrix alter the rgb values also.
-            using (FastBitmap bitmap = new FastBitmap(source))
+            using (var bitmap = new FastBitmap(source))
             {
                 // Loop through the pixels.
                 Parallel.For(
@@ -70,10 +70,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
                     height,
                     y =>
                     {
-                        for (int x = 0; x < width; x++)
+                        for (var x = 0; x < width; x++)
                         {
                             // ReSharper disable AccessToDisposedClosure
-                            Color color = bitmap.GetPixel(x, y);
+                            var color = bitmap.GetPixel(x, y);
                             bitmap.SetPixel(x, y, Color.FromArgb(Convert.ToInt32(color.A * factor), color.R, color.G, color.B));
                             // ReSharper restore AccessToDisposedClosure
                         }
@@ -107,10 +107,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
                 throw new ArgumentOutOfRangeException(nameof(threshold), "Threshold should be between -100 and 100.");
             }
 
-            float brightnessFactor = (float)threshold / 100;
-            Rectangle bounds = rectangle ?? new Rectangle(0, 0, source.Width, source.Height);
+            var brightnessFactor = (float)threshold / 100;
+            var bounds = rectangle ?? new Rectangle(0, 0, source.Width, source.Height);
 
-            ColorMatrix colorMatrix =
+            var colorMatrix =
                 new ColorMatrix(
                     new[]
                         {
@@ -121,9 +121,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
                             new[] { brightnessFactor, brightnessFactor, brightnessFactor, 0, 1 }
                         });
 
-            using (Graphics graphics = Graphics.FromImage(source))
+            using (var graphics = Graphics.FromImage(source))
             {
-                using (ImageAttributes imageAttributes = new ImageAttributes())
+                using (var imageAttributes = new ImageAttributes())
                 {
                     imageAttributes.SetColorMatrix(colorMatrix);
                     graphics.DrawImage(source, bounds, 0, 0, source.Width, source.Height, GraphicsUnit.Pixel, imageAttributes);
@@ -157,15 +157,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
                 throw new ArgumentOutOfRangeException(nameof(threshold), "Threshold should be between -100 and 100.");
             }
 
-            Rectangle bounds = rectangle ?? new Rectangle(0, 0, source.Width, source.Height);
+            var bounds = rectangle ?? new Rectangle(0, 0, source.Width, source.Height);
 
-            float contrastFactor = (float)threshold / 100;
+            var contrastFactor = (float)threshold / 100;
 
             // Stop at -1 to prevent inversion.
             contrastFactor++;
-            float factorTransform = 0.5f * (1.0f - contrastFactor);
+            var factorTransform = 0.5f * (1.0f - contrastFactor);
 
-            ColorMatrix colorMatrix =
+            var colorMatrix =
                 new ColorMatrix(
                     new[]
                     {
@@ -176,9 +176,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
                         new[] { factorTransform, factorTransform, factorTransform, 0, 1 }
                     });
 
-            using (Graphics graphics = Graphics.FromImage(source))
+            using (var graphics = Graphics.FromImage(source))
             {
-                using (ImageAttributes imageAttributes = new ImageAttributes())
+                using (var imageAttributes = new ImageAttributes())
                 {
                     imageAttributes.SetColorMatrix(colorMatrix);
                     graphics.DrawImage(source, bounds, 0, 0, source.Width, source.Height, GraphicsUnit.Pixel, imageAttributes);
@@ -210,28 +210,28 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
                 throw new ArgumentOutOfRangeException(nameof(value), "Value should be between .1 and 5.");
             }
 
-            byte[] ramp = new byte[256];
-            for (int x = 0; x < 256; ++x)
+            var ramp = new byte[256];
+            for (var x = 0; x < 256; ++x)
             {
-                byte val = ((255.0 * Math.Pow(x / 255.0, value)) + 0.5).ToByte();
+                var val = ((255.0 * Math.Pow(x / 255.0, value)) + 0.5).ToByte();
                 ramp[x] = val;
             }
 
-            int width = source.Width;
-            int height = source.Height;
+            var width = source.Width;
+            var height = source.Height;
 
-            using (FastBitmap bitmap = new FastBitmap(source))
+            using (var bitmap = new FastBitmap(source))
             {
                 Parallel.For(
                     0,
                     height,
                     y =>
                     {
-                        for (int x = 0; x < width; x++)
+                        for (var x = 0; x < width; x++)
                         {
                             // ReSharper disable once AccessToDisposedClosure
-                            Color composite = bitmap.GetPixel(x, y);
-                            Color linear = Color.FromArgb(composite.A, ramp[composite.R], ramp[composite.G], ramp[composite.B]);
+                            var composite = bitmap.GetPixel(x, y);
+                            var linear = Color.FromArgb(composite.A, ramp[composite.R], ramp[composite.G], ramp[composite.B]);
                             // ReSharper disable once AccessToDisposedClosure
                             bitmap.SetPixel(x, y, linear);
                         }
@@ -253,23 +253,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         public static Bitmap ToLinear(Image source)
         {
             // Create only once and lazily. 
-            byte[] ramp = LinearBytes.Value;
+            var ramp = LinearBytes.Value;
 
-            int width = source.Width;
-            int height = source.Height;
+            var width = source.Width;
+            var height = source.Height;
 
-            using (FastBitmap bitmap = new FastBitmap(source))
+            using (var bitmap = new FastBitmap(source))
             {
                 Parallel.For(
                     0,
                     height,
                     y =>
                     {
-                        for (int x = 0; x < width; x++)
+                        for (var x = 0; x < width; x++)
                         {
                             // ReSharper disable once AccessToDisposedClosure
-                            Color composite = bitmap.GetPixel(x, y);
-                            Color linear = Color.FromArgb(composite.A, ramp[composite.R], ramp[composite.G], ramp[composite.B]);
+                            var composite = bitmap.GetPixel(x, y);
+                            var linear = Color.FromArgb(composite.A, ramp[composite.R], ramp[composite.G], ramp[composite.B]);
                             // ReSharper disable once AccessToDisposedClosure
                             bitmap.SetPixel(x, y, linear);
                         }
@@ -291,23 +291,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         public static Bitmap ToSRGB(Image source)
         {
             // Create only once and lazily. 
-            byte[] ramp = SRGBBytes.Value;
+            var ramp = SRGBBytes.Value;
 
-            int width = source.Width;
-            int height = source.Height;
+            var width = source.Width;
+            var height = source.Height;
 
-            using (FastBitmap bitmap = new FastBitmap(source))
+            using (var bitmap = new FastBitmap(source))
             {
                 Parallel.For(
                     0,
                     height,
                     y =>
                     {
-                        for (int x = 0; x < width; x++)
+                        for (var x = 0; x < width; x++)
                         {
                             // ReSharper disable once AccessToDisposedClosure
-                            Color composite = bitmap.GetPixel(x, y);
-                            Color linear = Color.FromArgb(composite.A, ramp[composite.R], ramp[composite.G], ramp[composite.B]);
+                            var composite = bitmap.GetPixel(x, y);
+                            var linear = Color.FromArgb(composite.A, ramp[composite.R], ramp[composite.G], ramp[composite.B]);
                             // ReSharper disable once AccessToDisposedClosure
                             bitmap.SetPixel(x, y, linear);
                         }
@@ -326,10 +326,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         private static byte[] GetLinearBytes()
         {
-            byte[] ramp = new byte[256];
-            for (int x = 0; x < 256; ++x)
+            var ramp = new byte[256];
+            for (var x = 0; x < 256; ++x)
             {
-                byte val = (255f * SRGBToLinear(x / 255f)).ToByte();
+                var val = (255f * SRGBToLinear(x / 255f)).ToByte();
                 ramp[x] = val;
             }
 
@@ -345,10 +345,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         private static byte[] GetSRGBBytes()
         {
-            byte[] ramp = new byte[256];
-            for (int x = 0; x < 256; ++x)
+            var ramp = new byte[256];
+            for (var x = 0; x < 256; ++x)
             {
-                byte val = (255f * LinearToSRGB(x / 255f)).ToByte();
+                var val = (255f * LinearToSRGB(x / 255f)).ToByte();
                 ramp[x] = val;
             }
 
@@ -366,7 +366,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         private static float SRGBToLinear(float signal)
         {
-            float a = 0.055f;
+            var a = 0.055f;
 
             if (signal <= 0.04045)
             {
@@ -387,7 +387,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers
         /// </returns>
         private static float LinearToSRGB(float signal)
         {
-            float a = 0.055f;
+            var a = 0.055f;
 
             if (signal <= 0.0031308)
             {

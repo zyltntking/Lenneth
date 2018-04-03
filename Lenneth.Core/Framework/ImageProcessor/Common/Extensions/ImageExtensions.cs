@@ -41,14 +41,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Extensions
             {
                 // Read from the correct first frame when performing additional processing
                 source.SelectActiveFrame(FrameDimension.Time, 0);
-                GifDecoder decoder = new GifDecoder(source, animationProcessMode);
-                GifEncoder encoder = new GifEncoder(null, null, decoder.LoopCount);
+                var decoder = new GifDecoder(source, animationProcessMode);
+                var encoder = new GifEncoder(null, null, decoder.LoopCount);
 
                 // Have to use Octree here, there's no way to inject it.
-                OctreeQuantizer quantizer = new OctreeQuantizer();
-                for (int i = 0; i < decoder.FrameCount; i++)
+                var quantizer = new OctreeQuantizer();
+                for (var i = 0; i < decoder.FrameCount; i++)
                 {
-                    GifFrame frame = decoder.GetFrame(source, i);
+                    var frame = decoder.GetFrame(source, i);
                     frame.Image = quantizer.Quantize(((Bitmap)frame.Image).Clone(new Rectangle(0, 0, frame.Image.Width, frame.Image.Height), format));
                     ((Bitmap)frame.Image).SetResolution(source.HorizontalResolution, source.VerticalResolution);
                     encoder.AddFrame(frame);
@@ -58,16 +58,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Extensions
             }
 
             // Create a new image and copy it's pixels.
-            Bitmap copy = new Bitmap(source.Width, source.Height, format);
+            var copy = new Bitmap(source.Width, source.Height, format);
             copy.SetResolution(source.HorizontalResolution, source.VerticalResolution);
-            using (Graphics graphics = Graphics.FromImage(copy))
+            using (var graphics = Graphics.FromImage(copy))
             {
                 graphics.DrawImageUnscaled(source, 0, 0);
             }
 
             if (preserveExifData)
             {
-                foreach (PropertyItem item in source.PropertyItems)
+                foreach (var item in source.PropertyItems)
                 {
                     copy.SetPropertyItem(item);
                 }

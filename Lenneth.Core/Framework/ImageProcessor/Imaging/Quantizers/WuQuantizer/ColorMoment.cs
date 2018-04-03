@@ -123,16 +123,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </param>
         public void Add(Color32 pixel)
         {
-            byte alpha = pixel.A;
-            byte red = pixel.R;
-            byte green = pixel.G;
-            byte blue = pixel.B;
-            this.Alpha += alpha;
-            this.Red += red;
-            this.Green += green;
-            this.Blue += blue;
-            this.Weight++;
-            this.Moment += (alpha * alpha) + (red * red) + (green * green) + (blue * blue);
+            var alpha = pixel.A;
+            var red = pixel.R;
+            var green = pixel.G;
+            var blue = pixel.B;
+            Alpha += alpha;
+            Red += red;
+            Green += green;
+            Blue += blue;
+            Weight++;
+            Moment += (alpha * alpha) + (red * red) + (green * green) + (blue * blue);
         }
 
         /// <summary>
@@ -143,12 +143,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </param>
         public void AddFast(ref ColorMoment moment)
         {
-            this.Alpha += moment.Alpha;
-            this.Red += moment.Red;
-            this.Green += moment.Green;
-            this.Blue += moment.Blue;
-            this.Weight += moment.Weight;
-            this.Moment += moment.Moment;
+            Alpha += moment.Alpha;
+            Red += moment.Red;
+            Green += moment.Green;
+            Blue += moment.Blue;
+            Weight += moment.Weight;
+            Moment += moment.Moment;
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </returns>
         public long Amplitude()
         {
-            return (this.Alpha * this.Alpha) + (this.Red * this.Red) + (this.Green * this.Green) + (this.Blue * this.Blue);
+            return (Alpha * Alpha) + (Red * Red) + (Green * Green) + (Blue * Blue);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </returns>
         public float Variance()
         {
-            float result = this.Moment - ((float)this.Amplitude() / this.Weight);
+            var result = Moment - ((float)Amplitude() / Weight);
             return float.IsNaN(result) ? 0.0f : result;
         }
 
@@ -182,7 +182,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Quantizers.WuQuantizer
         /// </returns>
         public long WeightedDistance()
         {
-            return this.Amplitude() / this.Weight;
+            return Amplitude() / Weight;
         }
     }
 }

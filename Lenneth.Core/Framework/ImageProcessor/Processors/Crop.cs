@@ -31,7 +31,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Crop()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -65,27 +65,27 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         public Image ProcessImage(ImageFactory factory)
         {
             Bitmap newImage = null;
-            Image image = factory.Image;
+            var image = factory.Image;
             try
             {
-                int sourceWidth = image.Width;
-                int sourceHeight = image.Height;
+                var sourceWidth = image.Width;
+                var sourceHeight = image.Height;
                 RectangleF rectangleF;
-                CropLayer cropLayer = this.DynamicParameter;
+                CropLayer cropLayer = DynamicParameter;
 
                 if (cropLayer.CropMode == CropMode.Percentage)
                 {
                     // Fix for whole numbers. 
-                    float percentageLeft = cropLayer.Left > 1 ? cropLayer.Left / 100 : cropLayer.Left;
-                    float percentageRight = cropLayer.Right > 1 ? cropLayer.Right / 100 : cropLayer.Right;
-                    float percentageTop = cropLayer.Top > 1 ? cropLayer.Top / 100 : cropLayer.Top;
-                    float percentageBottom = cropLayer.Bottom > 1 ? cropLayer.Bottom / 100 : cropLayer.Bottom;
+                    var percentageLeft = cropLayer.Left > 1 ? cropLayer.Left / 100 : cropLayer.Left;
+                    var percentageRight = cropLayer.Right > 1 ? cropLayer.Right / 100 : cropLayer.Right;
+                    var percentageTop = cropLayer.Top > 1 ? cropLayer.Top / 100 : cropLayer.Top;
+                    var percentageBottom = cropLayer.Bottom > 1 ? cropLayer.Bottom / 100 : cropLayer.Bottom;
 
                     // Work out the percentages.
-                    float left = percentageLeft * sourceWidth;
-                    float top = percentageTop * sourceHeight;
-                    float width = percentageRight < 1 ? (1 - percentageLeft - percentageRight) * sourceWidth : sourceWidth;
-                    float height = percentageBottom < 1 ? (1 - percentageTop - percentageBottom) * sourceHeight : sourceHeight;
+                    var left = percentageLeft * sourceWidth;
+                    var top = percentageTop * sourceHeight;
+                    var width = percentageRight < 1 ? (1 - percentageLeft - percentageRight) * sourceWidth : sourceWidth;
+                    var height = percentageBottom < 1 ? (1 - percentageTop - percentageBottom) * sourceHeight : sourceHeight;
 
                     rectangleF = new RectangleF(left, top, width, height);
                 }
@@ -94,7 +94,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                     rectangleF = new RectangleF(cropLayer.Left, cropLayer.Top, cropLayer.Right, cropLayer.Bottom);
                 }
 
-                Rectangle rectangle = Rectangle.Round(rectangleF);
+                var rectangle = Rectangle.Round(rectangleF);
 
                 if (rectangle.X < sourceWidth && rectangle.Y < sourceHeight)
                 {
@@ -111,16 +111,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                     newImage = new Bitmap(rectangle.Width, rectangle.Height, PixelFormat.Format32bppPArgb);
                     newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
-                    int rotationValue = 0;
+                    var rotationValue = 0;
                     const int orientation = (int)ExifPropertyTag.Orientation;
-                    bool rotate = factory.PreserveExifData && factory.ExifPropertyItems.ContainsKey(orientation);
+                    var rotate = factory.PreserveExifData && factory.ExifPropertyItems.ContainsKey(orientation);
                     if (rotate)
                     {
                         rotationValue = factory.ExifPropertyItems[orientation].Value[0];
-                        this.ForwardRotateFlip(rotationValue, ref image);
+                        ForwardRotateFlip(rotationValue, ref image);
                     }
 
-                    using (Graphics graphics = Graphics.FromImage(newImage))
+                    using (var graphics = Graphics.FromImage(newImage))
                     {
                         GraphicsHelper.SetGraphicsOptions(graphics);
 
@@ -128,7 +128,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                         // as the algorithm appears to be pulling averaging detail from surrounding pixels beyond the edge 
                         // of the image. Using the ImageAttributes class to specify that the pixels beyond are simply mirror 
                         // images of the pixels within solves this problem.
-                        using (ImageAttributes wrapMode = new ImageAttributes())
+                        using (var wrapMode = new ImageAttributes())
                         {
                             wrapMode.SetWrapMode(WrapMode.TileFlipXY);
 
@@ -150,7 +150,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
 
                     if (rotate)
                     {
-                        this.ReverseRotateFlip(rotationValue, ref image);
+                        ReverseRotateFlip(rotationValue, ref image);
                     }
 
                     if (factory.PreserveExifData && factory.ExifPropertyItems.Any())
@@ -167,7 +167,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             {
                 newImage?.Dispose();
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return image;

@@ -26,7 +26,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public DetectEdges()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -59,14 +59,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
-            Tuple<IEdgeFilter, bool> parameters = this.DynamicParameter;
-            IEdgeFilter filter = parameters.Item1;
-            bool greyscale = parameters.Item2;
+            var image = factory.Image;
+            Tuple<IEdgeFilter, bool> parameters = DynamicParameter;
+            var filter = parameters.Item1;
+            var greyscale = parameters.Item2;
 
             try
             {
-                ConvolutionFilter convolutionFilter = new ConvolutionFilter(filter, greyscale);
+                var convolutionFilter = new ConvolutionFilter(filter, greyscale);
 
                 // Check and assign the correct method. Don't use reflection for speed.
                 return filter is I2DEdgeFilter
@@ -75,7 +75,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             }
             catch (Exception ex)
             {
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
         }
     }

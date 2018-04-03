@@ -34,7 +34,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </param>
         public Resizer(Size size)
         {
-            this.ResizeLayer = new ResizeLayer(size);
+            ResizeLayer = new ResizeLayer(size);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </param>
         public Resizer(ResizeLayer resizeLayer)
         {
-            this.ResizeLayer = resizeLayer;
+            ResizeLayer = resizeLayer;
         }
 
         /// <summary>
@@ -73,18 +73,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         public Bitmap ResizeImage(Image source, bool linear)
         {
-            int width = this.ResizeLayer.Size.Width;
-            int height = this.ResizeLayer.Size.Height;
-            ResizeMode mode = this.ResizeLayer.ResizeMode;
-            AnchorPosition anchor = this.ResizeLayer.AnchorPosition;
-            bool upscale = this.ResizeLayer.Upscale;
-            float[] centerCoordinates = this.ResizeLayer.CenterCoordinates;
-            int maxWidth = this.ResizeLayer.MaxSize?.Width ?? int.MaxValue;
-            int maxHeight = this.ResizeLayer.MaxSize?.Height ?? int.MaxValue;
-            List<Size> restrictedSizes = this.ResizeLayer.RestrictedSizes;
-            Point? anchorPoint = this.ResizeLayer.AnchorPoint;
+            var width = ResizeLayer.Size.Width;
+            var height = ResizeLayer.Size.Height;
+            var mode = ResizeLayer.ResizeMode;
+            var anchor = ResizeLayer.AnchorPosition;
+            var upscale = ResizeLayer.Upscale;
+            var centerCoordinates = ResizeLayer.CenterCoordinates;
+            var maxWidth = ResizeLayer.MaxSize?.Width ?? int.MaxValue;
+            var maxHeight = ResizeLayer.MaxSize?.Height ?? int.MaxValue;
+            var restrictedSizes = ResizeLayer.RestrictedSizes;
+            var anchorPoint = ResizeLayer.AnchorPoint;
 
-            return this.ResizeImage(source, width, height, maxWidth, maxHeight, restrictedSizes, mode, anchor, upscale, centerCoordinates, linear, anchorPoint);
+            return ResizeImage(source, width, height, maxWidth, maxHeight, restrictedSizes, mode, anchor, upscale, centerCoordinates, linear, anchorPoint);
         }
 
         /// <summary>
@@ -99,13 +99,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         protected virtual Bitmap ResizeComposite(Image source, int width, int height, Rectangle destination)
         {
-            Bitmap resized = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
+            var resized = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
             resized.SetResolution(source.HorizontalResolution, source.VerticalResolution);
 
-            using (Graphics graphics = Graphics.FromImage(resized))
+            using (var graphics = Graphics.FromImage(resized))
             {
                 GraphicsHelper.SetGraphicsOptions(graphics);
-                using (ImageAttributes attributes = new ImageAttributes())
+                using (var attributes = new ImageAttributes())
                 {
                     attributes.SetWrapMode(WrapMode.TileFlipXY);
                     graphics.DrawImage(source, destination, 0, 0, source.Width, source.Height, GraphicsUnit.Pixel, attributes);
@@ -127,7 +127,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         protected virtual Bitmap ResizeLinear(Image source, int width, int height, Rectangle destination)
         {
-            return this.ResizeLinear(source, width, height, destination, this.AnimationProcessMode);
+            return ResizeLinear(source, width, height, destination, AnimationProcessMode);
         }
 
         /// <summary>
@@ -144,15 +144,15 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         protected virtual Bitmap ResizeLinear(Image source, int width, int height, Rectangle destination, AnimationProcessMode animationProcessMode)
         {
             // Adjust the gamma value so that the image is in the linear color space.
-            Bitmap linear = Adjustments.ToLinear(source.Copy(animationProcessMode));
+            var linear = Adjustments.ToLinear(source.Copy(animationProcessMode));
 
-            Bitmap resized = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
+            var resized = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
             resized.SetResolution(source.HorizontalResolution, source.VerticalResolution);
 
-            using (Graphics graphics = Graphics.FromImage(resized))
+            using (var graphics = Graphics.FromImage(resized))
             {
                 GraphicsHelper.SetGraphicsOptions(graphics);
-                using (ImageAttributes attributes = new ImageAttributes())
+                using (var attributes = new ImageAttributes())
                 {
                     attributes.SetWrapMode(WrapMode.TileFlipXY);
                     graphics.DrawImage(linear, destination, 0, 0, source.Width, source.Height, GraphicsUnit.Pixel, attributes);
@@ -206,27 +206,27 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
 
             try
             {
-                int sourceWidth = source.Width;
-                int sourceHeight = source.Height;
+                var sourceWidth = source.Width;
+                var sourceHeight = source.Height;
 
-                int destinationWidth = width;
-                int destinationHeight = height;
+                var destinationWidth = width;
+                var destinationHeight = height;
 
                 maxWidth = maxWidth > 0 ? maxWidth : int.MaxValue;
                 maxHeight = maxHeight > 0 ? maxHeight : int.MaxValue;
 
                 // Fractional variants for preserving aspect ratio.
-                double percentHeight = Math.Abs(height / (double)sourceHeight);
-                double percentWidth = Math.Abs(width / (double)sourceWidth);
+                var percentHeight = Math.Abs(height / (double)sourceHeight);
+                var percentWidth = Math.Abs(width / (double)sourceWidth);
 
-                int destinationX = 0;
-                int destinationY = 0;
+                var destinationX = 0;
+                var destinationY = 0;
 
                 // Change the destination rectangle coordinates if box padding.
                 if (resizeMode == ResizeMode.BoxPad)
                 {
-                    int boxPadHeight = height > 0 ? height : Convert.ToInt32(sourceHeight * percentWidth);
-                    int boxPadWidth = width > 0 ? width : Convert.ToInt32(sourceWidth * percentHeight);
+                    var boxPadHeight = height > 0 ? height : Convert.ToInt32(sourceHeight * percentWidth);
+                    var boxPadWidth = width > 0 ? width : Convert.ToInt32(sourceWidth * percentHeight);
 
                     // Only calculate if upscaling.
                     if (sourceWidth < boxPadWidth && sourceHeight < boxPadHeight)
@@ -380,7 +380,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
 
                         if (centerCoordinates != null && centerCoordinates.Any())
                         {
-                            double center = -(ratio * sourceHeight) * centerCoordinates[0];
+                            var center = -(ratio * sourceHeight) * centerCoordinates[0];
                             destinationY = (int)center + (height / 2);
 
                             if (destinationY > 0)
@@ -421,7 +421,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
 
                         if (centerCoordinates != null && centerCoordinates.Any())
                         {
-                            double center = -(ratio * sourceWidth) * centerCoordinates[1];
+                            var center = -(ratio * sourceWidth) * centerCoordinates[1];
                             destinationX = (int)center + (width / 2);
 
                             if (destinationX > 0)
@@ -465,8 +465,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                     if (width > 0 && height > 0)
                     {
                         // Integers must be cast to doubles to get needed precision
-                        double ratio = (double)height / width;
-                        double sourceRatio = (double)sourceHeight / sourceWidth;
+                        var ratio = (double)height / width;
+                        var sourceRatio = (double)sourceHeight / sourceWidth;
 
                         if (sourceRatio < ratio)
                         {
@@ -485,7 +485,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                     height = height > 0 ? height : Convert.ToInt32(sourceHeight * percentWidth);
                     width = width > 0 ? width : Convert.ToInt32(sourceWidth * percentHeight);
 
-                    double sourceRatio = (double)sourceHeight / sourceWidth;
+                    var sourceRatio = (double)sourceHeight / sourceWidth;
 
                     // Ensure we can't upscale.
                     maxHeight = sourceHeight;
@@ -493,8 +493,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                     upscale = false;
 
                     // Find the shortest distance to go.
-                    int widthDiff = sourceWidth - width;
-                    int heightDiff = sourceHeight - height;
+                    var widthDiff = sourceWidth - width;
+                    var heightDiff = sourceHeight - height;
 
                     if (widthDiff < heightDiff)
                     {
@@ -544,8 +544,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                 // Restrict sizes
                 if (restrictedSizes != null && restrictedSizes.Any())
                 {
-                    bool reject = true;
-                    foreach (Size restrictedSize in restrictedSizes)
+                    var reject = true;
+                    foreach (var restrictedSize in restrictedSizes)
                     {
                         if (restrictedSize.Height == 0 || restrictedSize.Width == 0)
                         {
@@ -575,9 +575,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
                     }
 
                     // Do the resize.
-                    Rectangle destination = new Rectangle(destinationX, destinationY, destinationWidth, destinationHeight);
+                    var destination = new Rectangle(destinationX, destinationY, destinationWidth, destinationHeight);
 
-                    newImage = linear ? this.ResizeLinear(source, width, height, destination, this.AnimationProcessMode) : this.ResizeComposite(source, width, height, destination);
+                    newImage = linear ? ResizeLinear(source, width, height, destination, AnimationProcessMode) : ResizeComposite(source, width, height, destination);
 
                     // Reassign the image.
                     source.Dispose();
@@ -588,7 +588,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
             {
                 newImage?.Dispose();
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
 
             return (Bitmap)source;

@@ -15,12 +15,12 @@ namespace Lenneth.Core.Framework.LiteDB.Shell
     {
         public bool IsCommand(StringScanner s)
         {
-            return this.IsCollectionCommand(s, "rename");
+            return IsCollectionCommand(s, "rename");
         }
 
         public IEnumerable<BsonValue> Execute(StringScanner s, LiteEngine engine)
         {
-            var col = this.ReadCollection(engine, s);
+            var col = ReadCollection(engine, s);
             var newName = s.Scan(@"[\w-]+").ThrowIfEmpty("Invalid new collection name", s);
 
             s.ThrowIfNotFinish();

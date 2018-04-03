@@ -108,23 +108,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         public override bool Equals(object obj)
         {
-            TextLayer textLayer = obj as TextLayer;
+            var textLayer = obj as TextLayer;
 
             if (textLayer == null)
             {
                 return false;
             }
 
-            return this.Text == textLayer.Text
-                && this.FontColor == textLayer.FontColor
-                && this.FontFamily.Equals(textLayer.FontFamily)
-                && this.FontSize == textLayer.FontSize
-                && this.Style == textLayer.Style
-                && this.DropShadow == textLayer.DropShadow
-                && this.Opacity == textLayer.Opacity
-                && this.Position == textLayer.Position
-                && this.Vertical == textLayer.Vertical
-                && this.RightToLeft == textLayer.RightToLeft;
+            return Text == textLayer.Text
+                && FontColor == textLayer.FontColor
+                && FontFamily.Equals(textLayer.FontFamily)
+                && FontSize == textLayer.FontSize
+                && Style == textLayer.Style
+                && DropShadow == textLayer.DropShadow
+                && Opacity == textLayer.Opacity
+                && Position == textLayer.Position
+                && Vertical == textLayer.Vertical
+                && RightToLeft == textLayer.RightToLeft;
         }
 
         /// <summary>
@@ -137,16 +137,16 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         {
             unchecked
             {
-                int hashCode = this.Text?.GetHashCode() ?? 0;
-                hashCode = (hashCode * 397) ^ this.DropShadow.GetHashCode();
-                hashCode = (hashCode * 397) ^ (this.FontFamily?.GetHashCode() ?? 0);
-                hashCode = (hashCode * 397) ^ (int)this.Style;
-                hashCode = (hashCode * 397) ^ this.FontColor.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.Opacity;
-                hashCode = (hashCode * 397) ^ this.FontSize;
-                hashCode = (hashCode * 397) ^ this.Position.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.Vertical.GetHashCode();
-                hashCode = (hashCode * 397) ^ this.RightToLeft.GetHashCode();
+                var hashCode = Text?.GetHashCode() ?? 0;
+                hashCode = (hashCode * 397) ^ DropShadow.GetHashCode();
+                hashCode = (hashCode * 397) ^ (FontFamily?.GetHashCode() ?? 0);
+                hashCode = (hashCode * 397) ^ (int)Style;
+                hashCode = (hashCode * 397) ^ FontColor.GetHashCode();
+                hashCode = (hashCode * 397) ^ Opacity;
+                hashCode = (hashCode * 397) ^ FontSize;
+                hashCode = (hashCode * 397) ^ Position.GetHashCode();
+                hashCode = (hashCode * 397) ^ Vertical.GetHashCode();
+                hashCode = (hashCode * 397) ^ RightToLeft.GetHashCode();
                 return hashCode;
             }
         }
@@ -156,7 +156,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
         }
 
         /// <summary>
@@ -165,14 +165,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// <param name="disposing">If true, the object gets disposed.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.isDisposed)
+            if (!isDisposed)
             {
                 if (disposing)
                 {
-                    this.FontFamily?.Dispose();
+                    FontFamily?.Dispose();
                 }
 
-                this.isDisposed = true;
+                isDisposed = true;
             }
         }
     }

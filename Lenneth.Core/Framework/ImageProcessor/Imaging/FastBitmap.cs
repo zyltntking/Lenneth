@@ -196,7 +196,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </param>
         public FastBitmap(Image bitmap, bool computeIntegrals, bool computeTilted)
         {
-            int pixelFormat = (int)bitmap.PixelFormat;
+            var pixelFormat = (int)bitmap.PixelFormat;
 
             // Check image format
             if (!(pixelFormat == Format8bppIndexed ||
@@ -208,40 +208,40 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
             }
 
             this.bitmap = (Bitmap)bitmap;
-            this.width = this.bitmap.Width;
-            this.height = this.bitmap.Height;
+            width = this.bitmap.Width;
+            height = this.bitmap.Height;
 
-            this.channel = pixelFormat == Format8bppIndexed ? 0 : 2;
+            channel = pixelFormat == Format8bppIndexed ? 0 : 2;
             this.computeIntegrals = computeIntegrals;
             this.computeTilted = computeTilted;
 
-            this.LockBitmap();
+            LockBitmap();
         }
 
         /// <summary>
         /// Gets the width, in pixels of the <see cref="System.Drawing.Bitmap"/>.
         /// </summary>
-        public int Width => this.width;
+        public int Width => width;
 
         /// <summary>
         /// Gets the height, in pixels of the <see cref="System.Drawing.Bitmap"/>.
         /// </summary>
-        public int Height => this.height;
+        public int Height => height;
 
         /// <summary>
         /// Gets the Integral Image for values' sum.
         /// </summary>
-        public long[,] NormalImage => this.normalSumImage;
+        public long[,] NormalImage => normalSumImage;
 
         /// <summary>
         /// Gets the Integral Image for values' squared sum.
         /// </summary>
-        public long[,] SquaredImage => this.squaredSumImage;
+        public long[,] SquaredImage => squaredSumImage;
 
         /// <summary>
         /// Gets the Integral Image for tilted values' sum.
         /// </summary>
-        public long[,] TiltedImage => this.tiltedSumImage;
+        public long[,] TiltedImage => tiltedSumImage;
 
         /// <summary>
         /// Gets the pixel data for the given position.
@@ -255,7 +255,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// <returns>
         /// The <see cref="Color32"/>.
         /// </returns>
-        private Color32* this[int x, int y] => (Color32*)(this.pixelBase + (y * this.bytesInARow) + (x * 4));
+        private Color32* this[int x, int y] => (Color32*)(pixelBase + (y * bytesInARow) + (x * 4));
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="FastBitmap"/> to a 
@@ -296,17 +296,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         public Color GetPixel(int x, int y)
         {
 #if DEBUG
-            if ((x < 0) || (x >= this.width))
+            if ((x < 0) || (x >= width))
             {
                 throw new ArgumentOutOfRangeException("x", "Value cannot be less than zero or greater than the bitmap width.");
             }
 
-            if ((y < 0) || (y >= this.height))
+            if ((y < 0) || (y >= height))
             {
                 throw new ArgumentOutOfRangeException("y", "Value cannot be less than zero or greater than the bitmap height.");
             }
 #endif
-            Color32* data = this[x, y];
+            var data = this[x, y];
             return Color.FromArgb(data->A, data->R, data->G, data->B);
         }
 
@@ -322,17 +322,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         public void SetPixel(int x, int y, Color color)
         {
 #if DEBUG
-            if ((x < 0) || (x >= this.width))
+            if ((x < 0) || (x >= width))
             {
                 throw new ArgumentOutOfRangeException("x", "Value cannot be less than zero or greater than the bitmap width.");
             }
 
-            if ((y < 0) || (y >= this.height))
+            if ((y < 0) || (y >= height))
             {
                 throw new ArgumentOutOfRangeException("y", "Value cannot be less than zero or greater than the bitmap height.");
             }
 #endif
-            Color32* data = this[x, y];
+            var data = this[x, y];
             data->Argb = color.ToArgb();
         }
 
@@ -349,12 +349,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         public long GetSum(int x, int y, int rectangleWidth, int rectangleHeight)
         {
-            int a = (this.normalWidth * y) + x;
-            int b = (this.normalWidth * (y + rectangleHeight)) + (x + rectangleWidth);
-            int c = (this.normalWidth * (y + rectangleHeight)) + x;
-            int d = (this.normalWidth * y) + (x + rectangleWidth);
+            var a = (normalWidth * y) + x;
+            var b = (normalWidth * (y + rectangleHeight)) + (x + rectangleWidth);
+            var c = (normalWidth * (y + rectangleHeight)) + x;
+            var d = (normalWidth * y) + (x + rectangleWidth);
 
-            return this.normalSum[a] + this.normalSum[b] - this.normalSum[c] - this.normalSum[d];
+            return normalSum[a] + normalSum[b] - normalSum[c] - normalSum[d];
         }
 
         /// <summary>
@@ -370,12 +370,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         public long GetSum2(int x, int y, int rectangleWidth, int rectangleHeight)
         {
-            int a = (this.normalWidth * y) + x;
-            int b = (this.normalWidth * (y + rectangleHeight)) + (x + rectangleWidth);
-            int c = (this.normalWidth * (y + rectangleHeight)) + x;
-            int d = (this.normalWidth * y) + (x + rectangleWidth);
+            var a = (normalWidth * y) + x;
+            var b = (normalWidth * (y + rectangleHeight)) + (x + rectangleWidth);
+            var c = (normalWidth * (y + rectangleHeight)) + x;
+            var d = (normalWidth * y) + (x + rectangleWidth);
 
-            return this.squaredSum[a] + this.squaredSum[b] - this.squaredSum[c] - this.squaredSum[d];
+            return squaredSum[a] + squaredSum[b] - squaredSum[c] - squaredSum[d];
         }
 
         /// <summary>
@@ -391,12 +391,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         public long GetSumT(int x, int y, int rectangleWidth, int rectangleHeight)
         {
-            int a = (this.tiltedWidth * (y + rectangleWidth)) + (x + rectangleWidth + 1);
-            int b = (this.tiltedWidth * (y + rectangleHeight)) + (x - rectangleHeight + 1);
-            int c = (this.tiltedWidth * y) + (x + 1);
-            int d = (this.tiltedWidth * (y + rectangleWidth + rectangleHeight)) + (x + rectangleWidth - rectangleHeight + 1);
+            var a = (tiltedWidth * (y + rectangleWidth)) + (x + rectangleWidth + 1);
+            var b = (tiltedWidth * (y + rectangleHeight)) + (x - rectangleHeight + 1);
+            var c = (tiltedWidth * y) + (x + 1);
+            var d = (tiltedWidth * (y + rectangleWidth + rectangleHeight)) + (x + rectangleWidth - rectangleHeight + 1);
 
-            return this.tiltedSum[a] + this.tiltedSum[b] - this.tiltedSum[c] - this.tiltedSum[d];
+            return tiltedSum[a] + tiltedSum[b] - tiltedSum[c] - tiltedSum[d];
         }
 
         /// <summary>
@@ -404,7 +404,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
 
             // This object will be cleaned up by the Dispose method.
             // Therefore, you should call GC.SuppressFinalize to
@@ -423,14 +423,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// <param name="obj">The object to compare with the current object. </param>
         public override bool Equals(object obj)
         {
-            FastBitmap fastBitmap = obj as FastBitmap;
+            var fastBitmap = obj as FastBitmap;
 
             if (fastBitmap == null)
             {
                 return false;
             }
 
-            return this.bitmap == fastBitmap.bitmap;
+            return bitmap == fastBitmap.bitmap;
         }
 
         /// <summary>
@@ -441,7 +441,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </returns>
         public override int GetHashCode()
         {
-            return this.bitmap.GetHashCode();
+            return bitmap.GetHashCode();
         }
 
         /// <summary>
@@ -450,7 +450,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// <param name="disposing">If true, the object gets disposed.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (this.isDisposed)
+            if (isDisposed)
             {
                 return;
             }
@@ -458,31 +458,31 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
             if (disposing)
             {
                 // Dispose of any managed resources here.
-                this.UnlockBitmap();
+                UnlockBitmap();
             }
 
             // Call the appropriate methods to clean up
             // unmanaged resources here.
-            if (this.normalSumHandle.IsAllocated)
+            if (normalSumHandle.IsAllocated)
             {
-                this.normalSumHandle.Free();
-                this.normalSum = null;
+                normalSumHandle.Free();
+                normalSum = null;
             }
 
-            if (this.squaredSumHandle.IsAllocated)
+            if (squaredSumHandle.IsAllocated)
             {
-                this.squaredSumHandle.Free();
-                this.squaredSum = null;
+                squaredSumHandle.Free();
+                squaredSum = null;
             }
 
-            if (this.tiltedSumHandle.IsAllocated)
+            if (tiltedSumHandle.IsAllocated)
             {
-                this.tiltedSumHandle.Free();
-                this.tiltedSum = null;
+                tiltedSumHandle.Free();
+                tiltedSum = null;
             }
 
             // Note disposing is done.
-            this.isDisposed = true;
+            isDisposed = true;
         }
 
         /// <summary>
@@ -490,49 +490,49 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         /// </summary>
         private void LockBitmap()
         {
-            Rectangle bounds = new Rectangle(Point.Empty, this.bitmap.Size);
+            var bounds = new Rectangle(Point.Empty, bitmap.Size);
 
             // Figure out the number of bytes in a row. This is rounded up to be a multiple
             // of 4 bytes, since a scan line in an image must always be a multiple of 4 bytes
             // in length.
-            this.pixelSize = Image.GetPixelFormatSize(this.bitmap.PixelFormat) / 8;
-            this.bytesInARow = bounds.Width * this.pixelSize;
-            if (this.bytesInARow % 4 != 0)
+            pixelSize = Image.GetPixelFormatSize(bitmap.PixelFormat) / 8;
+            bytesInARow = bounds.Width * pixelSize;
+            if (bytesInARow % 4 != 0)
             {
-                this.bytesInARow = 4 * ((this.bytesInARow / 4) + 1);
+                bytesInARow = 4 * ((bytesInARow / 4) + 1);
             }
 
             // Lock the bitmap
-            this.bitmapData = this.bitmap.LockBits(bounds, ImageLockMode.ReadWrite, this.bitmap.PixelFormat);
+            bitmapData = bitmap.LockBits(bounds, ImageLockMode.ReadWrite, bitmap.PixelFormat);
 
             // Set the value to the first scan line
-            this.pixelBase = (byte*)this.bitmapData.Scan0.ToPointer();
+            pixelBase = (byte*)bitmapData.Scan0.ToPointer();
 
-            if (this.computeIntegrals)
+            if (computeIntegrals)
             {
                 // Allocate values for integral image calculation.
-                this.normalWidth = this.width + 1;
-                int normalHeight = this.height + 1;
+                normalWidth = width + 1;
+                var normalHeight = height + 1;
 
-                this.tiltedWidth = this.width + 2;
-                int tiltedHeight = this.height + 2;
+                tiltedWidth = width + 2;
+                var tiltedHeight = height + 2;
 
-                this.normalSumImage = new long[normalHeight, this.normalWidth];
-                this.normalSumHandle = GCHandle.Alloc(this.normalSumImage, GCHandleType.Pinned);
-                this.normalSum = (long*)this.normalSumHandle.AddrOfPinnedObject().ToPointer();
+                normalSumImage = new long[normalHeight, normalWidth];
+                normalSumHandle = GCHandle.Alloc(normalSumImage, GCHandleType.Pinned);
+                normalSum = (long*)normalSumHandle.AddrOfPinnedObject().ToPointer();
 
-                this.squaredSumImage = new long[normalHeight, this.normalWidth];
-                this.squaredSumHandle = GCHandle.Alloc(this.squaredSumImage, GCHandleType.Pinned);
-                this.squaredSum = (long*)this.squaredSumHandle.AddrOfPinnedObject().ToPointer();
+                squaredSumImage = new long[normalHeight, normalWidth];
+                squaredSumHandle = GCHandle.Alloc(squaredSumImage, GCHandleType.Pinned);
+                squaredSum = (long*)squaredSumHandle.AddrOfPinnedObject().ToPointer();
 
-                if (this.computeTilted)
+                if (computeTilted)
                 {
-                    this.tiltedSumImage = new long[tiltedHeight, this.tiltedWidth];
-                    this.tiltedSumHandle = GCHandle.Alloc(this.tiltedSumImage, GCHandleType.Pinned);
-                    this.tiltedSum = (long*)this.tiltedSumHandle.AddrOfPinnedObject().ToPointer();
+                    tiltedSumImage = new long[tiltedHeight, tiltedWidth];
+                    tiltedSumHandle = GCHandle.Alloc(tiltedSumImage, GCHandleType.Pinned);
+                    tiltedSum = (long*)tiltedSumHandle.AddrOfPinnedObject().ToPointer();
                 }
 
-                this.CalculateIntegrals();
+                CalculateIntegrals();
             }
         }
 
@@ -542,98 +542,98 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         private void CalculateIntegrals()
         {
             // Calculate integral and integral squared values.
-            int stride = this.bitmapData.Stride;
-            int offset = stride - this.bytesInARow;
-            byte* srcStart = this.pixelBase + this.channel;
+            var stride = bitmapData.Stride;
+            var offset = stride - bytesInARow;
+            var srcStart = pixelBase + channel;
 
             // Do the job
-            byte* src = srcStart;
+            var src = srcStart;
 
             // For each line
-            for (int y = 1; y <= this.height; y++)
+            for (var y = 1; y <= height; y++)
             {
-                int yy = this.normalWidth * y;
-                int y1 = this.normalWidth * (y - 1);
+                var yy = normalWidth * y;
+                var y1 = normalWidth * (y - 1);
 
                 // For each pixel
-                for (int x = 1; x <= this.width; x++, src += this.pixelSize)
+                for (var x = 1; x <= width; x++, src += pixelSize)
                 {
                     int pixel = *src;
-                    int pixelSquared = pixel * pixel;
+                    var pixelSquared = pixel * pixel;
 
-                    int r = yy + x;
-                    int a = yy + (x - 1);
-                    int b = y1 + x;
-                    int g = y1 + (x - 1);
+                    var r = yy + x;
+                    var a = yy + (x - 1);
+                    var b = y1 + x;
+                    var g = y1 + (x - 1);
 
-                    this.normalSum[r] = pixel + this.normalSum[a] + this.normalSum[b] - this.normalSum[g];
-                    this.squaredSum[r] = pixelSquared + this.squaredSum[a] + this.squaredSum[b] - this.squaredSum[g];
+                    normalSum[r] = pixel + normalSum[a] + normalSum[b] - normalSum[g];
+                    squaredSum[r] = pixelSquared + squaredSum[a] + squaredSum[b] - squaredSum[g];
                 }
 
                 src += offset;
             }
 
-            if (this.computeTilted)
+            if (computeTilted)
             {
                 src = srcStart;
 
                 // Left-to-right, top-to-bottom pass
-                for (int y = 1; y <= this.height; y++, src += offset)
+                for (var y = 1; y <= height; y++, src += offset)
                 {
-                    int yy = this.tiltedWidth * y;
-                    int y1 = this.tiltedWidth * (y - 1);
+                    var yy = tiltedWidth * y;
+                    var y1 = tiltedWidth * (y - 1);
 
-                    for (int x = 2; x < this.width + 2; x++, src += this.pixelSize)
+                    for (var x = 2; x < width + 2; x++, src += pixelSize)
                     {
-                        int a = y1 + (x - 1);
-                        int b = yy + (x - 1);
-                        int g = y1 + (x - 2);
-                        int r = yy + x;
+                        var a = y1 + (x - 1);
+                        var b = yy + (x - 1);
+                        var g = y1 + (x - 2);
+                        var r = yy + x;
 
-                        this.tiltedSum[r] = *src + this.tiltedSum[a] + this.tiltedSum[b] - this.tiltedSum[g];
+                        tiltedSum[r] = *src + tiltedSum[a] + tiltedSum[b] - tiltedSum[g];
                     }
                 }
 
                 {
-                    int yy = this.tiltedWidth * this.height;
-                    int y1 = this.tiltedWidth * (this.height + 1);
+                    var yy = tiltedWidth * height;
+                    var y1 = tiltedWidth * (height + 1);
 
-                    for (int x = 2; x < this.width + 2; x++, src += this.pixelSize)
+                    for (var x = 2; x < width + 2; x++, src += pixelSize)
                     {
-                        int a = yy + (x - 1);
-                        int c = yy + (x - 2);
-                        int b = y1 + (x - 1);
-                        int r = y1 + x;
+                        var a = yy + (x - 1);
+                        var c = yy + (x - 2);
+                        var b = y1 + (x - 1);
+                        var r = y1 + x;
 
-                        this.tiltedSum[r] = this.tiltedSum[a] + this.tiltedSum[b] - this.tiltedSum[c];
+                        tiltedSum[r] = tiltedSum[a] + tiltedSum[b] - tiltedSum[c];
                     }
                 }
 
                 // Right-to-left, bottom-to-top pass
-                for (int y = this.height; y >= 0; y--)
+                for (var y = height; y >= 0; y--)
                 {
-                    int yy = this.tiltedWidth * y;
-                    int y1 = this.tiltedWidth * (y + 1);
+                    var yy = tiltedWidth * y;
+                    var y1 = tiltedWidth * (y + 1);
 
-                    for (int x = this.width + 1; x >= 1; x--)
+                    for (var x = width + 1; x >= 1; x--)
                     {
-                        int r = yy + x;
-                        int b = y1 + (x - 1);
+                        var r = yy + x;
+                        var b = y1 + (x - 1);
 
-                        this.tiltedSum[r] += this.tiltedSum[b];
+                        tiltedSum[r] += tiltedSum[b];
                     }
                 }
 
-                for (int y = this.height + 1; y >= 0; y--)
+                for (var y = height + 1; y >= 0; y--)
                 {
-                    int yy = this.tiltedWidth * y;
+                    var yy = tiltedWidth * y;
 
-                    for (int x = this.width + 1; x >= 2; x--)
+                    for (var x = width + 1; x >= 2; x--)
                     {
-                        int r = yy + x;
-                        int b = yy + (x - 2);
+                        var r = yy + x;
+                        var b = yy + (x - 2);
 
-                        this.tiltedSum[r] -= this.tiltedSum[b];
+                        tiltedSum[r] -= tiltedSum[b];
                     }
                 }
             }
@@ -645,9 +645,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging
         private void UnlockBitmap()
         {
             // Copy the RGB values back to the bitmap and unlock the bitmap.
-            this.bitmap.UnlockBits(this.bitmapData);
-            this.bitmapData = null;
-            this.pixelBase = null;
+            bitmap.UnlockBits(bitmapData);
+            bitmapData = null;
+            pixelBase = null;
         }
     }
 }

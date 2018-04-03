@@ -78,9 +78,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
             if (shape1.Contains(shape2) || shape2.Contains(shape1))
                 return true;
 
-            int minHeight = Math.Min(shape1.Height, shape2.Height);
-            int minWidth = Math.Min(shape1.Width, shape2.Width);
-            double delta = 0.5 * threshold * (minHeight + minWidth);
+            var minHeight = Math.Min(shape1.Height, shape2.Height);
+            var minWidth = Math.Min(shape1.Width, shape2.Width);
+            var delta = 0.5 * threshold * (minHeight + minWidth);
 
             return Math.Abs(shape1.X - shape2.X) <= delta
                 && Math.Abs(shape1.Y - shape2.Y) <= delta
@@ -97,10 +97,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         {
             neighborCounts = new int[Classes];
 
-            Rectangle[] centroids = new Rectangle[Classes];
-            for (int i = 0; i < shapes.Length; i++)
+            var centroids = new Rectangle[Classes];
+            for (var i = 0; i < shapes.Length; i++)
             {
-                int j = labels[i];
+                var j = labels[i];
 
                 centroids[j].X += shapes[i].X;
                 centroids[j].Y += shapes[i].Y;
@@ -110,7 +110,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                 neighborCounts[j]++;
             }
 
-            for (int i = 0; i < centroids.Length; i++)
+            for (var i = 0; i < centroids.Length; i++)
             {
                 centroids[i] = new Rectangle(
                     x: (int)Math.Ceiling((float)centroids[i].X / neighborCounts[i]),

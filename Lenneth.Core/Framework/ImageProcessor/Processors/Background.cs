@@ -29,7 +29,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </summary>
         public Background()
         {
-            this.Settings = new Dictionary<string, string>();
+            Settings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -62,40 +62,40 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
         /// </returns>
         public Image ProcessImage(ImageFactory factory)
         {
-            Image image = factory.Image;
+            var image = factory.Image;
             Bitmap background = null;
             Bitmap newImage = null;
 
             try
             {
-                ImageLayer imageLayer = this.DynamicParameter;
+                ImageLayer imageLayer = DynamicParameter;
                 background = new Bitmap(imageLayer.Image);
 
                 // Set the resolution of the background and the image to match.
                 background.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
-                Size size = imageLayer.Size;
-                int width = image.Width;
-                int height = image.Height;
-                int backgroundWidth = size != Size.Empty ? Math.Min(width, size.Width) : Math.Min(width, background.Width);
-                int backgroundHeight = size != Size.Empty ? Math.Min(height, size.Height) : Math.Min(height, background.Height);
+                var size = imageLayer.Size;
+                var width = image.Width;
+                var height = image.Height;
+                var backgroundWidth = size != Size.Empty ? Math.Min(width, size.Width) : Math.Min(width, background.Width);
+                var backgroundHeight = size != Size.Empty ? Math.Min(height, size.Height) : Math.Min(height, background.Height);
 
-                Point? position = imageLayer.Position;
-                int opacity = imageLayer.Opacity;
+                var position = imageLayer.Position;
+                var opacity = imageLayer.Opacity;
 
                 if (image.Size != background.Size || image.Size != new Size(backgroundWidth, backgroundHeight))
                 {
                     // Find the maximum possible dimensions and resize the image.
-                    ResizeLayer layer = new ResizeLayer(new Size(backgroundWidth, backgroundHeight), ResizeMode.Max);
-                    Resizer resizer = new Resizer(layer) { AnimationProcessMode = factory.AnimationProcessMode };
+                    var layer = new ResizeLayer(new Size(backgroundWidth, backgroundHeight), ResizeMode.Max);
+                    var resizer = new Resizer(layer) { AnimationProcessMode = factory.AnimationProcessMode };
                     background = resizer.ResizeImage(background, factory.FixGamma);
                     backgroundWidth = background.Width;
                     backgroundHeight = background.Height;
                 }
 
                 // Figure out bounds.
-                Rectangle parent = new Rectangle(0, 0, width, height);
-                Rectangle child = new Rectangle(0, 0, backgroundWidth, backgroundHeight);
+                var parent = new Rectangle(0, 0, width, height);
+                var child = new Rectangle(0, 0, backgroundWidth, backgroundHeight);
 
                 // Apply opacity.
                 if (opacity < 100)
@@ -106,7 +106,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                 newImage = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
                 newImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
-                using (Graphics graphics = Graphics.FromImage(newImage))
+                using (var graphics = Graphics.FromImage(newImage))
                 {
                     GraphicsHelper.SetGraphicsOptions(graphics, true);
 
@@ -117,7 +117,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
                     }
                     else
                     {
-                        RectangleF centered = ImageMaths.CenteredRectangle(parent, child);
+                        var centered = ImageMaths.CenteredRectangle(parent, child);
                         graphics.DrawImage(background, new PointF(centered.X, centered.Y));
                     }
 
@@ -132,7 +132,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             {
                 newImage?.Dispose();
 
-                throw new ImageProcessingException("Error processing image with " + this.GetType().Name, ex);
+                throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }
             finally
             {

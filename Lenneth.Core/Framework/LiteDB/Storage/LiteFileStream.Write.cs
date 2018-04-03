@@ -8,7 +8,7 @@ namespace Lenneth.Core.Framework.LiteDB
         public override void Flush()
         {
             // write last unsaved chunks
-            this.WriteChunks();
+            WriteChunks();
 
             _file.UploadDate = DateTime.Now;
             _file.Length = _streamPosition;
@@ -24,7 +24,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
             if (_buffer.Length >= MAX_CHUNK_SIZE)
             {
-                this.WriteChunks();
+                WriteChunks();
             }
         }
 

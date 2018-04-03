@@ -71,7 +71,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
             // Do not re-create Dispose clean-up code here.
             // Calling Dispose(false) is optimal in terms of
             // readability and maintainability.
-            this.Dispose(false);
+            Dispose(false);
         }
 
         /// <summary>
@@ -79,8 +79,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// </summary>
         public void UpgradeToWriteLock()
         {
-            this.locker.EnterWriteLock();
-            this.upgraded = true;
+            locker.EnterWriteLock();
+            upgraded = true;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
 
             // This object will be cleaned up by the Dispose method.
             // Therefore, you should call GC.SuppressFinalize to
@@ -104,23 +104,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// <param name="disposing">If true, the object gets disposed.</param>
         private void Dispose(bool disposing)
         {
-            if (this.isDisposed)
+            if (isDisposed)
             {
                 return;
             }
 
             if (disposing)
             {
-                if (this.upgraded)
+                if (upgraded)
                 {
-                    this.locker.ExitWriteLock();
+                    locker.ExitWriteLock();
                 }
 
-                this.locker.ExitUpgradeableReadLock();
+                locker.ExitUpgradeableReadLock();
             }
 
             // Note disposing is done.
-            this.isDisposed = true;
+            isDisposed = true;
         }
     }
 }
