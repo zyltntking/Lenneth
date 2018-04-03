@@ -32,10 +32,8 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public override string ToString()
         {
-            return string.Format("{0}({1} contains {2})",
-                UseFilter ? "Filter" : UseIndex ? "Scan" : "",
-                Expression?.ToString() ?? Field,
-                _value);
+            return
+                $"{(UseFilter ? "Filter" : UseIndex ? "Scan" : "")}({Expression?.ToString() ?? Field} contains {_value})";
         }
     }
 }

@@ -54,11 +54,8 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public override string ToString()
         {
-            return string.Format("{0}({1} >{2} {3})",
-                UseFilter ? "Filter" : UseIndex ? "Seek" : "",
-                Expression?.ToString() ?? Field,
-                _equals ? "=" : "",
-                _value);
+            return
+                $"{(UseFilter ? "Filter" : UseIndex ? "Seek" : "")}({Expression?.ToString() ?? Field} >{(_equals ? "=" : "")} {_value})";
         }
     }
 }

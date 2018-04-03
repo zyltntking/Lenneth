@@ -28,22 +28,22 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <summary>
         /// The hue component.
         /// </summary>
-        private readonly float h;
+        private readonly float _h;
 
         /// <summary>
         /// The luminosity component.
         /// </summary>
-        private readonly float l;
+        private readonly float _l;
 
         /// <summary>
         /// The saturation component.
         /// </summary>
-        private readonly float s;
+        private readonly float _s;
 
         /// <summary>
         /// The alpha component.
         /// </summary>
-        private readonly float a;
+        private readonly float _a;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HslaColor"/> struct.
@@ -54,10 +54,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <param name="alpha">The alpha component.</param>
         private HslaColor(float hue, float saturation, float luminosity, float alpha)
         {
-            h = Clamp(hue);
-            s = Clamp(saturation);
-            l = Clamp(luminosity);
-            a = Clamp(alpha);
+            _h = Clamp(hue);
+            _s = Clamp(saturation);
+            _l = Clamp(luminosity);
+            _a = Clamp(alpha);
         }
 
         /// <summary>
@@ -69,35 +69,35 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         private HslaColor(Color color)
         {
             HslaColor hslColor = color;
-            h = hslColor.h;
-            s = hslColor.s;
-            l = hslColor.l;
-            a = hslColor.a;
+            _h = hslColor._h;
+            _s = hslColor._s;
+            _l = hslColor._l;
+            _a = hslColor._a;
         }
 
         /// <summary>
         /// Gets the hue component.
         /// <remarks>A value ranging between 0 and 1.</remarks>
         /// </summary>
-        public float H => h;
+        public float H => _h;
 
         /// <summary>
         /// Gets the luminosity component.
         /// <remarks>A value ranging between 0 and 1.</remarks>
         /// </summary>
-        public float L => l;
+        public float L => _l;
 
         /// <summary>
         /// Gets the saturation component.
         /// <remarks>A value ranging between 0 and 1.</remarks>
         /// </summary>
-        public float S => s;
+        public float S => _s;
 
         /// <summary>
         /// Gets the alpha component.
         /// <remarks>A value ranging between 0 and 1.</remarks>
         /// </summary>
-        public float A => a;
+        public float A => _a;
 
         /// <summary>
         /// Creates a <see cref="HslaColor"/> structure from the three 32-bit HSLA 
@@ -215,25 +215,25 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         public static implicit operator Color(HslaColor hslaColor)
         {
             float r = 0, g = 0, b = 0;
-            if (Math.Abs(hslaColor.l - 0) > .0001)
+            if (Math.Abs(hslaColor._l - 0) > .0001)
             {
-                if (Math.Abs(hslaColor.s - 0) <= .0001)
+                if (Math.Abs(hslaColor._s - 0) <= .0001)
                 {
-                    r = g = b = hslaColor.l;
+                    r = g = b = hslaColor._l;
                 }
                 else
                 {
                     var temp2 = GetTemp2(hslaColor);
-                    var temp1 = (2.0f * hslaColor.l) - temp2;
+                    var temp1 = (2.0f * hslaColor._l) - temp2;
 
-                    r = GetColorComponent(temp1, temp2, hslaColor.h + (1.0f / 3.0f));
-                    g = GetColorComponent(temp1, temp2, hslaColor.h);
-                    b = GetColorComponent(temp1, temp2, hslaColor.h - (1.0f / 3.0f));
+                    r = GetColorComponent(temp1, temp2, hslaColor._h + (1.0f / 3.0f));
+                    g = GetColorComponent(temp1, temp2, hslaColor._h);
+                    b = GetColorComponent(temp1, temp2, hslaColor._h - (1.0f / 3.0f));
                 }
             }
 
             return Color.FromArgb(
-                Convert.ToInt32(255 * hslaColor.a),
+                Convert.ToInt32(255 * hslaColor._a),
                 Convert.ToInt32(255 * r),
                 Convert.ToInt32(255 * g),
                 Convert.ToInt32(255 * b));
@@ -282,7 +282,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
                 return "HslaColor [ Empty ]";
             }
 
-            return string.Format("HslaColor [ H={0:#0.##}, S={1:#0.##}, L={2:#0.##}, A={3:#0.##}]", H, S, L, A);
+            return $"HslaColor [ H={H:#0.##}, S={S:#0.##}, L={L:#0.##}, A={A:#0.##}]";
         }
 
         /// <summary>
@@ -294,9 +294,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <param name="obj">Another object to compare to. </param>
         public override bool Equals(object obj)
         {
-            if (obj is HslaColor)
+            if (obj is HslaColor color)
             {
-                return Equals((HslaColor)obj);
+                return Equals(color);
             }
 
             return false;
@@ -374,13 +374,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         private static float GetTemp2(HslaColor hslColor)
         {
             float temp2;
-            if (hslColor.l <= 0.5)
+            if (hslColor._l <= 0.5)
             {
-                temp2 = hslColor.l * (1.0f + hslColor.s);
+                temp2 = hslColor._l * (1.0f + hslColor._s);
             }
             else
             {
-                temp2 = hslColor.l + hslColor.s - (hslColor.l * hslColor.s);
+                temp2 = hslColor._l + hslColor._s - (hslColor._l * hslColor._s);
             }
 
             return temp2;
@@ -431,9 +431,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         private bool IsEmpty()
         {
-            const float Epsilon = .0001f;
-            return Math.Abs(h - 0) <= Epsilon && Math.Abs(s - 0) <= Epsilon &&
-                   Math.Abs(l - 0) <= Epsilon && Math.Abs(a - 0) <= Epsilon;
+            const float epsilon = .0001f;
+            return Math.Abs(_h - 0) <= epsilon && Math.Abs(_s - 0) <= epsilon &&
+                   Math.Abs(_l - 0) <= epsilon && Math.Abs(_a - 0) <= epsilon;
         }
     }
 }

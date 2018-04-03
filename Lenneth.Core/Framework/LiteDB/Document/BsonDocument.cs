@@ -37,7 +37,7 @@ namespace Lenneth.Core.Framework.LiteDB
             }
             set
             {
-                if (!IsValidFieldName(name)) throw new ArgumentException(string.Format("Field '{0}' has an invalid name.", name));
+                if (!IsValidFieldName(name)) throw new ArgumentException($"Field '{name}' has an invalid name.");
 
                 RawValue[name] = value ?? Null;
             }

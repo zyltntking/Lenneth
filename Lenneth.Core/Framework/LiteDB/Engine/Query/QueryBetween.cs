@@ -79,14 +79,8 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public override string ToString()
         {
-            return string.Format("{0}({1} between {2}{3} and {4}{5})",
-                UseFilter ? "Filter" : UseIndex ? "IndexSeek" : "",
-                Expression?.ToString() ?? Field,
-                _startEquals ? "[" : "(",
-                _start, 
-                _end,
-                _endEquals ? "]" : ")"
-                );
+            return
+                $"{(UseFilter ? "Filter" : UseIndex ? "IndexSeek" : "")}({Expression?.ToString() ?? Field} between {(_startEquals ? "[" : "(")}{_start} and {_end}{(_endEquals ? "]" : ")")})";
         }
     }
 }

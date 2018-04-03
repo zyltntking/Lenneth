@@ -40,7 +40,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public override string ToString()
         {
-            return string.Format("({0} or {1})", _left, _right);
+            return $"({_left} or {_right})";
         }
     }
 }

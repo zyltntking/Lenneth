@@ -50,10 +50,8 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public override string ToString()
         {
-            return string.Format("{0}({1} startsWith {2})",
-                UseFilter ? "Filter" : UseIndex ? "Seek" : "",
-                Expression?.ToString() ?? Field,
-                _value);
+            return
+                $"{(UseFilter ? "Filter" : UseIndex ? "Seek" : "")}({Expression?.ToString() ?? Field} startsWith {_value})";
         }
     }
 }

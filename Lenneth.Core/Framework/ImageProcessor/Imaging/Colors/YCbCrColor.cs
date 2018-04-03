@@ -190,7 +190,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
                 return "YCbCrColor [ Empty ]";
             }
 
-            return string.Format("YCbCrColor [ Y={0:#0.##}, Cb={1:#0.##}, Cr={2:#0.##}]", Y, Cb, Cr);
+            return $"YCbCrColor [ Y={Y:#0.##}, Cb={Cb:#0.##}, Cr={Cr:#0.##}]";
         }
 
         /// <summary>

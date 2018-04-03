@@ -110,7 +110,8 @@ namespace Lenneth.Core.Framework.LiteDB
         private static byte[] FromHex(string value)
         {
             if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
-            if (value.Length != 24) throw new ArgumentException(string.Format("ObjectId strings should be 24 hex characters, got {0} : \"{1}\"", value.Length, value));
+            if (value.Length != 24) throw new ArgumentException(
+                $"ObjectId strings should be 24 hex characters, got {value.Length} : \"{value}\"");
 
             var bytes = new byte[12];
 

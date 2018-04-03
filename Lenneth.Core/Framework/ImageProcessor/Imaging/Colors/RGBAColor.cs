@@ -230,7 +230,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
                 return "RGBA [ Empty ]";
             }
 
-            return string.Format("RGBA [R={0}, G={1}, B={2}, A={3}]", R, G, B, A);
+            return $"RGBA [R={R}, G={G}, B={B}, A={A}]";
         }
 
         /// <summary>

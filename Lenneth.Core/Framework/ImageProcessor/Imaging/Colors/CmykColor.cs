@@ -285,7 +285,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
                 return "CmykColor [ Empty ]";
             }
 
-            return string.Format("CmykColor [ C={0:#0.##}, M={1:#0.##}, Y={2:#0.##}, K={3:#0.##}]", C, M, Y, K);
+            return $"CmykColor [ C={C:#0.##}, M={M:#0.##}, Y={Y:#0.##}, K={K:#0.##}]";
         }
 
         /// <summary>

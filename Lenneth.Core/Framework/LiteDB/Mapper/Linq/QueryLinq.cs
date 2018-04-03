@@ -48,7 +48,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         public override string ToString()
         {
-            return string.Format("Linq({0})", _expr);
+            return $"Linq({_expr})";
         }
     }
 }

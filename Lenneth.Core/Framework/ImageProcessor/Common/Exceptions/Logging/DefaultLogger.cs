@@ -54,7 +54,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Exceptions.Logging
 		[Conditional("TRACE")]
 		private void LogInternal(Type type, string text, string callerName = null, int lineNumber = 0)
         {
-            var message = String.Format("{0} - {1}: {2} {3}:{4}", DateTime.UtcNow.ToString("s"), type.Name, callerName, lineNumber, text);
+            var message = $"{DateTime.UtcNow.ToString("s")} - {type.Name}: {callerName} {lineNumber}:{text}";
 
             Trace.WriteLine(message);
         }
