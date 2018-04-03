@@ -75,10 +75,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
     [Serializable]
     public class HaarClassifier
     {
-        private HaarCascade cascade;
+        private HaarCascade _cascade;
 
-        private float invArea;
-        private float scale;
+        private float _invArea;
+        private float _scale;
 
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public HaarClassifier(HaarCascade cascade)
         {
-            this.cascade = cascade;
+            _cascade = cascade;
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public HaarCascade Cascade
         {
-            get { return cascade; }
+            get { return _cascade; }
         }
 
         /// <summary>
@@ -115,17 +115,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public float Scale
         {
-            get { return scale; }
+            get { return _scale; }
             set
             {
-                if (scale == value)
+                if (_scale == value)
                     return;
 
-                scale = value;
-                invArea = 1f / (cascade.Width * cascade.Height * scale * scale);
+                _scale = value;
+                _invArea = 1f / (_cascade.Width * _cascade.Height * _scale * _scale);
 
                 // For each stage in the cascade 
-                foreach (var stage in cascade.Stages)
+                foreach (var stage in _cascade.Stages)
                 {
                     // For each tree in the cascade
                     foreach (var tree in stage.Trees)
@@ -134,7 +134,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
                         foreach (var node in tree)
                         {
                             // Set the scale and weight for the node feature
-                            node.Feature.SetScaleAndWeight(value, invArea);
+                            node.Feature.SetScaleAndWeight(value, _invArea);
                         }
                     }
                 }
@@ -152,13 +152,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
             var w = rectangle.Width;
             var h = rectangle.Height;
 
-            double mean = image.GetSum(x, y, w, h) * invArea;
-            var var = image.GetSum2(x, y, w, h) * invArea - (mean * mean);
+            double mean = image.GetSum(x, y, w, h) * _invArea;
+            var var = image.GetSum2(x, y, w, h) * _invArea - (mean * mean);
 
             var sdev = (var >= 0) ? Math.Sqrt(var) : 1;
 
             // For each classification stage in the cascade
-            foreach (var stage in cascade.Stages)
+            foreach (var stage in _cascade.Stages)
             {
                 // Check if the stage has rejected the image
                 if (stage.Classify(image, x, y, sdev) == false)

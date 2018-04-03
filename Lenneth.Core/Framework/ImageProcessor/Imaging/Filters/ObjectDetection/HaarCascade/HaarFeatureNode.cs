@@ -16,8 +16,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
     [Serializable]
     public class HaarFeatureNode : ICloneable
     {
-        private int rightNodeIndex = -1;
-        private int leftNodeIndex = -1;
+        private int _rightNodeIndex = -1;
+        private int _leftNodeIndex = -1;
 
         /// <summary>
         ///   Gets the threshold for this feature.
@@ -47,8 +47,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         [XmlElement("left_node")]
         public int LeftNodeIndex
         {
-            get { return leftNodeIndex; }
-            set { leftNodeIndex = value; }
+            get { return _leftNodeIndex; }
+            set { _leftNodeIndex = value; }
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         [XmlElement("right_node")]
         public int RightNodeIndex
         {
-            get { return rightNodeIndex; }
-            set { rightNodeIndex = value; }
+            get { return _rightNodeIndex; }
+            set { _rightNodeIndex = value; }
         }
 
         /// <summary>
@@ -113,8 +113,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
             r.RightValue = RightValue;
             r.LeftValue = LeftValue;
 
-            r.LeftNodeIndex = leftNodeIndex;
-            r.RightNodeIndex = rightNodeIndex;
+            r.LeftNodeIndex = _leftNodeIndex;
+            r.RightNodeIndex = _rightNodeIndex;
 
             return r;
         }

@@ -27,7 +27,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// an executable module. 
         /// </param>
         /// <returns>If the function succeeds, the return value is a handle to the module; otherwise null.</returns>
-        [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+        [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern IntPtr LoadLibrary(string libname);
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// <returns>
         /// If the function succeeds, the return value is a handle to the module; otherwise null.
         /// </returns>
-        [DllImport("libdl")]
+        [DllImport("libdl",CharSet = CharSet.Unicode)]
         public static extern IntPtr dlopen(string libname, int flags);
 
         /// <summary>

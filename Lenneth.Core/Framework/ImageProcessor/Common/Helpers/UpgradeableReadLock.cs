@@ -24,12 +24,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// <summary>
         /// The locker to lock against.
         /// </summary>
-        private readonly ReaderWriterLockSlim locker;
+        private readonly ReaderWriterLockSlim _locker;
 
         /// <summary>
         /// A value indicating whether the locker has been upgraded to a writeable lock.
         /// </summary>
-        private bool upgraded;
+        private bool _upgraded;
 
         /// <summary>
         /// A value indicating whether this instance of the given entity has been disposed.
@@ -42,7 +42,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// method will not dispose again. This help not to prolong the entity's
         /// life in the Garbage Collector.
         /// </remarks>
-        private bool isDisposed;
+        private bool _isDisposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UpgradeableReadLock"/> class.
@@ -52,8 +52,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// </param>
         public UpgradeableReadLock(ReaderWriterLockSlim locker)
         {
-            this.locker = locker;
-            this.locker.EnterUpgradeableReadLock();
+            _locker = locker;
+            _locker.EnterUpgradeableReadLock();
         }
 
         /// <summary>
@@ -79,8 +79,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// </summary>
         public void UpgradeToWriteLock()
         {
-            locker.EnterWriteLock();
-            upgraded = true;
+            _locker.EnterWriteLock();
+            _upgraded = true;
         }
 
         /// <summary>
@@ -104,23 +104,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// <param name="disposing">If true, the object gets disposed.</param>
         private void Dispose(bool disposing)
         {
-            if (isDisposed)
+            if (_isDisposed)
             {
                 return;
             }
 
             if (disposing)
             {
-                if (upgraded)
+                if (_upgraded)
                 {
-                    locker.ExitWriteLock();
+                    _locker.ExitWriteLock();
                 }
 
-                locker.ExitUpgradeableReadLock();
+                _locker.ExitUpgradeableReadLock();
             }
 
             // Note disposing is done.
-            isDisposed = true;
+            _isDisposed = true;
         }
     }
 }

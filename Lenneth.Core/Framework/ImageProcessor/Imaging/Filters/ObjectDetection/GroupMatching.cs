@@ -41,13 +41,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
     public abstract class GroupMatching<T>
     {
 
-        private int classCount;
-        private int minNeighbors;
+        private int _classCount;
+        private int _minNeighbors;
 
-        private int[] labels;
-        private int[] equals;
+        private int[] _labels;
+        private int[] _equals;
 
-        private List<T> filter;
+        private List<T> _filter;
 
         /// <summary>
         ///   Creates a new <see cref="RectangleGroupMatching"/> object.
@@ -59,8 +59,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         /// 
         protected GroupMatching(int minimumNeighbors = 2)
         {
-            minNeighbors = minimumNeighbors;
-            filter = new List<T>();
+            _minNeighbors = minimumNeighbors;
+            _filter = new List<T>();
         }
 
         /// <summary>
@@ -71,12 +71,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         /// 
         public int MinimumNeighbors
         {
-            get { return minNeighbors; }
+            get { return _minNeighbors; }
             set
             {
-                if (minNeighbors < 0)
+                if (_minNeighbors < 0)
                     throw new ArgumentOutOfRangeException("value", "Value must be equal to or higher than zero.");
-                minNeighbors = value;
+                _minNeighbors = value;
             }
         }
 
@@ -87,7 +87,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         /// 
         public int Classes
         {
-            get { return classCount; }
+            get { return _classCount; }
         }
 
         /// <summary>
@@ -100,23 +100,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         public T[] Group(T[] shapes)
         {
             // Start by classifying rectangles according to distance
-            classify(shapes); // assign label for near rectangles
+            Classify(shapes); // assign label for near rectangles
 
             int[] neighborCount;
 
             // Average the rectangles contained in each labeled group
-            var output = Average(labels, shapes, out neighborCount);
+            var output = Average(_labels, shapes, out neighborCount);
 
             // Check suppression
-            if (minNeighbors > 0)
+            if (_minNeighbors > 0)
             {
-                filter.Clear();
+                _filter.Clear();
 
                 // Discard weak rectangles which don't have enough neighbors
                 for (var i = 0; i < output.Length; i++)
-                    if (neighborCount[i] >= minNeighbors) filter.Add(output[i]);
+                    if (neighborCount[i] >= _minNeighbors) _filter.Add(output[i]);
 
-                return filter.ToArray();
+                return _filter.ToArray();
             }
 
             return output;
@@ -129,17 +129,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         ///   assigns similar class labels accordingly.
         /// </summary>
         /// 
-        private void classify(T[] shapes)
+        private void Classify(T[] shapes)
         {
-            equals = new int[shapes.Length];
-            for (var i = 0; i < equals.Length; i++)
-                equals[i] = -1;
+            _equals = new int[shapes.Length];
+            for (var i = 0; i < _equals.Length; i++)
+                _equals[i] = -1;
 
-            labels = new int[shapes.Length];
-            for (var i = 0; i < labels.Length; i++)
-                labels[i] = i;
+            _labels = new int[shapes.Length];
+            for (var i = 0; i < _labels.Length; i++)
+                _labels[i] = i;
 
-            classCount = 0;
+            _classCount = 0;
 
             // If two rectangles are near, or contained in
             // each other, merge then in a single rectangle
@@ -148,23 +148,23 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                 for (var j = i + 1; j < shapes.Length; j++)
                 {
                     if (Near(shapes[i], shapes[j]))
-                        merge(labels[i], labels[j]);
+                        Merge(_labels[i], _labels[j]);
                 }
             }
 
             // Count the number of classes and centroids
             var centroids = new int[shapes.Length];
             for (var i = 0; i < centroids.Length; i++)
-                if (equals[i] == -1) centroids[i] = classCount++;
+                if (_equals[i] == -1) centroids[i] = _classCount++;
 
             // Classify all rectangles with their labels
             for (var i = 0; i < shapes.Length; i++)
             {
-                var root = labels[i];
-                while (equals[root] != -1)
-                    root = equals[root];
+                var root = _labels[i];
+                while (_equals[root] != -1)
+                    root = _equals[root];
 
-                labels[i] = centroids[root];
+                _labels[i] = centroids[root];
             }
         }
 
@@ -172,20 +172,20 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         ///   Merges two labels.
         /// </summary>
         /// 
-        private void merge(int label1, int label2)
+        private void Merge(int label1, int label2)
         {
             var root1 = label1;
             var root2 = label2;
 
             // Get the roots associated with the two labels
-            while (equals[root1] != -1) root1 = equals[root1];
-            while (equals[root2] != -1) root2 = equals[root2];
+            while (_equals[root1] != -1) root1 = _equals[root1];
+            while (_equals[root2] != -1) root2 = _equals[root2];
 
             if (root1 == root2) // labels are already connected
                 return;
 
             int minRoot, maxRoot;
-            int labelWithMinRoot, labelWithMaxRoot;
+            int labelWithMaxRoot;
 
             if (root1 > root2)
             {
@@ -193,7 +193,6 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                 minRoot = root2;
 
                 labelWithMaxRoot = label1;
-                labelWithMinRoot = label2;
             }
             else
             {
@@ -201,15 +200,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                 minRoot = root1;
 
                 labelWithMaxRoot = label2;
-                labelWithMinRoot = label1;
             }
 
-            equals[maxRoot] = minRoot;
+            _equals[maxRoot] = minRoot;
 
             for (var root = maxRoot + 1; root <= labelWithMaxRoot; root++)
             {
-                if (equals[root] == maxRoot)
-                    equals[root] = minRoot;
+                if (_equals[root] == maxRoot)
+                    _equals[root] = minRoot;
             }
         }
 

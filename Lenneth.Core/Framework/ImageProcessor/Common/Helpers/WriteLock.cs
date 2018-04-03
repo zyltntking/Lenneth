@@ -24,7 +24,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// <summary>
         /// The locker to lock against.
         /// </summary>
-        private readonly ReaderWriterLockSlim locker;
+        private readonly ReaderWriterLockSlim _locker;
 
         /// <summary>
         /// A value indicating whether this instance of the given entity has been disposed.
@@ -37,7 +37,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// method will not dispose again. This help not to prolong the entity's
         /// life in the Garbage Collector.
         /// </remarks>
-        private bool isDisposed;
+        private bool _isDisposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteLock"/> class.
@@ -47,8 +47,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// </param>
         public WriteLock(ReaderWriterLockSlim locker)
         {
-            this.locker = locker;
-            this.locker.EnterWriteLock();
+            _locker = locker;
+            _locker.EnterWriteLock();
         }
 
         /// <summary>
@@ -90,18 +90,18 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// <param name="disposing">If true, the object gets disposed.</param>
         private void Dispose(bool disposing)
         {
-            if (isDisposed)
+            if (_isDisposed)
             {
                 return;
             }
 
             if (disposing)
             {
-                locker.ExitWriteLock();
+                _locker.ExitWriteLock();
             }
 
             // Note disposing is done.
-            isDisposed = true;
+            _isDisposed = true;
         }
     }
 }

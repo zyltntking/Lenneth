@@ -27,28 +27,28 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         /// <summary>
         /// The angle of the cyan component in degrees.
         /// </summary>
-        private float cyanAngle = 15f;
+        private float _cyanAngle = 15f;
 
         /// <summary>
         /// The angle of the magenta component in degrees.
         /// </summary>
-        private float magentaAngle = 75f;
+        private float _magentaAngle = 75f;
 
         /// <summary>
         /// The angle of the yellow component in degrees.
         /// </summary>
         // ReSharper disable once RedundantDefaultMemberInitializer
-        private float yellowAngle = 0f;
+        private float _yellowAngle = 0f;
 
         /// <summary>
         /// The angle of the keyline component in degrees.
         /// </summary>
-        private float keylineAngle = 45f;
+        private float _keylineAngle = 45f;
 
         /// <summary>
         /// The distance between component points.
         /// </summary>
-        private int distance = 4;
+        private int _distance = 4;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="HalftoneFilter"/> class.
@@ -65,7 +65,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         /// </param>
         public HalftoneFilter(int distance)
         {
-            this.distance = distance;
+            _distance = distance;
         }
 
         /// <summary>
@@ -75,12 +75,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return cyanAngle;
+                return _cyanAngle;
             }
 
             set
             {
-                cyanAngle = value;
+                _cyanAngle = value;
             }
         }
 
@@ -91,12 +91,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return magentaAngle;
+                return _magentaAngle;
             }
 
             set
             {
-                magentaAngle = value;
+                _magentaAngle = value;
             }
         }
 
@@ -107,12 +107,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return yellowAngle;
+                return _yellowAngle;
             }
 
             set
             {
-                yellowAngle = value;
+                _yellowAngle = value;
             }
         }
 
@@ -123,12 +123,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return keylineAngle;
+                return _keylineAngle;
             }
 
             set
             {
-                keylineAngle = value;
+                _keylineAngle = value;
             }
         }
 
@@ -139,12 +139,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return distance;
+                return _distance;
             }
 
             set
             {
-                distance = value;
+                _distance = value;
             }
         }
 
@@ -171,8 +171,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
             {
                 var sourceWidth = source.Width;
                 var sourceHeight = source.Height;
-                var width = source.Width + distance;
-                var height = source.Height + distance;
+                var width = source.Width + _distance;
+                var height = source.Height + _distance;
 
                 // Draw a slightly larger image, flipping the top/left pixels to prevent
                 // jagged edge of output.
@@ -181,11 +181,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                 using (var graphicsPadded = Graphics.FromImage(padded))
                 {
                     graphicsPadded.Clear(Color.White);
-                    var destinationRectangle = new Rectangle(0, 0, sourceWidth + distance, source.Height + distance);
+                    var destinationRectangle = new Rectangle(0, 0, sourceWidth + _distance, source.Height + _distance);
                     using (var tb = new TextureBrush(source))
                     {
                         tb.WrapMode = WrapMode.TileFlipXY;
-                        tb.TranslateTransform(distance, distance);
+                        tb.TranslateTransform(_distance, _distance);
                         graphicsPadded.FillRectangle(tb, destinationRectangle);
                     }
                 }
@@ -199,12 +199,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                 var center = Point.Empty;
 
                 // Yellow oversaturates the output.
-                var offset = distance;
-                var yellowMultiplier = distance * 1.587f;
-                var magentaMultiplier = distance * 2.176f;
-                var multiplier = distance * 2.2f;
-                var max = distance * (float)Math.Sqrt(2);
-                var magentaMax = distance * (float)Math.Sqrt(1.4545);
+                var offset = _distance;
+                var yellowMultiplier = _distance * 1.587f;
+                var magentaMultiplier = _distance * 2.176f;
+                var multiplier = _distance * 2.2f;
+                var max = _distance * (float)Math.Sqrt(2);
+                var magentaMax = _distance * (float)Math.Sqrt(1.4545);
 
                 // Bump up the keyline max so that black looks black.
                 var keylineMax = max * (float)Math.Sqrt(2);
@@ -272,7 +272,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                                 float brushWidth;
 
                                 // Cyan
-                                var rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), cyanAngle, center);
+                                var rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), _cyanAngle, center);
                                 var angledX = rotatedPoint.X;
                                 var angledY = rotatedPoint.Y;
                                 if (rectangle.Contains(new Point(angledX, angledY)))
@@ -284,7 +284,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                                 }
 
                                 // Magenta
-                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), magentaAngle, center);
+                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), _magentaAngle, center);
                                 angledX = rotatedPoint.X;
                                 angledY = rotatedPoint.Y;
                                 if (rectangle.Contains(new Point(angledX, angledY)))
@@ -296,7 +296,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                                 }
 
                                 // Yellow
-                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), yellowAngle, center);
+                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), _yellowAngle, center);
                                 angledX = rotatedPoint.X;
                                 angledY = rotatedPoint.Y;
                                 if (rectangle.Contains(new Point(angledX, angledY)))
@@ -308,7 +308,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                                 }
 
                                 // Keyline 
-                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), keylineAngle, center);
+                                rotatedPoint = ImageMaths.RotatePoint(new Point(x, y), _keylineAngle, center);
                                 angledX = rotatedPoint.X;
                                 angledY = rotatedPoint.Y;
                                 if (rectangle.Contains(new Point(angledX, angledY)))

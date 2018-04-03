@@ -4,13 +4,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
 {
     public static class EmbeddedHaarCascades
     {
-        private static HaarCascade.HaarCascade frontFaceDefault;
+        private static HaarCascade.HaarCascade _frontFaceDefault;
 
         public static HaarCascade.HaarCascade FrontFaceDefault
         {
             get
             {
-                return frontFaceDefault ?? (frontFaceDefault = GetCascadeFromResource("haarcascade_frontalface_legacy.xml"));
+                return _frontFaceDefault ?? (_frontFaceDefault = GetCascadeFromResource("haarcascade_frontalface_legacy.xml"));
             }
         }
 

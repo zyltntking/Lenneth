@@ -24,12 +24,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         /// <summary>
         /// The levels.
         /// </summary>
-        private int levels;
+        private int _levels;
 
         /// <summary>
         /// The brush size.
         /// </summary>
-        private int brushSize;
+        private int _brushSize;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OilPaintingFilter"/> class.
@@ -42,8 +42,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         /// </param>
         public OilPaintingFilter(int levels, int brushSize)
         {
-            this.levels = levels;
-            this.brushSize = brushSize;
+            this._levels = levels;
+            this._brushSize = brushSize;
         }
 
         /// <summary>
@@ -53,14 +53,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return levels;
+                return _levels;
             }
 
             set
             {
                 if (value > 0)
                 {
-                    levels = value;
+                    _levels = value;
                 }
             }
         }
@@ -72,14 +72,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         {
             get
             {
-                return brushSize;
+                return _brushSize;
             }
 
             set
             {
                 if (value > 0)
                 {
-                    brushSize = value;
+                    _brushSize = value;
                 }
             }
         }
@@ -99,7 +99,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
             var width = source.Width;
             var height = source.Height;
 
-            var radius = brushSize >> 1;
+            var radius = _brushSize >> 1;
 
             var destination = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
             destination.SetResolution(source.HorizontalResolution, source.VerticalResolution);
@@ -116,10 +116,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                             {
                                 var maxIntensity = 0;
                                 var maxIndex = 0;
-                                var intensityBin = new int[levels];
-                                var blueBin = new int[levels];
-                                var greenBin = new int[levels];
-                                var redBin = new int[levels];
+                                var intensityBin = new int[_levels];
+                                var blueBin = new int[_levels];
+                                var greenBin = new int[_levels];
+                                var redBin = new int[_levels];
                                 byte sourceAlpha = 255;
 
                                 for (var i = 0; i <= radius; i++)
@@ -160,7 +160,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
                                             var sourceRed = color.R;
                                             sourceAlpha = color.A;
 
-                                            var currentIntensity = (int)Math.Round(((sourceBlue + sourceGreen + sourceRed) / 3.0 * (levels - 1)) / 255.0);
+                                            var currentIntensity = (int)Math.Round(((sourceBlue + sourceGreen + sourceRed) / 3.0 * (_levels - 1)) / 255.0);
 
                                             intensityBin[currentIntensity] += 1;
                                             blueBin[currentIntensity] += sourceBlue;

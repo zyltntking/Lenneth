@@ -29,17 +29,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <summary>
         /// The y luminance component.
         /// </summary>
-        private readonly float y;
+        private readonly float _y;
 
         /// <summary>
         /// The u chroma component.
         /// </summary>
-        private readonly float cb;
+        private readonly float _cb;
 
         /// <summary>
         /// The v chroma component.
         /// </summary>
-        private readonly float cr;
+        private readonly float _cr;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="YCbCrColor"/> struct.
@@ -49,28 +49,28 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <param name="cr">The v chroma component.</param> 
         private YCbCrColor(float y, float cb, float cr)
         {
-            this.y = ImageMaths.Clamp(y, 0, 255);
-            this.cb = ImageMaths.Clamp(cb, 0, 255);
-            this.cr = ImageMaths.Clamp(cr, 0, 255);
+            _y = ImageMaths.Clamp(y, 0, 255);
+            _cb = ImageMaths.Clamp(cb, 0, 255);
+            _cr = ImageMaths.Clamp(cr, 0, 255);
         }
 
         /// <summary>
         /// Gets the Y luminance component.
         /// <remarks>A value ranging between 0 and 255.</remarks>
         /// </summary>
-        public float Y => y;
+        public float Y => _y;
 
         /// <summary>
         /// Gets the U chroma component.
         /// <remarks>A value ranging between 0 and 255.</remarks>
         /// </summary>
-        public float Cb => cb;
+        public float Cb => _cb;
 
         /// <summary>
         /// Gets the V chroma component.
         /// <remarks>A value ranging between 0 and 255.</remarks>
         /// </summary>
-        public float Cr => cr;
+        public float Cr => _cr;
 
         /// <summary>
         /// Creates a <see cref="YCbCrColor"/> structure from the three 32-bit YCbCr 
@@ -210,6 +210,20 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
             return false;
         }
 
+        #region override operator
+
+        public static bool operator ==(YCbCrColor lhs, YCbCrColor rhs)
+        {
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator !=(YCbCrColor lhs, YCbCrColor rhs)
+        {
+            return !lhs.Equals(rhs);
+        }
+
+        #endregion
+
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -242,9 +256,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </returns>
         private bool IsEmpty()
         {
-            const float Epsilon = .0001f;
-            return Math.Abs(y - 0) <= Epsilon && Math.Abs(cb - 0) <= Epsilon &&
-                   Math.Abs(cr - 0) <= Epsilon;
+            const float epsilon = .0001f;
+            return Math.Abs(_y - 0) <= epsilon && Math.Abs(_cb - 0) <= epsilon &&
+                   Math.Abs(_cr - 0) <= epsilon;
         }
     }
 }

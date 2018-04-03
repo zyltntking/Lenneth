@@ -75,12 +75,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// <summary>
         /// A collection of all assemblies.
         /// </summary>
-        private static HashSet<Assembly> allAssemblies;
+        private static HashSet<Assembly> _allAssemblies;
 
         /// <summary>
         /// The bin folder assemblies.
         /// </summary>
-        private static HashSet<Assembly> binFolderAssemblies;
+        private static HashSet<Assembly> _binFolderAssemblies;
 
         /// <summary>
         /// Lazily loads a reference to all assemblies and only local assemblies.
@@ -102,7 +102,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         {
             using (var locker = new UpgradeableReadLock(Locker))
             {
-                if (allAssemblies == null)
+                if (_allAssemblies == null)
                 {
                     locker.UpgradeToWriteLock();
 
@@ -159,7 +159,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
                         }
 
                         // Now set the allAssemblies
-                        allAssemblies = new HashSet<Assembly>(assemblies);
+                        _allAssemblies = new HashSet<Assembly>(assemblies);
                     }
                     catch (InvalidOperationException e)
                     {
@@ -168,11 +168,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
                             throw;
                         }
 
-                        binFolderAssemblies = allAssemblies;
+                        _binFolderAssemblies = _allAssemblies;
                     }
                 }
 
-                return allAssemblies;
+                return _allAssemblies;
             }
         }
 
@@ -184,7 +184,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// </returns>
         internal static HashSet<Assembly> GetBinAssemblies()
         {
-            if (binFolderAssemblies == null)
+            if (_binFolderAssemblies == null)
             {
                 using (new WriteLock(Locker))
                 {
@@ -212,11 +212,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
                         }
                     }
 
-                    binFolderAssemblies = new HashSet<Assembly>(binFolderAssemblyList);
+                    _binFolderAssemblies = new HashSet<Assembly>(binFolderAssemblyList);
                 }
             }
 
-            return binFolderAssemblies;
+            return _binFolderAssemblies;
         }
 
         /// <summary>

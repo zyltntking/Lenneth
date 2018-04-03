@@ -8,7 +8,6 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Drawing.Imaging;
 using Lenneth.Core.Framework.ImageProcessor.Imaging.Formats;
 
 namespace Lenneth.Core.Framework.ImageProcessor.Imaging.MetaData

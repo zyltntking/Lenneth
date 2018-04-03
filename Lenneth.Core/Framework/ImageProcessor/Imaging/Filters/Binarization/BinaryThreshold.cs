@@ -21,7 +21,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Binarization
         /// <summary>
         /// The threshold value.
         /// </summary>
-        private byte threshold;
+        private byte _threshold;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryThreshold"/> class.
@@ -31,7 +31,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Binarization
         /// </param>
         public BinaryThreshold(byte threshold = 10)
         {
-            this.threshold = threshold;
+            _threshold = threshold;
         }
 
         /// <summary>
@@ -41,12 +41,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Binarization
         {
             get
             {
-                return threshold;
+                return _threshold;
             }
 
             set
             {
-                threshold = value;
+                _threshold = value;
             }
         }
 
@@ -75,7 +75,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Binarization
                         {
                             // ReSharper disable AccessToDisposedClosure
                             var color = sourceBitmap.GetPixel(x, y);
-                            sourceBitmap.SetPixel(x, y, color.B >= threshold ? Color.White : Color.Black);
+                            sourceBitmap.SetPixel(x, y, color.B >= _threshold ? Color.White : Color.Black);
 
                             // ReSharper restore AccessToDisposedClosure
                         }

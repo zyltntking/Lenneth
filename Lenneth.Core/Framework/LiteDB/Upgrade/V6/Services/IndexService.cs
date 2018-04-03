@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using Lenneth.Core.Framework.LiteDB;
-using CollectionIndex = Lenneth.Core.Framework.LiteDB_V6.CollectionIndex;
-using IndexNode = Lenneth.Core.Framework.LiteDB_V6.IndexNode;
-using IndexPage = Lenneth.Core.Framework.LiteDB_V6.IndexPage;
 
 namespace Lenneth.Core.Framework.LiteDB_V6
 {

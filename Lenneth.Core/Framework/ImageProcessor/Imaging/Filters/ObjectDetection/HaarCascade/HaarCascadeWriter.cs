@@ -17,7 +17,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
     /// 
     public class HaarCascadeWriter
     {
-        private TextWriter writer;
+        private TextWriter _writer;
 
         /// <summary>
         ///   Constructs a new <see cref="HaarCascadeWriter"/> class.
@@ -26,7 +26,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         /// 
         public HaarCascadeWriter(TextWriter stream)
         {
-            writer = stream;
+            _writer = stream;
         }
 
         /// <summary>
@@ -43,107 +43,107 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
                         throw new ArgumentException("Only cascades with single node trees are currently supported.");
 
 
-            writer.WriteLine("// This file has been automatically transcribed by the");
-            writer.WriteLine("//");
-            writer.WriteLine("// Accord Vision Library");
-            writer.WriteLine("// The Accord.NET Framework");
-            writer.WriteLine("// http://accord-framework.net");
-            writer.WriteLine("//");
-            writer.WriteLine();
-            writer.WriteLine("namespace HaarCascades");
-            writer.WriteLine("{");
-            writer.WriteLine("    using System.CodeDom.Compiler;");
-            writer.WriteLine("    using System.Collections.Generic;");
-            writer.WriteLine();
-            writer.WriteLine("    /// <summary>");
-            writer.WriteLine("    ///   Automatically generated haar-cascade definition");
-            writer.WriteLine("    ///   to use with the Accord.NET Framework object detectors.");
-            writer.WriteLine("    /// </summary>");
-            writer.WriteLine("    /// ");
-            writer.WriteLine("    [GeneratedCode(\"Accord.NET HaarCascadeWriter\", \"2.7\")]");
-            writer.WriteLine("    public class {0} : Accord.Vision.Detection.HaarCascade", className);
-            writer.WriteLine("    {");
-            writer.WriteLine();
-            writer.WriteLine("        /// <summary>");
-            writer.WriteLine("        ///   Automatically generated transcription");
-            writer.WriteLine("        /// </summary>");
-            writer.WriteLine("        public {0}()", className);
-            writer.WriteLine("            : base({0}, {1})", cascade.Width, cascade.Height);
-            writer.WriteLine("        {");
-            writer.WriteLine("            List<HaarCascadeStage> stages = new List<HaarCascadeStage>();");
-            writer.WriteLine("            List<HaarFeatureNode[]> nodes;");
-            writer.WriteLine("            HaarCascadeStage stage;");
-            writer.WriteLine();
+            _writer.WriteLine("// This file has been automatically transcribed by the");
+            _writer.WriteLine("//");
+            _writer.WriteLine("// Accord Vision Library");
+            _writer.WriteLine("// The Accord.NET Framework");
+            _writer.WriteLine("// http://accord-framework.net");
+            _writer.WriteLine("//");
+            _writer.WriteLine();
+            _writer.WriteLine("namespace HaarCascades");
+            _writer.WriteLine("{");
+            _writer.WriteLine("    using System.CodeDom.Compiler;");
+            _writer.WriteLine("    using System.Collections.Generic;");
+            _writer.WriteLine();
+            _writer.WriteLine("    /// <summary>");
+            _writer.WriteLine("    ///   Automatically generated haar-cascade definition");
+            _writer.WriteLine("    ///   to use with the Accord.NET Framework object detectors.");
+            _writer.WriteLine("    /// </summary>");
+            _writer.WriteLine("    /// ");
+            _writer.WriteLine("    [GeneratedCode(\"Accord.NET HaarCascadeWriter\", \"2.7\")]");
+            _writer.WriteLine("    public class {0} : Accord.Vision.Detection.HaarCascade", className);
+            _writer.WriteLine("    {");
+            _writer.WriteLine();
+            _writer.WriteLine("        /// <summary>");
+            _writer.WriteLine("        ///   Automatically generated transcription");
+            _writer.WriteLine("        /// </summary>");
+            _writer.WriteLine("        public {0}()", className);
+            _writer.WriteLine("            : base({0}, {1})", cascade.Width, cascade.Height);
+            _writer.WriteLine("        {");
+            _writer.WriteLine("            List<HaarCascadeStage> stages = new List<HaarCascadeStage>();");
+            _writer.WriteLine("            List<HaarFeatureNode[]> nodes;");
+            _writer.WriteLine("            HaarCascadeStage stage;");
+            _writer.WriteLine();
 
             if (cascade.HasTiltedFeatures)
             {
-                writer.WriteLine("            HasTiltedFeatures = true;");
-                writer.WriteLine();
+                _writer.WriteLine("            HasTiltedFeatures = true;");
+                _writer.WriteLine();
             }
 
             // Write cascade stages
             for (var i = 0; i < cascade.Stages.Length; i++)
-                writeStage(i, cascade.Stages[i]);
+                WriteStage(i, cascade.Stages[i]);
 
-            writer.WriteLine();
-            writer.WriteLine("            Stages = stages.ToArray();");
-            writer.WriteLine("         }");
-            writer.WriteLine("    }");
-            writer.WriteLine("}");
+            _writer.WriteLine();
+            _writer.WriteLine("            Stages = stages.ToArray();");
+            _writer.WriteLine("         }");
+            _writer.WriteLine("    }");
+            _writer.WriteLine("}");
         }
 
-        private void writeStage(int i, HaarCascadeStage stage)
+        private void WriteStage(int i, HaarCascadeStage stage)
         {
-            writer.WriteLine("            #region Stage {0}", i);
-            writer.WriteLine("            stage = new HaarCascadeStage({0}, {1}, {2}); nodes = new List<HaarFeatureNode[]>();",
+            _writer.WriteLine("            #region Stage {0}", i);
+            _writer.WriteLine("            stage = new HaarCascadeStage({0}, {1}, {2}); nodes = new List<HaarFeatureNode[]>();",
                 stage.Threshold.ToString("R", NumberFormatInfo.InvariantInfo),
                 stage.ParentIndex, stage.NextIndex);
 
             // Write stage trees
             for (var j = 0; j < stage.Trees.Length; j++)
-                writeTrees(stage, j);
+                WriteTrees(stage, j);
 
-            writer.WriteLine("            stage.Trees = nodes.ToArray(); stages.Add(stage);");
-            writer.WriteLine("            #endregion");
-            writer.WriteLine();
+            _writer.WriteLine("            stage.Trees = nodes.ToArray(); stages.Add(stage);");
+            _writer.WriteLine("            #endregion");
+            _writer.WriteLine();
         }
 
-        private void writeTrees(HaarCascadeStage stage, int j)
+        private void WriteTrees(HaarCascadeStage stage, int j)
         {
-            writer.Write("            nodes.Add(new[] { ");
+            _writer.Write("            nodes.Add(new[] { ");
 
             // Assume trees have single node
-            writeFeature(stage.Trees[j][0]);
+            WriteFeature(stage.Trees[j][0]);
 
-            writer.WriteLine(" });");
+            _writer.WriteLine(" });");
         }
 
-        private void writeFeature(HaarFeatureNode node)
+        private void WriteFeature(HaarFeatureNode node)
         {
 
-            writer.Write("new HaarFeatureNode({0}, {1}, {2}, ",
+            _writer.Write("new HaarFeatureNode({0}, {1}, {2}, ",
                 node.Threshold.ToString("R", NumberFormatInfo.InvariantInfo),
                 node.LeftValue.ToString("R", NumberFormatInfo.InvariantInfo),
                 node.RightValue.ToString("R", NumberFormatInfo.InvariantInfo));
 
             if (node.Feature.Tilted)
-                writer.Write("true, ");
+                _writer.Write("true, ");
 
             // Write Haar-like rectangular features
             for (var k = 0; k < node.Feature.Rectangles.Length; k++)
             {
-                writeRectangle(node.Feature.Rectangles[k]);
+                WriteRectangle(node.Feature.Rectangles[k]);
 
                 if (k < node.Feature.Rectangles.Length - 1)
-                    writer.Write(", ");
+                    _writer.Write(", ");
             }
 
-            writer.Write(" )");
+            _writer.Write(" )");
         }
 
-        private void writeRectangle(HaarRectangle rectangle)
+        private void WriteRectangle(HaarRectangle rectangle)
         {
-            writer.Write("new int[] {{ {0}, {1}, {2}, {3}, {4} }}",
+            _writer.Write("new int[] {{ {0}, {1}, {2}, {3}, {4} }}",
                 rectangle.X.ToString(NumberFormatInfo.InvariantInfo),
                 rectangle.Y.ToString(NumberFormatInfo.InvariantInfo),
                 rectangle.Width.ToString(NumberFormatInfo.InvariantInfo),

@@ -78,31 +78,31 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
     public class HaarObjectDetector
     {
 
-        private List<Rectangle> detectedObjects;
-        private HaarClassifier classifier;
+        private List<Rectangle> _detectedObjects;
+        private HaarClassifier _classifier;
 
-        private ObjectDetectorSearchMode searchMode = ObjectDetectorSearchMode.NoOverlap;
-        private ObjectDetectorScalingMode scalingMode = ObjectDetectorScalingMode.GreaterToSmaller;
+        private ObjectDetectorSearchMode _searchMode = ObjectDetectorSearchMode.NoOverlap;
+        private ObjectDetectorScalingMode _scalingMode = ObjectDetectorScalingMode.GreaterToSmaller;
 
         // TODO: Support ROI
         //  private Rectangle searchWindow;
 
-        private Size minSize = new Size(15, 15);
-        private Size maxSize = new Size(500, 500);
-        private float factor = 1.2f;
+        private Size _minSize = new Size(15, 15);
+        private Size _maxSize = new Size(500, 500);
+        private float _factor = 1.2f;
        // private int channel = new Color32().R;
 
-        private Rectangle[] lastObjects;
-        private int steadyThreshold = 2;
+        private Rectangle[] _lastObjects;
+        private int _steadyThreshold = 2;
 
-        private int baseWidth;
-        private int baseHeight;
+        private int _baseWidth;
+        private int _baseHeight;
 
-        private int lastWidth;
-        private int lastHeight;
-        private float[] steps;
+        private int _lastWidth;
+        private int _lastHeight;
+        private float[] _steps;
 
-        private RectangleGroupMatching match;
+        private RectangleGroupMatching _match;
 
         #region Constructors
 
@@ -198,17 +198,17 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
             ObjectDetectorSearchMode searchMode, float scaleFactor,
             ObjectDetectorScalingMode scalingMode)
         {
-            classifier = new HaarClassifier(cascade);
-            this.minSize = new Size(minSize, minSize);
-            this.searchMode = searchMode;
+            _classifier = new HaarClassifier(cascade);
+            this._minSize = new Size(minSize, minSize);
+            this._searchMode = searchMode;
             ScalingMode = scalingMode;
-            factor = scaleFactor;
-            detectedObjects = new List<Rectangle>();
+            _factor = scaleFactor;
+            _detectedObjects = new List<Rectangle>();
 
-            baseWidth = cascade.Width;
-            baseHeight = cascade.Height;
+            _baseWidth = cascade.Width;
+            _baseHeight = cascade.Height;
 
-            match = new RectangleGroupMatching(0, 0.2);
+            _match = new RectangleGroupMatching(0, 0.2);
         }
         #endregion
 
@@ -219,8 +219,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         /// 
         public Size MinSize
         {
-            get { return minSize; }
-            set { minSize = value; }
+            get { return _minSize; }
+            set { _minSize = value; }
         }
 
         /// <summary>
@@ -228,8 +228,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         /// </summary>
         public Size MaxSize
         {
-            get { return maxSize; }
-            set { maxSize = value; }
+            get { return _maxSize; }
+            set { _maxSize = value; }
         }
 
         /// <summary>
@@ -248,13 +248,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         /// 
         public float ScalingFactor
         {
-            get { return factor; }
+            get { return _factor; }
             set
             {
-                if (value != factor)
+                if (value != _factor)
                 {
-                    factor = value;
-                    steps = null;
+                    _factor = value;
+                    _steps = null;
                 }
             }
         }
@@ -265,8 +265,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         /// 
         public ObjectDetectorSearchMode SearchMode
         {
-            get { return searchMode; }
-            set { searchMode = value; }
+            get { return _searchMode; }
+            set { _searchMode = value; }
         }
 
         /// <summary>
@@ -275,13 +275,13 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         /// 
         public ObjectDetectorScalingMode ScalingMode
         {
-            get { return scalingMode; }
+            get { return _scalingMode; }
             set
             {
-                if (value != scalingMode)
+                if (value != _scalingMode)
                 {
-                    scalingMode = value;
-                    steps = null;
+                    _scalingMode = value;
+                    _steps = null;
                 }
             }
         }
@@ -306,8 +306,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         /// 
         public int Suppression
         {
-            get { return match.MinimumNeighbors; }
-            set { match.MinimumNeighbors = value; }
+            get { return _match.MinimumNeighbors; }
+            set { _match.MinimumNeighbors = value; }
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         /// 
         public Rectangle[] DetectedObjects
         {
-            get { return detectedObjects.ToArray(); }
+            get { return _detectedObjects.ToArray(); }
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
         /// 
         public HaarClassifier Classifier
         {
-            get { return classifier; }
+            get { return _classifier; }
         }
 
         /// <summary>
@@ -365,38 +365,38 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
             Rectangle[] objects;
 
             // Creates an integral image representation of the frame
-            using (var fastBitmap = new FastBitmap(image, classifier.Cascade.HasTiltedFeatures))
+            using (var fastBitmap = new FastBitmap(image, _classifier.Cascade.HasTiltedFeatures))
             {
                 // Creates a new list of detected objects.
-                detectedObjects.Clear();
+                _detectedObjects.Clear();
 
                 var width = fastBitmap.Width;
                 var height = fastBitmap.Height;
 
                 // Update parameters only if different size
-                if (steps == null || width != lastWidth || height != lastHeight)
-                    update(width, height);
+                if (_steps == null || width != _lastWidth || height != _lastHeight)
+                    Update(width, height);
 
 
                 var window = Rectangle.Empty;
 
                 // For each scaling step
-                for (var i = 0; i < steps.Length; i++)
+                for (var i = 0; i < _steps.Length; i++)
                 {
-                    var scaling = steps[i];
+                    var scaling = _steps[i];
 
                     // Set the classifier window scale
-                    classifier.Scale = scaling;
+                    _classifier.Scale = scaling;
 
                     // Get the scaled window size
-                    window.Width = (int)(baseWidth * scaling);
-                    window.Height = (int)(baseHeight * scaling);
+                    window.Width = (int)(_baseWidth * scaling);
+                    window.Height = (int)(_baseHeight * scaling);
 
                     // Check if the window is lesser than the minimum size
-                    if (window.Width < minSize.Width || window.Height < minSize.Height)
+                    if (window.Width < _minSize.Width || window.Height < _minSize.Height)
                     {
                         // If we are searching in greater to smaller mode,
-                        if (scalingMode == ObjectDetectorScalingMode.GreaterToSmaller)
+                        if (_scalingMode == ObjectDetectorScalingMode.GreaterToSmaller)
                         {
                             break; // it won't get bigger, so we should stop.
                         }
@@ -404,10 +404,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                     }
 
                     // Check if the window is greater than the maximum size
-                    else if (window.Width > maxSize.Width || window.Height > maxSize.Height)
+                    else if (window.Width > _maxSize.Width || window.Height > _maxSize.Height)
                     {
                         // If we are searching in greater to smaller mode,
-                        if (scalingMode == ObjectDetectorScalingMode.GreaterToSmaller)
+                        if (_scalingMode == ObjectDetectorScalingMode.GreaterToSmaller)
                         {
                             continue; // continue until it gets smaller.
                         }
@@ -451,12 +451,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                                 localWindow.X = x;
 
                                 // Try to detect and object inside the window
-                                if (classifier.Compute(fastBitmap, localWindow))
+                                if (_classifier.Compute(fastBitmap, localWindow))
                                 {
                                     // an object has been detected
                                     bag.Add(localWindow);
 
-                                    if (searchMode == ObjectDetectorSearchMode.Single)
+                                    if (_searchMode == ObjectDetectorSearchMode.Single)
                                         options.Stop();
                                 }
                             }
@@ -465,21 +465,21 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                     // If required, avoid adding overlapping objects at
                     // the expense of extra computation. Otherwise, only
                     // add objects to the detected objects collection.
-                    if (searchMode == ObjectDetectorSearchMode.NoOverlap)
+                    if (_searchMode == ObjectDetectorSearchMode.NoOverlap)
                     {
                         foreach (var obj in bag)
                         {
-                            if (!overlaps(obj))
+                            if (!Overlaps(obj))
                             {
-                                detectedObjects.Add(obj);
+                                _detectedObjects.Add(obj);
                             }
                         }
                     }
-                    else if (searchMode == ObjectDetectorSearchMode.Single)
+                    else if (_searchMode == ObjectDetectorSearchMode.Single)
                     {
                         if (bag.TryPeek(out window))
                         {
-                            detectedObjects.Add(window);
+                            _detectedObjects.Add(window);
                             break;
                         }
                     }
@@ -487,58 +487,58 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
                     {
                         foreach (var obj in bag)
                         {
-                            detectedObjects.Add(obj);
+                            _detectedObjects.Add(obj);
                         }
                     }
                 }
             }
 
-            objects = detectedObjects.ToArray();
+            objects = _detectedObjects.ToArray();
 
-            if (searchMode == ObjectDetectorSearchMode.Average)
+            if (_searchMode == ObjectDetectorSearchMode.Average)
             {
-                objects = match.Group(objects);
+                objects = _match.Group(objects);
             }
 
-            checkSteadiness(objects);
-            lastObjects = objects;
+            CheckSteadiness(objects);
+            _lastObjects = objects;
 
             return objects; // Returns the array of detected objects.
         }
 
-        private void update(int width, int height)
+        private void Update(int width, int height)
         {
             var listSteps = new List<float>();
 
             // Set initial parameters according to scaling mode
-            if (scalingMode == ObjectDetectorScalingMode.SmallerToGreater)
+            if (_scalingMode == ObjectDetectorScalingMode.SmallerToGreater)
             {
                 var start = 1f;
-                var stop = Math.Min(width / (float)baseWidth, height / (float)baseHeight);
-                var step = factor;
+                var stop = Math.Min(width / (float)_baseWidth, height / (float)_baseHeight);
+                var step = _factor;
 
                 for (var f = start; f < stop; f *= step)
                     listSteps.Add(f);
             }
             else
             {
-                var start = Math.Min(width / (float)baseWidth, height / (float)baseHeight);
+                var start = Math.Min(width / (float)_baseWidth, height / (float)_baseHeight);
                 var stop = 1f;
-                var step = 1f / factor;
+                var step = 1f / _factor;
 
                 for (var f = start; f > stop; f *= step)
                     listSteps.Add(f);
             }
 
-            steps = listSteps.ToArray();
+            _steps = listSteps.ToArray();
 
-            lastWidth = width;
-            lastHeight = height;
+            _lastWidth = width;
+            _lastHeight = height;
         }
 
-        private void checkSteadiness(Rectangle[] rectangles)
+        private void CheckSteadiness(Rectangle[] rectangles)
         {
-            if (lastObjects == null ||
+            if (_lastObjects == null ||
                 rectangles == null ||
                 rectangles.Length == 0)
             {
@@ -550,9 +550,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
             foreach (var current in rectangles)
             {
                 var found = false;
-                foreach (var last in lastObjects)
+                foreach (var last in _lastObjects)
                 {
-                    if (current.IsEqual(last, steadyThreshold))
+                    if (current.IsEqual(last, _steadyThreshold))
                     {
                         found = true;
                         continue;
@@ -576,9 +576,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection
             }
         }
 
-        private bool overlaps(Rectangle rect)
+        private bool Overlaps(Rectangle rect)
         {
-            foreach (var r in detectedObjects)
+            foreach (var r in _detectedObjects)
             {
                 if (rect.IntersectsWith(r))
                 {

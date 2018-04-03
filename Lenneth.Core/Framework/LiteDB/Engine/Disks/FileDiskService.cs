@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using FileMode = Lenneth.Core.Framework.LiteDB.FileMode;
-using FileOptions = Lenneth.Core.Framework.LiteDB.FileOptions;
 
 namespace Lenneth.Core.Framework.LiteDB
 {

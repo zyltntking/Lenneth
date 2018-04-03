@@ -1,6 +1,5 @@
 ﻿using System;
 using Lenneth.Core.Framework.LiteDB;
-using CollectionIndex = Lenneth.Core.Framework.LiteDB_V6.CollectionIndex;
 
 namespace Lenneth.Core.Framework.LiteDB_V6
 {

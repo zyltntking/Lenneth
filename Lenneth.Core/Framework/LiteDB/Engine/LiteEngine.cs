@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using FileOptions = Lenneth.Core.Framework.LiteDB.FileOptions;
 
 namespace Lenneth.Core.Framework.LiteDB
 {
@@ -37,6 +36,7 @@ namespace Lenneth.Core.Framework.LiteDB
         private TimeSpan _timeout;
 
         private BsonReader _bsonReader;
+
         private BsonWriter _bsonWriter = new BsonWriter();
 
         /// <summary>

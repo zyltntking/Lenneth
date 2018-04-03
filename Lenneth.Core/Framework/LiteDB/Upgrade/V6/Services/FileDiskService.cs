@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using Lenneth.Core.Framework.LiteDB;
-using BasePage = Lenneth.Core.Framework.LiteDB_V6.BasePage;
-using HeaderPage = Lenneth.Core.Framework.LiteDB_V6.HeaderPage;
 
 namespace Lenneth.Core.Framework.LiteDB_V6
 {

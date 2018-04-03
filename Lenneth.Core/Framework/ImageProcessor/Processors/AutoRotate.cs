@@ -70,10 +70,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
 
             try
             {
-                const int Orientation = (int)ExifPropertyTag.Orientation;
-                if (!factory.PreserveExifData && factory.ExifPropertyItems.ContainsKey(Orientation))
+                const int orientation = (int)ExifPropertyTag.Orientation;
+                if (!factory.PreserveExifData && factory.ExifPropertyItems.ContainsKey(orientation))
                 {
-                    int rotationValue = factory.ExifPropertyItems[Orientation].Value[0];
+                    int rotationValue = factory.ExifPropertyItems[orientation].Value[0];
                     switch (rotationValue)
                     {
                         case 8:

@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 using Lenneth.Core.Framework.LiteDB;
-using CollectionPage = Lenneth.Core.Framework.LiteDB_V6.CollectionPage;
 
 namespace Lenneth.Core.Framework.LiteDB_V6
 {

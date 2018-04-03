@@ -12,13 +12,14 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
-using Lenneth.Core.Framework.ImageProcessor.Common.Exceptions;
-using Lenneth.Core.Framework.ImageProcessor.Common.Extensions;
-using Lenneth.Core.Framework.ImageProcessor.Imaging;
-using Lenneth.Core.Framework.ImageProcessor.Imaging.Helpers;
 
 namespace Lenneth.Core.Framework.ImageProcessor.Processors
 {
+    using Common.Exceptions;
+    using Common.Extensions;
+    using Imaging;
+    using Imaging.Helpers;
+
     /// <summary>
     /// Encapsulates methods allowing the replacement of a color within an image.
     /// </summary>

@@ -26,12 +26,12 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
         /// <summary>
         /// The edge filter.
         /// </summary>
-        private readonly IEdgeFilter edgeFilter;
+        private readonly IEdgeFilter _edgeFilter;
 
         /// <summary>
         /// Whether to produce a greyscale output.
         /// </summary>
-        private readonly bool greyscale;
+        private readonly bool _greyscale;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConvolutionFilter"/> class.
@@ -44,8 +44,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
         /// </param>
         public ConvolutionFilter(IEdgeFilter edgeFilter, bool greyscale)
         {
-            this.edgeFilter = edgeFilter;
-            this.greyscale = greyscale;
+            _edgeFilter = edgeFilter;
+            _greyscale = greyscale;
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                 // If it's greyscale apply a colormatrix to the image.
                 using (var attributes = new ImageAttributes())
                 {
-                    if (greyscale)
+                    if (_greyscale)
                     {
                         attributes.SetColorMatrix(ColorMatrixes.GreyScale);
                     }
@@ -98,7 +98,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
 
             try
             {
-                var horizontalFilter = edgeFilter.HorizontalGradientOperator;
+                var horizontalFilter = _edgeFilter.HorizontalGradientOperator;
 
                 var kernelLength = horizontalFilter.GetLength(0);
                 var radius = kernelLength >> 1;
@@ -220,7 +220,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
                 // If it's greyscale apply a colormatrix to the image.
                 using (var attributes = new ImageAttributes())
                 {
-                    if (greyscale)
+                    if (_greyscale)
                     {
                         attributes.SetColorMatrix(ColorMatrixes.GreyScale);
                     }
@@ -240,8 +240,8 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.EdgeDetection
 
             try
             {
-                var horizontalFilter = edgeFilter.HorizontalGradientOperator;
-                var verticalFilter = ((I2DEdgeFilter)edgeFilter).VerticalGradientOperator;
+                var horizontalFilter = _edgeFilter.HorizontalGradientOperator;
+                var verticalFilter = ((I2DEdgeFilter)_edgeFilter).VerticalGradientOperator;
 
                 var kernelLength = horizontalFilter.GetLength(0);
                 var radius = kernelLength >> 1;

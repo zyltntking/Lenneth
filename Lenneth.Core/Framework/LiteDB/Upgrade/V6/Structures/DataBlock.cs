@@ -1,5 +1,4 @@
 ﻿using Lenneth.Core.Framework.LiteDB;
-using DataPage = Lenneth.Core.Framework.LiteDB_V6.DataPage;
 
 namespace Lenneth.Core.Framework.LiteDB_V6
 {

@@ -2,12 +2,6 @@
 using System.IO;
 using System.Linq;
 using Lenneth.Core.Framework.LiteDB;
-using CollectionService = Lenneth.Core.Framework.LiteDB_V6.CollectionService;
-using DataService = Lenneth.Core.Framework.LiteDB_V6.DataService;
-using FileDiskService = Lenneth.Core.Framework.LiteDB_V6.FileDiskService;
-using HeaderPage = Lenneth.Core.Framework.LiteDB_V6.HeaderPage;
-using IndexService = Lenneth.Core.Framework.LiteDB_V6.IndexService;
-using PageService = Lenneth.Core.Framework.LiteDB_V6.PageService;
 
 namespace Lenneth.Core.Framework.LiteDB_V6
 {

@@ -99,15 +99,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Processors
             }
             catch (Exception ex)
             {
-                if (grey != null)
-                {
-                    grey.Dispose();
-                }
+                grey?.Dispose();
 
-                if (newImage != null)
-                {
-                    newImage.Dispose();
-                }
+                newImage?.Dispose();
 
                 throw new ImageProcessingException("Error processing image with " + GetType().Name, ex);
             }

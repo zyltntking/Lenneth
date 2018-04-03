@@ -30,7 +30,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// <summary>
         /// The root directory.
         /// </summary>
-        private static string rootDirectory;
+        private static string _rootDirectory;
 
         /// <summary>
         /// Maps a virtual path to a physical path.
@@ -67,7 +67,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         public static string GetRootDirectoryBinFolder()
         {
             var binFolder = string.Empty;
-            if (string.IsNullOrEmpty(rootDirectory))
+            if (string.IsNullOrEmpty(_rootDirectory))
             {
                 var directoryInfo = Assembly.GetExecutingAssembly().GetAssemblyFile().Directory;
                 if (directoryInfo != null)
@@ -98,7 +98,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
                 return binFolder;
             }
 
-            return rootDirectory;
+            return _rootDirectory;
         }
 
         /// <summary>
@@ -110,9 +110,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
         /// The <see cref="string"/> representing the root path of the currently running application.</returns>
         internal static string GetRootDirectorySafe()
         {
-            if (string.IsNullOrEmpty(rootDirectory) == false)
+            if (string.IsNullOrEmpty(_rootDirectory) == false)
             {
-                return rootDirectory;
+                return _rootDirectory;
             }
 
             var codeBase = Assembly.GetExecutingAssembly().CodeBase;
@@ -125,11 +125,11 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Helpers
                     "No root directory could be resolved. Please ensure that your solution is correctly configured.");
             }
 
-            rootDirectory = baseDirectory.Contains("bin")
+            _rootDirectory = baseDirectory.Contains("bin")
                            ? baseDirectory.Substring(0, baseDirectory.LastIndexOf("bin", StringComparison.OrdinalIgnoreCase) - 1)
                            : baseDirectory;
 
-            return rootDirectory;
+            return _rootDirectory;
         }
     }
 }

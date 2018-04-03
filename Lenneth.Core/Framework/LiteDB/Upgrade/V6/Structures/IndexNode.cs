@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Lenneth.Core.Framework.LiteDB;
-using IndexPage = Lenneth.Core.Framework.LiteDB_V6.IndexPage;
 
 namespace Lenneth.Core.Framework.LiteDB_V6
 {

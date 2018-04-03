@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using Lenneth.Core.Framework.LiteDB;
-using CollectionIndex = Lenneth.Core.Framework.LiteDB_V6.CollectionIndex;
-using DataBlock = Lenneth.Core.Framework.LiteDB_V6.DataBlock;
 
 namespace Lenneth.Core.Framework.LiteDB_V6
 {

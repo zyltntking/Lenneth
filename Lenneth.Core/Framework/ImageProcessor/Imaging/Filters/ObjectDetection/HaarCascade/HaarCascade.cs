@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -101,7 +102,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
             Stages = stages;
 
             // check if the classifier has tilted features
-            HasTiltedFeatures = checkTiltedFeatures(stages);
+            HasTiltedFeatures = CheckTiltedFeatures(stages);
         }
 
         /// <summary>
@@ -122,14 +123,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.ObjectDetection.
         ///   Checks if the classifier contains tilted (rotated) features
         /// </summary>
         /// 
-        private static bool checkTiltedFeatures(HaarCascadeStage[] stages)
+        private static bool CheckTiltedFeatures(HaarCascadeStage[] stages)
         {
-            foreach (var stage in stages)
-                foreach (var tree in stage.Trees)
-                    foreach (var node in tree)
-                        if (node.Feature.Tilted == true)
-                            return true;
-            return false;
+            return stages.Any(stage => stage.Trees.Any(tree => tree.Any(node => node.Feature.Tilted)));
         }
 
         /// <summary>

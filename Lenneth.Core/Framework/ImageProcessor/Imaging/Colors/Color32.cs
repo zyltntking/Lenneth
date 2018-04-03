@@ -108,6 +108,20 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
             return false;
         }
 
+        #region override operator
+
+        public static bool operator ==(Color32 lhs, Color32 rhs)
+        {
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator !=(Color32 lhs, Color32 rhs)
+        {
+            return !lhs.Equals(rhs);
+        }
+
+        #endregion
+
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>

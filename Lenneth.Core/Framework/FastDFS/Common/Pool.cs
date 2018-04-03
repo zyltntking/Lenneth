@@ -125,6 +125,7 @@ namespace Lenneth.Core.Framework.FastDFS.Common
             if (disposing)
             {
                 _autoEvent?.Dispose();
+                _autoEvent?.Close();
             }
         }
 

@@ -23,22 +23,22 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <summary>
         /// The red component.
         /// </summary>
-        private readonly byte r;
+        private readonly byte _r;
 
         /// <summary>
         /// The green component.
         /// </summary>
-        private readonly byte g;
+        private readonly byte _g;
 
         /// <summary>
         /// The blue component.
         /// </summary>
-        private readonly byte b;
+        private readonly byte _b;
 
         /// <summary>
         /// The alpha component.
         /// </summary>
-        private readonly byte a;
+        private readonly byte _a;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RgbaColor"/> struct. 
@@ -57,10 +57,10 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </param>
         private RgbaColor(byte red, byte green, byte blue, byte alpha)
         {
-            r = red;
-            g = green;
-            b = blue;
-            a = alpha;
+            _r = red;
+            _g = green;
+            _b = blue;
+            _a = alpha;
         }
 
         /// <summary>
@@ -71,31 +71,31 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </param>
         private RgbaColor(Color color)
         {
-            r = color.R;
-            g = color.G;
-            b = color.B;
-            a = color.A;
+            _r = color.R;
+            _g = color.G;
+            _b = color.B;
+            _a = color.A;
         }
 
         /// <summary>
         /// Gets the red component.
         /// </summary>
-        public byte R => r;
+        public byte R => _r;
 
         /// <summary>
         /// Gets the green component.
         /// </summary>
-        public byte G => g;
+        public byte G => _g;
 
         /// <summary>
         /// Gets the blue component.
         /// </summary>
-        public byte B => b;
+        public byte B => _b;
 
         /// <summary>
         /// Gets the alpha component.
         /// </summary>
-        public byte A => a;
+        public byte A => _a;
 
         /// <summary>
         /// Creates a <see cref="RgbaColor"/> structure from the three 8-bit RGBA 
@@ -249,6 +249,20 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
 
             return false;
         }
+
+        #region override operator
+
+        public static bool operator ==(RgbaColor lhs, RgbaColor rhs)
+        {
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator !=(RgbaColor lhs, RgbaColor rhs)
+        {
+            return !lhs.Equals(rhs);
+        }
+
+        #endregion
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.

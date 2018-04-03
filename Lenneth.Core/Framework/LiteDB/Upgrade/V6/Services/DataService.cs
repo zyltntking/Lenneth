@@ -1,8 +1,5 @@
 ﻿using System.IO;
 using Lenneth.Core.Framework.LiteDB;
-using DataBlock = Lenneth.Core.Framework.LiteDB_V6.DataBlock;
-using DataPage = Lenneth.Core.Framework.LiteDB_V6.DataPage;
-using ExtendPage = Lenneth.Core.Framework.LiteDB_V6.ExtendPage;
 
 namespace Lenneth.Core.Framework.LiteDB_V6
 {
