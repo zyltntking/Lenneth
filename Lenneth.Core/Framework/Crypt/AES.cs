@@ -9,7 +9,7 @@ namespace Lenneth.Core.Framework.Crypt
     /// <summary>
     /// AES加密类
     /// </summary>
-    internal sealed class AES : Crypt
+    internal sealed class Aes : Crypt
     {
         /// <summary>
         /// 加密密钥
@@ -27,7 +27,7 @@ namespace Lenneth.Core.Framework.Crypt
         /// </summary>
         /// <param name="key">密钥</param>
         /// <param name="iv">位移向量</param>
-        public void InitCrypt(string key,byte[] iv)
+        public void InitCrypt(string key, byte[] iv)
         {
             Key = key;
             Iv = iv;
@@ -38,7 +38,7 @@ namespace Lenneth.Core.Framework.Crypt
         /// </summary>
         /// <param name="key">加密密钥</param>
         /// <param name="iv">加密向量</param>
-        public AES(string key = null, string iv = null)
+        public Aes(string key = null, string iv = null)
         {
             if (key != null && key.Length >= 16 && key.Length <= 32)
             {
@@ -64,18 +64,14 @@ namespace Lenneth.Core.Framework.Crypt
                 using (var aesAlg = new AesCryptoServiceProvider())
                 {
                     var encryptor = aesAlg.CreateEncryptor(Encoding.UTF8.GetBytes(Key), Iv);
-                    using (var msEncrypt = new MemoryStream())
+                    var msEncrypt = new MemoryStream();
+                    var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
+                    using (var swEncrypt = new StreamWriter(csEncrypt))
                     {
-                        using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                        {
-                            using (var swEncrypt = new StreamWriter(csEncrypt))
-                            {
-                                swEncrypt.Write(encryptString);
-                            }
-                            var encrypted = msEncrypt.ToArray();
-                            result = Convert.ToBase64String(encrypted);
-                        }
+                        swEncrypt.Write(encryptString);
                     }
+                    var encrypted = msEncrypt.ToArray();
+                    result = Convert.ToBase64String(encrypted);
                 }
             }
             catch
@@ -100,15 +96,11 @@ namespace Lenneth.Core.Framework.Crypt
                 using (var aesAlg = new AesCryptoServiceProvider())
                 {
                     var decryptor = aesAlg.CreateDecryptor(Encoding.UTF8.GetBytes(Key), Iv);
-                    using (var msDecrypt = new MemoryStream(decryptByteArray))
+                    var msDecrypt = new MemoryStream(decryptByteArray);
+                    var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
+                    using (var srDecrypt = new StreamReader(csDecrypt))
                     {
-                        using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                        {
-                            using (var srDecrypt = new StreamReader(csDecrypt))
-                            {
-                                result = srDecrypt.ReadToEnd();
-                            }
-                        }
+                        result = srDecrypt.ReadToEnd();
                     }
                 }
             }

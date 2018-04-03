@@ -61,7 +61,7 @@ namespace Lenneth.Core
             //Mail
             container.RegisterType<IMail, SmtpMail>(new InjectionConstructor(Config.MailConfig));
             //Crypt
-            container.RegisterType<ICrypt, DES>(new InjectionConstructor("@Lenneth", "@Lenneth"));
+            container.RegisterType<ICrypt, Des>(new InjectionConstructor("@Lenneth", "@Lenneth"));
             //Hash
             container.RegisterType<IHash, MD5Hash>();
             //Qr

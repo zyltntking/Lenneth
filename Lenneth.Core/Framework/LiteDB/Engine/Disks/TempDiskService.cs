@@ -37,17 +37,17 @@ namespace Lenneth.Core.Framework.LiteDB
             _stream = this.CreateFileStream(_filename, System.IO.FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None);
         }
 
-        public virtual void Dispose()
-        {
-            if (_stream != null)
-            {
-                _stream.Dispose();
-                _stream = null;
+        //public virtual void Dispose()
+        //{
+        //    if (_stream != null)
+        //    {
+        //        _stream.Dispose();
+        //        _stream = null;
 
-                // after release stream, delete datafile
-                FileHelper.TryDelete(_filename);
-            }
-        }
+        //        // after release stream, delete datafile
+        //        FileHelper.TryDelete(_filename);
+        //    }
+        //}
 
         #endregion
 
@@ -209,6 +209,38 @@ namespace Lenneth.Core.Framework.LiteDB
             return new FileStream(path, mode, access, share, 
                 BasePage.PAGE_SIZE,
                 System.IO.FileOptions.RandomAccess);
+        }
+
+        #endregion
+
+        #region IDisposable
+
+        private void ReleaseUnmanagedResources()
+        {
+            // TODO release unmanaged resources here
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            ReleaseUnmanagedResources();
+            if (disposing)
+            {
+                _stream?.Dispose();
+                FileHelper.TryDelete(_filename);
+            }
+        }
+
+        /// <summary>执行与释放或重置非托管资源关联的应用程序定义的任务。</summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>在垃圾回收将某一对象回收前允许该对象尝试释放资源并执行其他清理操作。</summary>
+        ~TempDiskService()
+        {
+            Dispose(false);
         }
 
         #endregion

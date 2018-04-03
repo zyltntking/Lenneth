@@ -75,7 +75,7 @@ namespace Lenneth.Core.Framework.LiteDB
 
         internal static string GetChunckId(string id, int index)
         {
-            return string.Format("{0}\\{1:00000}", id, index);
+            return $"{id}\\{index:00000}";
         }
 
         #region Dispose
@@ -90,7 +90,10 @@ namespace Lenneth.Core.Framework.LiteDB
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-
+            if (disposing)
+            {
+                _buffer.Dispose();
+            }
             if (!_disposed)
             {
                 if (this.CanWrite)

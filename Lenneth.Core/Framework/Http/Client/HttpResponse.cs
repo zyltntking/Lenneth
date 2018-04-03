@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Lenneth.Core.Framework.Http.Client.Abstractions;
+using Lenneth.Core.Framework.Http.Codecs;
+using Lenneth.Core.Framework.Http.Configuration;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
-using Lenneth.Core.Framework.Http.Client.Abstractions;
-using Lenneth.Core.Framework.Http.Codecs;
-using Lenneth.Core.Framework.Http.Configuration;
 
 namespace Lenneth.Core.Framework.Http.Client
 {
@@ -80,30 +80,28 @@ namespace Lenneth.Core.Framework.Http.Client
 
             if (streamResponse) return;
 
-            using (var stream = _response.GetResponseStream())
+            var stream = _response.GetResponseStream();
+            if (stream == null) return;
+
+            if (!string.IsNullOrEmpty(filename))
             {
-                if (stream == null) return;
-
-                if (!string.IsNullOrEmpty(filename))
+                using (var filestream = new FileStream(filename, FileMode.CreateNew))
                 {
-                    using (var filestream = new FileStream(filename, FileMode.CreateNew))
-                    {
-                        int count;
-                        var buffer = new byte[8192];
+                    int count;
+                    var buffer = new byte[8192];
 
-                        while ((count = stream.Read(buffer, 0, buffer.Length)) > 0)
-                        {
-                            filestream.Write(buffer, 0, count);
-                        }
+                    while ((count = stream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        filestream.Write(buffer, 0, count);
                     }
                 }
-                else
+            }
+            else
+            {
+                var encoding = string.IsNullOrEmpty(CharacterSet) ? Encoding.UTF8 : Encoding.GetEncoding(CharacterSet);
+                using (var reader = new StreamReader(stream, encoding))
                 {
-                    var encoding = string.IsNullOrEmpty(CharacterSet) ? Encoding.UTF8 : Encoding.GetEncoding(CharacterSet);
-                    using (var reader = new StreamReader(stream, encoding))
-                    {
-                        RawText = reader.ReadToEnd();
-                    }
+                    RawText = reader.ReadToEnd();
                 }
             }
         }
