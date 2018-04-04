@@ -50,10 +50,7 @@ namespace Lenneth.Core.Framework.FastDFS.Common
             return result;
         }
 
-        public static byte[] StringToByte(string input)
-        {
-            return FdfsConfig.Charset.GetBytes(input);
-        }
+        public static byte[] StringToByte(string input) => FdfsConfig.Charset.GetBytes(input);
 
         /// <summary>
         /// get token for file URL
