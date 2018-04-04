@@ -86,10 +86,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <summary>
         /// Gets the color for this Color32 object
         /// </summary>
-        public Color Color
-        {
-            get { return Color.FromArgb(A, R, G, B); }
-        }
+        public Color Color => Color.FromArgb(A, R, G, B);
 
         /// <summary>
         /// Indicates whether this instance and a specified object are equal.
@@ -100,9 +97,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <param name="obj">Another object to compare to. </param>
         public override bool Equals(object obj)
         {
-            if (obj is Color32)
+            if (obj is Color32 color32)
             {
-                return Equals((Color32)obj);
+                return Equals(color32);
             }
 
             return false;
@@ -127,10 +124,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// </summary>
         /// <param name="other">An object to compare with this object.</param>
         /// <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
-        public bool Equals(Color32 other)
-        {
-            return Argb.Equals(other.Argb);
-        }
+        public bool Equals(Color32 other) => Argb.Equals(other.Argb);
 
         /// <summary>
         /// Returns the hash code for this instance.
@@ -138,10 +132,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// A 32-bit signed integer that is the hash code for this instance.
         /// </returns>
-        public override int GetHashCode()
-        {
-            return GetHashCode(this);
-        }
+        public override int GetHashCode() => GetHashCode(this);
 
         /// <summary>
         /// Returns the hash code for the given instance.

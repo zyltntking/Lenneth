@@ -88,9 +88,6 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Extensions
         /// <returns>
         /// The <see cref="Image"/>.
         /// </returns>
-        public static Image Copy(this Image source, PixelFormat format = PixelFormat.Format32bppPArgb)
-        {
-            return Copy(source, AnimationProcessMode.All, format);
-        }
+        public static Image Copy(this Image source, PixelFormat format = PixelFormat.Format32bppPArgb) => Copy(source, AnimationProcessMode.All, format);
     }
 }

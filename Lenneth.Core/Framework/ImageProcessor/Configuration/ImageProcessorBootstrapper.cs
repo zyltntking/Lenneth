@@ -67,20 +67,14 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// <param name="format">
         /// The <see cref="ISupportedImageFormat"/> instance to add.
         /// </param>
-        public void AddImageFormats(params ISupportedImageFormat[] format)
-        {
-            ((List<ISupportedImageFormat>)SupportedImageFormats).AddRange(format);
-        }
+        public void AddImageFormats(params ISupportedImageFormat[] format) => ((List<ISupportedImageFormat>)SupportedImageFormats).AddRange(format);
 
         /// <summary>
         /// Allows the setting of the default logger. Useful for when 
         /// the type finder fails to dynamically add the custom logger implementation.
         /// </summary>
         /// <param name="logger"></param>
-        public void SetLogger(ILogger logger)
-        {
-            Logger = logger;
-        }
+        public void SetLogger(ILogger logger) => Logger = logger;
 
         /// <summary>
         /// Creates a list, using reflection, of supported image formats that ImageProcessor can run.

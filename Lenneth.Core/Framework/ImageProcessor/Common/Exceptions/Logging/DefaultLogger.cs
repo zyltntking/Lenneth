@@ -27,10 +27,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Exceptions.Logging
         /// <param name="text">The message to log.</param>
         /// <param name="callerName">The property or method name calling the log.</param>
         /// <param name="lineNumber">The line number where the method is called.</param>
-        public void Log<T>(string text, [CallerMemberName] string callerName = null, [CallerLineNumber] int lineNumber = 0)
-        {
-            LogInternal(typeof(T), text, callerName, lineNumber);
-        }
+        public void Log<T>(string text, [CallerMemberName] string callerName = null, [CallerLineNumber] int lineNumber = 0) => LogInternal(typeof(T), text, callerName, lineNumber);
 
         /// <summary>
         /// Logs the specified message.
@@ -39,12 +36,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Exceptions.Logging
         /// <param name="text">The message to log.</param>
         /// <param name="callerName">The property or method name calling the log.</param>
         /// <param name="lineNumber">The line number where the method is called.</param>
-        public void Log(Type type, string text, [CallerMemberName] string callerName = null, [CallerLineNumber] int lineNumber = 0)
-        {
-            LogInternal(type, text, callerName, lineNumber);
-        }
+        public void Log(Type type, string text, [CallerMemberName] string callerName = null, [CallerLineNumber] int lineNumber = 0) => LogInternal(type, text, callerName, lineNumber);
 
-		/// <summary>
+        /// <summary>
 		/// Logs the specified message.
 		/// </summary>
 		/// <param name="type">The type calling the logger.</param>

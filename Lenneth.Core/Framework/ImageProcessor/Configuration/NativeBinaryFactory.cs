@@ -47,10 +47,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Configuration
         /// <summary>
         /// Initializes a new instance of the <see cref="NativeBinaryFactory"/> class.
         /// </summary>
-        public NativeBinaryFactory()
-        {
-            nativeBinaries = new ConcurrentDictionary<string, IntPtr>();
-        }
+        public NativeBinaryFactory() => nativeBinaries = new ConcurrentDictionary<string, IntPtr>();
 
         /// <summary>
         /// Finalizes an instance of the <see cref="T:Lenneth.Core.Framework.ImageProcessor.Configuration.NativeBinaryFactory">ImageFactory</see> class. 

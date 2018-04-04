@@ -32,10 +32,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Extensions
         /// <returns>
         /// The <see cref="T:System.Byte"/>.
         /// </returns>
-        public static byte ToByte(this int value)
-        {
-            return Convert.ToByte(ImageMaths.Clamp(value, 0, 255));
-        }
+        public static byte ToByte(this int value) => Convert.ToByte(ImageMaths.Clamp(value, 0, 255));
 
         /// <summary>
         /// Converts the string representation of a number in a specified culture-specific format to its 
@@ -44,9 +41,6 @@ namespace Lenneth.Core.Framework.ImageProcessor.Common.Extensions
         /// <param name="value">The integer.</param>
         /// <param name="toParse">A string containing a number to convert.</param>
         /// <returns>A 32-bit signed integer equivalent to the number specified in toParse.</returns>
-        public static int ParseInvariant(this int value, string toParse)
-        {
-            return int.Parse(toParse, CultureInfo.InvariantCulture);
-        }
+        public static int ParseInvariant(this int value, string toParse) => int.Parse(toParse, CultureInfo.InvariantCulture);
     }
 }
