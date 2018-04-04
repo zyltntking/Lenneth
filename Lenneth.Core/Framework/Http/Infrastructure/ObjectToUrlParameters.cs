@@ -8,9 +8,6 @@ namespace Lenneth.Core.Framework.Http.Infrastructure
 
         protected override string PathSeparatorCharacter => "&";
 
-        protected override string BuildParam(PropertyValue propertyValue)
-        {
-            return string.Join("=", propertyValue.Name, UrlEncode(propertyValue.Value));
-        }
+        protected override string BuildParam(PropertyValue propertyValue) => string.Join("=", propertyValue.Name, UrlEncode(propertyValue.Value));
     }
 }

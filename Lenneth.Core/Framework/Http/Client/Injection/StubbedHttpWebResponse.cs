@@ -45,22 +45,16 @@ namespace Lenneth.Core.Framework.Http.Client.Injection
             _responseBody = responseBody;
         }
 
-        public Stream GetResponseStream()
-        {
-            return _responseBody.ToStream();
-        }
+        public Stream GetResponseStream() => _responseBody.ToStream();
 
         public void Close()
         {
             // TODO
         }
 
-        public string GetResponseHeader(string headerName)
-        {
-            return Headers.AllKeys.Contains(headerName)
-                ? string.Join(",", Headers.GetValues(headerName) ?? throw new InvalidOperationException())
-                : string.Empty;
-        }
+        public string GetResponseHeader(string headerName) => Headers.AllKeys.Contains(headerName)
+            ? string.Join(",", Headers.GetValues(headerName) ?? throw new InvalidOperationException())
+            : string.Empty;
 
         public object GetLifetimeService()
         {

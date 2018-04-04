@@ -12,10 +12,7 @@ namespace Lenneth.Core.Framework.Http.Infrastructure
         {
         }
 
-        public PropertyNotFoundException(string propertyName) : base(propertyName)
-        {
-            PropertyName = propertyName;
-        }
+        public PropertyNotFoundException(string propertyName) : base(propertyName) => PropertyName = propertyName;
 
         public PropertyNotFoundException(string message, Exception innerException) : base(message, innerException)
         {

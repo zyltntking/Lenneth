@@ -14,10 +14,7 @@ namespace Lenneth.Core.Framework.Http.Client.Injection
     {
         private readonly HttpRequestInterception _matchingInterceptor;
 
-        public StubbedHttpWebRequest(HttpRequestInterception matchingInterceptor)
-        {
-            _matchingInterceptor = matchingInterceptor;
-        }
+        public StubbedHttpWebRequest(HttpRequestInterception matchingInterceptor) => _matchingInterceptor = matchingInterceptor;
 
         public bool AllowAutoRedirect { get; set; }
         public bool AllowWriteStreamBuffering { get; set; }
@@ -97,10 +94,7 @@ namespace Lenneth.Core.Framework.Http.Client.Injection
             throw new NotImplementedException();
         }
 
-        public IHttpWebResponse GetResponse()
-        {
-            return _matchingInterceptor.GetInjectedResponse();
-        }
+        public IHttpWebResponse GetResponse() => _matchingInterceptor.GetInjectedResponse();
 
         public void Abort()
         {
