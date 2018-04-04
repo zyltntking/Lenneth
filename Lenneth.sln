@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lenneth.Core", "Lenneth.Core\Lenneth.Core.csproj", "{FBEB21F3-2543-4B10-8760-99A9C7BC2C78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lenneth.Test", "Lenneth.Test\Lenneth.Test.csproj", "{ECF72C8D-8607-4F45-8216-13D1196669FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{FBEB21F3-2543-4B10-8760-99A9C7BC2C78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBEB21F3-2543-4B10-8760-99A9C7BC2C78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBEB21F3-2543-4B10-8760-99A9C7BC2C78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECF72C8D-8607-4F45-8216-13D1196669FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECF72C8D-8607-4F45-8216-13D1196669FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECF72C8D-8607-4F45-8216-13D1196669FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECF72C8D-8607-4F45-8216-13D1196669FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
