@@ -82,10 +82,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// The <see cref="YCbCrColor"/>.
         /// </returns>
-        public static YCbCrColor FromYCbCr(float y, float cb, float cr)
-        {
-            return new YCbCrColor(y, cb, cr);
-        }
+        public static YCbCrColor FromYCbCr(float y, float cb, float cr) => new YCbCrColor(y, cb, cr);
 
         /// <summary>
         /// Creates a <see cref="YCbCrColor"/> structure from the specified <see cref="System.Drawing.Color"/> structure
@@ -119,10 +116,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="YCbCrColor"/>.
         /// </returns>
-        public static implicit operator YCbCrColor(Color color)
-        {
-            return FromColor(color);
-        }
+        public static implicit operator YCbCrColor(Color color) => FromColor(color);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="RgbaColor"/> to a 
@@ -134,10 +128,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="YCbCrColor"/>.
         /// </returns>
-        public static implicit operator YCbCrColor(RgbaColor rgbaColor)
-        {
-            return FromColor(rgbaColor);
-        }
+        public static implicit operator YCbCrColor(RgbaColor rgbaColor) => FromColor(rgbaColor);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="HslaColor"/> to a 
@@ -149,10 +140,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="YCbCrColor"/>.
         /// </returns>
-        public static implicit operator YCbCrColor(HslaColor hslaColor)
-        {
-            return FromColor(hslaColor);
-        }
+        public static implicit operator YCbCrColor(HslaColor hslaColor) => FromColor(hslaColor);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="YCbCrColor"/> to a 

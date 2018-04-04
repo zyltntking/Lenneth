@@ -107,10 +107,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// The <see cref="RgbaColor"/>.
         /// </returns>
-        public static RgbaColor FromRgba(byte red, byte green, byte blue)
-        {
-            return new RgbaColor(red, green, blue, 255);
-        }
+        public static RgbaColor FromRgba(byte red, byte green, byte blue) => new RgbaColor(red, green, blue, 255);
 
         /// <summary>
         /// Creates a <see cref="RgbaColor"/> structure from the four 8-bit RGBA 
@@ -123,10 +120,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// The <see cref="RgbaColor"/>.
         /// </returns>
-        public static RgbaColor FromRgba(byte red, byte green, byte blue, byte alpha)
-        {
-            return new RgbaColor(red, green, blue, alpha);
-        }
+        public static RgbaColor FromRgba(byte red, byte green, byte blue, byte alpha) => new RgbaColor(red, green, blue, alpha);
 
         /// <summary>
         /// Creates a <see cref="RgbaColor"/> structure from the specified <see cref="System.Drawing.Color"/> structure
@@ -137,10 +131,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// The <see cref="RgbaColor"/>.
         /// </returns>
-        public static RgbaColor FromColor(Color color)
-        {
-            return new RgbaColor(color);
-        }
+        public static RgbaColor FromColor(Color color) => new RgbaColor(color);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="System.Drawing.Color"/> to a 
@@ -152,10 +143,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="RgbaColor"/>.
         /// </returns>
-        public static implicit operator RgbaColor(Color color)
-        {
-            return FromColor(color);
-        }
+        public static implicit operator RgbaColor(Color color) => FromColor(color);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="HslaColor"/> to a 
@@ -167,10 +155,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="RgbaColor"/>.
         /// </returns>
-        public static implicit operator RgbaColor(HslaColor hslaColor)
-        {
-            return FromColor(hslaColor);
-        }
+        public static implicit operator RgbaColor(HslaColor hslaColor) => FromColor(hslaColor);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="YCbCrColor"/> to a 
@@ -182,10 +167,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="RgbaColor"/>.
         /// </returns>
-        public static implicit operator RgbaColor(YCbCrColor ycbcrColor)
-        {
-            return FromColor(ycbcrColor);
-        }
+        public static implicit operator RgbaColor(YCbCrColor ycbcrColor) => FromColor(ycbcrColor);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="RgbaColor"/> to a 
@@ -197,10 +179,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="System.Drawing.Color"/>.
         /// </returns>
-        public static implicit operator Color(RgbaColor rgbaColor)
-        {
-            return Color.FromArgb(rgbaColor.A, rgbaColor.R, rgbaColor.G, rgbaColor.B);
-        }
+        public static implicit operator Color(RgbaColor rgbaColor) => Color.FromArgb(rgbaColor.A, rgbaColor.R, rgbaColor.G, rgbaColor.B);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="RgbaColor"/> to a 
@@ -212,10 +191,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="YCbCrColor"/>.
         /// </returns>
-        public static implicit operator YCbCrColor(RgbaColor rgbaColor)
-        {
-            return YCbCrColor.FromColor(rgbaColor);
-        }
+        public static implicit operator YCbCrColor(RgbaColor rgbaColor) => YCbCrColor.FromColor(rgbaColor);
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
