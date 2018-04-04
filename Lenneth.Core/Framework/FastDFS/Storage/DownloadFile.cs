@@ -79,10 +79,7 @@ namespace Lenneth.Core.Framework.FastDFS.Storage
         {
             public readonly byte[] Content;
 
-            public Response(byte[] responseByte)
-            {
-                Content = responseByte;
-            }
+            public Response(byte[] responseByte) => Content = responseByte;
         }
     }
 }
