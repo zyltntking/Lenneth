@@ -7,15 +7,9 @@ namespace Lenneth.Core.Framework.Http.Client.Injection
 {
     internal static class RequestPredicateExtensions
     {
-        public static bool MatchesMethod(this HttpRequest request, HttpMethod method)
-        {
-            return request.Method == method;
-        }
+        public static bool MatchesMethod(this HttpRequest request, HttpMethod method) => request.Method == method;
 
-        public static bool MatchesMethodAndUrl(this HttpRequest request, HttpMethod method, string url)
-        {
-            return request.MatchesMethod(method) && request.Uri.Equals(url, StringComparison.InvariantCultureIgnoreCase);
-        }
+        public static bool MatchesMethodAndUrl(this HttpRequest request, HttpMethod method, string url) => request.MatchesMethod(method) && request.Uri.Equals(url, StringComparison.InvariantCultureIgnoreCase);
     }
 
     internal class HttpRequestInterception : IHttpRequestInterception, IHttpRequestInterceptionBuilder
@@ -28,10 +22,7 @@ namespace Lenneth.Core.Framework.Http.Client.Injection
         /// <inheritdoc />
         public Func<HttpRequest, bool> Matches { get; private set; }
 
-        public HttpRequestInterception(Func<HttpRequest, bool> requestPredicate)
-        {
-            Matches = requestPredicate ?? (x => true);
-        }
+        public HttpRequestInterception(Func<HttpRequest, bool> requestPredicate) => Matches = requestPredicate ?? (x => true);
 
         public HttpRequestInterception(HttpMethod methodToIntercept)
             : this(r => r.MatchesMethod(methodToIntercept))
@@ -65,15 +56,9 @@ namespace Lenneth.Core.Framework.Http.Client.Injection
         }
 
         /// <inheritdoc />
-        public void InjectResponse(IHttpWebResponse response)
-        {
-            _response = response;
-        }
+        public void InjectResponse(IHttpWebResponse response) => _response = response;
 
         /// <inheritdoc />
-        public IHttpWebResponse GetInjectedResponse()
-        {
-            return _response ?? new StubbedHttpWebResponse(_statusCode, _responseHeaders, _responseBody);
-        }
+        public IHttpWebResponse GetInjectedResponse() => _response ?? new StubbedHttpWebResponse(_statusCode, _responseHeaders, _responseBody);
     }
 }

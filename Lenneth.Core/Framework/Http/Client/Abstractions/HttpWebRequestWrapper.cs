@@ -13,10 +13,7 @@ namespace Lenneth.Core.Framework.Http.Client.Abstractions
     {
         private readonly HttpWebRequest _innerRequest;
 
-        public HttpWebRequestWrapper(HttpWebRequest innerRequest)
-        {
-            _innerRequest = innerRequest;
-        }
+        public HttpWebRequestWrapper(HttpWebRequest innerRequest) => _innerRequest = innerRequest;
 
         #region Properties
 
@@ -257,105 +254,45 @@ namespace Lenneth.Core.Framework.Http.Client.Abstractions
 
         #region Methods
 
-        public IAsyncResult BeginGetRequestStream(AsyncCallback callback, object state)
-        {
-            return _innerRequest.BeginGetRequestStream(callback, state);
-        }
+        public IAsyncResult BeginGetRequestStream(AsyncCallback callback, object state) => _innerRequest.BeginGetRequestStream(callback, state);
 
-        public Stream EndGetRequestStream(IAsyncResult asyncResult)
-        {
-            return _innerRequest.EndGetRequestStream(asyncResult);
-        }
+        public Stream EndGetRequestStream(IAsyncResult asyncResult) => _innerRequest.EndGetRequestStream(asyncResult);
 
-        public Stream EndGetRequestStream(IAsyncResult asyncResult, out TransportContext context)
-        {
-            return _innerRequest.EndGetRequestStream(asyncResult, out context);
-        }
+        public Stream EndGetRequestStream(IAsyncResult asyncResult, out TransportContext context) => _innerRequest.EndGetRequestStream(asyncResult, out context);
 
-        public Stream GetRequestStream()
-        {
-            return _innerRequest.GetRequestStream();
-        }
+        public Stream GetRequestStream() => _innerRequest.GetRequestStream();
 
-        public Stream GetRequestStream(out TransportContext context)
-        {
-            return _innerRequest.GetRequestStream(out context);
-        }
+        public Stream GetRequestStream(out TransportContext context) => _innerRequest.GetRequestStream(out context);
 
-        public IAsyncResult BeginGetResponse(AsyncCallback callback, object state)
-        {
-            return _innerRequest.BeginGetResponse(callback, state);
-        }
+        public IAsyncResult BeginGetResponse(AsyncCallback callback, object state) => _innerRequest.BeginGetResponse(callback, state);
 
-        public IHttpWebResponse EndGetResponse(IAsyncResult asyncResult)
-        {
-            return new HttpWebResponseWrapper((HttpWebResponse)_innerRequest.EndGetResponse(asyncResult));
-        }
+        public IHttpWebResponse EndGetResponse(IAsyncResult asyncResult) => new HttpWebResponseWrapper((HttpWebResponse)_innerRequest.EndGetResponse(asyncResult));
 
-        public IHttpWebResponse GetResponse()
-        {
-            return new HttpWebResponseWrapper((HttpWebResponse)_innerRequest.GetResponse());
-        }
+        public IHttpWebResponse GetResponse() => new HttpWebResponseWrapper((HttpWebResponse)_innerRequest.GetResponse());
 
-        public void Abort()
-        {
-            _innerRequest.Abort();
-        }
+        public void Abort() => _innerRequest.Abort();
 
-        public void AddRange(int from, int to)
-        {
-            _innerRequest.AddRange(from, to);
-        }
+        public void AddRange(int from, int to) => _innerRequest.AddRange(@from, to);
 
-        public void AddRange(long from, long to)
-        {
-            _innerRequest.AddRange(from, to);
-        }
+        public void AddRange(long from, long to) => _innerRequest.AddRange(@from, to);
 
-        public void AddRange(int range)
-        {
-            _innerRequest.AddRange(range);
-        }
+        public void AddRange(int range) => _innerRequest.AddRange(range);
 
-        public void AddRange(long range)
-        {
-            _innerRequest.AddRange(range);
-        }
+        public void AddRange(long range) => _innerRequest.AddRange(range);
 
-        public void AddRange(string rangeSpecifier, int from, int to)
-        {
-            _innerRequest.AddRange(rangeSpecifier, from, to);
-        }
+        public void AddRange(string rangeSpecifier, int from, int to) => _innerRequest.AddRange(rangeSpecifier, @from, to);
 
-        public void AddRange(string rangeSpecifier, long from, long to)
-        {
-            _innerRequest.AddRange(rangeSpecifier, from, to);
-        }
+        public void AddRange(string rangeSpecifier, long from, long to) => _innerRequest.AddRange(rangeSpecifier, @from, to);
 
-        public void AddRange(string rangeSpecifier, int range)
-        {
-            _innerRequest.AddRange(rangeSpecifier, range);
-        }
+        public void AddRange(string rangeSpecifier, int range) => _innerRequest.AddRange(rangeSpecifier, range);
 
-        public void AddRange(string rangeSpecifier, long range)
-        {
-            _innerRequest.AddRange(rangeSpecifier, range);
-        }
+        public void AddRange(string rangeSpecifier, long range) => _innerRequest.AddRange(rangeSpecifier, range);
 
-        public object GetLifetimeService()
-        {
-            return _innerRequest.GetLifetimeService();
-        }
+        public object GetLifetimeService() => _innerRequest.GetLifetimeService();
 
-        public object InitializeLifetimeService()
-        {
-            return _innerRequest.InitializeLifetimeService();
-        }
+        public object InitializeLifetimeService() => _innerRequest.InitializeLifetimeService();
 
-        public ObjRef CreateObjRef(Type requestedType)
-        {
-            return _innerRequest.CreateObjRef(requestedType);
-        }
+        public ObjRef CreateObjRef(Type requestedType) => _innerRequest.CreateObjRef(requestedType);
 
         #endregion Methods
     }

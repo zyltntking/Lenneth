@@ -113,11 +113,6 @@ namespace Lenneth.Core.Framework.Http.Codecs.JsonFXExtensions
             }
         }
 
-        private static string NormalizeExtension(string extension)
-        {
-            return string.IsNullOrEmpty(extension) ? string.Empty : Path.GetExtension(extension);
-
-            // ensure is only extension with leading dot
-        }
+        private static string NormalizeExtension(string extension) => string.IsNullOrEmpty(extension) ? string.Empty : Path.GetExtension(extension);
     }
 }

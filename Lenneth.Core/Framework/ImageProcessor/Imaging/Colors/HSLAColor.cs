@@ -109,10 +109,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// The <see cref="HslaColor"/>.
         /// </returns>
-        public static HslaColor FromHslaColor(float hue, float saturation, float luminosity)
-        {
-            return new HslaColor(hue, saturation, luminosity, 1.0f);
-        }
+        public static HslaColor FromHslaColor(float hue, float saturation, float luminosity) => new HslaColor(hue, saturation, luminosity, 1.0f);
 
         /// <summary>
         /// Creates a <see cref="HslaColor"/> structure from the four 32-bit HSLA 
@@ -249,10 +246,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="YCbCrColor"/>.
         /// </returns>
-        public static implicit operator YCbCrColor(HslaColor hslaColor)
-        {
-            return YCbCrColor.FromColor(hslaColor);
-        }
+        public static implicit operator YCbCrColor(HslaColor hslaColor) => YCbCrColor.FromColor(hslaColor);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="HslaColor"/> to a 
@@ -264,10 +258,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="CmykColor"/>.
         /// </returns>
-        public static implicit operator CmykColor(HslaColor hslaColor)
-        {
-            return CmykColor.FromColor(hslaColor);
-        }
+        public static implicit operator CmykColor(HslaColor hslaColor) => CmykColor.FromColor(hslaColor);
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.

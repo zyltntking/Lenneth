@@ -73,15 +73,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Filters.Artistic
         /// </summary>
         public float CyanAngle
         {
-            get
-            {
-                return _cyanAngle;
-            }
+            get => _cyanAngle;
 
-            set
-            {
-                _cyanAngle = value;
-            }
+            set => _cyanAngle = value;
         }
 
         /// <summary>

@@ -10,9 +10,6 @@
         /// </summary>
         /// <param name="input">输入字符串</param>
         /// <returns></returns>
-        public virtual string ComputeHash(string input)
-        {
-            return input;
-        }
+        public virtual string ComputeHash(string input) => input;
     }
 }

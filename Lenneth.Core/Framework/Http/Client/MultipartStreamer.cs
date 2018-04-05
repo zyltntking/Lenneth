@@ -73,10 +73,7 @@ namespace Lenneth.Core.Framework.Http.Client
             }
         }
 
-        public string GetContentType()
-        {
-            return $"multipart/form-data; boundary=--------------{_boundaryCode}";
-        }
+        public string GetContentType() => $"multipart/form-data; boundary=--------------{_boundaryCode}";
 
         public long GetContentLength()
         {
@@ -115,9 +112,6 @@ namespace Lenneth.Core.Framework.Http.Client
                 $"Content-Transfer-Encoding: {fileData.ContentTransferEncoding}\r\n\r\n";
         }
 
-        private static string CreateFormBoundaryHeader(string name, object value)
-        {
-            return $"\r\nContent-Disposition: form-data; name=\"{name}\"\r\n\r\n{value}";
-        }
+        private static string CreateFormBoundaryHeader(string name, object value) => $"\r\nContent-Disposition: form-data; name=\"{name}\"\r\n\r\n{value}";
     }
 }

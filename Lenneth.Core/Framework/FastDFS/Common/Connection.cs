@@ -5,10 +5,7 @@ namespace Lenneth.Core.Framework.FastDFS.Common
 {
     internal class Connection : TcpClient
     {
-        public Connection()
-        {
-            InUse = false;
-        }
+        public Connection() => InUse = false;
 
         public Pool Pool { private get; set; }
 
@@ -35,10 +32,7 @@ namespace Lenneth.Core.Framework.FastDFS.Common
             }
         }
 
-        public void CloseConnection()
-        {
-            Pool.CloseConnection(this);
-        }
+        public void CloseConnection() => Pool.CloseConnection(this);
 
         public void ReleaseConnection()
         {

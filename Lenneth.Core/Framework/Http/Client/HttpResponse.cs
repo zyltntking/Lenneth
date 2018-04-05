@@ -38,28 +38,19 @@ namespace Lenneth.Core.Framework.Http.Client
         public virtual string Server { get; private set; }
         public virtual WebHeaderCollection RawHeaders { get; private set; }
 
-        public virtual Stream ResponseStream
-        {
-            get { return _response.GetResponseStream(); }
-        }
+        public virtual Stream ResponseStream => _response.GetResponseStream();
 
         public virtual dynamic DynamicBody => _decoder.DecodeToDynamic(RawText, ContentType);
 
         public virtual string RawText { get; private set; }
 
-        public virtual T StaticBody<T>(string overrideContentType = null)
-        {
-            return _decoder.DecodeToStatic<T>(RawText, overrideContentType ?? ContentType);
-        }
+        public virtual T StaticBody<T>(string overrideContentType = null) => _decoder.DecodeToStatic<T>(RawText, overrideContentType ?? ContentType);
 
         public HttpResponse() : this(null)
         {
         }
 
-        public HttpResponse(IDecoder decoder)
-        {
-            _decoder = decoder ?? new DefaultEncoderDecoderConfiguration().GetDecoder();
-        }
+        public HttpResponse(IDecoder decoder) => _decoder = decoder ?? new DefaultEncoderDecoderConfiguration().GetDecoder();
 
         public virtual void GetResponse(IHttpWebRequest request, string filename, bool streamResponse)
         {

@@ -126,10 +126,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// The <see cref="CmykColor"/>.
         /// </returns>
-        public static CmykColor FromCmykColor(float cyan, float magenta, float yellow, float keyline)
-        {
-            return new CmykColor(cyan, magenta, yellow, keyline);
-        }
+        public static CmykColor FromCmykColor(float cyan, float magenta, float yellow, float keyline) => new CmykColor(cyan, magenta, yellow, keyline);
 
         /// <summary>
         /// Creates a <see cref="CmykColor"/> structure from the specified <see cref="System.Drawing.Color"/> structure
@@ -140,10 +137,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// The <see cref="CmykColor"/>.
         /// </returns>
-        public static CmykColor FromColor(Color color)
-        {
-            return new CmykColor(color);
-        }
+        public static CmykColor FromColor(Color color) => new CmykColor(color);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="System.Drawing.Color"/> to a 
@@ -185,10 +179,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="CmykColor"/>.
         /// </returns>
-        public static implicit operator CmykColor(RgbaColor rgbaColor)
-        {
-            return FromColor(rgbaColor);
-        }
+        public static implicit operator CmykColor(RgbaColor rgbaColor) => FromColor(rgbaColor);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="YCbCrColor"/> to a 
@@ -252,10 +243,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="YCbCrColor"/>.
         /// </returns>
-        public static implicit operator YCbCrColor(CmykColor cmykColor)
-        {
-            return YCbCrColor.FromColor(cmykColor);
-        }
+        public static implicit operator YCbCrColor(CmykColor cmykColor) => YCbCrColor.FromColor(cmykColor);
 
         /// <summary>
         /// Allows the implicit conversion of an instance of <see cref="CmykColor"/> to a 
@@ -267,10 +255,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// An instance of <see cref="HslaColor"/>.
         /// </returns>
-        public static implicit operator HslaColor(CmykColor cmykColor)
-        {
-            return HslaColor.FromColor(cmykColor);
-        }
+        public static implicit operator HslaColor(CmykColor cmykColor) => HslaColor.FromColor(cmykColor);
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
@@ -307,15 +292,9 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
 
         #region override operator
 
-        public static bool operator == (CmykColor lhs, CmykColor rhs)
-        {
-            return lhs.Equals(rhs);
-        }
+        public static bool operator == (CmykColor lhs, CmykColor rhs) => lhs.Equals(rhs);
 
-        public static bool operator !=(CmykColor lhs, CmykColor rhs)
-        {
-            return !lhs.Equals(rhs);
-        }
+        public static bool operator !=(CmykColor lhs, CmykColor rhs) => !lhs.Equals(rhs);
 
         #endregion
 
@@ -354,10 +333,7 @@ namespace Lenneth.Core.Framework.ImageProcessor.Imaging.Colors
         /// <returns>
         /// The sanitized <see cref="float"/>.
         /// </returns>
-        private static float Clamp(float value)
-        {
-            return ImageMaths.Clamp(value, 0, 100);
-        }
+        private static float Clamp(float value) => ImageMaths.Clamp(value, 0, 100);
 
         /// <summary>
         /// Returns a value indicating whether the current instance is empty.

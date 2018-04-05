@@ -41,44 +41,20 @@ namespace Lenneth.Core.Framework.Http.Client.Abstractions
         public string Method => _innerResponse.Method;
         public bool IsFromCache => _innerResponse.IsFromCache;
 
-        public Stream GetResponseStream()
-        {
-            return _innerResponse.GetResponseStream();
-        }
+        public Stream GetResponseStream() => _innerResponse.GetResponseStream();
 
-        public void Close()
-        {
-            _innerResponse.Close();
-        }
+        public void Close() => _innerResponse.Close();
 
-        public string GetResponseHeader(string headerName)
-        {
-            return _innerResponse.GetResponseHeader(headerName);
-        }
+        public string GetResponseHeader(string headerName) => _innerResponse.GetResponseHeader(headerName);
 
-        public object GetLifetimeService()
-        {
-            return _innerResponse.GetLifetimeService();
-        }
+        public object GetLifetimeService() => _innerResponse.GetLifetimeService();
 
-        public object InitializeLifetimeService()
-        {
-            return _innerResponse.InitializeLifetimeService();
-        }
+        public object InitializeLifetimeService() => _innerResponse.InitializeLifetimeService();
 
-        public ObjRef CreateObjRef(Type requestedType)
-        {
-            return _innerResponse.CreateObjRef(requestedType);
-        }
+        public ObjRef CreateObjRef(Type requestedType) => _innerResponse.CreateObjRef(requestedType);
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            (_innerResponse as ISerializable).GetObjectData(info, context);
-        }
+        public void GetObjectData(SerializationInfo info, StreamingContext context) => (_innerResponse as ISerializable).GetObjectData(info, context);
 
-        public void Dispose()
-        {
-            (_innerResponse as IDisposable).Dispose();
-        }
+        public void Dispose() => (_innerResponse as IDisposable).Dispose();
     }
 }

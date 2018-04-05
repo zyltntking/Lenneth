@@ -10,15 +10,9 @@ namespace Lenneth.Core.Framework.Http.Client.Abstractions
     {
         private readonly WebResponse _innerRespose;
 
-        public WebResponseWrapper(WebResponse innerRespose)
-        {
-            _innerRespose = innerRespose;
-        }
+        public WebResponseWrapper(WebResponse innerRespose) => _innerRespose = innerRespose;
 
-        public void Close()
-        {
-            _innerRespose.Close();
-        }
+        public void Close() => _innerRespose.Close();
 
         public bool IsFromCache => _innerRespose.IsFromCache;
         public bool IsMutuallyAuthenticated => _innerRespose.IsMutuallyAuthenticated;

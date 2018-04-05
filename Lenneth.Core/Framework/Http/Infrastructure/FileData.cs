@@ -9,9 +9,6 @@ namespace Lenneth.Core.Framework.Http.Infrastructure
         public string ContentType { get; set; }
         public string ContentTransferEncoding { get; set; }
 
-        protected FileData()
-        {
-            ContentTransferEncoding = HttpContentTransferEncoding.Binary;
-        }
+        protected FileData() => ContentTransferEncoding = HttpContentTransferEncoding.Binary;
     }
 }

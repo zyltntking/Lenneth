@@ -5,7 +5,7 @@
     /// </summary>
     internal enum Type
     {
-        MD5,
+        Md5,
         Sha1,
         Sha256,
         Sha384,
@@ -28,7 +28,7 @@
             IHash hash;
             switch (type)
             {
-                case Type.MD5:
+                case Type.Md5:
                     hash = new MD5Hash();
                     break;
 
