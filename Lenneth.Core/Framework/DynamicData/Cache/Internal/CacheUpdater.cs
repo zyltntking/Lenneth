@@ -186,7 +186,7 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
             if (_keySelector == null)
                 throw new KeySelectorException("A key selector must be specified");
 
-            TKey key = _keySelector.GetKey(item);
+            var key = _keySelector.GetKey(item);
             return Lookup(key);
         }
 

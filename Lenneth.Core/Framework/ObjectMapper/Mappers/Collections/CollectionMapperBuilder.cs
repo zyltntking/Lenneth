@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 using Lenneth.Core.Framework.ObjectMapper.CodeGenerators;
 using Lenneth.Core.Framework.ObjectMapper.CodeGenerators.Emitters;
 using Lenneth.Core.Framework.ObjectMapper.Core;
@@ -10,6 +5,9 @@ using Lenneth.Core.Framework.ObjectMapper.Core.DataStructures;
 using Lenneth.Core.Framework.ObjectMapper.Core.Extensions;
 using Lenneth.Core.Framework.ObjectMapper.Mappers.Caches;
 using Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members;
+using System;
+using System.Collections;
+using System.Reflection.Emit;
 
 namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Collections
 {
@@ -35,8 +33,8 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Collections
 
         protected override Mapper BuildCore(TypePair typePair)
         {
-            Type parentType = typeof(CollectionMapper<,>).MakeGenericType(typePair.Source, typePair.Target);
-            TypeBuilder typeBuilder = _assembly.DefineType(GetMapperFullName(), parentType);
+            var parentType = typeof(CollectionMapper<,>).MakeGenericType(typePair.Source, typePair.Target);
+            var typeBuilder = Assembly.DefineType(GetMapperFullName(), parentType);
 
             _mapperCache.AddStub(typePair);
 
@@ -103,22 +101,22 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Collections
                 return mapperCacheItemOption.Value;
             }
 
-            MapperBuilder mapperBuilder = GetMapperBuilder(typePair);
-            Mapper mapper = mapperBuilder.Build(typePair);
-            MapperCacheItem mapperCacheItem = _mapperCache.Add(typePair, mapper);
+            var mapperBuilder = GetMapperBuilder(typePair);
+            var mapper = mapperBuilder.Build(typePair);
+            var mapperCacheItem = _mapperCache.Add(typePair, mapper);
             return mapperCacheItem;
         }
 
         private void EmitConvertItem(TypeBuilder typeBuilder, TypePair typePair, string methodName = ConvertItemMethod)
         {
-            MapperCacheItem mapperCacheItem = CreateMapperCacheItem(typePair);
+            var mapperCacheItem = CreateMapperCacheItem(typePair);
 
-            MethodBuilder methodBuilder = typeBuilder.DefineMethod(methodName, OverrideProtected, typeof(object), new[] { typeof(object) });
+            var methodBuilder = typeBuilder.DefineMethod(methodName, OverrideProtected, typeof(object), new[] { typeof(object) });
 
-            IEmitterType sourceMemeber = EmitArgument.Load(typeof(object), 1);
-            IEmitterType targetMember = EmitNull.Load();
+            var sourceMemeber = EmitArgument.Load(typeof(object), 1);
+            var targetMember = EmitNull.Load();
 
-            IEmitterType callMapMethod = mapperCacheItem.EmitMapMethod(sourceMemeber, targetMember);
+            var callMapMethod = mapperCacheItem.EmitMapMethod(sourceMemeber, targetMember);
 
             EmitReturn.Return(callMapMethod).Emit(new CodeGenerator(methodBuilder.GetILGenerator()));
         }
@@ -135,18 +133,18 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Collections
             string methodName,
             string templateMethodName)
         {
-            MethodBuilder methodBuilder = typeBuilder.DefineMethod(methodName, OverrideProtected, typePair.Target, new[] { typeof(IEnumerable) });
+            var methodBuilder = typeBuilder.DefineMethod(methodName, OverrideProtected, typePair.Target, new[] { typeof(IEnumerable) });
 
-            KeyValuePair<Type, Type> sourceTypes = typePair.Source.GetDictionaryItemTypes();
-            KeyValuePair<Type, Type> targetTypes = typePair.Target.GetDictionaryItemTypes();
+            var sourceTypes = typePair.Source.GetDictionaryItemTypes();
+            var targetTypes = typePair.Target.GetDictionaryItemTypes();
 
             EmitConvertItem(typeBuilder, new TypePair(sourceTypes.Key, targetTypes.Key), ConvertItemKeyMethod);
             EmitConvertItem(typeBuilder, new TypePair(sourceTypes.Value, targetTypes.Value));
 
             var arguments = new[] { sourceTypes.Key, sourceTypes.Value, targetTypes.Key, targetTypes.Value };
-            MethodInfo methodTemplate = parentType.GetGenericMethod(templateMethodName, arguments);
+            var methodTemplate = parentType.GetGenericMethod(templateMethodName, arguments);
 
-            IEmitterType returnValue = EmitMethod.Call(methodTemplate, EmitThis.Load(parentType), EmitArgument.Load(typeof(IEnumerable), 1));
+            var returnValue = EmitMethod.Call(methodTemplate, EmitThis.Load(parentType), EmitArgument.Load(typeof(IEnumerable), 1));
             EmitReturn.Return(returnValue).Emit(new CodeGenerator(methodBuilder.GetILGenerator()));
         }
 
@@ -175,8 +173,8 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Collections
 
         private static TypePair GetCollectionItemTypePair(TypePair typePair)
         {
-            Type sourceItemType = typePair.Source.GetCollectionItemType();
-            Type targetItemType = typePair.Target.GetCollectionItemType();
+            var sourceItemType = typePair.Source.GetCollectionItemType();
+            var targetItemType = typePair.Target.GetCollectionItemType();
 
             return new TypePair(sourceItemType, targetItemType);
         }
@@ -189,13 +187,13 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Collections
             string methodName,
             string templateMethodName)
         {
-            MethodBuilder methodBuilder = typeBuilder.DefineMethod(methodName, OverrideProtected, typePair.Target, new[] { typeof(IEnumerable) });
+            var methodBuilder = typeBuilder.DefineMethod(methodName, OverrideProtected, typePair.Target, new[] { typeof(IEnumerable) });
 
             EmitConvertItem(typeBuilder, collectionItemTypePair);
 
-            MethodInfo methodTemplate = parentType.GetGenericMethod(templateMethodName, collectionItemTypePair.Target);
+            var methodTemplate = parentType.GetGenericMethod(templateMethodName, collectionItemTypePair.Target);
 
-            IEmitterType returnValue = EmitMethod.Call(methodTemplate, EmitThis.Load(parentType), EmitArgument.Load(typeof(IEnumerable), 1));
+            var returnValue = EmitMethod.Call(methodTemplate, EmitThis.Load(parentType), EmitArgument.Load(typeof(IEnumerable), 1));
             EmitReturn.Return(returnValue).Emit(new CodeGenerator(methodBuilder.GetILGenerator()));
         }
     }

@@ -151,7 +151,7 @@ namespace Lenneth.Core.Framework.DynamicData.List.Internal
                 var old = target.IndexOf(item);
                 if (old == -1) continue;
 
-                int newposition = GetInsertPositionLinear(target, item);
+                var newposition = GetInsertPositionLinear(target, item);
                 if (old < newposition)
                     newposition--; 
 
@@ -165,7 +165,7 @@ namespace Lenneth.Core.Framework.DynamicData.List.Internal
 
         private IChangeSet<T> Reorder(ChangeAwareList<T> target)
         {
-            int index = -1;
+            var index = -1;
             var sorted = target.OrderBy(t => t, _comparer).ToList();
             foreach (var item in sorted)
             {
@@ -234,8 +234,8 @@ namespace Lenneth.Core.Framework.DynamicData.List.Internal
 
         private int GetInsertPositionBinary(ChangeAwareList<T> target, T item)
         {
-            int index = target.BinarySearch(item, _comparer);
-            int insertIndex = ~index;
+            var index = target.BinarySearch(item, _comparer);
+            var insertIndex = ~index;
 
             //sort is not returning uniqueness
             if (insertIndex < 0)

@@ -66,7 +66,7 @@ namespace Lenneth.Core.Framework.DynamicData
         {
             unchecked
             {
-                int hashCode = Size;
+                var hashCode = Size;
                 hashCode = (hashCode * 397) ^ StartIndex;
                 hashCode = (hashCode * 397) ^ TotalSize;
                 return hashCode;
@@ -92,7 +92,7 @@ namespace Lenneth.Core.Framework.DynamicData
             {
                 unchecked
                 {
-                    int hashCode = obj.TotalSize;
+                    var hashCode = obj.TotalSize;
                     hashCode = (hashCode * 397) ^ obj.StartIndex;
                     hashCode = (hashCode * 397) ^ obj.Size;
                     return hashCode;

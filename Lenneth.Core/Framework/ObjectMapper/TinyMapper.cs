@@ -19,16 +19,16 @@ namespace Lenneth.Core.Framework.ObjectMapper
     /// </summary>
     public static class TinyMapper
     {
-        private static readonly Dictionary<TypePair, Mapper> _mappers = new Dictionary<TypePair, Mapper>();
-        private static readonly TargetMapperBuilder _targetMapperBuilder;
+        private static readonly Dictionary<TypePair, Mapper> Mappers = new Dictionary<TypePair, Mapper>();
+        private static readonly TargetMapperBuilder TargetMapperBuilder;
         private static readonly TinyMapperConfig _config;
-        private static readonly object _mappersLock = new object();
+        private static readonly object MappersLock = new object();
 
         static TinyMapper()
         {
-            IDynamicAssembly assembly = DynamicAssemblyBuilder.Get();
-            _targetMapperBuilder = new TargetMapperBuilder(assembly);
-            _config = new TinyMapperConfig(_targetMapperBuilder);
+            var assembly = DynamicAssemblyBuilder.Get();
+            TargetMapperBuilder = new TargetMapperBuilder(assembly);
+            _config = new TinyMapperConfig(TargetMapperBuilder);
         }
 
         /// <summary>
@@ -39,10 +39,10 @@ namespace Lenneth.Core.Framework.ObjectMapper
         /// <remarks>The method is thread safe.</remarks>
         public static void Bind<TSource, TTarget>()
         {
-            TypePair typePair = TypePair.Create<TSource, TTarget>();
-            lock (_mappersLock)
+            var typePair = TypePair.Create<TSource, TTarget>();
+            lock (MappersLock)
             {
-                _mappers[typePair] = _targetMapperBuilder.Build(typePair);
+                Mappers[typePair] = TargetMapperBuilder.Build(typePair);
             }
         }
 
@@ -62,10 +62,10 @@ namespace Lenneth.Core.Framework.ObjectMapper
             {
                 throw new ArgumentNullException(nameof(targetType));
             }
-            TypePair typePair = TypePair.Create(sourceType, targetType);
-            lock (_mappersLock)
+            var typePair = TypePair.Create(sourceType, targetType);
+            lock (MappersLock)
             {
-                _mappers[typePair] = _targetMapperBuilder.Build(typePair);
+                Mappers[typePair] = TargetMapperBuilder.Build(typePair);
             }
         }
 
@@ -78,14 +78,14 @@ namespace Lenneth.Core.Framework.ObjectMapper
         /// <remarks>The method is thread safe.</remarks>
         public static void Bind<TSource, TTarget>(Action<IBindingConfig<TSource, TTarget>> config)
         {
-            TypePair typePair = TypePair.Create<TSource, TTarget>();
+            var typePair = TypePair.Create<TSource, TTarget>();
 
             var bindingConfig = new BindingConfigOf<TSource, TTarget>();
             config(bindingConfig);
 
-            lock (_mappersLock)
+            lock (MappersLock)
             {
-                _mappers[typePair] = _targetMapperBuilder.Build(typePair, bindingConfig);
+                Mappers[typePair] = TargetMapperBuilder.Build(typePair, bindingConfig);
             }
         }
 
@@ -98,10 +98,10 @@ namespace Lenneth.Core.Framework.ObjectMapper
         /// <remarks>The method is thread safe.</remarks>
         public static bool BindingExists<TSource, TTarget>()
         {
-            TypePair typePair = TypePair.Create<TSource, TTarget>();
-            lock (_mappersLock)
+            var typePair = TypePair.Create<TSource, TTarget>();
+            lock (MappersLock)
             {
-                return _mappers.ContainsKey(typePair);
+                return Mappers.ContainsKey(typePair);
             }
         }
 
@@ -116,9 +116,9 @@ namespace Lenneth.Core.Framework.ObjectMapper
         /// <returns>Mapped object.</returns>
         public static TTarget Map<TSource, TTarget>(TSource source, TTarget target = default(TTarget))
         {
-            TypePair typePair = TypePair.Create<TSource, TTarget>();
+            var typePair = TypePair.Create<TSource, TTarget>();
 
-            Mapper mapper = GetMapper(typePair);
+            var mapper = GetMapper(typePair);
             var result = (TTarget)mapper.Map(source, target);
 
             return result;
@@ -147,9 +147,9 @@ namespace Lenneth.Core.Framework.ObjectMapper
                 throw Error.ArgumentNull("Source cannot be null. Use TinyMapper.Map<TSource, TTarget> method instead.");
             }
 
-            TypePair typePair = TypePair.Create(source.GetType(), typeof(TTarget));
+            var typePair = TypePair.Create(source.GetType(), typeof(TTarget));
 
-            Mapper mapper = GetMapper(typePair);
+            var mapper = GetMapper(typePair);
             var result = (TTarget)mapper.Map(source);
 
             return result;
@@ -160,7 +160,7 @@ namespace Lenneth.Core.Framework.ObjectMapper
         {
             Mapper mapper;
 
-            if (_mappers.TryGetValue(typePair, out mapper) == false)
+            if (Mappers.TryGetValue(typePair, out mapper) == false)
             {
                 throw new TinyMapperException($"No binding found for '{typePair.Source.Name}' to '{typePair.Target.Name}'. " +
                                               $"Call TinyMapper.Bind<{typePair.Source.Name}, {typePair.Target.Name}>()");

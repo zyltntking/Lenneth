@@ -17,11 +17,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Types.Convertible
             {
                 return source;
             }
-            if (source == null)
-            {
-                return target;
-            }
-            return _converter(source);
+            return source == null ? target : _converter(source);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.CodeGenerators.Emitters
 
         public void Emit(CodeGenerator generator)
         {
-            ConstructorInfo ctor = ObjectType.GetDefaultCtor();
+            var ctor = ObjectType.GetDefaultCtor();
             generator.EmitNewObject(ctor);
         }
 

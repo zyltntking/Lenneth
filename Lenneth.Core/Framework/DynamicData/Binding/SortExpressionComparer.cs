@@ -30,7 +30,7 @@ namespace Lenneth.Core.Framework.DynamicData.Binding
                 if (xValue == null) return -1;
                 if (yValue == null) return 1;
 
-                int result = xValue.CompareTo(yValue);
+                var result = xValue.CompareTo(yValue);
                 if (result == 0) continue;
 
                 return (item.Direction == SortDirection.Ascending) ? result : -result;

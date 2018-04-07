@@ -8,8 +8,8 @@ namespace Lenneth.Core.Framework.ObjectMapper.Bindings
     {
         public void Bind(Expression<Func<TSource, object>> source, Expression<Func<TTarget, object>> target)
         {
-            List<string> sourcePath = GetMemberInfoPath(source);
-            List<string> targetPath = GetMemberInfoPath(target);
+            var sourcePath = GetMemberInfoPath(source);
+            var targetPath = GetMemberInfoPath(target);
 
             if (sourcePath.Count == 1 && targetPath.Count == 1 &&
                 string.Equals(sourcePath[0], targetPath[0], StringComparison.Ordinal))
@@ -28,13 +28,13 @@ namespace Lenneth.Core.Framework.ObjectMapper.Bindings
 
         public void Bind(Expression<Func<TTarget, object>> target, Type targetType)
         {
-            string targetName = GetMemberInfo(target);
+            var targetName = GetMemberInfo(target);
             BindType(targetName, targetType);
         }
 
         public void Ignore(Expression<Func<TSource, object>> expression)
         {
-            string memberName = GetMemberInfo(expression);
+            var memberName = GetMemberInfo(expression);
             IgnoreSourceField(memberName);
         }
 

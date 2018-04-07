@@ -15,7 +15,7 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
         {
             if (_comparer != null)
             {
-                int result = _comparer.Compare(x.Value, y.Value);
+                var result = _comparer.Compare(x.Value, y.Value);
 
                 if (result != 0)
                     return result;

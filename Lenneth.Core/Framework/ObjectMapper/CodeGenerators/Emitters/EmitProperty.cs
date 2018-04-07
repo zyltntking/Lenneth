@@ -32,7 +32,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.CodeGenerators.Emitters
 
             public void Emit(CodeGenerator generator)
             {
-                MethodInfo method = _property.GetGetMethod();
+                var method = _property.GetGetMethod();
                 EmitMethod.Call(method, _source, null).Emit(generator);
             }
         }
@@ -44,7 +44,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.CodeGenerators.Emitters
 
             public EmitStoreProperty(PropertyInfo property, IEmitterType targetObject, IEmitterType value)
             {
-                MethodInfo method = property.GetSetMethod();
+                var method = property.GetSetMethod();
                 _callMethod = EmitMethod.Call(method, targetObject, value);
                 ObjectType = _callMethod.ObjectType;
             }

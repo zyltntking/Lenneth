@@ -88,7 +88,7 @@ namespace Lenneth.Core.Framework.DynamicData.Diagnostics
         {
             unchecked
             {
-                int hashCode = _index;
+                var hashCode = _index;
                 hashCode = (hashCode * 397) ^ (Latest?.GetHashCode() ?? 0);
                 hashCode = (hashCode * 397) ^ (Overall?.GetHashCode() ?? 0);
                 return hashCode;

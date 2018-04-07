@@ -2063,7 +2063,7 @@ namespace Lenneth.Core.Framework.DynamicData
                             }
                         }
 
-                        IDisposable subscriber = Disposable.Empty;
+                        var subscriber = Disposable.Empty;
                         try
                         {
                             var combiner = new Combiner<TObject, TKey>(type, UpdateAction);
@@ -2102,7 +2102,7 @@ namespace Lenneth.Core.Framework.DynamicData
                             }
                         }
 
-                        IDisposable subscriber = Disposable.Empty;
+                        var subscriber = Disposable.Empty;
                         try
                         {
                             var list = combinetarget.ToList();

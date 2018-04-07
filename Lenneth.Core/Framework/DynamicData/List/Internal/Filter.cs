@@ -210,7 +210,7 @@ namespace Lenneth.Core.Framework.DynamicData.List.Internal
             var toAdd = new List<ItemWithMatch>(all.Count);
             var toRemove = new List<ItemWithMatch>(all.Count);
 
-            for (int i = 0; i < all.Count; i++)
+            for (var i = 0; i < all.Count; i++)
             {
                 var original = all[i];
 

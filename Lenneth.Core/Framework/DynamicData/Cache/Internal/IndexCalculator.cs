@@ -67,15 +67,15 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
             }
             else
             {
-                int index = -1;
+                var index = -1;
                 var sorted = _list.OrderBy(t => t, _comparer).ToList();
                 foreach (var item in sorted)
                 {
-                    KeyValuePair<TKey, TObject> current = item;
+                    var current = item;
                     index++;
 
                     //Cannot use binary search as Resort is implicit of a mutable change
-                    KeyValuePair<TKey, TObject> existing = _list[index];
+                    var existing = _list[index];
                     var areequal = EqualityComparer<TKey>.Default.Equals(current.Key, existing.Key);
                     if (areequal)
                     {
@@ -167,7 +167,7 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
                     var old = _list.IndexOf(current);
                     if (old == -1) continue;
 
-                    int newposition = GetInsertPositionLinear(_list, current);
+                    var newposition = GetInsertPositionLinear(_list, current);
 
                     if (old < newposition)
                         newposition--;
@@ -223,7 +223,7 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
 
         private int GetInsertPositionBinary(KeyValuePair<TKey, TObject> item)
         {
-            int index = _list.BinarySearch(item, _comparer);
+            var index = _list.BinarySearch(item, _comparer);
 
             if (index > 0)
             {
@@ -235,7 +235,7 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
                 }
             }
 
-            int insertIndex = ~index;
+            var insertIndex = ~index;
             return insertIndex;
         }
     }

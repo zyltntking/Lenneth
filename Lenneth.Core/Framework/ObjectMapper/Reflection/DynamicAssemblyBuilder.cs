@@ -6,7 +6,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Reflection
 {
     internal class DynamicAssemblyBuilder
     {
-        internal const string AssemblyName = "DynamicTinyMapper";
+        private const string AssemblyName = "DynamicTinyMapper";
 #if !COREFX
 //        private const string AssemblyNameFileName = AssemblyName + ".dll";
 //        private static AssemblyBuilder _assemblyBuilder;
@@ -32,7 +32,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Reflection
                 _moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name);
 
 #else
-                AssemblyBuilder assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+                var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
 //                        _assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndSave);
 
                 _moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name);

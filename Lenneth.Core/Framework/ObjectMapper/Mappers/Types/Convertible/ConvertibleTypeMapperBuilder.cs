@@ -9,7 +9,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Types.Convertible
 {
     internal sealed class ConvertibleTypeMapperBuilder : MapperBuilder
     {
-        private static readonly Func<object, object> _nothingConverter = x => x;
+        private static readonly Func<object, object> NothingConverter = x => x;
 
         public ConvertibleTypeMapperBuilder(IMapperBuilderConfig config) : base(config)
         {
@@ -19,7 +19,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Types.Convertible
 
         protected override Mapper BuildCore(TypePair typePair)
         {
-            Func<object, object> converter = GetConverter(typePair);
+            var converter = GetConverter(typePair);
             return new ConvertibleTypeMapper(converter);
         }
 
@@ -68,22 +68,22 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Types.Convertible
         {
             if (pair.IsDeepCloneable)
             {
-                return _nothingConverter;
+                return NothingConverter;
             }
 
-            TypeConverter fromConverter = TypeDescriptor.GetConverter(pair.Source);
+            var fromConverter = TypeDescriptor.GetConverter(pair.Source);
             if (fromConverter.CanConvertTo(pair.Target))
             {
                 return x => fromConverter.ConvertTo(x, pair.Target);
             }
 
-            TypeConverter toConverter = TypeDescriptor.GetConverter(pair.Target);
+            var toConverter = TypeDescriptor.GetConverter(pair.Target);
             if (toConverter.CanConvertFrom(pair.Source))
             {
                 return x => toConverter.ConvertFrom(x);
             }
 
-            Option<Func<object, object>> enumConverter = ConvertEnum(pair);
+            var enumConverter = ConvertEnum(pair);
             if (enumConverter.HasValue)
             {
                 return enumConverter.Value;

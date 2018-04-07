@@ -24,7 +24,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
             var emitComposite = new EmitComposite();
             foreach (var path in members)
             {
-                IEmitter emitter = Build(parentTypePair, path);
+                var emitter = Build(parentTypePair, path);
                 emitComposite.Add(emitter);
             }
             var result = new MemberEmitterDescription(emitComposite, _mapperCache);
@@ -63,7 +63,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
                 var sourceMember = LoadMember(memberPath.Source, sourceObject, memberPath.Source.Count);
                 var targetMember = LoadMember(memberPath.Target, targetObject, memberPath.Target.Count);
 
-                IEmitterType convertedMember = ConvertMember(parentTypePair, memberPath.Tail, sourceMember, targetMember);
+                var convertedMember = ConvertMember(parentTypePair, memberPath.Tail, sourceMember, targetMember);
 
                 IEmitter result = StoreTargetObjectMember(memberPath.Tail, targetObject, convertedMember);
                 return result;
@@ -76,7 +76,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
                 var sourceObject = EmitArgument.Load(memberPath.Head.TypePair.Source, 1);
                 var sourceMember = LoadMember(memberPath.Source, sourceObject, memberPath.Source.Count);
 
-                IEmitterType convertedMember = ConvertMember(parentTypePair, memberPath.Tail, sourceMember, targetMember);
+                var convertedMember = ConvertMember(parentTypePair, memberPath.Tail, sourceMember, targetMember);
 
                 IEmitter result = StoreTargetObjectMember(memberPath.Tail, targetMember, convertedMember);
                 return result;
@@ -91,9 +91,9 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
                 return sourceMemeber;
             }
 
-            MapperCacheItem mapperCacheItem = CreateMapperCacheItem(parentTypePair, member);
+            var mapperCacheItem = CreateMapperCacheItem(parentTypePair, member);
 
-            IEmitterType result = mapperCacheItem.EmitMapMethod(sourceMemeber, targetMember);
+            var result = mapperCacheItem.EmitMapMethod(sourceMemeber, targetMember);
             return result;
         }
 
@@ -105,9 +105,9 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
                 return mapperCacheItemOption.Value;
             }
 
-            MapperBuilder mapperBuilder = _config.GetMapperBuilder(parentTypePair, mappingMember);
-            Mapper mapper = mapperBuilder.Build(parentTypePair, mappingMember);
-            MapperCacheItem mapperCacheItem = _mapperCache.Add(mappingMember.TypePair, mapper);
+            var mapperBuilder = _config.GetMapperBuilder(parentTypePair, mappingMember);
+            var mapper = mapperBuilder.Build(parentTypePair, mappingMember);
+            var mapperCacheItem = _mapperCache.Add(mappingMember.TypePair, mapper);
             return mapperCacheItem;
         }
 
@@ -118,12 +118,12 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
 
         private IEmitterType LoadMember(List<MemberInfo> members, IEmitterType sourceObject, int loadLevel)
         {
-            IEmitterType dummySource = sourceObject;
+            var dummySource = sourceObject;
             if (members.Count == 1)
             {
                 return LoadMember(members[0], dummySource);
             }
-            for (int i = 0; i < loadLevel; i++)
+            for (var i = 0; i < loadLevel; i++)
             {
                 dummySource = LoadMember(members[i], dummySource);
             }

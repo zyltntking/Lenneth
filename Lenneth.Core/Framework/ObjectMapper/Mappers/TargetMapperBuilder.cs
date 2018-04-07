@@ -42,17 +42,13 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers
 
         public Option<BindingConfig> GetBindingConfig(TypePair typePair)
         {
-            Option<BindingConfig> result = _bindingConfigs.GetValue(typePair);
+            var result = _bindingConfigs.GetValue(typePair);
             return result;
         }
 
         public MapperBuilder GetMapperBuilder(TypePair parentTypePair, MappingMember mappingMember)
         {
-            if (_customTypeMapperBuilder.IsSupported(parentTypePair, mappingMember))
-            {
-                return _customTypeMapperBuilder;
-            }
-            return GetTypeMapperBuilder(mappingMember.TypePair);
+            return _customTypeMapperBuilder.IsSupported(parentTypePair, mappingMember) ? _customTypeMapperBuilder : GetTypeMapperBuilder(mappingMember.TypePair);
         }
 
         public MapperBuilder GetMapperBuilder(TypePair typePair)
@@ -73,8 +69,8 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers
 
         public Mapper Build(TypePair typePair)
         {
-            MapperBuilder mapperBuilder = GetTypeMapperBuilder(typePair);
-            Mapper mapper = mapperBuilder.Build(typePair);
+            var mapperBuilder = GetTypeMapperBuilder(typePair);
+            var mapper = mapperBuilder.Build(typePair);
             return mapper;
         }
 

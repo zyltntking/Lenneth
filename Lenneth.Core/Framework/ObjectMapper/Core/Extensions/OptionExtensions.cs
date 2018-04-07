@@ -56,23 +56,15 @@ namespace Lenneth.Core.Framework.ObjectMapper.Core.Extensions
             {
                 return Option<TResult>.Empty;
             }
-            if (!predicate(value.Value))
-            {
-                return Option<TResult>.Empty;
-            }
-            return func(value.Value).ToOption();
+            return !predicate(value.Value) ? Option<TResult>.Empty : func(value.Value).ToOption();
         }
 
         public static Option<T> MapOnEmpty<T>(this Option<T> value, Func<T> func)
         {
-            if (value.HasNoValue)
-            {
-                return func().ToOption();
-            }
-            return value;
+            return value.HasNoValue ? func().ToOption() : value;
         }
 
-        public static Option<V> SelectMany<T, U, V>(this Option<T> value, Func<T, Option<U>> func, Func<T, U, V> selector)
+        public static Option<TV> SelectMany<T, TU, TV>(this Option<T> value, Func<T, Option<TU>> func, Func<T, TU, TV> selector)
         {
             return value.Map(x => func(x).Map(y => selector(x, y).ToOption()));
         }

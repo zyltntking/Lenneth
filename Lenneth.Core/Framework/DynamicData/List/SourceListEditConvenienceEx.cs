@@ -98,7 +98,7 @@ namespace Lenneth.Core.Framework.DynamicData
         /// <param name="item">The item.</param>
         public static bool Remove<T>([NotNull] this ISourceList<T> source, T item)
         {
-            bool removed = false;
+            var removed = false;
             if (source == null) throw new ArgumentNullException(nameof(source));
             source.Edit(list => removed = list.Remove(item));
             return removed;

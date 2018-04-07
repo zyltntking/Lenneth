@@ -11,7 +11,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Caches
 
         public bool IsEmpty => _cache.Count == 0;
 
-        public List<Mapper> Mappers
+        public IEnumerable<Mapper> Mappers
         {
             get
             {
@@ -21,7 +21,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Caches
             }
         }
 
-        public List<MapperCacheItem> MapperCacheItems => _cache.Values.ToList();
+        public IEnumerable<MapperCacheItem> MapperCacheItems => _cache.Values.ToList();
 
         public MapperCacheItem AddStub(TypePair key)
         {
@@ -42,8 +42,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Caches
 
         public MapperCacheItem Add(TypePair key, Mapper mapper)
         {
-            MapperCacheItem result;
-            if (_cache.TryGetValue(key, out result))
+            if (_cache.TryGetValue(key, out var result))
             {
                 return result;
             }
@@ -58,12 +57,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Caches
 
         public Option<MapperCacheItem> Get(TypePair key)
         {
-            MapperCacheItem result;
-            if (_cache.TryGetValue(key, out result))
-            {
-                return new Option<MapperCacheItem>(result);
-            }
-            return Option<MapperCacheItem>.Empty;
+            return _cache.TryGetValue(key, out var result) ? new Option<MapperCacheItem>(result) : Option<MapperCacheItem>.Empty;
         }
 
         private int GetId()

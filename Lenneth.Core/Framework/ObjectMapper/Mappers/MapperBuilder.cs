@@ -10,13 +10,13 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers
     {
         protected const MethodAttributes OverrideProtected = MethodAttributes.Family | MethodAttributes.Virtual;
         private const string AssemblyName = "DynamicTinyMapper";
-        protected readonly IDynamicAssembly _assembly;
-        protected readonly IMapperBuilderConfig _config;
+        protected readonly IDynamicAssembly Assembly;
+        protected readonly IMapperBuilderConfig Config;
 
         protected MapperBuilder(IMapperBuilderConfig config)
         {
-            _config = config;
-            _assembly = config.Assembly;
+            Config = config;
+            Assembly = config.Assembly;
         }
 
         protected abstract string ScopeName { get; }
@@ -41,12 +41,12 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers
 
         protected MapperBuilder GetMapperBuilder(TypePair typePair)
         {
-            return _config.GetMapperBuilder(typePair);
+            return Config.GetMapperBuilder(typePair);
         }
 
         protected string GetMapperFullName()
         {
-            string random = Guid.NewGuid().ToString("N");
+            var random = Guid.NewGuid().ToString("N");
             return $"{AssemblyName}.{ScopeName}.Mapper{random}";
         }
 

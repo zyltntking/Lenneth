@@ -90,7 +90,7 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
 
             foreach (var result in transformedItems.Where(t => t.Success))
             {
-                TKey key = result.Key;
+                var key = result.Key;
                 switch (result.Change.Reason)
                 {
                     case ChangeReason.Add:

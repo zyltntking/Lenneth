@@ -41,7 +41,7 @@ namespace Lenneth.Core.Framework.DynamicData.List.Internal
         /// </summary>
         public bool Remove(T item)
         {
-            int currentCount = ReferenceCounts[item];
+            var currentCount = ReferenceCounts[item];
 
             if (currentCount == 1)
             {

@@ -22,27 +22,27 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
             return ParseMappingTypes(typePair);
         }
 
-        private static MemberInfo[] GetPublicMembers(Type type)
+        private static IEnumerable<MemberInfo> GetPublicMembers(IReflect type)
         {
-            BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
-            PropertyInfo[] properties = type.GetProperties(flags);
-            FieldInfo[] fields = type.GetFields(flags);
-            MemberInfo[] members = new MemberInfo[properties.Length + fields.Length];
+            var flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
+            var properties = type.GetProperties(flags);
+            var fields = type.GetFields(flags);
+            var members = new MemberInfo[properties.Length + fields.Length];
             properties.CopyTo(members, 0);
             fields.CopyTo(members, properties.Length);
             return members;
         }
 
-        private static List<MemberInfo> GetSourceMembers(Type sourceType)
+        private static IEnumerable<MemberInfo> GetSourceMembers(IReflect sourceType)
         {
             var result = new List<MemberInfo>();
 
-            MemberInfo[] members = GetPublicMembers(sourceType);
-            foreach (MemberInfo member in members)
+            var members = GetPublicMembers(sourceType);
+            foreach (var member in members)
             {
                 if (member.IsProperty())
                 {
-                    MethodInfo method = ((PropertyInfo)member).GetGetMethod();
+                    var method = ((PropertyInfo)member).GetGetMethod();
                     if (method.IsNull())
                     {
                         continue;
@@ -57,12 +57,12 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
         {
             var result = new List<MemberInfo>();
 
-            MemberInfo[] members = GetPublicMembers(targetType);
-            foreach (MemberInfo member in members)
+            var members = GetPublicMembers(targetType);
+            foreach (var member in members)
             {
                 if (member.IsProperty())
                 {
-                    MethodInfo method = ((PropertyInfo)member).GetSetMethod();
+                    var method = ((PropertyInfo)member).GetSetMethod();
                     if (method.IsNull() || method.GetParameters().Length != 1)
                     {
                         continue;
@@ -80,15 +80,15 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
             Dictionary<string, string> targetBindings)
         {
             Option<string> targetName;
-            List<BindAttribute> binds = sourceMember.GetAttributes<BindAttribute>();
-            BindAttribute bind = binds.FirstOrDefault(x => ObjectExtensions.IsNull(x.TargetType));
+            var binds = sourceMember.GetAttributes<BindAttribute>();
+            var bind = binds.FirstOrDefault(x => x.TargetType.IsNull());
             if (bind.IsNull())
             {
                 bind = binds.FirstOrDefault(x => typePair.Target.IsAssignableFrom(x.TargetType));
             }
             if (bind.IsNotNull())
             {
-                targetName = new Option<string>(bind.MemberName);
+                targetName = new Option<string>(bind?.MemberName);
             }
             else
             {
@@ -111,9 +111,9 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
         private Dictionary<string, string> GetTest(TypePair typePair, List<MemberInfo> targetMembers)
         {
             var result = new Dictionary<string, string>();
-            foreach (MemberInfo member in targetMembers)
+            foreach (var member in targetMembers)
             {
-                Option<BindAttribute> bindAttribute = member.GetAttribute<BindAttribute>();
+                var bindAttribute = member.GetAttribute<BindAttribute>();
                 if (bindAttribute.HasNoValue)
                 {
                     continue;
@@ -129,7 +129,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
 
         private bool IsIgnore(Option<BindingConfig> bindingConfig, TypePair typePair, MemberInfo sourceMember)
         {
-            List<IgnoreAttribute> ignores = sourceMember.GetAttributes<IgnoreAttribute>();
+            var ignores = sourceMember.GetAttributes<IgnoreAttribute>();
             if (ignores.Any(x => x.TargetType.IsNull()))
             {
                 return true;
@@ -158,29 +158,29 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members
         {
             var result = new List<MappingMemberPath>();
 
-            List<MemberInfo> sourceMembers = GetSourceMembers(typePair.Source);
-            List<MemberInfo> targetMembers = GetTargetMembers(typePair.Target);
+            var sourceMembers = GetSourceMembers(typePair.Source);
+            var targetMembers = GetTargetMembers(typePair.Target);
 
-            Dictionary<string, string> targetBindings = GetTest(typePair, targetMembers);
+            var targetBindings = GetTest(typePair, targetMembers);
 
-            Option<BindingConfig> bindingConfig = _config.GetBindingConfig(typePair);
+            var bindingConfig = _config.GetBindingConfig(typePair);
 
-            foreach (MemberInfo sourceMember in sourceMembers)
+            foreach (var sourceMember in sourceMembers)
             {
                 if (IsIgnore(bindingConfig, typePair, sourceMember))
                 {
                     continue;
                 }
 
-                string targetName = GetTargetName(bindingConfig, typePair, sourceMember, targetBindings);
+                var targetName = GetTargetName(bindingConfig, typePair, sourceMember, targetBindings);
 
-                MemberInfo targetMember = targetMembers.FirstOrDefault(x => _config.NameMatching(targetName, x.Name));
+                var targetMember = targetMembers.FirstOrDefault(x => _config.NameMatching(targetName, x.Name));
                 if (targetMember.IsNull())
                 {
                     result.AddRange(GetBindMappingMemberPath(typePair, bindingConfig, sourceMember));
                     continue;
                 }
-                Option<Type> concreteBindingType = bindingConfig.Map(x => x.GetBindType(targetName));
+                var concreteBindingType = bindingConfig.Map(x => x.GetBindType(targetName));
                 if (concreteBindingType.HasValue)
                 {
                     var mappingTypePair = new TypePair(sourceMember.GetMemberType(), concreteBindingType.Value);

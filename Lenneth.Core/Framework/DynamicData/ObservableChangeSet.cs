@@ -314,7 +314,7 @@ namespace Lenneth.Core.Framework.DynamicData
             {
                 var list = new SourceList<T>();
                 IDisposable disposeAction = null;
-                SingleAssignmentDisposable actionDisposable = new SingleAssignmentDisposable();
+                var actionDisposable = new SingleAssignmentDisposable();
 
                 try
                 {

@@ -125,7 +125,7 @@ namespace Lenneth.Core.Framework.DynamicData.Kernel
         public static Optional<TValue> Lookup<TValue, TKey>(this IDictionary<TKey, TValue> source, TKey key)
         {
             TValue contained;
-            bool result = source.TryGetValue(key, out contained);
+            var result = source.TryGetValue(key, out contained);
             return result ? contained : Optional.None<TValue>();
         }
 

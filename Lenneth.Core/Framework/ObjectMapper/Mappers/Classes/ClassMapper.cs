@@ -17,7 +17,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes
             {
                 target = CreateTargetInstance();
             }
-            TTarget result = MapClass(source, target);
+            var result = MapClass(source, target);
             return result;
         }
     }

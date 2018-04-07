@@ -68,7 +68,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.CodeGenerators
 
         public void EmitCall(MethodInfo method, IEmitterType invocationObject, params IEmitterType[] arguments)
         {
-            ParameterInfo[] actualArguments = method.GetParameters();
+            var actualArguments = method.GetParameters();
             if (arguments.IsNull())
             {
                 arguments = new IEmitterType[0];
@@ -98,14 +98,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.CodeGenerators
 
         private void EmitCall(MethodInfo method)
         {
-            if (method.IsVirtual)
-            {
-                _ilGenerator.Emit(OpCodes.Callvirt, method);
-            }
-            else
-            {
-                _ilGenerator.Emit(OpCodes.Call, method);
-            }
+            _ilGenerator.Emit(method.IsVirtual ? OpCodes.Callvirt : OpCodes.Call, method);
         }
     }
 }

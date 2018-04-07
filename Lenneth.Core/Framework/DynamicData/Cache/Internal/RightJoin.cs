@@ -72,8 +72,8 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
                         {
                             changes.ForEach(change =>
                             {
-                                TLeft left = change.Current;
-                                Optional<TRight> right = rightCache.Lookup(change.Key);
+                                var left = change.Current;
+                                var right = rightCache.Lookup(change.Key);
 
                                 switch (change.Reason)
                                 {

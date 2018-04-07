@@ -30,7 +30,7 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
             var result = new List<Change<TObject, TKey>>();
             foreach (var remove in removes)
             {
-                int index = previousList.IndexOf(remove);
+                var index = previousList.IndexOf(remove);
 
                 previousList.RemoveAt(index);
                 result.Add(new Change<TObject, TKey>(ChangeReason.Remove, remove.Key, remove.Value, index));
@@ -39,8 +39,8 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
             foreach (var add in adds)
             {
                 //find new insert position
-                int index = previousList.BinarySearch(add, currentItems.Comparer);
-                int insertIndex = ~index;
+                var index = previousList.BinarySearch(add, currentItems.Comparer);
+                var insertIndex = ~index;
                 previousList.Insert(insertIndex, add);
                 result.Add(new Change<TObject, TKey>(ChangeReason.Add, add.Key, add.Value, insertIndex));
             }
@@ -67,8 +67,8 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
                     previousList.RemoveAt(removeIndex);
 
                     //insert into the desired index
-                    int desiredIndex = previousList.BinarySearch(current, currentItems.Comparer);
-                    int insertIndex = ~desiredIndex;
+                    var desiredIndex = previousList.BinarySearch(current, currentItems.Comparer);
+                    var insertIndex = ~desiredIndex;
                     previousList.Insert(insertIndex, current);
 
                     result.Add(new Change<TObject, TKey>(ChangeReason.Update, current.Key, current.Value,
@@ -80,7 +80,7 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
                     var current = new KeyValuePair<TKey, TObject>(change.Key, change.Current);
 
                     var previousindex = previousList.IndexOf(current);
-                    int desiredIndex = currentItems.IndexOf(current);
+                    var desiredIndex = currentItems.IndexOf(current);
 
                     if (previousindex == desiredIndex) continue;
                     
@@ -112,7 +112,7 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
 
                 if (old == -1) continue;
 
-                int newposition = GetInsertPositionLinear(previousList, current, currentItems.Comparer);
+                var newposition = GetInsertPositionLinear(previousList, current, currentItems.Comparer);
 
                 if (old < newposition)
                 {

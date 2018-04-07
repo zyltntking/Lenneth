@@ -48,7 +48,7 @@ namespace Lenneth.Core.Framework.DynamicData
         {
             unchecked
             {
-                int hashCode = Response.GetHashCode();
+                var hashCode = Response.GetHashCode();
                 hashCode = (hashCode * 397) ^ (SortedItems?.GetHashCode() ?? 0);
                 return hashCode;
             }

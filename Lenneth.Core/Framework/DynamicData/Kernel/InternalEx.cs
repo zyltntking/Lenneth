@@ -29,7 +29,7 @@ namespace Lenneth.Core.Framework.DynamicData.Kernel
         {
             IObservable<TSource> Retry(int failureCount) => source.Catch<TSource, TException>(error =>
             {
-                TimeSpan? delay = backOffStrategy(error, failureCount);
+                var delay = backOffStrategy(error, failureCount);
                 if (!delay.HasValue)
                     return Observable.Throw<TSource>(error);
 

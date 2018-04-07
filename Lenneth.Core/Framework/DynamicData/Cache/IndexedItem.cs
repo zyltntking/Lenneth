@@ -79,7 +79,7 @@ namespace Lenneth.Core.Framework.DynamicData
         {
             unchecked
             {
-                int hashCode = EqualityComparer<TKey>.Default.GetHashCode(Key);
+                var hashCode = EqualityComparer<TKey>.Default.GetHashCode(Key);
                 hashCode = (hashCode * 397) ^ EqualityComparer<TObject>.Default.GetHashCode(Value);
                 hashCode = (hashCode * 397) ^ Index;
                 return hashCode;

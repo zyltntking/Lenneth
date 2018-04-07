@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Emit;
 using Lenneth.Core.Framework.ObjectMapper.CodeGenerators;
 using Lenneth.Core.Framework.ObjectMapper.CodeGenerators.Emitters;
@@ -30,12 +31,12 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes
 
         protected override Mapper BuildCore(TypePair typePair)
         {
-            Type parentType = typeof(ClassMapper<,>).MakeGenericType(typePair.Source, typePair.Target);
-            TypeBuilder typeBuilder = _assembly.DefineType(GetMapperFullName(), parentType);
+            var parentType = typeof(ClassMapper<,>).MakeGenericType(typePair.Source, typePair.Target);
+            var typeBuilder = Assembly.DefineType(GetMapperFullName(), parentType);
             EmitCreateTargetInstance(typePair.Target, typeBuilder);
 
-            MapperCacheItem rootMapperCacheItem = _mapperCache.AddStub(typePair);
-            Option<MapperCache> mappers = EmitMapClass(typePair, typeBuilder);
+            var rootMapperCacheItem = _mapperCache.AddStub(typePair);
+            var mappers = EmitMapClass(typePair, typeBuilder);
 
             var rootMapper = (Mapper)Activator.CreateInstance(Helpers.CreateType(typeBuilder));
 
@@ -52,18 +53,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes
         {
             if (mappers.HasValue)
             {
-                var result = new List<Mapper>();
-                foreach (var item in mappers.Value.MapperCacheItems)
-                {
-                    if (item.Id != rootMapperId)
-                    {
-                        result.Add(item.Mapper);
-                    }
-                    else
-                    {
-                        result.Add(null);
-                    }
-                }
+                var result = mappers.Value.MapperCacheItems.Select(item => item.Id != rootMapperId ? item.Mapper : null).ToList();
                 result[rootMapperId] = rootMapper;
                 rootMapper.AddMappers(result);
                 foreach (var item in mappers.Value.MapperCacheItems)
@@ -89,10 +79,10 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes
 
         private static void EmitCreateTargetInstance(Type targetType, TypeBuilder typeBuilder)
         {
-            MethodBuilder methodBuilder = typeBuilder.DefineMethod(CreateTargetInstanceMethod, OverrideProtected, targetType, Type.EmptyTypes);
+            var methodBuilder = typeBuilder.DefineMethod(CreateTargetInstanceMethod, OverrideProtected, targetType, Type.EmptyTypes);
             var codeGenerator = new CodeGenerator(methodBuilder.GetILGenerator());
 
-            IEmitterType result = Helpers.IsValueType(targetType) ? EmitValueType(targetType, codeGenerator) : EmitRefType(targetType);
+            var result = Helpers.IsValueType(targetType) ? EmitValueType(targetType, codeGenerator) : EmitRefType(targetType);
 
             EmitReturn.Return(result, targetType).Emit(codeGenerator);
         }
@@ -104,14 +94,14 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes
 
         private static IEmitterType EmitValueType(Type type, CodeGenerator codeGenerator)
         {
-            LocalBuilder builder = codeGenerator.DeclareLocal(type);
+            var builder = codeGenerator.DeclareLocal(type);
             EmitLocalVariable.Declare(builder).Emit(codeGenerator);
             return EmitBox.Box(EmitLocal.Load(builder));
         }
 
         private Option<MapperCache> EmitMapClass(TypePair typePair, TypeBuilder typeBuilder)
         {
-            MethodBuilder methodBuilder = typeBuilder.DefineMethod(MapClassMethod,
+            var methodBuilder = typeBuilder.DefineMethod(MapClassMethod,
                 OverrideProtected,
                 typePair.Target,
                 new[] { typePair.Source, typePair.Target });
@@ -119,7 +109,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes
 
             var emitterComposite = new EmitComposite();
 
-            MemberEmitterDescription emitterDescription = EmitMappingMembers(typePair);
+            var emitterDescription = EmitMappingMembers(typePair);
 
             emitterComposite.Add(emitterDescription.Emitter);
             emitterComposite.Add(EmitReturn.Return(EmitArgument.Load(typePair.Target, 2)));
@@ -129,8 +119,8 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Classes
 
         private MemberEmitterDescription EmitMappingMembers(TypePair typePair)
         {
-            List<MappingMemberPath> members = _mappingMemberBuilder.Build(typePair);
-            MemberEmitterDescription result = _memberMapper.Build(typePair, members);
+            var members = _mappingMemberBuilder.Build(typePair);
+            var result = _memberMapper.Build(typePair, members);
             return result;
         }
     }

@@ -144,8 +144,8 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
                 }
                 case CombineOperator.Except:
                 {
-                    bool first = sources.Take(1).Any(s => s.Cache.Lookup(key).HasValue);
-                    bool others = sources.Skip(1).Any(s => s.Cache.Lookup(key).HasValue);
+                    var first = sources.Take(1).Any(s => s.Cache.Lookup(key).HasValue);
+                    var others = sources.Skip(1).Any(s => s.Cache.Lookup(key).HasValue);
                     return first && !others;
                 }
                 default:

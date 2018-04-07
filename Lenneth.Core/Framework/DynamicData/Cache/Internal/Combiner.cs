@@ -65,7 +65,7 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
 
             foreach (var update in updates)
             {
-                TKey key = update.Key;
+                var key = update.Key;
                 switch (update.Reason)
                 {
                     case ChangeReason.Add:
@@ -101,7 +101,7 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
                         {
                             var cached = _combinedCache.Lookup(key);
                             var contained = cached.HasValue;
-                            bool shouldBeIncluded = MatchesConstraint(key);
+                            var shouldBeIncluded = MatchesConstraint(key);
 
                             if (shouldBeIncluded)
                             {
@@ -154,8 +154,8 @@ namespace Lenneth.Core.Framework.DynamicData.Cache.Internal
                     }
                 case CombineOperator.Except:
                     {
-                        bool first = _sourceCaches.Take(1).Any(s => s.Lookup(key).HasValue);
-                        bool others = _sourceCaches.Skip(1).Any(s => s.Lookup(key).HasValue);
+                        var first = _sourceCaches.Take(1).Any(s => s.Lookup(key).HasValue);
+                        var others = _sourceCaches.Skip(1).Any(s => s.Lookup(key).HasValue);
                         return first && !others;
                     }
                 default:

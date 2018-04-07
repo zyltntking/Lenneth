@@ -46,22 +46,19 @@ namespace Lenneth.Core.Framework.ObjectMapper.Bindings
 
         internal Option<string> GetBindField(string sourceName)
         {
-            string result;
-            bool exsist = _oneToOneBindFields.TryGetValue(sourceName, out result);
+            var exsist = _oneToOneBindFields.TryGetValue(sourceName, out var result);
             return new Option<string>(result, exsist);
         }
 
         internal Option<List<BindingFieldPath>> GetBindFieldPath(string fieldName)
         {
-            List<BindingFieldPath> result;
-            bool exsist = _bindFieldsPath.TryGetValue(fieldName, out result);
+            var exsist = _bindFieldsPath.TryGetValue(fieldName, out var result);
             return new Option<List<BindingFieldPath>>(result, exsist);
         }
 
         internal Option<Type> GetBindType(string targetName)
         {
-            Type result;
-            bool exsist = _bindTypes.TryGetValue(targetName, out result);
+            var exsist = _bindTypes.TryGetValue(targetName, out var result);
             return new Option<Type>(result, exsist);
         }
 

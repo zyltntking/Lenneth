@@ -100,7 +100,7 @@ namespace Lenneth.Core.Framework.DynamicData.List.Internal
                     case ListChangeReason.Remove:
                     {
                         var change = item.Item;
-                        bool hasIndex = change.CurrentIndex >= 0;
+                        var hasIndex = change.CurrentIndex >= 0;
 
                         if (hasIndex)
                         {
@@ -141,7 +141,7 @@ namespace Lenneth.Core.Framework.DynamicData.List.Internal
                     case ListChangeReason.Moved:
                     {
                         var change = item.Item;
-                        bool hasIndex = change.CurrentIndex >= 0;
+                        var hasIndex = change.CurrentIndex >= 0;
                         if (!hasIndex)
                             throw new UnspecifiedIndexException("Cannot move as an index was not specified");
 

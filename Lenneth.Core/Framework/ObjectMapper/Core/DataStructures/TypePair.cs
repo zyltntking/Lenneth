@@ -72,7 +72,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Core.DataStructures
             {
                 return false;
             }
-            return obj is TypePair && Equals((TypePair)obj);
+            return obj is TypePair pair && Equals(pair);
         }
 
         public override int GetHashCode()
@@ -86,18 +86,14 @@ namespace Lenneth.Core.Framework.ObjectMapper.Core.DataStructures
         // TODO Cache TypeConverters
         public bool HasTypeConverter()
         {
-            TypeConverter fromConverter = TypeDescriptor.GetConverter(Source);
+            var fromConverter = TypeDescriptor.GetConverter(Source);
             if (fromConverter.CanConvertTo(Target))
             {
                 return true;
             }
 
-            TypeConverter toConverter = TypeDescriptor.GetConverter(Target);
-            if (toConverter.CanConvertFrom(Source))
-            {
-                return true;
-            }
-            return false;
+            var toConverter = TypeDescriptor.GetConverter(Target);
+            return toConverter.CanConvertFrom(Source);
         }
 
         public bool Equals(TypePair other)

@@ -59,7 +59,7 @@ namespace Lenneth.Core.Framework.DynamicData
         {
             unchecked
             {
-                int hashCode = Pages;
+                var hashCode = Pages;
                 hashCode = (hashCode * 397) ^ Page;
                 hashCode = (hashCode * 397) ^ TotalSize;
                 hashCode = (hashCode * 397) ^ PageSize;
@@ -86,7 +86,7 @@ namespace Lenneth.Core.Framework.DynamicData
             {
                 unchecked
                 {
-                    int hashCode = obj.PageSize;
+                    var hashCode = obj.PageSize;
                     hashCode = (hashCode * 397) ^ obj.TotalSize;
                     hashCode = (hashCode * 397) ^ obj.Page;
                     hashCode = (hashCode * 397) ^ obj.Pages;

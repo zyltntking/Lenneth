@@ -17,18 +17,12 @@ namespace Lenneth.Core.Framework.ObjectMapper.Core.Extensions
 
         public static int Count(this IEnumerable source)
         {
-            var collection = source as ICollection;
-            if (collection != null)
+            if (source is ICollection collection)
             {
                 return collection.Count;
             }
 
-            var count = 0;
-            foreach (object item in source)
-            {
-                count++;
-            }
-            return count;
+            return Enumerable.Count(source.Cast<object>());
         }
 
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> value)
@@ -44,7 +38,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Core.Extensions
         /// <param name="action">Given function</param>
         public static void Iter<T>(this IEnumerable<T> value, Action<T> action)
         {
-            foreach (T item in value)
+            foreach (var item in value)
             {
                 action(item);
             }
@@ -60,7 +54,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Core.Extensions
         public static void IterI<T>(this IEnumerable<T> value, Action<int, T> action)
         {
             var i = 0;
-            foreach (T item in value)
+            foreach (var item in value)
             {
                 action(i++, item);
             }
@@ -78,7 +72,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Core.Extensions
             Action<T> action,
             Action<Exception> exceptionHandler = null)
         {
-            foreach (T item in value)
+            foreach (var item in value)
             {
                 try
                 {

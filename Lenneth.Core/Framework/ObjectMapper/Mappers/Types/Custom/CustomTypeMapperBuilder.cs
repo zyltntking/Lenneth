@@ -1,7 +1,6 @@
-﻿using System;
-using Lenneth.Core.Framework.ObjectMapper.Bindings;
-using Lenneth.Core.Framework.ObjectMapper.Core.DataStructures;
+﻿using Lenneth.Core.Framework.ObjectMapper.Core.DataStructures;
 using Lenneth.Core.Framework.ObjectMapper.Mappers.Classes.Members;
+using System;
 
 namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Types.Custom
 {
@@ -15,7 +14,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Types.Custom
 
         public bool IsSupported(TypePair parentTypePair, MappingMember mappingMember)
         {
-            Option<BindingConfig> bindingConfig = _config.GetBindingConfig(parentTypePair);
+            var bindingConfig = Config.GetBindingConfig(parentTypePair);
             if (bindingConfig.HasNoValue)
             {
                 return false;
@@ -30,8 +29,8 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Types.Custom
 
         protected override Mapper BuildCore(TypePair parentTypePair, MappingMember mappingMember)
         {
-            Option<BindingConfig> bindingConfig = _config.GetBindingConfig(parentTypePair);
-            Func<object, object> converter = bindingConfig.Value.GetCustomTypeConverter(mappingMember.Target.Name).Value;
+            var bindingConfig = Config.GetBindingConfig(parentTypePair);
+            var converter = bindingConfig.Value.GetCustomTypeConverter(mappingMember.Target.Name).Value;
             return new CustomTypeMapper(converter);
         }
 

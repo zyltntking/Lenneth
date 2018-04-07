@@ -28,9 +28,9 @@ namespace Lenneth.Core.Framework.ObjectMapper.Core.Extensions
 
         public static Option<TResult> ToType<TResult>(this object obj)
         {
-            if (obj is TResult)
+            if (obj is TResult result)
             {
-                return new Option<TResult>((TResult)obj);
+                return new Option<TResult>(result);
             }
             return Option<TResult>.Empty;
         }

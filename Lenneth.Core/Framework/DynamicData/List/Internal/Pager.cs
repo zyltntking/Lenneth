@@ -60,9 +60,9 @@ namespace Lenneth.Core.Framework.DynamicData.List.Internal
 
             var previous = paged;
 
-            int pages = CalculatePages(all, request);
-            int page = request.Page > pages ? pages : request.Page;
-            int skip = request.Size * (page - 1);
+            var pages = CalculatePages(all, request);
+            var page = request.Page > pages ? pages : request.Page;
+            var skip = request.Size * (page - 1);
 
             var current = all.Skip(skip)
                               .Take(request.Size)
@@ -94,7 +94,7 @@ namespace Lenneth.Core.Framework.DynamicData.List.Internal
             }
 
             //find replaces [Is this ever the case that it can be reached]
-            for (int i = 0; i < current.Count; i++)
+            for (var i = 0; i < current.Count; i++)
             {
                 var currentItem = current[i];
                 var previousItem = previous[i];
@@ -118,8 +118,8 @@ namespace Lenneth.Core.Framework.DynamicData.List.Internal
                 return 1;
             }
 
-            int pages = all.Count / request.Size;
-            int overlap = all.Count % request.Size;
+            var pages = all.Count / request.Size;
+            var overlap = all.Count % request.Size;
 
             if (overlap == 0)
             {

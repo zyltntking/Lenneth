@@ -31,7 +31,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Core.Extensions
         {
             if (type.IsDictionaryOf())
             {
-                Type[] types = type.GetGenericArguments();
+                var types = type.GetGenericArguments();
                 return new KeyValuePair<Type, Type>(types[0], types[1]);
             }
             throw new NotSupportedException();
@@ -40,7 +40,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Core.Extensions
         public static MethodInfo GetGenericMethod(this Type type, string methodName, params Type[] arguments)
         {
             return type.GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic)
-                       .MakeGenericMethod(arguments);
+                ?.MakeGenericMethod(arguments);
         }
 
         public static bool HasDefaultCtor(this Type type)

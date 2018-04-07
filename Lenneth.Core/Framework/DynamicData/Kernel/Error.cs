@@ -99,7 +99,7 @@ namespace Lenneth.Core.Framework.DynamicData.Kernel
         {
             unchecked
             {
-                int hashCode = EqualityComparer<TKey>.Default.GetHashCode(Key);
+                var hashCode = EqualityComparer<TKey>.Default.GetHashCode(Key);
                 hashCode = (hashCode * 397) ^ EqualityComparer<TObject>.Default.GetHashCode(Value);
                 hashCode = (hashCode * 397) ^ (Exception != null ? Exception.GetHashCode() : 0);
                 return hashCode;

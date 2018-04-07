@@ -43,7 +43,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Collections
         protected Array EnumerableToArrayTemplate<TTargetItem>(IEnumerable source)
         {
             var result = new TTargetItem[source.Count()];
-            int index = 0;
+            var index = 0;
             foreach (var item in source)
             {
                 result[index++] = (TTargetItem)ConvertItem(item);
@@ -102,7 +102,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers.Collections
 
         protected override TTarget MapCore(TSource source, TTarget target)
         {
-            Type targetType = typeof(TTarget);
+            var targetType = typeof(TTarget);
             var enumerable = (IEnumerable)source;
 
             if (targetType.IsListOf())

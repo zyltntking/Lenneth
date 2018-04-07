@@ -129,7 +129,7 @@ namespace Lenneth.Core.Framework.DynamicData
                 case ListChangeReason.Remove:
                 {
                     var change = item.Item;
-                    bool hasIndex = change.CurrentIndex >= 0;
+                    var hasIndex = change.CurrentIndex >= 0;
                     if (hasIndex)
                     {
                         source.RemoveAt(change.CurrentIndex);
@@ -161,7 +161,7 @@ namespace Lenneth.Core.Framework.DynamicData
                 case ListChangeReason.Moved:
                 {
                     var change = item.Item;
-                    bool hasIndex = change.CurrentIndex >= 0;
+                    var hasIndex = change.CurrentIndex >= 0;
                     if (!hasIndex)
                         throw new UnspecifiedIndexException("Cannot move as an index was not specified");
 
@@ -255,13 +255,13 @@ namespace Lenneth.Core.Framework.DynamicData
             if (comparer == null)
                 throw new ArgumentNullException(nameof(comparer));
 
-            int lower = 0;
-            int upper = list.Count - 1;
+            var lower = 0;
+            var upper = list.Count - 1;
 
             while (lower <= upper)
             {
-                int middle = lower + (upper - lower) / 2;
-                int comparisonResult = comparer(value, list[middle]);
+                var middle = lower + (upper - lower) / 2;
+                var comparisonResult = comparer(value, list[middle]);
                 if (comparisonResult < 0)
                 {
                     upper = middle - 1;
@@ -316,7 +316,7 @@ namespace Lenneth.Core.Framework.DynamicData
         /// <returns></returns>
         public static int IndexOf<T>(this IEnumerable<T> source, T item, IEqualityComparer<T> equalityComparer)
         {
-            int i = 0;
+            var i = 0;
             foreach (var candidate in source)
             {
                 if (equalityComparer.Equals(item, candidate))

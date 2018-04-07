@@ -21,7 +21,7 @@ namespace Lenneth.Core.Framework.ObjectMapper.Mappers
                 return;
             }
 
-            for (int i = 0; i < _mappers.Length; i++)
+            for (var i = 0; i < _mappers.Length; i++)
             {
                 if (i == mapperId)
                 {
