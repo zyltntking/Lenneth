@@ -49,7 +49,7 @@ namespace Lenneth.Core
             // Make sure to add a Unity.Configuration to the using statements.
             // container.LoadConfiguration();
 
-            //Ìí¼ÓÀ¹½Ø²å¼þ
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½
             // container.AddNewExtension<Interception>();
 
             // TODO: Register your type's mappings here.
@@ -57,15 +57,15 @@ namespace Lenneth.Core
             //Nlog
             container.RegisterType<ILogging, NLogWrapper>(new InjectionConstructor(Config.LogConfig, "log"));
             //MarkDown
-            container.RegisterType<IMarkdown, Markdown>(new InjectionConstructor());
+            //container.RegisterType<IMarkdown, Markdown>(new InjectionConstructor());
             //Mail
-            container.RegisterType<IMail, SmtpMail>(new InjectionConstructor(Config.MailConfig));
+            //container.RegisterType<IMail, SmtpMail>(new InjectionConstructor(Config.MailConfig));
             //Crypt
-            container.RegisterType<ICrypt, Des>(new InjectionConstructor("@Lenneth", "@Lenneth"));
+            //container.RegisterType<ICrypt, Des>(new InjectionConstructor("@Lenneth", "@Lenneth"));
             //Hash
-            container.RegisterType<IHash, MD5Hash>();
+            //container.RegisterType<IHash, MD5Hash>();
             //Qr
-            container.RegisterType<IQr,QrWarpper>();
+            //container.RegisterType<IQr,QrWarpper>();
             // common
             // container.RegisterType<ISample, Sample.Sample>( new Interceptor<InterfaceInterceptor>(), new InterceptionBehavior<CommonInterception>());
             // call handler
