@@ -800,6 +800,63 @@
     <Compile Include="Framework\DynamicData\ObservableChangeSet.cs" />
     <Compile Include="Framework\DynamicData\ObsoleteEx.cs" />
     <Compile Include="Framework\DynamicData\Properties\Annotations.cs" />
+    <Compile Include="Framework\ObjectMapper\Bindings\BindingConfig.cs" />
+    <Compile Include="Framework\ObjectMapper\Bindings\BindingConfigAttributes.cs" />
+    <Compile Include="Framework\ObjectMapper\Bindings\BindingConfigOf.cs" />
+    <Compile Include="Framework\ObjectMapper\Bindings\BindingFieldPath.cs" />
+    <Compile Include="Framework\ObjectMapper\Bindings\IBindingConfig.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\CodeGenerator.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitArgument.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitArray.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitBox.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitComposite.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitField.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitLocal.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitLocalVariable.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitMethod.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitNewObj.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitNull.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitProperty.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitReturn.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\EmitThis.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\IEmitter.cs" />
+    <Compile Include="Framework\ObjectMapper\CodeGenerators\Emitters\IEmitterType.cs" />
+    <Compile Include="Framework\ObjectMapper\Core\DataStructures\Option.cs" />
+    <Compile Include="Framework\ObjectMapper\Core\DataStructures\TypePair.cs" />
+    <Compile Include="Framework\ObjectMapper\Core\Error.cs" />
+    <Compile Include="Framework\ObjectMapper\Core\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Framework\ObjectMapper\Core\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Framework\ObjectMapper\Core\Extensions\MemberInfoExtensions.cs" />
+    <Compile Include="Framework\ObjectMapper\Core\Extensions\ObjectExtensions.cs" />
+    <Compile Include="Framework\ObjectMapper\Core\Extensions\OptionExtensions.cs" />
+    <Compile Include="Framework\ObjectMapper\Core\Extensions\TypeExtensions.cs" />
+    <Compile Include="Framework\ObjectMapper\Core\Helpers.cs" />
+    <Compile Include="Framework\ObjectMapper\ITinyMapperConfig.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Caches\MapperCache.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Caches\MapperCacheItem.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Classes\ClassMapper.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Classes\ClassMapperBuilder.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Classes\Members\MappingMember.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Classes\Members\MappingMemberBuilder.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Classes\Members\MappingMemberPath.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Classes\Members\MemberEmitterDescription.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Classes\Members\MemberMapper.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Collections\CollectionMapper.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Collections\CollectionMapperBuilder.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\IMapperBuilderConfig.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Mapper.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\MapperBuilder.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\MapperOf.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\TargetMapperBuilder.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Types\Convertible\ConvertibleTypeMapper.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Types\Convertible\ConvertibleTypeMapperBuilder.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Types\Custom\CustomTypeMapper.cs" />
+    <Compile Include="Framework\ObjectMapper\Mappers\Types\Custom\CustomTypeMapperBuilder.cs" />
+    <Compile Include="Framework\ObjectMapper\Reflection\DynamicAssemblyBuilder.cs" />
+    <Compile Include="Framework\ObjectMapper\Reflection\IDynamicAssembly.cs" />
+    <Compile Include="Framework\ObjectMapper\TinyMapper.cs" />
+    <Compile Include="Framework\ObjectMapper\TinyMapperConfig.cs" />
+    <Compile Include="Framework\ObjectMapper\TinyMapperException.cs" />
     <Compile Include="Framework\Utility\DynamicDictionary.cs" />
     <Compile Include="Framework\Utility\RmbUtility.cs" />
     <Compile Include="Framework\Redis\IRedisConnection.cs" />
@@ -823,9 +880,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Framework\src\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
