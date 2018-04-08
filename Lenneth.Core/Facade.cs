@@ -1,4 +1,8 @@
-﻿namespace Lenneth.Core
+﻿using Lenneth.Core.Framework.Hash;
+using Lenneth.Core.Framework.QR;
+using Unity;
+
+namespace Lenneth.Core
 {
     public static class Facade
     {
@@ -24,14 +28,14 @@
         ///// </summary>
         //public static ICrypt Crypt => UnityConfig.Container.Resolve<ICrypt>();
 
-        ///// <summary>
-        ///// Hash门面
-        ///// </summary>
-        //public static IHash Hash => UnityConfig.Container.Resolve<IHash>();
+        /// <summary>
+        /// Hash门面
+        /// </summary>
+        public static IHash Hash => UnityConfig.Container.Resolve<IHash>();
 
-        ///// <summary>
-        ///// Qr门面
-        ///// </summary>
-        //public static IQr Qr => UnityConfig.Container.Resolve<IQr>();
+        /// <summary>
+        /// Qr门面
+        /// </summary>
+        public static IQr Qr => UnityConfig.Container.Resolve<IQr>();
     }
 }
