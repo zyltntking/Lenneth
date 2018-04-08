@@ -1,0 +1,14 @@
+using System;
+
+namespace Lenneth.Core.FrameWork.BouncyCastle.security.cert
+{
+#if !(NETCF_1_0 || NETCF_2_0 || SILVERLIGHT || PORTABLE)
+    [Serializable]
+#endif
+    public class CertificateNotYetValidException : CertificateException
+	{
+		public CertificateNotYetValidException() : base() { }
+		public CertificateNotYetValidException(string message) : base(message) { }
+		public CertificateNotYetValidException(string message, Exception exception) : base(message, exception) { }
+	}
+}

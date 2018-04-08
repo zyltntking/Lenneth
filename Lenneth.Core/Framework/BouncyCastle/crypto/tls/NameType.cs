@@ -1,0 +1,10 @@
+﻿namespace Lenneth.Core.FrameWork.BouncyCastle.crypto.tls
+{
+    public abstract class NameType
+    {
+        /*
+         * RFC 3546 3.1.
+         */
+        public const byte host_name = 0;
+    }
+}

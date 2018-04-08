@@ -1,0 +1,43 @@
+using System.IO;
+using Lenneth.Core.FrameWork.BouncyCastle.security;
+using Lenneth.Core.FrameWork.BouncyCastle.util.io.pem;
+
+namespace Lenneth.Core.FrameWork.BouncyCastle.openssl
+{
+	/// <remarks>General purpose writer for OpenSSL PEM objects.</remarks>
+	public class PemWriter
+		: util.io.pem.PemWriter
+	{
+		/// <param name="writer">The TextWriter object to write the output to.</param>
+		public PemWriter(
+			TextWriter writer)
+			: base(writer)
+		{
+		}
+
+		public void WriteObject(
+			object obj) 
+		{
+			try
+			{
+				base.WriteObject(new MiscPemGenerator(obj));
+			}
+			catch (PemGenerationException e)
+			{
+				if (e.InnerException is IOException)
+					throw (IOException)e.InnerException;
+
+				throw e;
+			}
+		}
+
+		public void WriteObject(
+			object			obj,
+			string			algorithm,
+			char[]			password,
+			SecureRandom	random)
+		{
+			base.WriteObject(new MiscPemGenerator(obj, algorithm, password, random));
+		}
+	}
+}
