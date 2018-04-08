@@ -2488,15 +2488,6 @@
     <Compile Include="Framework\QueryBuilder\Query.Update.cs" />
     <Compile Include="Framework\QueryBuilder\Raw.cs" />
     <Compile Include="Framework\QueryBuilder\SqlResult.cs" />
-    <Compile Include="Extensions\Utils\Bits.cs" />
-    <Compile Include="Extensions\Utils\FileUtils.cs" />
-    <Compile Include="Extensions\Utils\Hex.cs" />
-    <Compile Include="Extensions\Utils\MersenneTwister.cs" />
-    <Compile Include="Extensions\Utils\NoNamespacesXmlWriter.cs" />
-    <Compile Include="Extensions\Utils\Profiler.cs" />
-    <Compile Include="Extensions\Utils\SHA1.cs" />
-    <Compile Include="Extensions\Utils\ValueClass.cs" />
-    <Compile Include="Extensions\Utils\XmlBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
