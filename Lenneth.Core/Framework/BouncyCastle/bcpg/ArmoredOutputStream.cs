@@ -97,7 +97,7 @@ namespace Lenneth.Core.FrameWork.BouncyCastle.bcpg
         private static readonly string    footerStart = "-----END PGP ";
         private static readonly string    footerTail = "-----";
 
-        private static readonly string version = "BCPG C# v" + AssemblyInfo.Version;
+        private static readonly string version = "BCPG C# v1";
 
         private readonly IDictionary headers;
 
