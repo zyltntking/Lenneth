@@ -5,9 +5,9 @@ using Lenneth.Core.Framework.QueryBuilder.Clauses;
 
 namespace Lenneth.Core.Framework.QueryBuilder
 {
-    public abstract partial class BaseQuery<Q>
+    public abstract partial class BaseQuery<TQ>
     {
-        public Q Where<T>(string column, string op, T value)
+        public TQ Where<T>(string column, string op, T value)
         {
 
             // If the value is "null", we will just assume the developer wants to add a
@@ -33,14 +33,14 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q Where<T>(string column, T value)
+        public TQ Where<T>(string column, T value)
         {
             return Where(column, "=", value);
         }
 
-        public Q Where<T>(IReadOnlyDictionary<string, T> values)
+        public TQ Where<T>(IReadOnlyDictionary<string, T> values)
         {
-            var query = (Q)this;
+            var query = (TQ)this;
             var orFlag = getOr();
             var notFlag = getNot();
 
@@ -61,14 +61,14 @@ namespace Lenneth.Core.Framework.QueryBuilder
             return query;
         }
 
-        public Q Where<T>(IEnumerable<string> columns, IEnumerable<T> values)
+        public TQ Where<T>(IEnumerable<string> columns, IEnumerable<T> values)
         {
             if (columns.Count() == 0 || columns.Count() != values.Count())
             {
                 throw new ArgumentException("Columns and Values count must match");
             }
 
-            var query = (Q)this;
+            var query = (TQ)this;
 
             var orFlag = getOr();
             var notFlag = getNot();
@@ -96,17 +96,17 @@ namespace Lenneth.Core.Framework.QueryBuilder
         /// <param name="condition"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public Q WhereIf<T>(bool condition, string column, string op, T value)
+        public TQ WhereIf<T>(bool condition, string column, string op, T value)
         {
             if (condition)
             {
                 return Where(column, op, value);
             }
 
-            return (Q)this;
+            return (TQ)this;
         }
 
-        public Q WhereIf<T>(bool condition, string column, T value)
+        public TQ WhereIf<T>(bool condition, string column, T value)
         {
             return WhereIf(condition, column, "=", value);
         }
@@ -117,22 +117,22 @@ namespace Lenneth.Core.Framework.QueryBuilder
         /// <param name="condition"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public Q OrWhereIf<T>(bool condition, string column, string op, T value)
+        public TQ OrWhereIf<T>(bool condition, string column, string op, T value)
         {
             if (condition)
             {
                 return Or().Where(column, op, value);
             }
 
-            return (Q)this;
+            return (TQ)this;
         }
 
-        public Q OrWhereIf<T>(bool condition, string column, T value)
+        public TQ OrWhereIf<T>(bool condition, string column, T value)
         {
             return OrWhereIf(condition, column, "=", value);
         }
 
-        public Q WhereRaw(string sql, params object[] bindings)
+        public TQ WhereRaw(string sql, params object[] bindings)
         {
             return AddComponent("where", new RawCondition
             {
@@ -143,16 +143,16 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q OrWhereRaw(string sql, params object[] bindings)
+        public TQ OrWhereRaw(string sql, params object[] bindings)
         {
             return Or().WhereRaw(sql, bindings);
         }
 
-        public Q Where(Func<Q, Q> callback)
+        public TQ Where(Func<TQ, TQ> callback)
         {
             var query = callback.Invoke(NewChild());
 
-            return AddComponent("where", new NestedCondition<Q>
+            return AddComponent("where", new NestedCondition<TQ>
             {
                 Query = query,
                 IsNot = getNot(),
@@ -160,49 +160,49 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q WhereNot(string column, string op, object value)
+        public TQ WhereNot(string column, string op, object value)
         {
             return Not(true).Where(column, op, value);
         }
 
-        public Q WhereNot(string column, object value)
+        public TQ WhereNot(string column, object value)
         {
             return WhereNot(column, "=", value);
         }
 
-        public Q WhereNot(Func<Q, Q> callback)
+        public TQ WhereNot(Func<TQ, TQ> callback)
         {
             return Not(true).Where(callback);
         }
 
-        public Q OrWhere(string column, string op, object value)
+        public TQ OrWhere(string column, string op, object value)
         {
             return Or().Where(column, op, value);
         }
-        public Q OrWhere(string column, object value)
+        public TQ OrWhere(string column, object value)
         {
             return OrWhere(column, "=", value);
         }
 
-        public Q OrWhere(Func<Q, Q> callback)
+        public TQ OrWhere(Func<TQ, TQ> callback)
         {
             return Or().Where(callback);
         }
-        public Q OrWhereNot(string column, string op, object value)
+        public TQ OrWhereNot(string column, string op, object value)
         {
             return this.Or().Not(true).Where(column, op, value);
         }
-        public Q OrWhereNot(string column, object value)
+        public TQ OrWhereNot(string column, object value)
         {
             return OrWhereNot(column, "=", value);
         }
 
-        public Q OrWhereNot(Func<Q, Q> callback)
+        public TQ OrWhereNot(Func<TQ, TQ> callback)
         {
             return Not(true).Or().Where(callback);
         }
 
-        public Q WhereColumns(string first, string op, string second)
+        public TQ WhereColumns(string first, string op, string second)
         {
             return AddComponent("where", new TwoColumnsCondition
             {
@@ -214,12 +214,12 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q OrWhereColumns(string first, string op, string second)
+        public TQ OrWhereColumns(string first, string op, string second)
         {
             return Or().WhereColumns(first, op, second);
         }
 
-        public Q WhereNull(string column)
+        public TQ WhereNull(string column)
         {
             return AddComponent("where", new NullCondition
             {
@@ -229,22 +229,22 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q WhereNotNull(string column)
+        public TQ WhereNotNull(string column)
         {
             return Not(true).WhereNull(column);
         }
 
-        public Q OrWhereNull(string column)
+        public TQ OrWhereNull(string column)
         {
             return this.Or().WhereNull(column);
         }
 
-        public Q OrWhereNotNull(string column)
+        public TQ OrWhereNotNull(string column)
         {
             return Or().Not(true).WhereNull(column);
         }
 
-        public Q WhereLike(string column, string value, bool caseSensitive = false)
+        public TQ WhereLike(string column, string value, bool caseSensitive = false)
         {
             return AddComponent("where", new BasicStringCondition
             {
@@ -257,16 +257,16 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q OrWhereLike(string column, string value, bool caseSensitive = false)
+        public TQ OrWhereLike(string column, string value, bool caseSensitive = false)
         {
             return Or().WhereLike(column, value, caseSensitive);
         }
 
-        public Q OrWhereNotLike(string column, string value, bool caseSensitive = false)
+        public TQ OrWhereNotLike(string column, string value, bool caseSensitive = false)
         {
             return Or().Not(true).WhereLike(column, value, caseSensitive);
         }
-        public Q WhereStarts(string column, string value, bool caseSensitive = false)
+        public TQ WhereStarts(string column, string value, bool caseSensitive = false)
         {
             return AddComponent("where", new BasicStringCondition
             {
@@ -279,17 +279,17 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q OrWhereStarts(string column, string value, bool caseSensitive = false)
+        public TQ OrWhereStarts(string column, string value, bool caseSensitive = false)
         {
             return Or().WhereStarts(column, value, caseSensitive);
         }
 
-        public Q OrWhereNotStarts(string column, string value, bool caseSensitive = false)
+        public TQ OrWhereNotStarts(string column, string value, bool caseSensitive = false)
         {
             return Or().Not(true).WhereStarts(column, value, caseSensitive);
         }
 
-        public Q WhereEnds(string column, string value, bool caseSensitive = false)
+        public TQ WhereEnds(string column, string value, bool caseSensitive = false)
         {
             return AddComponent("where", new BasicStringCondition
             {
@@ -302,17 +302,17 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q OrWhereEnds(string column, string value, bool caseSensitive = false)
+        public TQ OrWhereEnds(string column, string value, bool caseSensitive = false)
         {
             return Or().WhereEnds(column, value, caseSensitive);
         }
 
-        public Q OrWhereNotEnds(string column, string value, bool caseSensitive = false)
+        public TQ OrWhereNotEnds(string column, string value, bool caseSensitive = false)
         {
             return Or().Not(true).WhereEnds(column, value, caseSensitive);
         }
 
-        public Q WhereContains(string column, string value, bool caseSensitive = false)
+        public TQ WhereContains(string column, string value, bool caseSensitive = false)
         {
             return AddComponent("where", new BasicStringCondition
             {
@@ -325,17 +325,17 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q OrWhereContains(string column, string value, bool caseSensitive = false)
+        public TQ OrWhereContains(string column, string value, bool caseSensitive = false)
         {
             return Or().WhereContains(column, value, caseSensitive);
         }
 
-        public Q OrWhereNotContains(string column, string value, bool caseSensitive = false)
+        public TQ OrWhereNotContains(string column, string value, bool caseSensitive = false)
         {
             return Or().Not(true).WhereContains(column, value, caseSensitive);
         }
 
-        public Q WhereBetween<T>(string column, T lower, T higher)
+        public TQ WhereBetween<T>(string column, T lower, T higher)
         {
             return AddComponent("where", new BetweenCondition<T>
             {
@@ -347,20 +347,20 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q OrWhereBetween<T>(string column, T lower, T higher)
+        public TQ OrWhereBetween<T>(string column, T lower, T higher)
         {
             return Or().WhereBetween(column, lower, higher);
         }
-        public Q WhereNotBetween<T>(string column, T lower, T higher)
+        public TQ WhereNotBetween<T>(string column, T lower, T higher)
         {
             return Not(true).WhereBetween(column, lower, higher);
         }
-        public Q OrWhereNotBetween<T>(string column, T lower, T higher)
+        public TQ OrWhereNotBetween<T>(string column, T lower, T higher)
         {
             return Or().Not(true).WhereBetween(column, lower, higher);
         }
 
-        public Q WhereIn<T>(string column, IEnumerable<T> values)
+        public TQ WhereIn<T>(string column, IEnumerable<T> values)
         {
             // If the developer has passed a string most probably he wants List<string>
             // since string is considered as List<char>
@@ -388,23 +388,23 @@ namespace Lenneth.Core.Framework.QueryBuilder
 
         }
 
-        public Q OrWhereIn<T>(string column, IEnumerable<T> values)
+        public TQ OrWhereIn<T>(string column, IEnumerable<T> values)
         {
             return Or().WhereIn(column, values);
         }
 
-        public Q WhereNotIn<T>(string column, IEnumerable<T> values)
+        public TQ WhereNotIn<T>(string column, IEnumerable<T> values)
         {
             return Not(true).WhereIn(column, values);
         }
 
-        public Q OrWhereNotIn<T>(string column, IEnumerable<T> values)
+        public TQ OrWhereNotIn<T>(string column, IEnumerable<T> values)
         {
             return Or().Not(true).WhereIn(column, values);
         }
 
 
-        public Q WhereIn(string column, Query query)
+        public TQ WhereIn(string column, Query query)
         {
             return AddComponent("where", new InQueryCondition
             {
@@ -414,38 +414,38 @@ namespace Lenneth.Core.Framework.QueryBuilder
                 Query = query.SetEngineScope(EngineScope)
             });
         }
-        public Q WhereIn(string column, Func<Query, Query> callback)
+        public TQ WhereIn(string column, Func<Query, Query> callback)
         {
             var query = callback.Invoke(new Query());
 
             return WhereIn(column, query);
         }
 
-        public Q OrWhereIn(string column, Query query)
+        public TQ OrWhereIn(string column, Query query)
         {
             return Or().WhereIn(column, query);
         }
 
-        public Q OrWhereIn(string column, Func<Query, Query> callback)
+        public TQ OrWhereIn(string column, Func<Query, Query> callback)
         {
             return Or().WhereIn(column, callback);
         }
-        public Q WhereNotIn(string column, Query query)
+        public TQ WhereNotIn(string column, Query query)
         {
             return Not(true).WhereIn(column, query);
         }
 
-        public Q WhereNotIn(string column, Func<Query, Query> callback)
+        public TQ WhereNotIn(string column, Func<Query, Query> callback)
         {
             return Not(true).WhereIn(column, callback);
         }
 
-        public Q OrWhereNotIn(string column, Query query)
+        public TQ OrWhereNotIn(string column, Query query)
         {
             return Or().Not(true).WhereIn(column, query);
         }
 
-        public Q OrWhereNotIn(string column, Func<Query, Query> callback)
+        public TQ OrWhereNotIn(string column, Func<Query, Query> callback)
         {
             return Or().Not(true).WhereIn(column, callback);
         }
@@ -458,14 +458,14 @@ namespace Lenneth.Core.Framework.QueryBuilder
         /// <param name="op"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        public Q Where(string column, string op, Func<Q, Q> callback)
+        public TQ Where(string column, string op, Func<TQ, TQ> callback)
         {
             var query = callback.Invoke(NewChild());
 
             return Where(column, op, query);
         }
 
-        public Q Where(string column, string op, Query query)
+        public TQ Where(string column, string op, Query query)
         {
             return AddComponent("where", new QueryCondition<Query>
             {
@@ -477,16 +477,16 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q OrWhere(string column, string op, Query query)
+        public TQ OrWhere(string column, string op, Query query)
         {
             return Or().Where(column, op, query);
         }
-        public Q OrWhere(string column, string op, Func<Query, Query> callback)
+        public TQ OrWhere(string column, string op, Func<Query, Query> callback)
         {
             return Or().Where(column, op, callback);
         }
 
-        public Q WhereExists(Query query)
+        public TQ WhereExists(Query query)
         {
             if (!query.HasComponent("from"))
             {
@@ -500,35 +500,35 @@ namespace Lenneth.Core.Framework.QueryBuilder
                 IsOr = getOr(),
             });
         }
-        public Q WhereExists(Func<Query, Query> callback)
+        public TQ WhereExists(Func<Query, Query> callback)
         {
             var childQuery = new Query().SetParent(this);
             return WhereExists(callback.Invoke(childQuery));
         }
 
-        public Q WhereNotExists(Query query)
+        public TQ WhereNotExists(Query query)
         {
             return Not(true).WhereExists(query);
         }
 
-        public Q WhereNotExists(Func<Query, Query> callback)
+        public TQ WhereNotExists(Func<Query, Query> callback)
         {
             return Not(true).WhereExists(callback);
         }
 
-        public Q OrWhereExists(Query query)
+        public TQ OrWhereExists(Query query)
         {
             return Or().WhereExists(query);
         }
-        public Q OrWhereExists(Func<Query, Query> callback)
+        public TQ OrWhereExists(Func<Query, Query> callback)
         {
             return Or().WhereExists(callback);
         }
-        public Q OrWhereNotExists(Query query)
+        public TQ OrWhereNotExists(Query query)
         {
             return Or().Not(true).WhereExists(query);
         }
-        public Q OrWhereNotExists(Func<Query, Query> callback)
+        public TQ OrWhereNotExists(Func<Query, Query> callback)
         {
             return Or().Not(true).WhereExists(callback);
         }

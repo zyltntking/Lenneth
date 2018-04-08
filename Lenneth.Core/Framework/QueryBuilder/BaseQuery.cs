@@ -10,7 +10,7 @@ namespace Lenneth.Core.Framework.QueryBuilder
         protected AbstractQuery Parent;
     }
 
-    public abstract partial class BaseQuery<Q> : AbstractQuery where Q : BaseQuery<Q>
+    public abstract partial class BaseQuery<TQ> : AbstractQuery where TQ : BaseQuery<TQ>
     {
         protected virtual string[] bindingOrder { get; }
         public List<AbstractClause> Clauses { get; set; } = new List<AbstractClause>();
@@ -19,7 +19,7 @@ namespace Lenneth.Core.Framework.QueryBuilder
         private bool notFlag = false;
         public string EngineScope = null;
 
-        public Q SetEngineScope(string engine)
+        public TQ SetEngineScope(string engine)
         {
             this.EngineScope = engine;
 
@@ -29,7 +29,7 @@ namespace Lenneth.Core.Framework.QueryBuilder
             //     return x;
             // }).ToList();
 
-            return (Q)this;
+            return (TQ)this;
         }
 
         public virtual List<AbstractClause> OrderedClauses(string engine)
@@ -62,7 +62,7 @@ namespace Lenneth.Core.Framework.QueryBuilder
         /// Return a cloned copy of the current query.
         /// </summary>
         /// <returns></returns>
-        public virtual Q Clone()
+        public virtual TQ Clone()
         {
             var q = NewQuery();
 
@@ -71,7 +71,7 @@ namespace Lenneth.Core.Framework.QueryBuilder
             return q;
         }
 
-        public Q SetParent(AbstractQuery parent)
+        public TQ SetParent(AbstractQuery parent)
         {
             if (this == parent)
             {
@@ -79,14 +79,14 @@ namespace Lenneth.Core.Framework.QueryBuilder
             }
 
             this.Parent = parent;
-            return (Q)this;
+            return (TQ)this;
         }
 
-        public abstract Q NewQuery();
+        public abstract TQ NewQuery();
 
-        public Q NewChild()
+        public TQ NewChild()
         {
-            var newQuery = NewQuery().SetParent((Q)this);
+            var newQuery = NewQuery().SetParent((TQ)this);
             newQuery.EngineScope = this.EngineScope;
             return newQuery;
         }
@@ -97,7 +97,7 @@ namespace Lenneth.Core.Framework.QueryBuilder
         /// <param name="component"></param>
         /// <param name="clause"></param>
         /// <returns></returns>
-        public Q AddComponent(string component, AbstractClause clause, string engineCode = null)
+        public TQ AddComponent(string component, AbstractClause clause, string engineCode = null)
         {
             if (engineCode == null)
             {
@@ -108,7 +108,7 @@ namespace Lenneth.Core.Framework.QueryBuilder
             clause.Component = component;
             Clauses.Add(clause);
 
-            return (Q)this;
+            return (TQ)this;
         }
 
         /// <summary>
@@ -195,7 +195,7 @@ namespace Lenneth.Core.Framework.QueryBuilder
         /// </summary>
         /// <param name="component"></param>
         /// <returns></returns>
-        public Q ClearComponent(string component, string engineCode = null)
+        public TQ ClearComponent(string component, string engineCode = null)
         {
             if (engineCode == null)
             {
@@ -206,37 +206,37 @@ namespace Lenneth.Core.Framework.QueryBuilder
                 .Where(x => !(x.Component == component && (engineCode == null || x.Engine == null || engineCode == x.Engine)))
                 .ToList();
 
-            return (Q)this;
+            return (TQ)this;
         }
 
         /// <summary>
         /// Set the next boolean operator to "and" for the "where" clause.
         /// </summary>
         /// <returns></returns>
-        protected Q And()
+        protected TQ And()
         {
             orFlag = false;
-            return (Q)this;
+            return (TQ)this;
         }
 
         /// <summary>
         /// Set the next boolean operator to "or" for the "where" clause.
         /// </summary>
         /// <returns></returns>
-        protected Q Or()
+        protected TQ Or()
         {
             orFlag = true;
-            return (Q)this;
+            return (TQ)this;
         }
 
         /// <summary>
         /// Set the next "not" operator for the "where" clause.
         /// </summary>
         /// <returns></returns>        
-        protected Q Not(bool flag)
+        protected TQ Not(bool flag)
         {
             notFlag = flag;
-            return (Q)this;
+            return (TQ)this;
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace Lenneth.Core.Framework.QueryBuilder
         /// </summary>
         /// <param name="table"></param>
         /// <returns></returns>
-        public Q From(string table)
+        public TQ From(string table)
         {
             return ClearComponent("from").AddComponent("from", new FromClause
             {
@@ -278,9 +278,9 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q From(Query query, string alias = null)
+        public TQ From(Query query, string alias = null)
         {
-            query.SetParent((Q)this);
+            query.SetParent((TQ)this);
 
             if (alias != null)
             {
@@ -293,7 +293,7 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q FromRaw(string expression, params object[] bindings)
+        public TQ FromRaw(string expression, params object[] bindings)
         {
             return ClearComponent("from").AddComponent("from", new RawFromClause
             {
@@ -302,16 +302,16 @@ namespace Lenneth.Core.Framework.QueryBuilder
             });
         }
 
-        public Q From(Raw expression)
+        public TQ From(Raw expression)
         {
             return FromRaw(expression.Value, expression.Bindings);
         }
 
-        public Q From(Func<Query, Query> callback, string alias = null)
+        public TQ From(Func<Query, Query> callback, string alias = null)
         {
             var query = new Query();
 
-            query.SetParent((Q)this);
+            query.SetParent((TQ)this);
 
             return From(callback.Invoke(query), alias);
         }
