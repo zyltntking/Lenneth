@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace Lenneth.Core.Extensions
 {
     [DebuggerStepThrough]
     public static class ConstructorInfoExtensions
     {
-        public static Object Invoke(this ConstructorInfo a_ci)
+        public static object Invoke(this ConstructorInfo aCi)
         {
-            return a_ci.Invoke(null);
+            return aCi.Invoke(null);
         }
 
-        public static Object Invoke(this ConstructorInfo a_ci, params Object[] a_params)
+        public static object Invoke(this ConstructorInfo aCi, params object[] aParams)
         {
-            return a_ci.Invoke(a_params);
+            return aCi.Invoke(aParams);
         }
     }
 }

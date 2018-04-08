@@ -10,95 +10,95 @@ namespace Lenneth.Core.Extensions
     [DebuggerStepThrough]
     public static class StringExtensions
     {
-        public static double ToDouble(this string a_str)
+        public static double ToDouble(this string aStr)
         {
-            if (a_str.ToLower() == Double.NegativeInfinity.ToString().ToLower())
-                return Double.NegativeInfinity;
-            if (a_str.ToLower() == Double.PositiveInfinity.ToString().ToLower())
-                return Double.PositiveInfinity;
-            if (a_str.ToLower() == Double.NaN.ToString().ToLower())
-                return Double.NaN;
+            if (aStr.ToLower() == double.NegativeInfinity.ToString().ToLower())
+                return double.NegativeInfinity;
+            if (aStr.ToLower() == double.PositiveInfinity.ToString().ToLower())
+                return double.PositiveInfinity;
+            if (aStr.ToLower() == double.NaN.ToString().ToLower())
+                return double.NaN;
             else
-                return Double.Parse(a_str, CultureInfo.InvariantCulture);
+                return double.Parse(aStr, CultureInfo.InvariantCulture);
         }
 
-        public static float ToSingle(this string a_str)
+        public static float ToSingle(this string aStr)
         {
-            if (a_str.ToLower() == Single.NegativeInfinity.ToString().ToLower())
-                return Single.NegativeInfinity;
-            if (a_str.ToLower() == Single.PositiveInfinity.ToString().ToLower())
-                return Single.PositiveInfinity;
-            if (a_str.ToLower() == Single.NaN.ToString().ToLower())
-                return Single.NaN;
+            if (aStr.ToLower() == float.NegativeInfinity.ToString().ToLower())
+                return float.NegativeInfinity;
+            if (aStr.ToLower() == float.PositiveInfinity.ToString().ToLower())
+                return float.PositiveInfinity;
+            if (aStr.ToLower() == float.NaN.ToString().ToLower())
+                return float.NaN;
             else
-                return Single.Parse(a_str, CultureInfo.InvariantCulture);
+                return float.Parse(aStr, CultureInfo.InvariantCulture);
         }
 
-        public static int ToInt(this string a_str)
+        public static int ToInt(this string aStr)
         {
-            return Int32.Parse(a_str);
+            return int.Parse(aStr);
         }
 
-        public static bool ToBool(this string a_str)
+        public static bool ToBool(this string aStr)
         {
-            return Boolean.Parse(a_str);
+            return bool.Parse(aStr);
         }
 
-        public static String RemoveFromRight(this string a_str, int a_chars)
+        public static string RemoveFromRight(this string aStr, int aChars)
         {
-            return a_str.Remove(a_str.Length - a_chars);
+            return aStr.Remove(aStr.Length - aChars);
         }
 
-        public static String RemoveFromLeft(this string a_str, int a_chars)
+        public static string RemoveFromLeft(this string aStr, int aChars)
         {
-            return a_str.Remove(0, a_chars);
+            return aStr.Remove(0, aChars);
         }
 
-        public static String Left(this string a_str, int a_count)
+        public static string Left(this string aStr, int aCount)
         {
-            return a_str.Substring(0, a_count);
+            return aStr.Substring(0, aCount);
         }
 
-        public static String Right(this string a_str, int a_count)
+        public static string Right(this string aStr, int aCount)
         {
-            return a_str.Substring(a_str.Length - a_count, a_count);
+            return aStr.Substring(aStr.Length - aCount, aCount);
         }
 
-        public static string EnsureStartsWith(this string a_str, string a_prefix)
+        public static string EnsureStartsWith(this string aStr, string aPrefix)
         {
-            return a_str.StartsWith(a_prefix) ? a_str : string.Concat(a_prefix, a_str);
+            return aStr.StartsWith(aPrefix) ? aStr : string.Concat(aPrefix, aStr);
         }
 
-        public static string Repeat(this string a_str, int a_count)
+        public static string Repeat(this string aStr, int aCount)
         {
-            var sb = new StringBuilder(a_str.Length * a_count);
+            var sb = new StringBuilder(aStr.Length * aCount);
 
-            for (int i = 0; i < a_count; i++)
-                sb.Append(a_str);
+            for (var i = 0; i < aCount; i++)
+                sb.Append(aStr);
 
             return sb.ToString();
         }
 
-        public static string GetBefore(this string a_str, string a_pattern)
+        public static string GetBefore(this string aStr, string aPattern)
         {
-            int index = a_str.IndexOf(a_pattern);
-            return (index == -1) ? String.Empty : a_str.Substring(0, index);
+            var index = aStr.IndexOf(aPattern);
+            return (index == -1) ? string.Empty : aStr.Substring(0, index);
         }
 
-        public static string GetAfter(this string a_str, string a_pattern)
+        public static string GetAfter(this string aStr, string aPattern)
         {
-            var last_pos = a_str.LastIndexOf(a_pattern);
+            var lastPos = aStr.LastIndexOf(aPattern);
 
-            if (last_pos == -1)
-                return String.Empty;
+            if (lastPos == -1)
+                return string.Empty;
 
-            int start = last_pos + a_pattern.Length;
-            return start >= a_str.Length ? String.Empty : a_str.Substring(start).Trim();
+            var start = lastPos + aPattern.Length;
+            return start >= aStr.Length ? string.Empty : aStr.Substring(start).Trim();
         }
 
-        public static string GetBetween(this string a_str, string a_left, string a_right)
+        public static string GetBetween(this string aStr, string aLeft, string aRight)
         {
-            return a_str.GetBefore(a_right).GetAfter(a_left);
+            return aStr.GetBefore(aRight).GetAfter(aLeft);
         }
 
         public static string ToTitleCase(this string value)
@@ -106,32 +106,32 @@ namespace Lenneth.Core.Extensions
             return System.Globalization.CultureInfo.CurrentUICulture.TextInfo.ToTitleCase(value);
         }
 
-        public static string FindUniqueName(this string a_pattern,
-            IEnumerable<string> a_names)
+        public static string FindUniqueName(this string aPattern,
+            IEnumerable<string> aNames)
         {
-            if (!a_names.Contains(a_pattern))
-                return a_pattern;
+            if (!aNames.Contains(aPattern))
+                return aPattern;
 
-            string[] ar = a_pattern.Split(new char[] { ' ' });
+            var ar = aPattern.Split(' ');
 
             string left;
             uint index;
-            if (!UInt32.TryParse(ar.Last(), out index))
+            if (!uint.TryParse(ar.Last(), out index))
             {
                 index = 1;
-                left = a_pattern + " ";
+                left = aPattern + " ";
             }
             else
             {
-                left = String.Join(" ", ar.SkipLast(1)) + " ";
+                left = string.Join(" ", ar.SkipLast(1)) + " ";
                 index++;
             }
 
             for (; ; )
             {
-                string result = (left + index.ToString()).Trim();
+                var result = (left + index.ToString()).Trim();
 
-                if (a_names.Contains(result))
+                if (aNames.Contains(result))
                 {
                     index++;
                     continue;
@@ -141,23 +141,23 @@ namespace Lenneth.Core.Extensions
             }
         }
 
-        public static IEnumerable<string> Split(this string a_str, string a_split)
+        public static IEnumerable<string> Split(this string aStr, string aSplit)
         {
-            int start_index = 0;
+            var startIndex = 0;
 
             for (; ; )
             {
-                int split_index = a_str.IndexOf(a_split, start_index);
+                var splitIndex = aStr.IndexOf(aSplit, startIndex);
 
-                if (split_index == -1)
+                if (splitIndex == -1)
                     break;
 
-                yield return a_str.Substring(start_index, split_index - start_index);
+                yield return aStr.Substring(startIndex, splitIndex - startIndex);
 
-                start_index = split_index + a_split.Length;
+                startIndex = splitIndex + aSplit.Length;
             }
 
-            yield return a_str.Substring(start_index);
+            yield return aStr.Substring(startIndex);
         }
     }
 }

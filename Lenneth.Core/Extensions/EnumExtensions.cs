@@ -8,9 +8,9 @@ namespace Lenneth.Core.Extensions
     [DebuggerStepThrough]
     public static class EnumExtensions
     {
-        public static T Parse<T>(string a_str)
+        public static T Parse<T>(string aStr)
         {
-            return (T)Enum.Parse(typeof(T), a_str);
+            return (T)Enum.Parse(typeof(T), aStr);
         }
 
         public static IEnumerable<T> GetValues<T>()

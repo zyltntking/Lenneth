@@ -8,54 +8,54 @@ namespace Lenneth.Core.Extensions
     [DebuggerStepThrough]
     public static class RectangleExtensions
     {
-        public static Rectangle Scale(this Rectangle a_rect, int a_ratio)
+        public static Rectangle Scale(this Rectangle aRect, int aRatio)
         {
-            return new Rectangle(a_rect.Left * a_ratio, a_rect.Top * a_ratio,
-                a_rect.Width * a_ratio, a_rect.Height * a_ratio);
+            return new Rectangle(aRect.Left * aRatio, aRect.Top * aRatio,
+                aRect.Width * aRatio, aRect.Height * aRatio);
         }
 
         /// <summary>
         /// Round mode: Math.Round()
         /// </summary>
-        /// <param name="a_rect"></param>
-        /// <param name="a_ratio"></param>
+        /// <param name="aRect"></param>
+        /// <param name="aRatio"></param>
         /// <returns></returns>
-        public static Rectangle Scale(this Rectangle a_rect, double a_ratio)
+        public static Rectangle Scale(this Rectangle aRect, double aRatio)
         {
              return Rectangle.FromLTRB(
-               (a_rect.Left * a_ratio).Round(),
-               (a_rect.Top * a_ratio).Round(),
-               (a_rect.Right * a_ratio).Round(),
-               (a_rect.Bottom * a_ratio).Round());
+               (aRect.Left * aRatio).Round(),
+               (aRect.Top * aRatio).Round(),
+               (aRect.Right * aRatio).Round(),
+               (aRect.Bottom * aRatio).Round());
         }
 
-        public static IEnumerable<Point> EnumPixels(this Rectangle a_rect)
+        public static IEnumerable<Point> EnumPixels(this Rectangle aRect)
         {
-            for (int y = a_rect.Top; y < a_rect.Bottom; y++)
+            for (var y = aRect.Top; y < aRect.Bottom; y++)
             {
-                for (int x = a_rect.Left; x < a_rect.Right; x++)
+                for (var x = aRect.Left; x < aRect.Right; x++)
                 {
                     yield return new Point(x, y);
                 }
             }
         }
 
-        public static XElement GetAsXml(this Rectangle a_rect, string a_name)
+        public static XElement GetAsXml(this Rectangle aRect, string aName)
         {
-            return new XElement(a_name,
-                new XElement("Left", a_rect.Left),
-                new XElement("Top", a_rect.Top),
-                new XElement("Width", a_rect.Width),
-                new XElement("Height", a_rect.Height));
+            return new XElement(aName,
+                new XElement("Left", aRect.Left),
+                new XElement("Top", aRect.Top),
+                new XElement("Width", aRect.Width),
+                new XElement("Height", aRect.Height));
         }
 
-        public static Rectangle FromXml(XElement a_element)
+        public static Rectangle FromXml(XElement aElement)
         {
             return new Rectangle(
-                a_element.Element("Left").Value.ToInt(),
-                a_element.Element("Top").Value.ToInt(),
-                a_element.Element("Width").Value.ToInt(),
-                a_element.Element("Height").Value.ToInt());
+                aElement.Element("Left").Value.ToInt(),
+                aElement.Element("Top").Value.ToInt(),
+                aElement.Element("Width").Value.ToInt(),
+                aElement.Element("Height").Value.ToInt());
         }
     }
 }

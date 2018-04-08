@@ -7,32 +7,32 @@ namespace Lenneth.Core.Extensions
     [DebuggerStepThrough]
     public static class MarshalExtensions
     {
-        public static byte[] StructureToArray<T>(T a_struct) where T : struct
+        public static byte[] StructureToArray<T>(T aStruct) where T : struct
         {
-            int len = Marshal.SizeOf(typeof(T));
-            byte[] arr = new byte[len];
-            IntPtr ptr = Marshal.AllocHGlobal(len);
-            Marshal.StructureToPtr(a_struct, ptr, true);
+            var len = Marshal.SizeOf(typeof(T));
+            var arr = new byte[len];
+            var ptr = Marshal.AllocHGlobal(len);
+            Marshal.StructureToPtr(aStruct, ptr, true);
             Marshal.Copy(ptr, arr, 0, len);
             Marshal.FreeHGlobal(ptr);
             return arr;
         }
 
-        public static void ArrayToStruct<T>(byte[] a_bytes, T a_struct) where T : struct
+        public static void ArrayToStruct<T>(byte[] aBytes, T aStruct) where T : struct
         {
-            int size = Marshal.SizeOf(typeof(T));
-            IntPtr ptr = Marshal.AllocHGlobal(size);
-            Marshal.StructureToPtr(a_struct, ptr, true);
-            Marshal.Copy(a_bytes, 0, ptr, size);
-            object obj = Marshal.PtrToStructure(ptr, typeof(T));
+            var size = Marshal.SizeOf(typeof(T));
+            var ptr = Marshal.AllocHGlobal(size);
+            Marshal.StructureToPtr(aStruct, ptr, true);
+            Marshal.Copy(aBytes, 0, ptr, size);
+            // var obj = Marshal.PtrToStructure(ptr, typeof(T));
             Marshal.FreeHGlobal(ptr);
         }
 
-        public static byte[] StructurePtrToArray<T>(IntPtr a_struct) where T : struct
+        public static byte[] StructurePtrToArray<T>(IntPtr aStruct) where T : struct
         {
-            int len = Marshal.SizeOf(typeof(T));
-            byte[] arr = new byte[len];
-            Marshal.Copy(a_struct, arr, 0, len);
+            var len = Marshal.SizeOf(typeof(T));
+            var arr = new byte[len];
+            Marshal.Copy(aStruct, arr, 0, len);
             return arr;
         }
     }

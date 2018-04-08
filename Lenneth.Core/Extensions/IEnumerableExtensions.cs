@@ -6,29 +6,29 @@ using System.Linq;
 namespace Lenneth.Core.Extensions
 {
     [DebuggerStepThrough]
-    public static class IEnumerableExtensions
+    public static class EnumerableExtensions
     {
-        public static void ForEachWithIndex<T>(this IEnumerable<T> a_enumerable,
-            Action<T, int> a_handler)
+        public static void ForEachWithIndex<T>(this IEnumerable<T> aEnumerable,
+            Action<T, int> aHandler)
         {
-            int index = 0;
-            foreach (T item in a_enumerable)
-                a_handler(item, index++);
+            var index = 0;
+            foreach (var item in aEnumerable)
+                aHandler(item, index++);
         }
 
-        public static void ForEach<T>(this IEnumerable<T> a_enumerable, Action<T> a_handler)
+        public static void ForEach<T>(this IEnumerable<T> aEnumerable, Action<T> aHandler)
         {
-            foreach (T item in a_enumerable)
-                a_handler(item);
+            foreach (var item in aEnumerable)
+                aHandler(item);
         }
 
-        public static int IndexOf<T>(this IEnumerable<T> a_enum, T a_el)
+        public static int IndexOf<T>(this IEnumerable<T> aEnum, T aEl)
         {
-            int i = 0;
+            var i = 0;
 
-            foreach (var el in a_enum)
+            foreach (var el in aEnum)
             {
-                if (a_el.Equals(el))
+                if (aEl.Equals(el))
                     return i;
                 i++;
             }
@@ -36,41 +36,41 @@ namespace Lenneth.Core.Extensions
             return -1;
         }
 
-        public static bool Unique<T>(this IEnumerable<T> a_enum)
+        public static bool Unique<T>(this IEnumerable<T> aEnum)
         {
-            return a_enum.Distinct().Count() == a_enum.Count();
+            return aEnum.Distinct().Count() == aEnum.Count();
         }
 
-        public static IEnumerable<T> Except<T>(this IEnumerable<T> a_enumerable, T a_element)
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> aEnumerable, T aElement)
         {
-            foreach (T ele in a_enumerable)
+            foreach (var ele in aEnumerable)
             {
-                if (!ele.Equals(a_element))
+                if (!ele.Equals(aElement))
                     yield return ele;
             }
         }
 
-        public static IEnumerable<T> Except<T>(this IEnumerable<T> a_enumerable, T a_element,
-            IEqualityComparer<T> a_comparer)
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> aEnumerable, T aElement,
+            IEqualityComparer<T> aComparer)
         {
-            foreach (T ele in a_enumerable)
+            foreach (var ele in aEnumerable)
             {
-                if (!a_comparer.Equals(ele, a_element))
+                if (!aComparer.Equals(ele, aElement))
                     yield return ele;
             }
         }
 
-        public static IEnumerable<T> ExceptExact<T>(this IEnumerable<T> a_enumerable,
-            IEnumerable<T> a_values)
+        public static IEnumerable<T> ExceptExact<T>(this IEnumerable<T> aEnumerable,
+            IEnumerable<T> aValues)
         {
-            if (a_values.FirstOrDefault() == null)
-                return a_enumerable;
+            if (aValues.FirstOrDefault() == null)
+                return aEnumerable;
 
-            List<T> list = new List<T>(a_enumerable);
+            var list = new List<T>(aEnumerable);
 
-            foreach (T ele in a_values)
+            foreach (var ele in aValues)
             {
-                int index = list.IndexOf(ele);
+                var index = list.IndexOf(ele);
                 if (index != -1)
                     list.RemoveAt(index);
             }
@@ -78,113 +78,113 @@ namespace Lenneth.Core.Extensions
             return list;
         }
 
-        public static IEnumerable<T> Except<T>(this IEnumerable<T> a_enumerable,
-                                               Predicate<T> a_predicate)
+        public static IEnumerable<T> Except<T>(this IEnumerable<T> aEnumerable,
+                                               Predicate<T> aPredicate)
         {
-            foreach (T ele in a_enumerable)
+            foreach (var ele in aEnumerable)
             {
-                if (!a_predicate(ele))
+                if (!aPredicate(ele))
                     yield return ele;
             }
         }
 
-        public static bool ContainsAny<T>(this IEnumerable<T> a_enumerable, IEnumerable<T> a_values)
+        public static bool ContainsAny<T>(this IEnumerable<T> aEnumerable, IEnumerable<T> aValues)
         {
-            return a_enumerable.Intersect(a_values).Any();
+            return aEnumerable.Intersect(aValues).Any();
         }
 
-        public static bool ContainsAny<T>(this IEnumerable<T> a_enumerable,
-            IEnumerable<T> a_values, IEqualityComparer<T> a_comparer)
+        public static bool ContainsAny<T>(this IEnumerable<T> aEnumerable,
+            IEnumerable<T> aValues, IEqualityComparer<T> aComparer)
         {
-            return a_enumerable.Intersect(a_values, a_comparer).Any();
+            return aEnumerable.Intersect(aValues, aComparer).Any();
         }
 
-        public static bool Contains<T>(this IEnumerable<T> a_enumerable, IEnumerable<T> a_values)
+        public static bool Contains<T>(this IEnumerable<T> aEnumerable, IEnumerable<T> aValues)
         {
-            if (a_values.FirstOrDefault() == null)
+            if (aValues.FirstOrDefault() == null)
                 return false;
 
-            foreach (T ele in a_values)
+            foreach (var ele in aValues)
             {
-                if (!a_enumerable.Contains(ele))
+                if (!aEnumerable.Contains(ele))
                     return false;
             }
 
             return true;
         }
 
-        public static bool Contains<T>(this IEnumerable<T> a_enumerable, IEnumerable<T> a_values,
-            IEqualityComparer<T> a_comparer)
+        public static bool Contains<T>(this IEnumerable<T> aEnumerable, IEnumerable<T> aValues,
+            IEqualityComparer<T> aComparer)
         {
-            if (a_values.FirstOrDefault() == null)
+            if (aValues.FirstOrDefault() == null)
                 return false;
 
-            foreach (T ele in a_values)
+            foreach (var ele in aValues)
             {
-                if (!a_enumerable.Contains(ele, a_comparer))
+                if (!aEnumerable.Contains(ele, aComparer))
                     return false;
             }
 
             return true;
         }
 
-        public static bool Exact<T>(this IEnumerable<T> a_enumerable, IEnumerable<T> a_values)
+        public static bool Exact<T>(this IEnumerable<T> aEnumerable, IEnumerable<T> aValues)
         {
-            List<T> list = new List<T>(a_values);
+            var list = new List<T>(aValues);
 
-            int init_count = list.Count;
-            int count = 0;
+            var initCount = list.Count;
+            var count = 0;
 
-            foreach (T ele in a_enumerable)
+            foreach (var ele in aEnumerable)
             {
                 count++;
 
-                if (count > init_count)
+                if (count > initCount)
                     return false;
 
-                int index = list.IndexOf(ele);
+                var index = list.IndexOf(ele);
                 if (index == -1)
                     return false;
                 else
                     list.RemoveAt(index);
             }
 
-            return count == init_count;
+            return count == initCount;
         }
 
-        public static bool Exact<T>(this IEnumerable<T> a_enumerable, IEnumerable<T> a_values,
-            IEqualityComparer<T> a_comparer)
+        public static bool Exact<T>(this IEnumerable<T> aEnumerable, IEnumerable<T> aValues,
+            IEqualityComparer<T> aComparer)
         {
-            List<T> list = new List<T>(a_values);
+            var list = new List<T>(aValues);
 
-            int init_count = list.Count;
-            int count = 0;
+            var initCount = list.Count;
+            var count = 0;
 
-            foreach (T ele in a_enumerable)
+            foreach (var ele in aEnumerable)
             {
                 count++;
 
-                if (count > init_count)
+                if (count > initCount)
                     return false;
 
-                int index = list.IndexOf(ele, a_comparer);
+                var index = list.IndexOf(ele, aComparer);
                 if (index == -1)
                     return false;
                 else
                     list.RemoveAt(index);
             }
 
-            return count == init_count;
+            return count == initCount;
         }
 
-        public static IEnumerable<T> Substract<T>(this IEnumerable<T> a_enumerable,
-            IEnumerable<T> a_values)
+        public static IEnumerable<T> Substract<T>(this IEnumerable<T> aEnumerable,
+            IEnumerable<T> aValues)
         {
-            List<T> list = new List<T>(a_values);
+            var list = new List<T>(aValues);
 
-            foreach (T ele in a_enumerable)
+            foreach (var ele in aEnumerable)
             {
-                int index = list.IndexOf(ele);
+                var index = list.IndexOf(ele);
                 if (index != -1)
                     list.RemoveAt(index);
                 else
@@ -192,14 +192,14 @@ namespace Lenneth.Core.Extensions
             }
         }
 
-        public static IEnumerable<T> Substract<T>(this IEnumerable<T> a_enumerable,
-            IEnumerable<T> a_values, IEqualityComparer<T> a_comparer)
+        public static IEnumerable<T> Substract<T>(this IEnumerable<T> aEnumerable,
+            IEnumerable<T> aValues, IEqualityComparer<T> aComparer)
         {
-            List<T> list = new List<T>(a_values);
+            var list = new List<T>(aValues);
 
-            foreach (T ele in a_enumerable)
+            foreach (var ele in aEnumerable)
             {
-                int index = list.IndexOf(ele, a_comparer);
+                var index = list.IndexOf(ele, aComparer);
                 if (index != -1)
                     list.RemoveAt(index);
                 else
@@ -207,17 +207,17 @@ namespace Lenneth.Core.Extensions
             }
         }
 
-        public static bool ContainsExact<T>(this IEnumerable<T> a_enumerable,
-            IEnumerable<T> a_values)
+        public static bool ContainsExact<T>(this IEnumerable<T> aEnumerable,
+            IEnumerable<T> aValues)
         {
-            if (a_values.FirstOrDefault() == null)
+            if (aValues.FirstOrDefault() == null)
                 return false;
 
-            List<T> list = new List<T>(a_enumerable);
+            var list = new List<T>(aEnumerable);
 
-            foreach (T ele in a_values)
+            foreach (var ele in aValues)
             {
-                int index = list.IndexOf(ele);
+                var index = list.IndexOf(ele);
                 if (index == -1)
                     return false;
                 else
@@ -227,17 +227,17 @@ namespace Lenneth.Core.Extensions
             return true;
         }
 
-        public static bool ContainsExact<T>(this IEnumerable<T> a_enumerable,
-            IEnumerable<T> a_values, IEqualityComparer<T> a_comparer)
+        public static bool ContainsExact<T>(this IEnumerable<T> aEnumerable,
+            IEnumerable<T> aValues, IEqualityComparer<T> aComparer)
         {
-            List<T> list = new List<T>(a_enumerable);
+            var list = new List<T>(aEnumerable);
 
-            if (a_values.FirstOrDefault() == null)
+            if (aValues.FirstOrDefault() == null)
                 return false;
 
-            foreach (T ele in a_values)
+            foreach (var ele in aValues)
             {
-                int index = list.IndexOf(ele, a_comparer);
+                var index = list.IndexOf(ele, aComparer);
                 if (index == -1)
                     return false;
                 else
@@ -247,45 +247,45 @@ namespace Lenneth.Core.Extensions
             return true;
         }
 
-        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> a_enum, int a_times = 1)
+        public static IEnumerable<T> Repeat<T>(this IEnumerable<T> aEnum, int aTimes = 1)
         {
-            if (a_times == 0)
+            if (aTimes == 0)
                 yield break;
 
-            for (int i = 0; i < a_times; i++)
+            for (var i = 0; i < aTimes; i++)
             {
-                foreach (var el in a_enum)
+                foreach (var el in aEnum)
                     yield return el;
             }
         }
 
-        public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> a_enum, int a_skip = 1)
+        public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> aEnum, int aSkip = 1)
         {
-            return a_enum.Reverse().Skip(a_skip).Reverse();
+            return aEnum.Reverse().Skip(aSkip).Reverse();
         }
 
-        public static IEnumerable<T> SelectMany<T>(this IEnumerable<IEnumerable<T>> a_enum)
+        public static IEnumerable<T> SelectMany<T>(this IEnumerable<IEnumerable<T>> aEnum)
         {
-            return a_enum.SelectMany(obj => obj);
+            return aEnum.SelectMany(obj => obj);
         }
 
-        public static IEnumerable<T> Take<T>(this IEnumerable<T> a_enumerable, int a_from,
-            int a_count)
+        public static IEnumerable<T> Take<T>(this IEnumerable<T> aEnumerable, int aFrom,
+            int aCount)
         {
-            return a_enumerable.Skip(a_from).Take(a_count);
+            return aEnumerable.Skip(aFrom).Take(aCount);
         }
 
-        public static IEnumerable<T> TakeAllOrOne<T>(this IEnumerable<T> a_enum, bool a_all,
-            Func<T, bool> a_take)
+        public static IEnumerable<T> TakeAllOrOne<T>(this IEnumerable<T> aEnum, bool aAll,
+            Func<T, bool> aTake)
         {
-            bool first = false;
+            var first = false;
 
-            foreach (var el in a_enum)
+            foreach (var el in aEnum)
             {
-                if (first && !a_all)
+                if (first && !aAll)
                     yield break;
 
-                if (!a_take(el))
+                if (!aTake(el))
                     continue;
 
                 first = true;

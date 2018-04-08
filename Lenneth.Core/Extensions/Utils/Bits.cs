@@ -4,89 +4,89 @@ namespace Lenneth.Core.Extensions.Utils
 {
     public static class Bits
     {
-        public static bool IsSet(byte a_byte, int a_bit_index)
+        public static bool IsSet(byte aByte, int aBitIndex)
         {
-            Debug.Assert(a_bit_index >= 0);
-            Debug.Assert(a_bit_index <= 7);
+            Debug.Assert(aBitIndex >= 0);
+            Debug.Assert(aBitIndex <= 7);
 
-            return (a_byte & (1 << a_bit_index)) != 0;
+            return (aByte & (1 << aBitIndex)) != 0;
         }
 
-        public static void SetBit(ref byte a_byte, int a_bit_index, bool a_bit_value)
+        public static void SetBit(ref byte aByte, int aBitIndex, bool aBitValue)
         {
-            Debug.Assert(a_bit_index >= 0);
-            Debug.Assert(a_bit_index <= 7);
+            Debug.Assert(aBitIndex >= 0);
+            Debug.Assert(aBitIndex <= 7);
 
-            if (a_bit_value)
-                a_byte = (byte)(a_byte | (1 << a_bit_index));
+            if (aBitValue)
+                aByte = (byte)(aByte | (1 << aBitIndex));
             else
-                a_byte = (byte)(a_byte & ~(1 << a_bit_index));
+                aByte = (byte)(aByte & ~(1 << aBitIndex));
         }
 
-        public static bool IsSet(ushort a_ushort, int a_bitIndex)
+        public static bool IsSet(ushort aUshort, int aBitIndex)
         {
-            Debug.Assert(a_bitIndex >= 0);
-            Debug.Assert(a_bitIndex <= 15);
+            Debug.Assert(aBitIndex >= 0);
+            Debug.Assert(aBitIndex <= 15);
 
-            return (a_ushort & (1 << a_bitIndex)) != 0;
+            return (aUshort & (1 << aBitIndex)) != 0;
         }
 
-        public static void SetBit(ref ushort a_ushort, int a_bit_index, bool a_bit_value)
+        public static void SetBit(ref ushort aUshort, int aBitIndex, bool aBitValue)
         {
-            Debug.Assert(a_bit_index >= 0);
-            Debug.Assert(a_bit_index <= 15);
+            Debug.Assert(aBitIndex >= 0);
+            Debug.Assert(aBitIndex <= 15);
 
-            if (a_bit_value)
-                a_ushort = (ushort)(a_ushort | (1 << a_bit_index));
+            if (aBitValue)
+                aUshort = (ushort)(aUshort | (1 << aBitIndex));
             else
-                a_ushort = (ushort)(a_ushort & ~(1 << a_bit_index));
+                aUshort = (ushort)(aUshort & ~(1 << aBitIndex));
         }
 
-        public static bool IsSet(uint a_uint, int a_bit_index)
+        public static bool IsSet(uint aUint, int aBitIndex)
         {
-            Debug.Assert(a_bit_index >= 0);
-            Debug.Assert(a_bit_index <= 31);
+            Debug.Assert(aBitIndex >= 0);
+            Debug.Assert(aBitIndex <= 31);
 
-            return (a_uint & (1 << a_bit_index)) != 0;
+            return (aUint & (1 << aBitIndex)) != 0;
         }
 
-        public static void SetBit(ref uint a_uint, int a_bit_index, bool a_bit_value)
+        public static void SetBit(ref uint aUint, int aBitIndex, bool aBitValue)
         {
-            Debug.Assert(a_bit_index >= 0);
-            Debug.Assert(a_bit_index <= 31);
+            Debug.Assert(aBitIndex >= 0);
+            Debug.Assert(aBitIndex <= 31);
 
-            if (a_bit_value)
-                a_uint = a_uint | (1U << a_bit_index);
+            if (aBitValue)
+                aUint = aUint | (1U << aBitIndex);
             else
-                a_uint = a_uint & ~(1U << a_bit_index);
+                aUint = aUint & ~(1U << aBitIndex);
         }
 
-        static public uint RotateLeft(uint a_uint, int a_n)
+        public static uint RotateLeft(uint aUint, int aN)
         {
-            Debug.Assert(a_n >= 0);
+            Debug.Assert(aN >= 0);
 
-            return (uint)((a_uint << a_n) | (a_uint >> (32 - a_n)));
+            return (aUint << aN) | (aUint >> (32 - aN));
         }
 
-        static public ulong RotateLeft(ulong a_ulong, int a_n)
+        public static ulong RotateLeft(ulong aUlong, int aN)
         {
-            Debug.Assert(a_n >= 0);
+            Debug.Assert(aN >= 0);
 
-            return (ulong)((a_ulong << a_n) | (a_ulong >> (64 - a_n)));
+            return (aUlong << aN) | (aUlong >> (64 - aN));
         }
 
-        static public uint RotateRight(uint a_uint, int a_n)
+        public static uint RotateRight(uint aUint, int aN)
         {
-            Debug.Assert(a_n >= 0);
+            Debug.Assert(aN >= 0);
 
-            return (uint)((a_uint >> a_n) | (a_uint << (32 - a_n)));
+            return (aUint >> aN) | (aUint << (32 - aN));
         }
 
-        static public ulong RotateRight(ulong a_ulong, int a_n)
+        public static ulong RotateRight(ulong aUlong, int aN)
         {
-            Debug.Assert(a_n >= 0);
+            Debug.Assert(aN >= 0);
 
-            return (ulong)((a_ulong >> a_n) | (a_ulong << (64 - a_n)));
+            return (aUlong >> aN) | (aUlong << (64 - aN));
         }
     }
 }

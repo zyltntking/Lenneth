@@ -7,19 +7,19 @@ namespace Lenneth.Core.Extensions.Utils
     {
         public T Value;
 
-        public ValueClass(T a_value)
+        public ValueClass(T aValue)
         {
-            Value = a_value;
+            Value = aValue;
         }
 
-        public static implicit operator T(ValueClass<T> a_bc)
+        public static implicit operator T(ValueClass<T> aBc)
         {
-            return a_bc.Value;
+            return aBc.Value;
         }
 
-        public static implicit operator ValueClass<T>(T a_value)
+        public static implicit operator ValueClass<T>(T aValue)
         {
-            return new ValueClass<T>(a_value);
+            return new ValueClass<T>(aValue);
         }
     }
 }

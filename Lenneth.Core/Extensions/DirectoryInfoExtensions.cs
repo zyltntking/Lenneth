@@ -7,61 +7,61 @@ namespace Lenneth.Core.Extensions
     [DebuggerStepThrough]
     public static class DirectoryInfoExtensions
     {
-        public static void DeleteAll(this DirectoryInfo a_dir_info)
+        public static void DeleteAll(this DirectoryInfo aDirInfo)
         {
-            if (!a_dir_info.Exists)
+            if (!aDirInfo.Exists)
                 return;
 
-            foreach (FileInfo file_info in a_dir_info.GetFiles())
-                file_info.Delete();
+            foreach (var fileInfo in aDirInfo.GetFiles())
+                fileInfo.Delete();
 
-            foreach (DirectoryInfo dir_info in a_dir_info.GetDirectories())
-                dir_info.DeleteAll();
+            foreach (var dirInfo in aDirInfo.GetDirectories())
+                dirInfo.DeleteAll();
 
-            a_dir_info.Delete(false);
+            aDirInfo.Delete(false);
         }
 
-        public static void DeleteContent(this DirectoryInfo a_dir_info)
+        public static void DeleteContent(this DirectoryInfo aDirInfo)
         {
-            if (!a_dir_info.Exists)
+            if (!aDirInfo.Exists)
                 return;
 
-            foreach (FileInfo file_info in a_dir_info.GetFiles())
-                file_info.Delete();
+            foreach (var fileInfo in aDirInfo.GetFiles())
+                fileInfo.Delete();
 
-            foreach (DirectoryInfo dir_info in a_dir_info.GetDirectories())
-                dir_info.DeleteAll();
+            foreach (var dirInfo in aDirInfo.GetDirectories())
+                dirInfo.DeleteAll();
         }
 
-        public static void CreateOrEmpty(this DirectoryInfo a_dir_info)
+        public static void CreateOrEmpty(this DirectoryInfo aDirInfo)
         {
-            a_dir_info.DeleteContent();
-            a_dir_info.Create();
+            aDirInfo.DeleteContent();
+            aDirInfo.Create();
         }
 
-        public static FileInfo[] FindFilesRecursive(this DirectoryInfo a_dir_info, string a_pattern)
+        public static FileInfo[] FindFilesRecursive(this DirectoryInfo aDirInfo, string aPattern)
         {
             var foundFiles = new List<FileInfo>();
-            FindFilesRecursive(a_dir_info, a_pattern, foundFiles);
+            FindFilesRecursive(aDirInfo, aPattern, foundFiles);
             return foundFiles.ToArray();
         }
 
-        private static void FindFilesRecursive(DirectoryInfo a_dir_info, string a_pattern,
-            List<FileInfo> a_files)
+        private static void FindFilesRecursive(DirectoryInfo aDirInfo, string aPattern,
+            List<FileInfo> aFiles)
         {
-            a_files.AddRange(a_dir_info.GetFiles(a_pattern));
+            aFiles.AddRange(aDirInfo.GetFiles(aPattern));
 
-            foreach (var dir in a_dir_info.GetDirectories())
-                FindFilesRecursive(dir, a_pattern, a_files);
+            foreach (var dir in aDirInfo.GetDirectories())
+                FindFilesRecursive(dir, aPattern, aFiles);
         }
 
-        public static string FindExistingDirectory(this DirectoryInfo a_di)
+        public static string FindExistingDirectory(this DirectoryInfo aDi)
         {
-            string str = a_di.FullName;
+            var str = aDi.FullName;
 
             for (; ; )
             {
-                DirectoryInfo di = new DirectoryInfo(str);
+                var di = new DirectoryInfo(str);
 
                 if (di.Exists)
                     return str;
@@ -73,9 +73,9 @@ namespace Lenneth.Core.Extensions
             }
         }
 
-        public static DirectoryInfo Append(this DirectoryInfo a_di, string a_dir)
+        public static DirectoryInfo Append(this DirectoryInfo aDi, string aDir)
         {
-            return new DirectoryInfo(a_di.FullName + Path.DirectorySeparatorChar + a_dir);
+            return new DirectoryInfo(aDi.FullName + Path.DirectorySeparatorChar + aDir);
         }
     }
 }

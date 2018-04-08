@@ -5,73 +5,68 @@ using System.Linq;
 namespace Lenneth.Core.Extensions
 {
     [DebuggerStepThrough]
-    public static class IListExtensions
+    public static class ListExtensions
     {
-        public static int IndexOf<T>(this IList<T> a_list, T a_element)
+        public static int IndexOf<T>(this IList<T> aList, T aElement)
         {
-            for (int i = 0; i < a_list.Count; i++)
+            for (var i = 0; i < aList.Count; i++)
             {
-                if (a_element.Equals(a_list[i]))
+                if (aElement.Equals(aList[i]))
                     return i;
             }
 
             return -1;
         }
 
-        public static int IndexOf<T>(this IList<T> a_list, T a_element, IEqualityComparer<T> a_comparer)
+        public static int IndexOf<T>(this IList<T> aList, T aElement, IEqualityComparer<T> aComparer)
         {
-            for (int i = 0; i < a_list.Count; i++)
+            for (var i = 0; i < aList.Count; i++)
             {
-                if (a_comparer.Equals(a_list[i], a_element))
+                if (aComparer.Equals(aList[i], aElement))
                     return i;
             }
 
             return -1;
         }
 
-        public static T RemoveLast<T>(this IList<T> a_list)
+        public static T RemoveLast<T>(this IList<T> aList)
         {
-            T last = a_list.Last();
-            a_list.RemoveAt(a_list.Count - 1);
+            var last = aList.Last();
+            aList.RemoveAt(aList.Count - 1);
             return last;
         }
 
-        public static T RemoveFirst<T>(this IList<T> a_list)
+        public static T RemoveFirst<T>(this IList<T> aList)
         {
-            T first = a_list.First();
-            a_list.RemoveAt(0);
+            var first = aList.First();
+            aList.RemoveAt(0);
             return first;
         }
 
-        public static T Last<T>(this IList<T> a_list)
+        public static T Last<T>(this IList<T> aList)
         {
-            return a_list[a_list.Count - 1];
+            return aList[aList.Count - 1];
         }
 
-        public static void RemoveRange<T>(this IList<T> a_list, IEnumerable<T> a_elements)
+        public static void RemoveRange<T>(this IList<T> aList, IEnumerable<T> aElements)
         {
-            foreach (var ele in a_elements)
-                a_list.Remove(ele);
+            foreach (var ele in aElements)
+                aList.Remove(ele);
         }
 
-        public static int GetHashCode<T>(IList<T> a_list)
+        public static int GetHashCode<T>(IList<T> aList)
         {
-            int hash = 0;
-
-            foreach (var el in a_list)
-                hash ^= el.GetHashCode();
-
-            return hash;
+            return aList.Aggregate(0, (current, el) => current ^ el.GetHashCode());
         }
 
-        public static bool Replace<T>(this IList<T> a_list, T a_old, T a_new)
+        public static bool Replace<T>(this IList<T> aList, T aOld, T aNew)
         {
-            int index = a_list.IndexOf(a_old);
+            var index = aList.IndexOf(aOld);
 
             if (index == -1)
                 return false;
 
-            a_list[index] = a_new;
+            aList[index] = aNew;
             return true;
         }
     }

@@ -13,20 +13,20 @@ namespace Lenneth.Core.Extensions
         /// /// True if array are exactly the same.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="a_ar1"></param>
-        /// <param name="a_ar2"></param>
+        /// <param name="aAr1"></param>
+        /// <param name="aAr2"></param>
         /// <returns></returns>
-        public static bool AreSame<T>(this T[] a_ar1, T[] a_ar2)
+        public static bool AreSame<T>(this T[] aAr1, T[] aAr2)
         {
-            if (Object.ReferenceEquals(a_ar1, a_ar2))
+            if (ReferenceEquals(aAr1, aAr2))
                 return true;
 
-            if (a_ar1.Length != a_ar2.Length)
+            if (aAr1.Length != aAr2.Length)
                 return false;
 
-            for (int i = 0; i < a_ar1.Length; i++)
+            for (var i = 0; i < aAr1.Length; i++)
             {
-                if (!a_ar1[i].Equals(a_ar2[i]))
+                if (!aAr1[i].Equals(aAr2[i]))
                     return false;
             }
 
@@ -36,20 +36,20 @@ namespace Lenneth.Core.Extensions
         /// <summary>
         /// /// True if array are exactly the same.
         /// </summary>
-        /// <param name="a_ar1"></param>
-        /// <param name="a_ar2"></param>
+        /// <param name="aAr1"></param>
+        /// <param name="aAr2"></param>
         /// <returns></returns>
-        public static bool AreSame(this byte[] a_ar1, byte[] a_ar2)
+        public static bool AreSame(this byte[] aAr1, byte[] aAr2)
         {
-            if (Object.ReferenceEquals(a_ar1, a_ar2))
+            if (ReferenceEquals(aAr1, aAr2))
                 return true;
 
-            if (a_ar1.Length != a_ar2.Length)
+            if (aAr1.Length != aAr2.Length)
                 return false;
 
-            for (int i = 0; i < a_ar1.Length; i++)
+            for (var i = 0; i < aAr1.Length; i++)
             {
-                if (a_ar1[i] != a_ar2[i])
+                if (aAr1[i] != aAr2[i])
                     return false;
             }
 
@@ -59,22 +59,22 @@ namespace Lenneth.Core.Extensions
         /// <summary>
         /// True if array are exactly the same.
         /// </summary>
-        /// <param name="a_ar1"></param>
-        /// <param name="a_ar2"></param>
+        /// <param name="aAr1"></param>
+        /// <param name="aAr2"></param>
         /// <returns></returns>
-        public static bool AreSame(this byte[,] a_ar1, byte[,] a_ar2)
+        public static bool AreSame(this byte[,] aAr1, byte[,] aAr2)
         {
-            if (Object.ReferenceEquals(a_ar1, a_ar2))
+            if (ReferenceEquals(aAr1, aAr2))
                 return true;
 
-            if (a_ar1.GetLength(0) != a_ar2.GetLength(1))
+            if (aAr1.GetLength(0) != aAr2.GetLength(1))
                 return false;
 
-            for (int x = 0; x < a_ar1.GetLength(0); x++)
+            for (var x = 0; x < aAr1.GetLength(0); x++)
             {
-                for (int y = 0; y < a_ar1.GetLength(1); y++)
+                for (var y = 0; y < aAr1.GetLength(1); y++)
                 {
-                    if (a_ar1[x, y] != a_ar2[x, y])
+                    if (aAr1[x, y] != aAr2[x, y])
                         return false;
                 }
             }
@@ -85,20 +85,20 @@ namespace Lenneth.Core.Extensions
         /// <summary>
         /// True if array are exactly the same.
         /// </summary>
-        /// <param name="a_ar1"></param>
-        /// <param name="a_ar2"></param>
+        /// <param name="aAr1"></param>
+        /// <param name="aAr2"></param>
         /// <returns></returns>
-        public static bool AreSame(this ushort[] a_ar1, ushort[] a_ar2)
+        public static bool AreSame(this ushort[] aAr1, ushort[] aAr2)
         {
-            if (Object.ReferenceEquals(a_ar1, a_ar2))
+            if (ReferenceEquals(aAr1, aAr2))
                 return true;
 
-            if (a_ar1.Length != a_ar2.Length)
+            if (aAr1.Length != aAr2.Length)
                 return false;
 
-            for (int i = 0; i < a_ar1.Length; i++)
+            for (var i = 0; i < aAr1.Length; i++)
             {
-                if (a_ar1[i] != a_ar2[i])
+                if (aAr1[i] != aAr2[i])
                     return false;
             }
 
@@ -109,14 +109,14 @@ namespace Lenneth.Core.Extensions
         /// Return hash code for array. Result is xor sum of elements GetHashCode() functions.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="a_ar"></param>
+        /// <param name="aAr"></param>
         /// <returns></returns>
-        public static int GetHashCode<T>(T[] a_ar)
+        public static int GetHashCode<T>(T[] aAr)
         {
-            int sum = 0;
+            var sum = 0;
 
-            for (int i = 0; i < a_ar.Length; i++)
-                sum ^= a_ar[i].GetHashCode();
+            for (var i = 0; i < aAr.Length; i++)
+                sum ^= aAr[i].GetHashCode();
 
             return sum;
         }
@@ -125,35 +125,37 @@ namespace Lenneth.Core.Extensions
         /// Check that this is valid index.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="a_array"></param>
-        /// <param name="a_index"></param>
+        /// <param name="aArray"></param>
+        /// <param name="aIndex"></param>
         /// <returns></returns>
-        public static bool InRange<T>(this T[] a_array, int a_index)
+        public static bool InRange<T>(this T[] aArray, int aIndex)
         {
-            return (a_index >= a_array.GetLowerBound(0)) && (a_index <= a_array.GetUpperBound(0));
+            return (aIndex >= aArray.GetLowerBound(0)) && (aIndex <= aArray.GetUpperBound(0));
         }
 
         /// <summary>
         /// Clear array with zeroes.
         /// </summary>
-        /// <param name="a_array"></param>
-        public static void Clear<T>(this T[] a_array, T a_value = default(T))
+        /// <param name="aArray"></param>
+        /// <param name="aValue"></param>
+        public static void Clear<T>(this T[] aArray, T aValue = default(T))
         {
-            for (int i = 0; i < a_array.Length; i++)
-                a_array[i] = a_value;
+            for (var i = 0; i < aArray.Length; i++)
+                aArray[i] = aValue;
         }
 
         /// <summary>
         /// Clear array with zeroes.
         /// </summary>
-        /// <param name="a_array"></param>
-        public static void Clear<T>(this T[,] a_array, T a_value = default(T))
+        /// <param name="aArray"></param>
+        /// <param name="aValue"></param>
+        public static void Clear<T>(this T[,] aArray, T aValue = default(T))
         {
-            for (int x = 0; x < a_array.GetLength(0); x++)
+            for (var x = 0; x < aArray.GetLength(0); x++)
             {
-                for (int y = 0; y < a_array.GetLength(1); y++)
+                for (var y = 0; y < aArray.GetLength(1); y++)
                 {
-                    a_array[x, y] = a_value;
+                    aArray[x, y] = aValue;
                 }
             }
         }
@@ -162,17 +164,17 @@ namespace Lenneth.Core.Extensions
         /// Return array stated from a_index and with a_count legth.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="a_array"></param>
-        /// <param name="a_index"></param>
-        /// <param name="a_count"></param>
+        /// <param name="aArray"></param>
+        /// <param name="aIndex"></param>
+        /// <param name="aCount"></param>
         /// <returns></returns>
-        public static T[] SubArray<T>(this T[] a_array, int a_index, int a_count = -1)
+        public static T[] SubArray<T>(this T[] aArray, int aIndex, int aCount = -1)
         {
-            if (a_count == -1)
-                a_count = a_array.Length - a_index;
+            if (aCount == -1)
+                aCount = aArray.Length - aIndex;
 
-            T[] result = new T[a_count];
-            Array.Copy(a_array, a_index, result, 0, a_count);
+            var result = new T[aCount];
+            Array.Copy(aArray, aIndex, result, 0, aCount);
             return result;
         }
 
@@ -180,15 +182,15 @@ namespace Lenneth.Core.Extensions
         /// Find index of a_element within a_array.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="a_array"></param>
-        /// <param name="a_element"></param>
+        /// <param name="aArray"></param>
+        /// <param name="aElement"></param>
         /// <returns>
         /// Index of element or -1 if not find.
         /// </returns>
-        public static int IndexOf<T>(this T[] a_array, T a_element)
+        public static int IndexOf<T>(this T[] aArray, T aElement)
         {
-            for (int i = 0; i < a_array.Length; i++)
-                if (Object.ReferenceEquals(a_element, a_array[i]))
+            for (var i = 0; i < aArray.Length; i++)
+                if (ReferenceEquals(aElement, aArray[i]))
                     return i;
             return -1;
         }
@@ -196,64 +198,64 @@ namespace Lenneth.Core.Extensions
         /// <summary>
         /// Return first occurence of a_sun_array in a_array.
         /// </summary>
-        /// <param name="a_array"></param>
-        /// <param name="a_sub_array"></param>
+        /// <param name="aArray"></param>
+        /// <param name="aSubArray"></param>
         /// <returns></returns>
-        public static int FindArrayInArray(this byte[] a_array, byte[] a_sub_array)
+        public static int FindArrayInArray(this byte[] aArray, byte[] aSubArray)
         {
             int i, j;
 
-            for (j = 0; j < a_array.Length - a_sub_array.Length; j++)
+            for (j = 0; j < aArray.Length - aSubArray.Length; j++)
             {
-                for (i = 0; i < a_sub_array.Length; i++)
+                for (i = 0; i < aSubArray.Length; i++)
                 {
-                    if (a_array[j + i] != a_sub_array[i])
+                    if (aArray[j + i] != aSubArray[i])
                         break;
                 }
 
-                if (i == a_sub_array.Length)
+                if (i == aSubArray.Length)
                     return j;
             }
 
             return -1;
         }
 
-        public static T[] Shuffle<T>(this T[] a_array)
+        public static T[] Shuffle<T>(this T[] aArray)
         {
-            return Shuffle(a_array, Environment.TickCount);
+            return Shuffle(aArray, Environment.TickCount);
         }
 
-        public static T[] Shuffle<T>(this T[] a_array, int a_seed)
+        public static T[] Shuffle<T>(this T[] aArray, int aSeed)
         {
-            MersenneTwister mt = new MersenneTwister((uint)a_seed);
+            var mt = new MersenneTwister((uint)aSeed);
 
             return (from gr in
-                        from el in a_array
+                        from el in aArray
                         select new { index = mt.NextInt(), el }
                     orderby gr.index
                     select gr.el).ToArray();
         }
 
-        public static void Fill<T>(this T[,] a_ar, T a_value)
+        public static void Fill<T>(this T[,] aAr, T aValue)
         {
-            for (int x = 0; x < a_ar.GetLength(0); x++)
+            for (var x = 0; x < aAr.GetLength(0); x++)
             {
-                for (int y = 0; y < a_ar.GetLength(1); y++)
+                for (var y = 0; y < aAr.GetLength(1); y++)
                 {
-                    a_ar[x, y] = a_value;
+                    aAr[x, y] = aValue;
                 }
             }
         }
 
-        public static void Fill<T>(this T[] a_ar, T a_value)
+        public static void Fill<T>(this T[] aAr, T aValue)
         {
-            for (int i = 0; i < a_ar.GetLength(0); i++)
-                a_ar[i] = a_value;
+            for (var i = 0; i < aAr.GetLength(0); i++)
+                aAr[i] = aValue;
         }
 
-        public static IEnumerable<T> ToEnumerable<T>(this T[,] a_ar)
+        public static IEnumerable<T> ToEnumerable<T>(this T[,] aAr)
         {
-            foreach (var el in a_ar)
+            foreach (var el in aAr)
                 yield return el;
         }
     }

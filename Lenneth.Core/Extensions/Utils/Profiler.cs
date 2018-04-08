@@ -6,30 +6,30 @@ namespace Lenneth.Core.Extensions.Utils
 {
     public class Profiler
     {
-        public static long Profile(Action a_action, int a_tries = 5, int a_action_repeats = 1, bool a_boost = true)
+        public static long Profile(Action aAction, int aTries = 5, int aActionRepeats = 1, bool aBoost = true)
         {
-            IntPtr old_aff = Process.GetCurrentProcess().ProcessorAffinity;
-            ProcessPriorityClass old_proc_prior = Process.GetCurrentProcess().PriorityClass;
-            ThreadPriority old_thread_prio = Thread.CurrentThread.Priority;
+            var oldAff = Process.GetCurrentProcess().ProcessorAffinity;
+            var oldProcPrior = Process.GetCurrentProcess().PriorityClass;
+            var oldThreadPrio = Thread.CurrentThread.Priority;
 
-            if (a_boost)
+            if (aBoost)
             {
                 Process.GetCurrentProcess().ProcessorAffinity = new IntPtr(1);
                 Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.RealTime;
                 Thread.CurrentThread.Priority = ThreadPriority.Highest;
             }
 
-            long result = long.MaxValue;
-            Stopwatch sw = new Stopwatch();
+            var result = long.MaxValue;
+            var sw = new Stopwatch();
 
             try
             {
-                for (int i = 0; i < a_tries; i++)
+                for (var i = 0; i < aTries; i++)
                 {
                     sw.Restart();
 
-                    for (int j = 0; j < a_action_repeats; j++)
-                        a_action();
+                    for (var j = 0; j < aActionRepeats; j++)
+                        aAction();
 
                     sw.Stop();
 
@@ -39,15 +39,15 @@ namespace Lenneth.Core.Extensions.Utils
             }
             finally
             {
-                if (a_boost)
+                if (aBoost)
                 {
-                    Process.GetCurrentProcess().ProcessorAffinity = old_aff;
-                    Process.GetCurrentProcess().PriorityClass = old_proc_prior;
-                    Thread.CurrentThread.Priority = old_thread_prio;
+                    Process.GetCurrentProcess().ProcessorAffinity = oldAff;
+                    Process.GetCurrentProcess().PriorityClass = oldProcPrior;
+                    Thread.CurrentThread.Priority = oldThreadPrio;
                 }
             }
 
-            return result / a_action_repeats;
+            return result / aActionRepeats;
         }
     }
 }

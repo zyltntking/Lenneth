@@ -11,41 +11,41 @@ namespace Lenneth.Core.Extensions
         /// <summary>
         /// Get stream for resource.
         /// </summary>
-        /// <param name="a_type"></param>
-        /// <param name="a_res_name"></param>
-        /// <param name="a_res_subfolder"></param>
+        /// <param name="aType"></param>
+        /// <param name="aResName"></param>
+        /// <param name="aResSubfolder"></param>
         /// <returns></returns>
-        public static Stream FromResource(Type a_type, string a_res_name, string a_res_subfolder = "")
+        public static Stream FromResource(Type aType, string aResName, string aResSubfolder = "")
         {
-            if (a_res_subfolder != "")
-                a_res_subfolder = "." + a_res_subfolder;
+            if (aResSubfolder != "")
+                aResSubfolder = "." + aResSubfolder;
 
-            string res = a_type.GetParentFullName() + a_res_subfolder + "." + a_res_name;
-            return Assembly.GetAssembly(a_type).GetManifestResourceStream(res);
+            var res = aType.GetParentFullName() + aResSubfolder + "." + aResName;
+            return Assembly.GetAssembly(aType).GetManifestResourceStream(res);
         }
 
         /// <summary>
         /// Read all bytes from stream.
         /// </summary>
-        /// <param name="a_stream"></param>
+        /// <param name="aStream"></param>
         /// <returns></returns>
-        public static byte[] ReadAll(this Stream a_stream)
+        public static byte[] ReadAll(this Stream aStream)
         {
-            byte[] res = new byte[a_stream.Length];
-            a_stream.Read(res, 0, res.Length);
+            var res = new byte[aStream.Length];
+            aStream.Read(res, 0, res.Length);
             return res;
         }
 
-        public static Stream SeekToBegin(this Stream a_stream)
+        public static Stream SeekToBegin(this Stream aStream)
         {
-            a_stream.Seek(0, SeekOrigin.Begin);
-            return a_stream;
+            aStream.Seek(0, SeekOrigin.Begin);
+            return aStream;
         }
 
-        public static Stream SeekToEnd(this Stream a_stream)
+        public static Stream SeekToEnd(this Stream aStream)
         {
-            a_stream.Seek(0, SeekOrigin.End);
-            return a_stream;
+            aStream.Seek(0, SeekOrigin.End);
+            return aStream;
         }
     }
 }

@@ -1,68 +1,65 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Lenneth.Core.Extensions
 {
     public static class MathExtensions
     {
-        public const double PI = 3.1415926535897932384626433832795;
-        public const double SQRT2 = 1.4142135623730950488016887242097;
-        public const double SQRT3 = 1.7320508075688772935274463415059;
+        public const double Pi = 3.1415926535897932384626433832795;
+        public const double Sqrt2 = 1.4142135623730950488016887242097;
+        public const double Sqrt3 = 1.7320508075688772935274463415059;
 
-        private static int[][] s_pascal_triangle;
+        private static readonly int[][] SPascalTriangle;
 
         static MathExtensions()
         {
-            s_pascal_triangle = new int [10][];
-            s_pascal_triangle[0] = new int[] { 1 };
+            SPascalTriangle = new int[10][];
+            SPascalTriangle[0] = new[] { 1 };
 
-            for (int i = 1; i < s_pascal_triangle.Length; i++)
-                s_pascal_triangle[i] = PascalTriangle(s_pascal_triangle[i - 1]);
+            for (var i = 1; i < SPascalTriangle.Length; i++)
+                SPascalTriangle[i] = PascalTriangle(SPascalTriangle[i - 1]);
         }
 
-        public static int[] PascalTriangle(int a_row)
+        public static int[] PascalTriangle(int aRow)
         {
-            if (a_row <= s_pascal_triangle.Length)
-                return s_pascal_triangle[a_row - 1];
+            if (aRow <= SPascalTriangle.Length)
+                return SPascalTriangle[aRow - 1];
             else
             {
-                int[] result = s_pascal_triangle[s_pascal_triangle.Length - 1];
+                var result = SPascalTriangle[SPascalTriangle.Length - 1];
 
-                for (int i = s_pascal_triangle.Length; i < a_row; i++)
+                for (var i = SPascalTriangle.Length; i < aRow; i++)
                     result = PascalTriangle(result);
 
                 return result;
             }
         }
 
-        private static int[] PascalTriangle(int[] a_start)
+        private static int[] PascalTriangle(int[] aStart)
         {
-            int[] result = new int[a_start.Length + 1];
-            
+            var result = new int[aStart.Length + 1];
+
             result[0] = 1;
             result[result.Length - 1] = 1;
 
-            for (int j = 0; j < a_start.Length - 1; j++)
-                result[j+1] = a_start[j] + a_start[j + 1];
+            for (var j = 0; j < aStart.Length - 1; j++)
+                result[j + 1] = aStart[j] + aStart[j + 1];
 
             return result;
         }
 
-        public static double ToRad(double a_deg)
+        public static double ToRad(double aDeg)
         {
-            return a_deg * PI / 180;
+            return aDeg * Pi / 180;
         }
 
-        public static double ToDeg(double a_rad)
+        public static double ToDeg(double aRad)
         {
-            return a_rad * 180 / PI;
+            return aRad * 180 / Pi;
         }
 
-        public static double Hypot(double a_x, double a_y)
+        public static double Hypot(double aX, double aY)
         {
-            return Math.Sqrt(a_x * a_x + a_y * a_y);
+            return Math.Sqrt(aX * aX + aY * aY);
         }
     }
 }

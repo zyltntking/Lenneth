@@ -18,11 +18,11 @@ namespace Lenneth.Core.Extensions.Utils
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="a_source"></param>
-        public XmlBase(XmlBase a_source)
+        /// <param name="aSource"></param>
+        public XmlBase(XmlBase aSource)
         {
-            MemoryStream ms = new MemoryStream();
-            a_source.Save(ms);
+            var ms = new MemoryStream();
+            aSource.Save(ms);
             ms.Position = 0;
             Load(ms);
         }
@@ -30,80 +30,79 @@ namespace Lenneth.Core.Extensions.Utils
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="a_reader"></param>
-        public XmlBase(XmlReader a_reader)
+        /// <param name="aReader"></param>
+        public XmlBase(XmlReader aReader)
         {
-            ReadXml(a_reader);
+            ReadXml(aReader);
         }
 
         /// <summary>
         /// Load object from xml file.
         /// </summary>
-        /// <param name="a_file_name"></param>
-        protected virtual void Load(string a_file_name)
+        /// <param name="aFileName"></param>
+        protected virtual void Load(string aFileName)
         {
-            using (FileStream fs = new FileStream(a_file_name, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(aFileName, FileMode.Open, FileAccess.Read))
                 Load(fs);
         }
 
         /// <summary>
         /// Load object from xml stream.
         /// </summary>
-        /// <param name="a_stream"></param>
-        protected virtual void Load(Stream a_stream)
+        /// <param name="aStream"></param>
+        protected virtual void Load(Stream aStream)
         {
-            XmlReaderExtensions.ReadXml(a_stream, (reader) => ReadXml(reader));
+            XmlReaderExtensions.ReadXml(aStream, (reader) => ReadXml(reader));
         }
 
         /// <summary>
         /// Load object from xml.
         /// </summary>
-        /// <param name="a_reader"></param>
-        protected abstract void ReadXml(XmlReader a_reader);
+        /// <param name="aReader"></param>
+        protected abstract void ReadXml(XmlReader aReader);
 
         /// <summary>
         /// Save object to xml file.
         /// </summary>
-        /// <param name="a_file_name"></param>
-        public virtual void Save(string a_file_name)
+        /// <param name="aFileName"></param>
+        public virtual void Save(string aFileName)
         {
-            using (FileStream fs = new FileStream(a_file_name, FileMode.Create))
+            using (var fs = new FileStream(aFileName, FileMode.Create))
                 Save(fs);
         }
 
         /// <summary>
         /// Save object to xml stream.
         /// </summary>
-        /// <param name="a_stream"></param>
-        public virtual void Save(Stream a_stream)
+        /// <param name="aStream"></param>
+        public virtual void Save(Stream aStream)
         {
-            XmlWriterExtensions.WriteXml(a_stream, (writer) => WriteXml(writer));
+            XmlWriterExtensions.WriteXml(aStream, WriteXml);
         }
 
         /// <summary>
         /// Save object to xml.
         /// </summary>
-        /// <param name="a_writer"></param>
-        internal protected abstract void WriteXml(XmlWriter a_writer);
+        /// <param name="aWriter"></param>
+        internal protected abstract void WriteXml(XmlWriter aWriter);
 
         /// <summary>
         /// Compare objects through xml.
         /// </summary>
-        /// <param name="a_obj"></param>
+        /// <param name="aObj"></param>
         /// <returns></returns>
-        public override bool Equals(object a_obj)
+        public override bool Equals(object aObj)
         {
-            if (a_obj == null)
+            if (aObj == null)
                 return false;
 
-            XmlBase xml_base = a_obj as XmlBase;
-            if (xml_base == null)
+            if (!(aObj is XmlBase xmlBase))
                 return false;
 
-            MemoryStream ms1 = new MemoryStream();
-            xml_base.Save(ms1);
+            var ms1 = new MemoryStream();
+            xmlBase.Save(ms1);
 
-            MemoryStream ms2 = new MemoryStream();
+            var ms2 = new MemoryStream();
             Save(ms2);
 
             return ms1.ToArray().AreSame(ms2.ToArray());
@@ -115,7 +114,7 @@ namespace Lenneth.Core.Extensions.Utils
         /// <returns></returns>
         public override int GetHashCode()
         {
-            MemoryStream ms = new MemoryStream();
+            var ms = new MemoryStream();
             Save(ms);
             return ArrayExtensions.GetHashCode(ms.ToArray());
         }

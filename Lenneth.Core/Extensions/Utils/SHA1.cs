@@ -2,28 +2,28 @@
 
 namespace Lenneth.Core.Extensions.Utils
 {
-    public static class SHA1
+    public static class Sha1
     {
         /// <summary>
         /// Calculate SHA1
         /// </summary>
-        /// <param name="a_filePath"></param>
+        /// <param name="aFilePath"></param>
         /// <returns></returns>
-        public static string Calculate(string a_filePath)
+        public static string Calculate(string aFilePath)
         {
-            return Calculate(FileUtils.ReadFile(a_filePath));
+            return Calculate(FileUtils.ReadFile(aFilePath));
         }
 
         /// <summary>
         /// Calculate SHA1
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="aData"></param>
         /// <returns></returns>
-        public static string Calculate(byte[] a_data)
+        public static string Calculate(byte[] aData)
         {
             using (var hasher = System.Security.Cryptography.SHA1.Create())
             {
-                byte[] hash = hasher.ComputeHash(a_data);
+                byte[] hash = hasher.ComputeHash(aData);
                 return BitConverter.ToString(hash).ToUpper().Replace("-", "");
             }
         }

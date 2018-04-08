@@ -11,171 +11,171 @@ namespace Lenneth.Core.Extensions
     [DebuggerStepThrough]
     public static class XmlReaderExtensions
     {
-        public static byte ReadElementContentAsHexByte(this XmlReader a_reader, string a_name)
+        public static byte ReadElementContentAsHexByte(this XmlReader aReader, string aName)
         {
-            return Hex.HexToByte(a_reader.ReadElementString(a_name));
+            return Hex.HexToByte(aReader.ReadElementString(aName));
         }
 
-        public static ushort ReadElementContentAsHexUShort(this XmlReader a_reader, string a_name)
+        public static ushort ReadElementContentAsHexUShort(this XmlReader aReader, string aName)
         {
-            return Hex.HexToUShort(a_reader.ReadElementString(a_name));
+            return Hex.HexToUShort(aReader.ReadElementString(aName));
         }
 
-        public static bool ReadElementContentAsBoolean(this XmlReader a_reader, string a_name)
+        public static bool ReadElementContentAsBoolean(this XmlReader aReader, string aName)
         {
-            return Boolean.Parse(a_reader.ReadElementString(a_name));
+            return bool.Parse(aReader.ReadElementString(aName));
         }
 
-        public static string ReadElementContentAsString(this XmlReader a_reader, string a_name)
+        public static string ReadElementContentAsString(this XmlReader aReader, string aName)
         {
-            return a_reader.ReadElementContentAsString(a_name, "");
+            return aReader.ReadElementContentAsString(aName, "");
         }
 
-        public static double ReadElementContentAsDouble(this XmlReader a_reader, string a_name)
+        public static double ReadElementContentAsDouble(this XmlReader aReader, string aName)
         {
-            return Double.Parse(a_reader.ReadElementString(a_name.Replace(',', '.')),
+            return double.Parse(aReader.ReadElementString(aName.Replace(',', '.')),
                 CultureInfo.InvariantCulture);
         }
 
-        public static uint ReadElementContentAsHexUInt(this XmlReader a_reader, string a_name)
+        public static uint ReadElementContentAsHexUInt(this XmlReader aReader, string aName)
         {
-            return Hex.HexToUInt(a_reader.ReadElementString(a_name));
+            return Hex.HexToUInt(aReader.ReadElementString(aName));
         }
 
-        public static byte ReadElementContentAsByte(this XmlReader a_reader, string a_name)
+        public static byte ReadElementContentAsByte(this XmlReader aReader, string aName)
         {
-            return Byte.Parse(a_reader.ReadElementString(a_name));
+            return byte.Parse(aReader.ReadElementString(aName));
         }
 
-        public static ushort ReadElementContentAsUShort(this XmlReader a_reader, string a_name)
+        public static ushort ReadElementContentAsUShort(this XmlReader aReader, string aName)
         {
-            return UInt16.Parse(a_reader.ReadElementString(a_name));
+            return ushort.Parse(aReader.ReadElementString(aName));
         }
 
-        public static uint ReadElementContentAsUInt(this XmlReader a_reader, string a_name)
+        public static uint ReadElementContentAsUInt(this XmlReader aReader, string aName)
         {
-            return UInt32.Parse(a_reader.ReadElementString(a_name));
+            return uint.Parse(aReader.ReadElementString(aName));
         }
 
-        public static Size ReadElementContentAsSize(this XmlReader a_reader, string a_name)
+        public static Size ReadElementContentAsSize(this XmlReader aReader, string aName)
         {
             Size size = new Size(
-                a_reader.GetAttributeInt("Width"),
-                a_reader.GetAttributeInt("Height"));
-            a_reader.MoveToNextElement(a_name);
+                aReader.GetAttributeInt("Width"),
+                aReader.GetAttributeInt("Height"));
+            aReader.MoveToNextElement(aName);
             return size;
         }
 
-        public static Rectangle ReadElementContentAsRectangle(this XmlReader a_reader, string a_name)
+        public static Rectangle ReadElementContentAsRectangle(this XmlReader aReader, string aName)
         {
             Rectangle rect = new Rectangle(
-                a_reader.GetAttributeInt("Left"),
-                a_reader.GetAttributeInt("Top"),
-                a_reader.GetAttributeInt("Width"),
-                a_reader.GetAttributeInt("Height"));
-            a_reader.MoveToNextElement(a_name);
+                aReader.GetAttributeInt("Left"),
+                aReader.GetAttributeInt("Top"),
+                aReader.GetAttributeInt("Width"),
+                aReader.GetAttributeInt("Height"));
+            aReader.MoveToNextElement(aName);
             return rect;
         }
 
-        public static ulong ReadElementContentAsULong(this XmlReader a_reader, string a_name)
+        public static ulong ReadElementContentAsULong(this XmlReader aReader, string aName)
         {
-            return UInt64.Parse(a_reader.ReadElementString(a_name));
+            return ulong.Parse(aReader.ReadElementString(aName));
         }
 
-        public static int ReadElementContentAsInt(this XmlReader a_reader, string a_name)
+        public static int ReadElementContentAsInt(this XmlReader aReader, string aName)
         {
-            return Int32.Parse(a_reader.ReadElementString(a_name));
+            return int.Parse(aReader.ReadElementString(aName));
         }
 
-        public static Guid ReadElementContentAsGuid(this XmlReader a_reader, string a_name)
+        public static Guid ReadElementContentAsGuid(this XmlReader aReader, string aName)
         {
-            return Guid.Parse(a_reader.ReadElementString(a_name));
+            return Guid.Parse(aReader.ReadElementString(aName));
         }
 
-        public static T ReadElementContentAsEnum<T>(this XmlReader a_reader, string a_name)
+        public static T ReadElementContentAsEnum<T>(this XmlReader aReader, string aName)
         {
-            return (T)Enum.Parse(typeof(T), a_reader.ReadElementString(a_name).Replace(" ", ", "));
+            return (T)Enum.Parse(typeof(T), aReader.ReadElementString(aName).Replace(" ", ", "));
         }
 
-        public static string GetAttributeDef(this XmlReader a_reader, string a_name,
-            string a_default = "")
+        public static string GetAttributeDef(this XmlReader aReader, string aName,
+            string aDefault = "")
         {
-            if (a_reader.MoveToAttribute(a_name))
-                return a_reader.GetAttribute(a_name);
+            if (aReader.MoveToAttribute(aName))
+                return aReader.GetAttribute(aName);
             else
-                return a_default;
+                return aDefault;
         }
 
-        public static byte GetAttributeHexByte(this XmlReader a_reader, string a_name)
+        public static byte GetAttributeHexByte(this XmlReader aReader, string aName)
         {
-            return Hex.HexToByte(a_reader.GetAttribute(a_name));
+            return Hex.HexToByte(aReader.GetAttribute(aName));
         }
 
-        public static ushort GetAttributeHexUShort(this XmlReader a_reader, string a_name)
+        public static ushort GetAttributeHexUShort(this XmlReader aReader, string aName)
         {
-            return Hex.HexToUShort(a_reader.GetAttribute(a_name));
+            return Hex.HexToUShort(aReader.GetAttribute(aName));
         }
 
-        public static uint GetAttributeHexUInt(this XmlReader a_reader, string a_name)
+        public static uint GetAttributeHexUInt(this XmlReader aReader, string aName)
         {
-            return Hex.HexToUInt(a_reader.GetAttribute(a_name));
+            return Hex.HexToUInt(aReader.GetAttribute(aName));
         }
 
-        public static byte GetAttributeByte(this XmlReader a_reader, string a_name)
+        public static byte GetAttributeByte(this XmlReader aReader, string aName)
         {
-            return Byte.Parse(a_reader.GetAttribute(a_name));
+            return byte.Parse(aReader.GetAttribute(aName));
         }
 
-        public static ushort GetAttributeUShort(this XmlReader a_reader, string a_name)
+        public static ushort GetAttributeUShort(this XmlReader aReader, string aName)
         {
-            return UInt16.Parse(a_reader.GetAttribute(a_name));
+            return ushort.Parse(aReader.GetAttribute(aName));
         }
 
-        public static uint GetAttributeUInt(this XmlReader a_reader, string a_name)
+        public static uint GetAttributeUInt(this XmlReader aReader, string aName)
         {
-            return UInt32.Parse(a_reader.GetAttribute(a_name));
+            return uint.Parse(aReader.GetAttribute(aName));
         }
 
-        public static ulong GetAttributeULong(this XmlReader a_reader, string a_name)
+        public static ulong GetAttributeULong(this XmlReader aReader, string aName)
         {
-            return UInt64.Parse(a_reader.GetAttribute(a_name));
+            return ulong.Parse(aReader.GetAttribute(aName));
         }
 
-        public static int GetAttributeInt(this XmlReader a_reader, string a_name)
+        public static int GetAttributeInt(this XmlReader aReader, string aName)
         {
-            return Int32.Parse(a_reader.GetAttribute(a_name));
+            return int.Parse(aReader.GetAttribute(aName));
         }
 
-        public static int GetAttributeIntDef(this XmlReader a_reader, string a_name, int a_default = 0)
+        public static int GetAttributeIntDef(this XmlReader aReader, string aName, int aDefault = 0)
         {
-            if (a_reader.MoveToAttribute(a_name))
-                return Int32.Parse(a_reader.GetAttribute(a_name));
+            if (aReader.MoveToAttribute(aName))
+                return int.Parse(aReader.GetAttribute(aName));
             else
-                return a_default;
+                return aDefault;
         }
 
-        public static bool GetAttributeBool(this XmlReader a_reader, string a_name)
+        public static bool GetAttributeBool(this XmlReader aReader, string aName)
         {
-            return Boolean.Parse(a_reader.GetAttribute(a_name));
+            return bool.Parse(aReader.GetAttribute(aName));
         }
 
-        public static bool GetAttributeBoolDef(this XmlReader a_reader, string a_name,
-            bool a_default = false)
+        public static bool GetAttributeBoolDef(this XmlReader aReader, string aName,
+            bool aDefault = false)
         {
-            if (a_reader.MoveToAttribute(a_name))
-                return Boolean.Parse(a_reader.GetAttribute(a_name));
+            if (aReader.MoveToAttribute(aName))
+                return bool.Parse(aReader.GetAttribute(aName));
             else
-                return a_default;
+                return aDefault;
         }
 
-        public static Guid GetAttributeGuid(this XmlReader a_reader, string a_name)
+        public static Guid GetAttributeGuid(this XmlReader aReader, string aName)
         {
-            return Guid.Parse(a_reader.GetAttribute(a_name));
+            return Guid.Parse(aReader.GetAttribute(aName));
         }
 
-        public static T GetAttributeEnum<T>(this XmlReader a_reader, string a_name)
+        public static T GetAttributeEnum<T>(this XmlReader aReader, string aName)
         {
-            return (T)Enum.Parse(typeof(T), a_reader.GetAttribute(a_name).Replace(" ", ", "));
+            return (T)Enum.Parse(typeof(T), aReader.GetAttribute(aName).Replace(" ", ", "));
         }
 
         /// <summary>
@@ -183,44 +183,44 @@ namespace Lenneth.Core.Extensions
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="a_type"></param>
-        /// <param name="a_stream"></param>
-        /// <param name="a_read_func"></param>
-        public static void ReadXml(Stream a_stream, Action<XmlReader> a_read_func)
+        /// <param name="aStream"></param>
+        /// <param name="aReadFunc"></param>
+        public static void ReadXml(Stream aStream, Action<XmlReader> aReadFunc)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.IgnoreWhitespace = true;
 
-            using (XmlReader reader = XmlReader.Create(a_stream, settings))
+            using (XmlReader reader = XmlReader.Create(aStream, settings))
             {
                 reader.Read();
 
                 if (reader.NodeType == XmlNodeType.XmlDeclaration)
                     reader.Skip();
 
-                a_read_func(reader);
+                aReadFunc(reader);
             }
         }
 
         /// <summary>
         /// Move to next element. Current element must be empty.
         /// </summary>
-        /// <param name="a_reader"></param>
-        /// <param name="a_name"></param>
-        public static void MoveToNextElement(this XmlReader a_reader, string a_name)
+        /// <param name="aReader"></param>
+        /// <param name="aName"></param>
+        public static void MoveToNextElement(this XmlReader aReader, string aName)
         {
-            if (a_reader.NodeType == XmlNodeType.Attribute)
-                a_reader.MoveToElement();
+            if (aReader.NodeType == XmlNodeType.Attribute)
+                aReader.MoveToElement();
 
-            if (a_reader.IsEmptyElement)
-                a_reader.ReadStartElement(a_name);
+            if (aReader.IsEmptyElement)
+                aReader.ReadStartElement(aName);
             else
             {
-                a_reader.ReadStartElement(a_name);
+                aReader.ReadStartElement(aName);
 
-                if (a_reader.IsStartElement())
+                if (aReader.IsStartElement())
                     throw new XmlException();
 
-                a_reader.ReadEndElement();
+                aReader.ReadEndElement();
             }
         }
     }

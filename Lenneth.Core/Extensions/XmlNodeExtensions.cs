@@ -6,11 +6,11 @@ namespace Lenneth.Core.Extensions
     [DebuggerStepThrough]
     public static class XmlNodeExtensions
     {
-        public static XmlNode CreateChildNode(this XmlNode a_node, string a_name)
+        public static XmlNode CreateChildNode(this XmlNode aNode, string aName)
         {
-            var document = (a_node is XmlDocument ? (XmlDocument)a_node : a_node.OwnerDocument);
-            XmlNode node = document.CreateElement(a_name);
-            a_node.AppendChild(node);
+            var document = (aNode is XmlDocument xmlDocument ? xmlDocument : aNode.OwnerDocument);
+            XmlNode node = document.CreateElement(aName);
+            aNode.AppendChild(node);
             return node;
         }
     }

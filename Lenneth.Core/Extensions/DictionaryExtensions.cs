@@ -7,10 +7,10 @@ namespace Lenneth.Core.Extensions
     [DebuggerStepThrough]
     public static class DictionaryExtensions
     {
-        public static IDictionary<V, K> Invert<K, V>(
-            this IDictionary<K, V> a_dictionary)
+        public static IDictionary<TV, TK> Invert<TK, TV>(
+            this IDictionary<TK, TV> aDictionary)
         {
-            return a_dictionary.ToDictionary(pair => pair.Value, pair => pair.Key);
+            return aDictionary.ToDictionary(pair => pair.Value, pair => pair.Key);
         }
     }
 }

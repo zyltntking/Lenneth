@@ -5,9 +5,9 @@ namespace Lenneth.Core.Extensions.Utils
 {
     public static class FileUtils
     {
-        public static bool IsFilePathValid(string a_path)
+        public static bool IsFilePathValid(string aPath)
         {
-            if (String.IsNullOrEmpty(a_path.Trim()))
+            if (string.IsNullOrEmpty(aPath.Trim()))
             {
                 return false;
             }
@@ -17,8 +17,8 @@ namespace Lenneth.Core.Extensions.Utils
 
             try
             {
-                pathname = Path.GetPathRoot(a_path);
-                filename = Path.GetFileName(a_path);
+                pathname = Path.GetPathRoot(aPath);
+                filename = Path.GetFileName(aPath);
             }
             catch (ArgumentException)
             {
@@ -29,7 +29,7 @@ namespace Lenneth.Core.Extensions.Utils
             }
 
             // Make sure the filename part was actually specified
-            if (String.IsNullOrEmpty(filename.Trim()))
+            if (string.IsNullOrEmpty(filename.Trim()))
             {
                 return false;
             }
@@ -48,9 +48,9 @@ namespace Lenneth.Core.Extensions.Utils
             return true;
         }
 
-        public static byte[] ReadFile(string a_path)
+        public static byte[] ReadFile(string aPath)
         {
-            return File.ReadAllBytes(a_path);
+            return File.ReadAllBytes(aPath);
         }
     }
 }

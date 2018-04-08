@@ -8,34 +8,34 @@ namespace Lenneth.Core.Extensions
     [DebuggerStepThrough]
     public static class CollectionExtensions
     {
-        public static void RemoveRange<T>(this ICollection<T> a_collection, IEnumerable<T> a_elements)
+        public static void RemoveRange<T>(this ICollection<T> aCollection, IEnumerable<T> aElements)
         {
-            foreach (var ele in a_elements)
-                a_collection.Remove(ele);
+            foreach (var ele in aElements)
+                aCollection.Remove(ele);
         }
 
-        public static void RemoveAll<T>(this ICollection<T> a_collection, Predicate<T> a_predicate)
+        public static void RemoveAll<T>(this ICollection<T> aCollection, Predicate<T> aPredicate)
         {
-            var deleteList = a_collection.Where(child => a_predicate(child)).ToList();
-            deleteList.ForEach(t => a_collection.Remove(t));
+            var deleteList = aCollection.Where(child => aPredicate(child)).ToList();
+            deleteList.ForEach(t => aCollection.Remove(t));
         }
 
-        public static bool AddUnique<T>(this ICollection<T> a_collection, T a_value)
+        public static bool AddUnique<T>(this ICollection<T> aCollection, T aValue)
         {
-            if (a_collection.Contains(a_value) == false)
+            if (aCollection.Contains(aValue) == false)
             {
-                a_collection.Add(a_value);
+                aCollection.Add(aValue);
                 return true;
             }
             return false;
         }
 
-        public static int AddRangeUnique<T>(this ICollection<T> a_collection, IEnumerable<T> a_values)
+        public static int AddRangeUnique<T>(this ICollection<T> aCollection, IEnumerable<T> aValues)
         {
             var count = 0;
-            foreach (var value in a_values)
+            foreach (var value in aValues)
             {
-                if (a_collection.AddUnique(value))
+                if (aCollection.AddUnique(value))
                     count++;
             }
             return count;

@@ -6,278 +6,280 @@ namespace Lenneth.Core.Extensions
     [DebuggerStepThrough]
     public static class SingleExtensions
     {
-        public static bool IsNumber(this float a_d)
+        public static bool IsNumber(this float aD)
         {
-            return !Single.IsInfinity(a_d) && !Single.IsNaN(a_d);
+            return !float.IsInfinity(aD) && !float.IsNaN(aD);
         }
 
-        public static float Fraction(this float a_d)
+        public static float Fraction(this float aD)
         {
-            return a_d - (float)Math.Truncate(a_d);
+            return aD - (float)Math.Truncate(aD);
         }
 
-        public static int Round(this float a_d)
+        public static int Round(this float aD)
         {
-            return (int)Math.Round(a_d);
+            return (int)Math.Round(aD);
         }
 
-        public static int Ceiling(this float a_d)
+        public static int Ceiling(this float aD)
         {
-            return (int)Math.Ceiling(a_d);
+            return (int)Math.Ceiling(aD);
         }
 
-        public static int Floor(this float a_d)
+        public static int Floor(this float aD)
         {
-            return (int)Math.Floor(a_d);
+            return (int)Math.Floor(aD);
         }
 
-        public static bool IsAlmostRelativeEquals(this float a_d1, float a_d2, float a_precision)
+        public static bool IsAlmostRelativeEquals(this float aD1, float aD2, float aPrecision)
         {
-            double mid = Math.Max(Math.Abs(a_d1), Math.Abs(a_d2));
+            double mid = Math.Max(Math.Abs(aD1), Math.Abs(aD2));
 
-            if (Double.IsInfinity(mid))
+            if (double.IsInfinity(mid))
                 return false;
 
-            if (mid > a_precision)
-                return Math.Abs(a_d1 - a_d2) <= a_precision * mid;
+            if (mid > aPrecision)
+                return Math.Abs(aD1 - aD2) <= aPrecision * mid;
             else
-                return a_d1 < a_precision;
+                return aD1 < aPrecision;
         }
 
-        public static bool IsAlmostEquals(this float a_d1, float a_d2, float a_precision)
+        public static bool IsAlmostEquals(this float aD1, float aD2, float aPrecision)
         {
-            return Math.Abs(a_d1 - a_d2) < a_precision;
+            return Math.Abs(aD1 - aD2) < aPrecision;
         }
 
         /// <summary>
         /// Extension method may cause problem: -d.Limit(a, b) means -(d.Limit(a,b))
         /// </summary>
-        /// <param name="a_d"></param>
-        /// <param name="a_min_inclusive"></param>
-        /// <param name="a_max_inclusive"></param>
+        /// <param name="aD"></param>
+        /// <param name="aMinInclusive"></param>
+        /// <param name="aMaxInclusive"></param>
         /// <returns></returns>
-        public static float Limit(float a_d, float a_min_inclusive,
-            float a_max_inclusive)
+        public static float Limit(float aD, float aMinInclusive,
+            float aMaxInclusive)
         {
-            Debug.Assert(a_min_inclusive <= a_max_inclusive);
+            Debug.Assert(aMinInclusive <= aMaxInclusive);
 
-            if (a_d < a_min_inclusive)
-                return a_min_inclusive;
-            else if (a_d > a_max_inclusive)
-                return a_max_inclusive;
+            if (aD < aMinInclusive)
+                return aMinInclusive;
+            else if (aD > aMaxInclusive)
+                return aMaxInclusive;
             else
-                return a_d;
+                return aD;
         }
 
         /// <summary>
         /// Extension method may cause problem: -d.InRange(a, b) means -(d.InRange(a,b))
         /// </summary>
-        /// <param name="a_d"></param>
-        /// <param name="a_min_inclusive"></param>
-        /// <param name="a_max_inclusive"></param>
+        /// <param name="aD"></param>
+        /// <param name="aMinInclusive"></param>
+        /// <param name="aMaxInclusive"></param>
         /// <returns></returns>
-        public static bool InRange(float a_d, float a_min_inclusive,
-            float a_max_inclusive)
+        public static bool InRange(float aD, float aMinInclusive,
+            float aMaxInclusive)
         {
-            Debug.Assert(a_min_inclusive <= a_max_inclusive);
+            Debug.Assert(aMinInclusive <= aMaxInclusive);
 
-            return (a_d >= a_min_inclusive) && (a_d <= a_max_inclusive);
+            return (aD >= aMinInclusive) && (aD <= aMaxInclusive);
         }
 
         /// <summary>
         /// Extension method may cause problem: -d.InRange(a, b) means -(d.AlmostRelvativeInRange(a,b))
         /// </summary>
-        /// <param name="a_d"></param>
-        /// <param name="a_min_inclusive"></param>
-        /// <param name="a_max_inclusive"></param>
+        /// <param name="aD"></param>
+        /// <param name="aMinInclusive"></param>
+        /// <param name="aMaxInclusive"></param>
+        /// <param name="aPrecision"></param>
         /// <returns></returns>
-        public static bool AlmostRelvativeInRange(float a_d, float a_min_inclusive,
-            float a_max_inclusive, float a_precision)
+        public static bool AlmostRelvativeInRange(float aD, float aMinInclusive,
+            float aMaxInclusive, float aPrecision)
         {
-            Debug.Assert(a_min_inclusive <= a_max_inclusive);
+            Debug.Assert(aMinInclusive <= aMaxInclusive);
 
-            return a_d.IsAlmostRelativeGreaterOrEqualThen(a_min_inclusive, a_precision) &&
-                a_d.IsAlmostRelativeLessOrEqualThen(a_max_inclusive, a_precision);
+            return aD.IsAlmostRelativeGreaterOrEqualThen(aMinInclusive, aPrecision) &&
+                aD.IsAlmostRelativeLessOrEqualThen(aMaxInclusive, aPrecision);
         }
 
         /// <summary>
         /// Extension method may cause problem: -d.InRange(a, b) means -(d.AlmostInRange(a,b))
         /// </summary>
-        /// <param name="a_d"></param>
-        /// <param name="a_min_inclusive"></param>
-        /// <param name="a_max_inclusive"></param>
+        /// <param name="aD"></param>
+        /// <param name="aMinInclusive"></param>
+        /// <param name="aMaxInclusive"></param>
+        /// <param name="aPrecision"></param>
         /// <returns></returns>
-        public static bool AlmostInRange(float a_d, float a_min_inclusive,
-            float a_max_inclusive, float a_precision)
+        public static bool AlmostInRange(float aD, float aMinInclusive,
+            float aMaxInclusive, float aPrecision)
         {
-            Debug.Assert(a_min_inclusive <= a_max_inclusive);
+            Debug.Assert(aMinInclusive <= aMaxInclusive);
 
-            return a_d.IsAlmostGreaterOrEqualThen(a_min_inclusive, a_precision) &&
-                a_d.IsAlmostLessOrEqualThen(a_max_inclusive, a_precision);
+            return aD.IsAlmostGreaterOrEqualThen(aMinInclusive, aPrecision) &&
+                aD.IsAlmostLessOrEqualThen(aMaxInclusive, aPrecision);
         }
 
-        public static bool IsAlmostRelativeLessThen(this float a_d1, float a_d2, float a_precision)
+        public static bool IsAlmostRelativeLessThen(this float aD1, float aD2, float aPrecision)
         {
-            if (IsAlmostRelativeEquals(a_d1, a_d2, a_precision))
+            if (IsAlmostRelativeEquals(aD1, aD2, aPrecision))
                 return true;
 
-            return a_d1 < a_d2;
+            return aD1 < aD2;
         }
 
-        public static bool IsAlmostRelativeLessOrEqualThen(this float a_d1, float a_d2, float a_precision)
+        public static bool IsAlmostRelativeLessOrEqualThen(this float aD1, float aD2, float aPrecision)
         {
-            if (IsAlmostRelativeEquals(a_d1, a_d2, a_precision))
+            if (IsAlmostRelativeEquals(aD1, aD2, aPrecision))
                 return true;
 
-            return a_d1 <= a_d2;
+            return aD1 <= aD2;
         }
 
-        public static bool IsAlmostRelativeGreaterThen(this float a_d1, float a_d2, float a_precision)
+        public static bool IsAlmostRelativeGreaterThen(this float aD1, float aD2, float aPrecision)
         {
-            if (IsAlmostRelativeEquals(a_d1, a_d2, a_precision))
+            if (IsAlmostRelativeEquals(aD1, aD2, aPrecision))
                 return true;
 
-            return a_d1 > a_d2;
+            return aD1 > aD2;
         }
 
-        public static bool IsAlmostRelativeGreaterOrEqualThen(this float a_d1, float a_d2, float a_precision)
+        public static bool IsAlmostRelativeGreaterOrEqualThen(this float aD1, float aD2, float aPrecision)
         {
-            if (IsAlmostRelativeEquals(a_d1, a_d2, a_precision))
+            if (IsAlmostRelativeEquals(aD1, aD2, aPrecision))
                 return true;
 
-            return a_d1 >= a_d2;
+            return aD1 >= aD2;
         }
 
-        public static float Min(float a_d1, float a_d2, float a_d3)
+        public static float Min(float aD1, float aD2, float aD3)
         {
-            if (a_d1 < a_d2)
+            if (aD1 < aD2)
             {
-                if (a_d1 < a_d3)
-                    return a_d1;
+                if (aD1 < aD3)
+                    return aD1;
                 else
-                    return a_d3;
+                    return aD3;
             }
             else
             {
-                if (a_d2 < a_d3)
-                    return a_d2;
+                if (aD2 < aD3)
+                    return aD2;
                 else
-                    return a_d3;
+                    return aD3;
             }
         }
 
-        public static float Min(float a_d1, float a_d2, float a_d3, float a_d4)
+        public static float Min(float aD1, float aD2, float aD3, float aD4)
         {
-            if (a_d1 < a_d2)
+            if (aD1 < aD2)
             {
-                if (a_d1 < a_d3)
+                if (aD1 < aD3)
                 {
-                    if (a_d1 < a_d4)
-                        return a_d1;
+                    if (aD1 < aD4)
+                        return aD1;
                     else
-                        return a_d4;
+                        return aD4;
                 }
                 else
                 {
-                    if (a_d3 < a_d4)
-                        return a_d3;
+                    if (aD3 < aD4)
+                        return aD3;
                     else
-                        return a_d4;
-                }
-            }
-            else
-            {
-                if (a_d2 < a_d3)
-                {
-                    if (a_d2 < a_d4)
-                        return a_d2;
-                    else
-                        return a_d4;
-                }
-                else
-                {
-                    if (a_d3 < a_d4)
-                        return a_d3;
-                    else
-                        return a_d4;
-                }
-            }
-        }
-
-        public static float Max(float a_d1, float a_d2, float a_d3)
-        {
-            if (a_d1 > a_d2)
-            {
-                if (a_d1 > a_d3)
-                    return a_d1;
-                else
-                    return a_d3;
-            }
-            else
-            {
-                if (a_d2 > a_d3)
-                    return a_d2;
-                else
-                    return a_d3;
-            }
-        }
-
-        public static float Max(float a_d1, float a_d2, float a_d3, float a_d4)
-        {
-            if (a_d1 > a_d2)
-            {
-                if (a_d1 > a_d3)
-                {
-                    if (a_d1 > a_d4)
-                        return a_d1;
-                    else
-                        return a_d4;
-                }
-                else
-                {
-                    if (a_d3 > a_d4)
-                        return a_d3;
-                    else
-                        return a_d4;
+                        return aD4;
                 }
             }
             else
             {
-                if (a_d2 > a_d3)
+                if (aD2 < aD3)
                 {
-                    if (a_d2 > a_d4)
-                        return a_d2;
+                    if (aD2 < aD4)
+                        return aD2;
                     else
-                        return a_d4;
+                        return aD4;
                 }
                 else
                 {
-                    if (a_d3 > a_d4)
-                        return a_d3;
+                    if (aD3 < aD4)
+                        return aD3;
                     else
-                        return a_d4;
+                        return aD4;
                 }
             }
         }
 
-        public static bool IsAlmostLessThen(this float a_d1, float a_d2, float a_precision)
+        public static float Max(float aD1, float aD2, float aD3)
         {
-            return a_d1 < a_d2 + a_precision;
+            if (aD1 > aD2)
+            {
+                if (aD1 > aD3)
+                    return aD1;
+                else
+                    return aD3;
+            }
+            else
+            {
+                if (aD2 > aD3)
+                    return aD2;
+                else
+                    return aD3;
+            }
         }
 
-        public static bool IsAlmostLessOrEqualThen(this float a_d1, float a_d2, float a_precision)
+        public static float Max(float aD1, float aD2, float aD3, float aD4)
         {
-            return a_d1 <= a_d2 + a_precision;
+            if (aD1 > aD2)
+            {
+                if (aD1 > aD3)
+                {
+                    if (aD1 > aD4)
+                        return aD1;
+                    else
+                        return aD4;
+                }
+                else
+                {
+                    if (aD3 > aD4)
+                        return aD3;
+                    else
+                        return aD4;
+                }
+            }
+            else
+            {
+                if (aD2 > aD3)
+                {
+                    if (aD2 > aD4)
+                        return aD2;
+                    else
+                        return aD4;
+                }
+                else
+                {
+                    if (aD3 > aD4)
+                        return aD3;
+                    else
+                        return aD4;
+                }
+            }
         }
 
-        public static bool IsAlmostGreaterThen(this float a_d1, float a_d2, float a_precision)
+        public static bool IsAlmostLessThen(this float aD1, float aD2, float aPrecision)
         {
-            return a_d1 > a_d2 - a_precision;
+            return aD1 < aD2 + aPrecision;
         }
 
-        public static bool IsAlmostGreaterOrEqualThen(this float a_d1, float a_d2, float a_precision)
+        public static bool IsAlmostLessOrEqualThen(this float aD1, float aD2, float aPrecision)
         {
-            return a_d1 >= a_d2 - a_precision;
+            return aD1 <= aD2 + aPrecision;
+        }
+
+        public static bool IsAlmostGreaterThen(this float aD1, float aD2, float aPrecision)
+        {
+            return aD1 > aD2 - aPrecision;
+        }
+
+        public static bool IsAlmostGreaterOrEqualThen(this float aD1, float aD2, float aPrecision)
+        {
+            return aD1 >= aD2 - aPrecision;
         }
     }
 }

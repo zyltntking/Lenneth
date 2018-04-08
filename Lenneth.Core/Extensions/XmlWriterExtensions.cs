@@ -11,94 +11,94 @@ namespace Lenneth.Core.Extensions
     [DebuggerStepThrough]
     public static class XmlWriterExtensions
     {
-        public static void WriteHexElement(this XmlWriter a_writer, string a_name, byte a_byte)
+        public static void WriteHexElement(this XmlWriter aWriter, string aName, byte aByte)
         {
-            a_writer.WriteElementString(a_name, Hex.ByteToHex(a_byte));
+            aWriter.WriteElementString(aName, Hex.ByteToHex(aByte));
         }
 
-        public static void WriteHexElement(this XmlWriter a_writer, string a_name, ushort a_byte)
+        public static void WriteHexElement(this XmlWriter aWriter, string aName, ushort aByte)
         {
-            a_writer.WriteElementString(a_name, Hex.UShortToHex(a_byte));
+            aWriter.WriteElementString(aName, Hex.UShortToHex(aByte));
         }
 
-        public static void WriteHexElement(this XmlWriter a_writer, string a_name, uint a_byte)
+        public static void WriteHexElement(this XmlWriter aWriter, string aName, uint aByte)
         {
-            a_writer.WriteElementString(a_name, Hex.UIntToHex(a_byte));
+            aWriter.WriteElementString(aName, Hex.UIntToHex(aByte));
         }
 
-        public static void WriteElement<T>(this XmlWriter a_writer, string a_name, T a_obj)
+        public static void WriteElement<T>(this XmlWriter aWriter, string aName, T aObj)
         {
-            a_writer.WriteElementString(a_name, a_obj.ToString());
+            aWriter.WriteElementString(aName, aObj.ToString());
         }
 
-        public static void WriteElement(this XmlWriter a_writer, string a_name, double a_value)
+        public static void WriteElement(this XmlWriter aWriter, string aName, double aValue)
         {
-            a_writer.WriteElementString(a_name, a_value.ToString(CultureInfo.InvariantCulture));
+            aWriter.WriteElementString(aName, aValue.ToString(CultureInfo.InvariantCulture));
         }
 
-        public static void WriteElementSize(this XmlWriter a_writer, string a_name, Size a_size)
+        public static void WriteElementSize(this XmlWriter aWriter, string aName, Size aSize)
         {
-            a_writer.WriteStartElement(a_name);
-            a_writer.WriteAttribute("Width", a_size.Width);
-            a_writer.WriteAttribute("Height", a_size.Height);
-            a_writer.WriteEndElement();
+            aWriter.WriteStartElement(aName);
+            aWriter.WriteAttribute("Width", aSize.Width);
+            aWriter.WriteAttribute("Height", aSize.Height);
+            aWriter.WriteEndElement();
         }
 
-        public static void WriteElementRectangle(this XmlWriter a_writer, string a_name,
-            Rectangle a_rect)
+        public static void WriteElementRectangle(this XmlWriter aWriter, string aName,
+            Rectangle aRect)
         {
-            a_writer.WriteStartElement(a_name);
-            a_writer.WriteAttribute("Left", a_rect.Left);
-            a_writer.WriteAttribute("Top", a_rect.Top);
-            a_writer.WriteAttribute("Width", a_rect.Width);
-            a_writer.WriteAttribute("Height", a_rect.Height);
-            a_writer.WriteEndElement();
+            aWriter.WriteStartElement(aName);
+            aWriter.WriteAttribute("Left", aRect.Left);
+            aWriter.WriteAttribute("Top", aRect.Top);
+            aWriter.WriteAttribute("Width", aRect.Width);
+            aWriter.WriteAttribute("Height", aRect.Height);
+            aWriter.WriteEndElement();
         }
 
-        public static void WriteElementEnum<T>(this XmlWriter a_writer, string a_name, Enum a_enum)
+        public static void WriteElementEnum<T>(this XmlWriter aWriter, string aName, Enum aEnum)
         {
-            a_writer.WriteElementString(a_name, a_enum.ToString().Replace(", ", " "));
+            aWriter.WriteElementString(aName, aEnum.ToString().Replace(", ", " "));
         }
 
-        public static void WriteHexAttribute(this XmlWriter a_writer, string a_name, byte a_byte)
+        public static void WriteHexAttribute(this XmlWriter aWriter, string aName, byte aByte)
         {
-            a_writer.WriteAttributeString(a_name, Hex.ByteToHex(a_byte));
+            aWriter.WriteAttributeString(aName, Hex.ByteToHex(aByte));
         }
 
-        public static void WriteHexAttribute(this XmlWriter a_writer, string a_name, ushort a_byte)
+        public static void WriteHexAttribute(this XmlWriter aWriter, string aName, ushort aByte)
         {
-            a_writer.WriteAttributeString(a_name, Hex.UShortToHex(a_byte));
+            aWriter.WriteAttributeString(aName, Hex.UShortToHex(aByte));
         }
 
-        public static void WriteHexAttribute(this XmlWriter a_writer, string a_name, uint a_byte)
+        public static void WriteHexAttribute(this XmlWriter aWriter, string aName, uint aByte)
         {
-            a_writer.WriteAttributeString(a_name, Hex.UIntToHex(a_byte));
+            aWriter.WriteAttributeString(aName, Hex.UIntToHex(aByte));
         }
 
-        public static void WriteAttribute<T>(this XmlWriter a_writer, string a_name, T a_obj)
+        public static void WriteAttribute<T>(this XmlWriter aWriter, string aName, T aObj)
         {
-            a_writer.WriteAttributeString(a_name, a_obj.ToString());
+            aWriter.WriteAttributeString(aName, aObj.ToString());
         }
 
-        public static void WriteAttributeEnum<T>(this XmlWriter a_writer, string a_name, Enum a_enum)
+        public static void WriteAttributeEnum<T>(this XmlWriter aWriter, string aName, Enum aEnum)
         {
-            a_writer.WriteAttributeString(a_name, a_enum.ToString().Replace(", ", " "));
+            aWriter.WriteAttributeString(aName, aEnum.ToString().Replace(", ", " "));
         }
 
         /// <summary>
         /// Helper for xml writing.
         /// </summary>
-        /// <param name="a_stream"></param>
-        /// <param name="a_write_func"></param>
-        public static void WriteXml(Stream a_stream, Action<XmlWriter> a_write_func)
+        /// <param name="aStream"></param>
+        /// <param name="aWriteFunc"></param>
+        public static void WriteXml(Stream aStream, Action<XmlWriter> aWriteFunc)
         {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
 
-            using (XmlWriter writer = new NoNamespacesXmlWriter(XmlWriter.Create(a_stream, settings)))
+            using (XmlWriter writer = new NoNamespacesXmlWriter(XmlWriter.Create(aStream, settings)))
             {
                 writer.WriteStartDocument();
-                a_write_func(writer);
+                aWriteFunc(writer);
                 writer.WriteEndDocument();
             }
         }
@@ -106,12 +106,12 @@ namespace Lenneth.Core.Extensions
         /// <summary>
         /// Helper for xml writing.
         /// </summary>
-        /// <param name="a_file_name"></param>
-        /// <param name="a_write_func"></param>
-        public static void WriteXml(string a_file_name, Action<XmlWriter> a_write_func)
+        /// <param name="aFileName"></param>
+        /// <param name="aWriteFunc"></param>
+        public static void WriteXml(string aFileName, Action<XmlWriter> aWriteFunc)
         {
-            using (var fs = new FileStream(a_file_name, FileMode.Create))
-                WriteXml(fs, a_write_func);
+            using (var fs = new FileStream(aFileName, FileMode.Create))
+                WriteXml(fs, aWriteFunc);
         }
     }
 }
