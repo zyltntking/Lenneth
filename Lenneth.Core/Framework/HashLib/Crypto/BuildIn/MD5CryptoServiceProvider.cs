@@ -1,20 +1,15 @@
-﻿#if !NETCORE
-
-using System;
-
-namespace Lenneth.Core.Framework.HashLib.Crypto.BuildIn
+﻿namespace Lenneth.Core.Framework.HashLib.Crypto.BuildIn
 {
-    internal class MD5CryptoServiceProvider : HashCryptoBuildIn, IHasHMACBuildIn
+    internal sealed class Md5CryptoServiceProvider : HashCryptoBuildIn, IHasHMACBuildIn
     {
-        public MD5CryptoServiceProvider() 
+        public Md5CryptoServiceProvider()
             : base(new System.Security.Cryptography.MD5CryptoServiceProvider(), 64)
         {
         }
 
-        public virtual System.Security.Cryptography.HMAC GetBuildHMAC()
+        public System.Security.Cryptography.HMAC GetBuildHMAC()
         {
             return new System.Security.Cryptography.HMACMD5();
         }
     }
 }
-#endif 

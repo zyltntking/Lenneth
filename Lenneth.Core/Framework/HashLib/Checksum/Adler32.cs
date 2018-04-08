@@ -1,14 +1,13 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Lenneth.Core.Framework.HashLib.Checksum
 {
     internal class Adler32 : Hash, IChecksum, IBlockHash, IHash32
     {
-        private const uint MOD_ADLER = 65521;
+        private const uint ModAdler = 65521;
 
-        private uint m_a;
-        private uint m_b;
+        private uint _mA;
+        private uint _mB;
 
         public Adler32()
             : base(4, 1)
@@ -17,28 +16,26 @@ namespace Lenneth.Core.Framework.HashLib.Checksum
 
         public override void Initialize()
         {
-             m_a = 1;
-             m_b = 0;
+            _mA = 1;
+            _mB = 0;
         }
 
-        public override void TransformBytes(byte[] a_data, int a_index, int a_length)
+        public override void TransformBytes(byte[] aData, int aIndex, int aLength)
         {
-            Debug.Assert(a_index >= 0);
-            Debug.Assert(a_length >= 0);
-            Debug.Assert(a_index + a_length <= a_data.Length);
+            Debug.Assert(aIndex >= 0);
+            Debug.Assert(aLength >= 0);
+            Debug.Assert(aIndex + aLength <= aData.Length);
 
-            for (int i = a_index; a_length > 0; i++, a_length--)
+            for (int i = aIndex; aLength > 0; i++, aLength--)
             {
-                m_a = (m_a + a_data[i]) % MOD_ADLER;
-                m_b = (m_b + m_a) % MOD_ADLER;
-
+                _mA = (_mA + aData[i]) % ModAdler;
+                _mB = (_mB + _mA) % ModAdler;
             }
         }
 
         public override HashResult TransformFinal()
         {
-            return new HashResult((m_b << 16) | m_a);
-
+            return new HashResult((_mB << 16) | _mA);
         }
     }
 }

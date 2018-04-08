@@ -1,21 +1,15 @@
-﻿#if !NETCORE
-
-using System;
-
-namespace Lenneth.Core.Framework.HashLib.Crypto.BuildIn
+﻿namespace Lenneth.Core.Framework.HashLib.Crypto.BuildIn
 {
-    internal class SHA512Managed : HashCryptoBuildIn, IHasHMACBuildIn
+    internal sealed class Sha512Managed : HashCryptoBuildIn, IHasHMACBuildIn
     {
-        public SHA512Managed()
+        public Sha512Managed()
             : base(new System.Security.Cryptography.SHA512Managed(), 128)
         {
         }
 
-        public virtual System.Security.Cryptography.HMAC GetBuildHMAC()
+        public System.Security.Cryptography.HMAC GetBuildHMAC()
         {
             return new System.Security.Cryptography.HMACSHA512();
         }
     }
 }
-
-#endif

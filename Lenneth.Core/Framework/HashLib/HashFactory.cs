@@ -6,7 +6,7 @@ namespace Lenneth.Core.Framework.HashLib
     {
         public static class Hash32
         {
-            public static IHash CreateAP()
+            public static IHash CreateAp()
             {
                 return new HashLib.Hash32.AP();
             }
@@ -21,17 +21,17 @@ namespace Lenneth.Core.Framework.HashLib
                 return new HashLib.Hash32.Bernstein1();
             }
             
-            public static IHash CreateBKDR()
+            public static IHash CreateBkdr()
             {
                 return new HashLib.Hash32.BKDR();
             }
             
-            public static IHash CreateDEK()
+            public static IHash CreateDek()
             {
                 return new HashLib.Hash32.DEK();
             }
             
-            public static IHash CreateDJB()
+            public static IHash CreateDjb()
             {
                 return new HashLib.Hash32.DJB();
             }
@@ -41,17 +41,17 @@ namespace Lenneth.Core.Framework.HashLib
                 return new HashLib.Hash32.DotNet();
             }
             
-            public static IHash CreateELF()
+            public static IHash CreateElf()
             {
                 return new HashLib.Hash32.ELF();
             }
             
-            public static IHash CreateFNV()
+            public static IHash CreateFnv()
             {
                 return new HashLib.Hash32.FNV();
             }
             
-            public static IHash CreateFNV1a()
+            public static IHash CreateFnv1A()
             {
                 return new HashLib.Hash32.FNV1a();
             }
@@ -61,7 +61,7 @@ namespace Lenneth.Core.Framework.HashLib
                 return new HashLib.Hash32.Jenkins3();
             }
             
-            public static IHash CreateJS()
+            public static IHash CreateJs()
             {
                 return new HashLib.Hash32.JS();
             }
@@ -81,7 +81,7 @@ namespace Lenneth.Core.Framework.HashLib
                 return new HashLib.Hash32.OneAtTime();
             }
             
-            public static IHash CreatePJW()
+            public static IHash CreatePjw()
             {
                 return new HashLib.Hash32.PJW();
             }
@@ -91,12 +91,12 @@ namespace Lenneth.Core.Framework.HashLib
                 return new HashLib.Hash32.Rotating();
             }
             
-            public static IHash CreateRS()
+            public static IHash CreateRs()
             {
                 return new HashLib.Hash32.RS();
             }
             
-            public static IHash CreateSDBM()
+            public static IHash CreateSdbm()
             {
                 return new HashLib.Hash32.SDBM();
             }
@@ -120,7 +120,7 @@ namespace Lenneth.Core.Framework.HashLib
             /// <returns></returns>
             public static IHash CreateCRC32_IEEE()
             {
-                return new HashLib.Checksum.CRC32_IEEE();
+                return new HashLib.Checksum.Crc32Ieee();
             }
 
             /// <summary>
@@ -129,7 +129,7 @@ namespace Lenneth.Core.Framework.HashLib
             /// <returns></returns>
             public static IHash CreateCRC32_CASTAGNOLI()
             {
-                return new HashLib.Checksum.CRC32_CASTAGNOLI();
+                return new HashLib.Checksum.Crc32Castagnoli();
             }
 
             /// <summary>
@@ -138,7 +138,7 @@ namespace Lenneth.Core.Framework.HashLib
             /// <returns></returns>
             public static IHash CreateCRC32_KOOPMAN()
             {
-                return new HashLib.Checksum.CRC32_KOOPMAN();
+                return new HashLib.Checksum.Crc32Koopman();
             }
 
             /// <summary>
@@ -147,12 +147,12 @@ namespace Lenneth.Core.Framework.HashLib
             /// <returns></returns>
             public static IHash CreateCRC32_Q()
             {
-                return new HashLib.Checksum.CRC32_Q();
+                return new HashLib.Checksum.Crc32Q();
             }
 
-            public static IHash CreateCRC32(uint a_polynomial, uint a_initial_value = uint.MaxValue, uint a_final_xor = uint.MaxValue)
+            public static IHash CreateCrc32(uint aPolynomial, uint aInitialValue = uint.MaxValue, uint aFinalXor = uint.MaxValue)
             {
-                return new HashLib.Checksum.CRC32(a_polynomial, a_initial_value, a_final_xor);
+                return new HashLib.Checksum.Crc32(aPolynomial, aInitialValue, aFinalXor);
             }
 
             public static IHash CreateAdler32()
@@ -166,7 +166,7 @@ namespace Lenneth.Core.Framework.HashLib
             /// <returns></returns>
             public static IHash CreateCRC64_ISO()
             {
-                return new HashLib.Checksum.CRC64_ISO();
+                return new HashLib.Checksum.Crc64Iso();
             }
 
             /// <summary>
@@ -175,23 +175,23 @@ namespace Lenneth.Core.Framework.HashLib
             /// <returns></returns>
             public static IHash CreateCRC64_ECMA()
             {
-                return new HashLib.Checksum.CRC64_ECMA();
+                return new HashLib.Checksum.Crc64Ecma();
             }
 
-            public static IHash CreateCRC64(ulong a_polynomial, ulong a_initial_value = ulong.MaxValue, ulong a_final_xor = ulong.MaxValue)
+            public static IHash CreateCrc64(ulong aPolynomial, ulong aInitialValue = ulong.MaxValue, ulong aFinalXor = ulong.MaxValue)
             {
-                return new HashLib.Checksum.CRC64(a_polynomial, a_initial_value, a_final_xor);
+                return new HashLib.Checksum.Crc64(aPolynomial, aInitialValue, aFinalXor);
             }
         }
 
         public static class Hash64
         {
-            public static IHash CreateFNV1a()
+            public static IHash CreateFnv1A()
             {
                 return new HashLib.Hash64.FNV1a64();
             }
 
-            public static IHash CreateFNV()
+            public static IHash CreateFnv()
             {
                 return new HashLib.Hash64.FNV64();
             }
@@ -217,24 +217,24 @@ namespace Lenneth.Core.Framework.HashLib
 
         public static class Crypto
         {
-            public static class SHA3
+            public static class Sha3
             {
-                public static IHash CreateJH224()
+                public static IHash CreateJh224()
                 {
                     return new HashLib.Crypto.SHA3.JH224();
                 }
 
-                public static IHash CreateJH256()
+                public static IHash CreateJh256()
                 {
                     return new HashLib.Crypto.SHA3.JH256();
                 }
 
-                public static IHash CreateJH384()
+                public static IHash CreateJh384()
                 {
                     return new HashLib.Crypto.SHA3.JH384();
                 }
 
-                public static IHash CreateJH512()
+                public static IHash CreateJh512()
                 {
                     return new HashLib.Crypto.SHA3.JH512();
                 }
@@ -242,16 +242,16 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateJH(HashLib.HashSize a_hash_size)
+                public static IHash CreateJh(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
-                        case HashLib.HashSize.HashSize224: return CreateJH224();
-                        case HashLib.HashSize.HashSize256: return CreateJH256();
-                        case HashLib.HashSize.HashSize384: return CreateJH384();
-                        case HashLib.HashSize.HashSize512: return CreateJH512();
+                        case HashLib.HashSize.HashSize224: return CreateJh224();
+                        case HashLib.HashSize.HashSize256: return CreateJh256();
+                        case HashLib.HashSize.HashSize384: return CreateJh384();
+                        case HashLib.HashSize.HashSize512: return CreateJh512();
                         default: throw new ArgumentException();
                     }
                 }
@@ -279,11 +279,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateBlake(HashLib.HashSize a_hash_size)
+                public static IHash CreateBlake(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateBlake224();
                         case HashLib.HashSize.HashSize256: return CreateBlake256();
@@ -317,11 +317,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateBlueMidnightWish(HashLib.HashSize a_hash_size)
+                public static IHash CreateBlueMidnightWish(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateBlueMidnightWish224();
                         case HashLib.HashSize.HashSize256: return CreateBlueMidnightWish256();
@@ -354,11 +354,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateCubeHash(HashLib.HashSize a_hash_size)
+                public static IHash CreateCubeHash(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateCubeHash224();
                         case HashLib.HashSize.HashSize256: return CreateCubeHash256();
@@ -391,11 +391,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateEcho(HashLib.HashSize a_hash_size)
+                public static IHash CreateEcho(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateEcho224();
                         case HashLib.HashSize.HashSize256: return CreateEcho256();
@@ -428,11 +428,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateFugue(HashLib.HashSize a_hash_size)
+                public static IHash CreateFugue(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateFugue224();
                         case HashLib.HashSize.HashSize256: return CreateFugue256();
@@ -465,11 +465,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateGroestl(HashLib.HashSize a_hash_size)
+                public static IHash CreateGroestl(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateGroestl224();
                         case HashLib.HashSize.HashSize256: return CreateGroestl256();
@@ -502,11 +502,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateHamsi(HashLib.HashSize a_hash_size)
+                public static IHash CreateHamsi(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateHamsi224();
                         case HashLib.HashSize.HashSize256: return CreateHamsi256();
@@ -539,11 +539,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateKeccak(HashLib.HashSize a_hash_size)
+                public static IHash CreateKeccak(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateKeccak224();
                         case HashLib.HashSize.HashSize256: return CreateKeccak256();
@@ -576,11 +576,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateLuffa(HashLib.HashSize a_hash_size)
+                public static IHash CreateLuffa(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateLuffa224();
                         case HashLib.HashSize.HashSize256: return CreateLuffa256();
@@ -613,11 +613,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateShabal(HashLib.HashSize a_hash_size)
+                public static IHash CreateShabal(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateShabal224();
                         case HashLib.HashSize.HashSize256: return CreateShabal256();
@@ -655,11 +655,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateSHAvite3(HashLib.HashSize a_hash_size)
+                public static IHash CreateShAvite3(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateSHAvite3_224();
                         case HashLib.HashSize.HashSize256: return CreateSHAvite3_256();
@@ -669,22 +669,22 @@ namespace Lenneth.Core.Framework.HashLib
                     }
                 }
 
-                public static IHash CreateSIMD224()
+                public static IHash CreateSimd224()
                 {
                     return new HashLib.Crypto.SHA3.SIMD224();
                 }
 
-                public static IHash CreateSIMD256()
+                public static IHash CreateSimd256()
                 {
                     return new HashLib.Crypto.SHA3.SIMD256();
                 }
 
-                public static IHash CreateSIMD384()
+                public static IHash CreateSimd384()
                 {
                     return new HashLib.Crypto.SHA3.SIMD384();
                 }
 
-                public static IHash CreateSIMD512()
+                public static IHash CreateSimd512()
                 {
                     return new HashLib.Crypto.SHA3.SIMD512();
                 }
@@ -692,16 +692,16 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateSIMD(HashLib.HashSize a_hash_size)
+                public static IHash CreateSimd(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
-                        case HashLib.HashSize.HashSize224: return CreateSIMD224();
-                        case HashLib.HashSize.HashSize256: return CreateSIMD256();
-                        case HashLib.HashSize.HashSize384: return CreateSIMD384();
-                        case HashLib.HashSize.HashSize512: return CreateSIMD512();
+                        case HashLib.HashSize.HashSize224: return CreateSimd224();
+                        case HashLib.HashSize.HashSize256: return CreateSimd256();
+                        case HashLib.HashSize.HashSize384: return CreateSimd384();
+                        case HashLib.HashSize.HashSize512: return CreateSimd512();
                         default: throw new ArgumentException();
                     }
                 }
@@ -733,11 +733,11 @@ namespace Lenneth.Core.Framework.HashLib
                 /// <summary>
                 /// 
                 /// </summary>
-                /// <param name="a_hash_size">224, 256, 384, 512</param>
+                /// <param name="aHashSize">224, 256, 384, 512</param>
                 /// <returns></returns>
-                public static IHash CreateSkein(HashLib.HashSize a_hash_size)
+                public static IHash CreateSkein(HashLib.HashSize aHashSize)
                 {
-                    switch (a_hash_size)
+                    switch (aHashSize)
                     {
                         case HashLib.HashSize.HashSize224: return CreateSkein224();
                         case HashLib.HashSize.HashSize256: return CreateSkein256();
@@ -751,74 +751,74 @@ namespace Lenneth.Core.Framework.HashLib
             public static class BuildIn
             {
 #if !NETCORE
-                public static IHash CreateMD5CryptoServiceProvider()
+                public static IHash CreateMd5CryptoServiceProvider()
                 {
-                    return new HashLib.Crypto.BuildIn.MD5CryptoServiceProvider();
+                    return new HashLib.Crypto.BuildIn.Md5CryptoServiceProvider();
                 }
 
-                public static IHash CreateRIPEMD160Managed()
+                public static IHash CreateRipemd160Managed()
                 {
-                    return new HashLib.Crypto.BuildIn.RIPEMD160Managed();
+                    return new HashLib.Crypto.BuildIn.Ripemd160Managed();
                 }
 
-                public static IHash CreateSHA1Cng()
+                public static IHash CreateSha1Cng()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA1Cng();
+                    return new HashLib.Crypto.BuildIn.Sha1Cng();
                 }
 
-                public static IHash CreateSHA1CryptoServiceProvider()
+                public static IHash CreateSha1CryptoServiceProvider()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA1CryptoServiceProvider();
+                    return new HashLib.Crypto.BuildIn.Sha1CryptoServiceProvider();
                 }
 
-                public static IHash CreateSHA1Managed()
+                public static IHash CreateSha1Managed()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA1Managed();
+                    return new HashLib.Crypto.BuildIn.Sha1Managed();
                 }
 
-                public static IHash CreateSHA256Cng()
+                public static IHash CreateSha256Cng()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA256Cng();
+                    return new HashLib.Crypto.BuildIn.Sha256Cng();
                 }
 
-                public static IHash CreateSHA256CryptoServiceProvider()
+                public static IHash CreateSha256CryptoServiceProvider()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA256CryptoServiceProvider();
+                    return new HashLib.Crypto.BuildIn.Sha256CryptoServiceProvider();
                 }	
 
-                public static IHash CreateSHA256Managed()
+                public static IHash CreateSha256Managed()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA256Managed();
+                    return new HashLib.Crypto.BuildIn.Sha256Managed();
                 }
 
-                public static IHash CreateSHA384Cng()
+                public static IHash CreateSha384Cng()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA384Cng();
+                    return new HashLib.Crypto.BuildIn.Sha384Cng();
                 }
 
-                public static IHash CreateSHA384CryptoServiceProvider()
+                public static IHash CreateSha384CryptoServiceProvider()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA384CryptoServiceProvider();
+                    return new HashLib.Crypto.BuildIn.Sha384CryptoServiceProvider();
                 }
 
-                public static IHash CreateSHA384Managed()
+                public static IHash CreateSha384Managed()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA384Managed();
+                    return new HashLib.Crypto.BuildIn.Sha384Managed();
                 }
 
-                public static IHash CreateSHA512Cng()
+                public static IHash CreateSha512Cng()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA512Cng();
+                    return new HashLib.Crypto.BuildIn.Sha512Cng();
                 }
 
-                public static IHash CreateSHA512CryptoServiceProvider()
+                public static IHash CreateSha512CryptoServiceProvider()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA512CryptoServiceProvider();
+                    return new HashLib.Crypto.BuildIn.Sha512CryptoServiceProvider();
                 }
 
-                public static IHash CreateSHA512Managed()
+                public static IHash CreateSha512Managed()
                 {
-                    return new HashLib.Crypto.BuildIn.SHA512Managed();
+                    return new HashLib.Crypto.BuildIn.Sha512Managed();
                 }
 #endif
             }
@@ -838,7 +838,7 @@ namespace Lenneth.Core.Framework.HashLib
                 return new HashLib.Crypto.Grindahl512();
             }
 
-            public static IHash CreateHAS160()
+            public static IHash CreateHas160()
             {
                 return new HashLib.Crypto.HAS160();
             }
@@ -921,16 +921,16 @@ namespace Lenneth.Core.Framework.HashLib
             /// <summary>
             /// 
             /// </summary>
-            /// <param name="a_rounds">3, 4, 5</param>
-            /// <param name="a_hash_size">128, 160, 192, 224, 256</param>
+            /// <param name="aRounds">3, 4, 5</param>
+            /// <param name="aHashSize">128, 160, 192, 224, 256</param>
             /// <returns></returns>
-            public static IHash CreateHaval(HashRounds a_rounds, HashLib.HashSize a_hash_size)
+            public static IHash CreateHaval(HashRounds aRounds, HashLib.HashSize aHashSize)
             {
-                switch (a_rounds)
+                switch (aRounds)
                 {
                     case HashRounds.Rounds3:
 
-                        switch (a_hash_size)
+                        switch (aHashSize)
                         {
                             case HashLib.HashSize.HashSize128: return CreateHaval_3_128();
                             case HashLib.HashSize.HashSize160: return CreateHaval_3_160();
@@ -942,7 +942,7 @@ namespace Lenneth.Core.Framework.HashLib
 
                     case HashRounds.Rounds4:
 
-                        switch (a_hash_size)
+                        switch (aHashSize)
                         {
                             case HashLib.HashSize.HashSize128: return CreateHaval_4_128();
                             case HashLib.HashSize.HashSize160: return CreateHaval_4_160();
@@ -954,7 +954,7 @@ namespace Lenneth.Core.Framework.HashLib
 
                     case HashRounds.Rounds5:
 
-                        switch (a_hash_size)
+                        switch (aHashSize)
                         {
                             case HashLib.HashSize.HashSize128: return CreateHaval_5_128();
                             case HashLib.HashSize.HashSize160: return CreateHaval_5_160();
@@ -968,17 +968,17 @@ namespace Lenneth.Core.Framework.HashLib
                 }
             }
 
-            public static IHash CreateMD2()
+            public static IHash CreateMd2()
             {
                 return new HashLib.Crypto.MD2();
             }
 
-            public static IHash CreateMD4()
+            public static IHash CreateMd4()
             {
                 return new HashLib.Crypto.MD4();
             }
 
-            public static IHash CreateMD5()
+            public static IHash CreateMd5()
             {
                 return new HashLib.Crypto.MD5();
             }
@@ -998,57 +998,57 @@ namespace Lenneth.Core.Framework.HashLib
                 return new HashLib.Crypto.RadioGatun64();
             }
 
-            public static IHash CreateRIPEMD()
+            public static IHash CreateRipemd()
             {
                 return new HashLib.Crypto.RIPEMD();
             }
 
-            public static IHash CreateRIPEMD128()
+            public static IHash CreateRipemd128()
             {
                 return new HashLib.Crypto.RIPEMD128();
             }
 
-            public static IHash CreateRIPEMD160()
+            public static IHash CreateRipemd160()
             {
                 return new HashLib.Crypto.RIPEMD160();
             }
 
-            public static IHash CreateRIPEMD256()
+            public static IHash CreateRipemd256()
             {
                 return new HashLib.Crypto.RIPEMD256();
             }
 
-            public static IHash CreateRIPEMD320()
+            public static IHash CreateRipemd320()
             {
                 return new HashLib.Crypto.RIPEMD320();
             }
 
-            public static IHash CreateSHA0()
+            public static IHash CreateSha0()
             {
                 return new HashLib.Crypto.SHA0();
             }
 
-            public static IHash CreateSHA1()
+            public static IHash CreateSha1()
             {
                 return new HashLib.Crypto.SHA1();
             }
 
-            public static IHash CreateSHA224()
+            public static IHash CreateSha224()
             {
                 return new HashLib.Crypto.SHA224();
             }
 
-            public static IHash CreateSHA256()
+            public static IHash CreateSha256()
             {
                 return new HashLib.Crypto.SHA256();
             }
 
-            public static IHash CreateSHA384()
+            public static IHash CreateSha384()
             {
                 return new HashLib.Crypto.SHA384();
             }
 
-            public static IHash CreateSHA512()
+            public static IHash CreateSha512()
             {
                 return new HashLib.Crypto.SHA512();
             }
@@ -1076,16 +1076,16 @@ namespace Lenneth.Core.Framework.HashLib
             /// <summary>
             /// 
             /// </summary>
-            /// <param name="a_rounds">4, 8</param>
-            /// <param name="a_hash_size">128, 256</param>
+            /// <param name="aRounds">4, 8</param>
+            /// <param name="aHashSize">128, 256</param>
             /// <returns></returns>
-            public static IHash CreateSnefru(HashRounds a_rounds, HashLib.HashSize a_hash_size)
+            public static IHash CreateSnefru(HashRounds aRounds, HashLib.HashSize aHashSize)
             {
-                switch (a_rounds)
+                switch (aRounds)
                 {
                     case HashRounds.Rounds4:
 
-                        switch (a_hash_size)
+                        switch (aHashSize)
                         {
                             case HashLib.HashSize.HashSize128: return CreateSnefru_4_128();
                             case HashLib.HashSize.HashSize256: return CreateSnefru_4_256();
@@ -1094,7 +1094,7 @@ namespace Lenneth.Core.Framework.HashLib
 
                     case HashRounds.Rounds8:
 
-                        switch (a_hash_size)
+                        switch (aHashSize)
                         {
                             case HashLib.HashSize.HashSize128: return CreateSnefru_8_128();
                             case HashLib.HashSize.HashSize256: return CreateSnefru_8_256();
@@ -1118,11 +1118,11 @@ namespace Lenneth.Core.Framework.HashLib
             /// <summary>
             /// 
             /// </summary>
-            /// <param name="a_rounds">3, 4</param>
+            /// <param name="aRounds">3, 4</param>
             /// <returns></returns>
-            public static IHash CreateTiger(HashRounds a_rounds)
+            public static IHash CreateTiger(HashRounds aRounds)
             {
-                switch (a_rounds)
+                switch (aRounds)
                 {
                     case HashRounds.Rounds3: return CreateTiger_3_192();
                     case HashRounds.Rounds4: return CreateTiger_4_192();
@@ -1141,24 +1141,24 @@ namespace Lenneth.Core.Framework.HashLib
             }
         }
 
-        public static class HMAC
+        public static class Hmac
         {
-            public static IHMAC CreateHMAC(IHash a_hash)
+            public static IHMAC CreateHmac(IHash aHash)
             {
-                if (a_hash is IHMAC)
+                if (aHash is IHMAC)
                 {
-                    return (IHMAC)a_hash;
+                    return (IHMAC)aHash;
                 }
 #if !USEBC
-				else if (a_hash is IHasHMACBuildIn)
+				else if (aHash is IHasHMACBuildIn)
                 {
-					IHasHMACBuildIn h = (IHasHMACBuildIn)a_hash;
+					IHasHMACBuildIn h = (IHasHMACBuildIn)aHash;
                     return new HMACBuildInAdapter(h.GetBuildHMAC(), h.BlockSize);
 				}
 #endif
 				else
 				{
-                    return new HMACNotBuildInAdapter(a_hash);
+                    return new HMACNotBuildInAdapter(aHash);
                 }
             }
         }
@@ -1167,15 +1167,15 @@ namespace Lenneth.Core.Framework.HashLib
 
         public static class Wrappers
         {
-            public static System.Security.Cryptography.HashAlgorithm HashToHashAlgorithm(IHash a_hash)
+            public static System.Security.Cryptography.HashAlgorithm HashToHashAlgorithm(IHash aHash)
             {
-                return new HashAlgorithmWrapper(a_hash);
+                return new HashAlgorithmWrapper(aHash);
             }
 
-            public static IHash HashAlgorithmToHash(System.Security.Cryptography.HashAlgorithm a_hash, 
-                int a_block_size = -1)
+            public static IHash HashAlgorithmToHash(System.Security.Cryptography.HashAlgorithm aHash, 
+                int aBlockSize = -1)
             {
-                return new HashCryptoBuildIn(a_hash, a_block_size);
+                return new HashCryptoBuildIn(aHash, aBlockSize);
             }
         }
 #endif

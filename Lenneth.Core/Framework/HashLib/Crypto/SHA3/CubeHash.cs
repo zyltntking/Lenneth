@@ -36,9 +36,9 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
 
     internal abstract class CubeHash : BlockHash, ICryptoNotBuildIn
     {
-        private const int ROUNDS = 16;
-        private readonly uint[] m_state = new uint[32];
-        private static uint[][] m_inits;
+        private const int Rounds = 16;
+        private readonly uint[] _mState = new uint[32];
+        private static uint[][] _mInits;
 
         static CubeHash()
         {
@@ -48,31 +48,31 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
 
             foreach (int hashsize in hashes)
             {
-                CubeHash ch = (CubeHash)HashFactory.Crypto.SHA3.CreateCubeHash(HashLib.HashSize.HashSize256);
+                CubeHash ch = (CubeHash)HashFactory.Crypto.Sha3.CreateCubeHash(HashLib.HashSize.HashSize256);
 
-                ch.m_state[0] = (uint)hashsize;
-                ch.m_state[1] = 32;
-                ch.m_state[2] = 16;
+                ch._mState[0] = (uint)hashsize;
+                ch._mState[1] = 32;
+                ch._mState[2] = 16;
 
                 for (int i = 0; i < 10; i++)
                     ch.TransformBlock(zeroes, 0);
 
                 inits[hashsize] = new uint[32];
-                Array.Copy(ch.m_state, inits[hashsize], 32);
+                Array.Copy(ch._mState, inits[hashsize], 32);
             }
 
-            m_inits = inits;
+            _mInits = inits;
         }
 
-        public CubeHash(HashLib.HashSize a_hash_size)
-            : base((int)a_hash_size, 32)
+        public CubeHash(HashSize aHashSize)
+            : base((int)aHashSize, 32)
         {
             Initialize();
         }
 
         protected override byte[] GetResult()
         {
-            return Converters.ConvertUIntsToBytes(m_state, 0, HashSize / 4);
+            return Converters.ConvertUIntsToBytes(_mState, 0, HashSize / 4);
         }
 
         protected override void Finish()
@@ -82,33 +82,33 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
 
             TransformBytes(pad, 0, BlockSize - m_buffer.Pos);
 
-            m_state[31] ^= 1;
+            _mState[31] ^= 1;
 
             for (int i = 0; i < 10; i++)
                 TransformBlock(pad, 1);
         }
 
-        public override void Initialize()
+        public sealed override void Initialize()
         {
-            if (m_inits != null)
-                Array.Copy(m_inits[HashSize], m_state, 32);
+            if (_mInits != null)
+                Array.Copy(_mInits[HashSize], _mState, 32);
 
             base.Initialize();
         }
 
-        protected override void TransformBlock(byte[] a_data, int a_index)
+        protected override void TransformBlock(byte[] aData, int aIndex)
         {
             uint[] temp = new uint[16];
 
             uint[] state = new uint[32];
-            Array.Copy(m_state, state, 32);
+            Array.Copy(_mState, state, 32);
 
-            uint[] data = Converters.ConvertBytesToUInts(a_data, a_index, BlockSize);
+            uint[] data = Converters.ConvertBytesToUInts(aData, aIndex, BlockSize);
 
             for (int i = 0; i < data.Length; i++)
                 state[i] ^= data[i];
 
-            for (int r = 0; r < ROUNDS; ++r)
+            for (int r = 0; r < Rounds; ++r)
             {
                 state[16] += state[0];
                 state[17] += state[1];
@@ -287,7 +287,7 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
                 state[31] = temp[15];
             }
 
-            Array.Copy(state, m_state, 32);
+            Array.Copy(state, _mState, 32);
         }
     }
 }

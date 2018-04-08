@@ -1,15 +1,10 @@
-﻿#if !NETCORE
-
-using System;
-
-namespace Lenneth.Core.Framework.HashLib.Crypto.BuildIn
+﻿namespace Lenneth.Core.Framework.HashLib.Crypto.BuildIn
 {
-    internal class SHA256CryptoServiceProvider : HashCryptoBuildIn
+    internal class Sha256CryptoServiceProvider : HashCryptoBuildIn
     {
-        public SHA256CryptoServiceProvider() 
+        public Sha256CryptoServiceProvider() 
             : base(new System.Security.Cryptography.SHA256CryptoServiceProvider(), 64)
         {
         }
     }
 }
-#endif

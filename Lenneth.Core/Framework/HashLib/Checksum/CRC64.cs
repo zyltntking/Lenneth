@@ -1,48 +1,47 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Lenneth.Core.Framework.HashLib.Checksum
 {
-    public static class CRC64Polynomials
+    public static class Crc64Polynomials
     {
-        public static ulong ISO = 0xD800000000000000;
-        public static ulong ECMA_182 = 0xC96C5795D7870F42;
+        public const ulong Iso = 0xD800000000000000;
+        public const ulong Ecma182 = 0xC96C5795D7870F42;
     }
 
-    internal class CRC64_ISO : CRC64
+    internal class Crc64Iso : Crc64
     {
-        public CRC64_ISO()
-            : base(CRC64Polynomials.ISO)
+        public Crc64Iso()
+            : base(Crc64Polynomials.Iso)
         {
         }
     }
 
-    internal class CRC64_ECMA : CRC64
+    internal class Crc64Ecma : Crc64
     {
-        public CRC64_ECMA()
-            : base(CRC64Polynomials.ECMA_182)
+        public Crc64Ecma()
+            : base(Crc64Polynomials.Ecma182)
         {
         }
     }
 
-    internal class CRC64 : Hash, IChecksum, IBlockHash, IHash64
+    internal class Crc64 : Hash, IChecksum, IBlockHash, IHash64
     {
-        private ulong[] m_crc_tab = new ulong[256];
+        private readonly ulong[] _mCrcTab = new ulong[256];
 
-        private ulong m_hash;
-        private ulong m_initial_value;
-        private ulong m_final_xor;
+        private ulong _mHash;
+        private readonly ulong _mInitialValue;
+        private readonly ulong _mFinalXor;
 
-        public CRC64(ulong a_polynomial, ulong a_initial_value = ulong.MaxValue, ulong a_final_xor = ulong.MaxValue)
+        public Crc64(ulong aPolynomial, ulong aInitialValue = ulong.MaxValue, ulong aFinalXor = ulong.MaxValue)
             : base(8, 1)
         {
-            m_initial_value = a_initial_value;
-            m_final_xor = a_final_xor;
+            _mInitialValue = aInitialValue;
+            _mFinalXor = aFinalXor;
 
-            GenerateCRCTable(a_polynomial);
+            GenerateCrcTable(aPolynomial);
         }
 
-        private void GenerateCRCTable(ulong a_poly64)
+        private void GenerateCrcTable(ulong aPoly64)
         {
             for (uint i = 0; i < 256; ++i)
             {
@@ -51,33 +50,33 @@ namespace Lenneth.Core.Framework.HashLib.Checksum
                 for (uint j = 0; j < 8; ++j)
                 {
                     if ((crc & 1) == 1)
-                        crc = (crc >> 1) ^ a_poly64;
+                        crc = (crc >> 1) ^ aPoly64;
                     else
                         crc >>= 1;
                 }
 
-                m_crc_tab[i] = crc;
+                _mCrcTab[i] = crc;
             }
         }
 
         public override void Initialize()
         {
-            m_hash = m_initial_value;
+            _mHash = _mInitialValue;
         }
 
-        public override void TransformBytes(byte[] a_data, int a_index, int a_length)
+        public override void TransformBytes(byte[] aData, int aIndex, int aLength)
         {
-            Debug.Assert(a_index >= 0);
-            Debug.Assert(a_length >= 0);
-            Debug.Assert(a_index + a_length <= a_data.Length);
+            Debug.Assert(aIndex >= 0);
+            Debug.Assert(aLength >= 0);
+            Debug.Assert(aIndex + aLength <= aData.Length);
 
-            for (int i = a_index; a_length > 0; i++, a_length--)
-                m_hash = (m_hash >> 8) ^ m_crc_tab[(byte)m_hash ^ a_data[i]];
+            for (int i = aIndex; aLength > 0; i++, aLength--)
+                _mHash = (_mHash >> 8) ^ _mCrcTab[(byte)_mHash ^ aData[i]];
         }
 
         public override HashResult TransformFinal()
         {
-            return new HashResult(m_hash ^ m_final_xor);
+            return new HashResult(_mHash ^ _mFinalXor);
         }
     }
 }

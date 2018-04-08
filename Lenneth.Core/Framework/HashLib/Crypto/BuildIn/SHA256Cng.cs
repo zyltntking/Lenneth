@@ -1,15 +1,10 @@
-﻿#if !NETCORE
-
-using System;
-
-namespace Lenneth.Core.Framework.HashLib.Crypto.BuildIn
+﻿namespace Lenneth.Core.Framework.HashLib.Crypto.BuildIn
 {
-    internal class SHA256Cng : HashCryptoBuildIn
+    internal class Sha256Cng : HashCryptoBuildIn
     {
-        public SHA256Cng() 
+        public Sha256Cng() 
             : base(new System.Security.Cryptography.SHA256Cng(), 64)
         {
         }
     }
 }
-#endif
