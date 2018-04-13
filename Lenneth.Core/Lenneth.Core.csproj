@@ -162,6 +162,14 @@
     <Compile Include="Framework\FastDFS\Config\FastDFSConfig.cs" />
     <Compile Include="Framework\FastDFS\Config\FastDFSServer.cs" />
     <Compile Include="Framework\FastDFS\FastDfsClient.cs" />
+    <Compile Include="Framework\FastDFS\FastDfsOpinions.cs" />
+    <Compile Include="Framework\FastDFS\FastDfsWapper.cs" />
+    <Compile Include="Framework\FastDFS\IFastDfscs.cs" />
+    <Compile Include="Framework\FastDFS\IpAddressException.cs" />
+    <Compile Include="Framework\FastDFS\Utility\Aes.cs" />
+    <Compile Include="Framework\FastDFS\Utility\EndPointCollection.cs" />
+    <Compile Include="Framework\FastDFS\Utility\Formate.cs" />
+    <Compile Include="Framework\FastDFS\Utility\IAes.cs" />
     <Compile Include="Framework\FastDFS\Storage\AppendFile.cs" />
     <Compile Include="Framework\FastDFS\Storage\DeleteFile.cs" />
     <Compile Include="Framework\FastDFS\Storage\DownloadFile.cs" />

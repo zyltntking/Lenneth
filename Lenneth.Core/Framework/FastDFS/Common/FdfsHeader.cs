@@ -6,7 +6,7 @@ namespace Lenneth.Core.Framework.FastDFS.Common
     public class FdfsHeader
     {
         /// <summary>
-        ///     Constructor
+        /// Constructor
         /// </summary>
         /// <param name="length"></param>
         /// <param name="command"></param>
