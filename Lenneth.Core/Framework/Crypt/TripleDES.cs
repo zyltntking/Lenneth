@@ -12,42 +12,48 @@ namespace Lenneth.Core.Framework.Crypt
     internal sealed class TripleDes : Crypt
     {
         /// <summary>
+        /// 密钥
+        /// </summary>
+        private readonly string _key;
+
+        /// <summary>
         /// 加密密钥
         /// </summary>
-        private string Key { get; set; } = "!@Lenneth#Silmeria$Ari%!";
+        private byte[] Key
+        {
+            get
+            {
+                using (var md5 = new MD5CryptoServiceProvider())
+                {
+                    var data = md5.ComputeHash(Encoding.UTF8.GetBytes(_key));
+                    var builder = new StringBuilder();
+                    for (var index = 0; index < data.Length; index++)
+                    {
+                        if (index % 4 != 0)
+                        {
+                            builder.Append(data[index].ToString("x2"));
+                        }
+                    }
+
+                    return Encoding.ASCII.GetBytes(builder.ToString());
+                }
+            }
+        }
 
         /// <summary>
         /// 加密向量
         /// </summary>
         /// Valkyrie
+        /// GenerateIV()
         private byte[] Iv { get; set; } = { 0x56, 0x61, 0x6C, 0x6B, 0x79, 0x72, 0x69, 0x65 };
-
-        /// <summary>
-        /// 初始化加密对象
-        /// </summary>
-        /// <param name="key">密钥</param>
-        /// <param name="iv">位移向量</param>
-        public void InitCrypt(string key, byte[] iv)
-        {
-            Key = key;
-            Iv = iv;
-        }
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="key">加密密钥</param>
-        /// <param name="iv">加密向量</param>
-        public TripleDes(string key = null, string iv = null)
+        public TripleDes(string key = null)
         {
-            if (key != null && key.Length >= 16 && key.Length <= 24)
-            {
-                Key = key;
-            }
-            if (iv != null && iv.Length == 8)
-            {
-                Iv = Encoding.UTF8.GetBytes(iv);
-            }
+            _key = string.IsNullOrWhiteSpace(key) ? "Lenneth" : key;
         }
 
         /// <inheritdoc />
@@ -64,7 +70,7 @@ namespace Lenneth.Core.Framework.Crypt
                 using (var dcsp = new TripleDESCryptoServiceProvider())
                 {
                     dcsp.Padding = PaddingMode.PKCS7;
-                    var encryptor = dcsp.CreateEncryptor(Encoding.UTF8.GetBytes(Key), Iv);
+                    var encryptor = dcsp.CreateEncryptor(Key, Iv);
                     var msEncrypt = new MemoryStream();
                     var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
                     using (var swEncrypt = new StreamWriter(csEncrypt))
@@ -97,7 +103,7 @@ namespace Lenneth.Core.Framework.Crypt
                 using (var dcsp = new TripleDESCryptoServiceProvider())
                 {
                     dcsp.Padding = PaddingMode.PKCS7;
-                    var decryptor = dcsp.CreateDecryptor(Encoding.UTF8.GetBytes(Key), Iv);
+                    var decryptor = dcsp.CreateDecryptor(Key, Iv);
                     var msDecrypt = new MemoryStream(decryptByteArray);
                     var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
                     using (var srDecrypt = new StreamReader(csDecrypt))

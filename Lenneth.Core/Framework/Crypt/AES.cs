@@ -12,42 +12,43 @@ namespace Lenneth.Core.Framework.Crypt
     internal sealed class Aes : Crypt
     {
         /// <summary>
+        /// 密钥
+        /// </summary>
+        private readonly string _key;
+
+        /// <summary>
         /// 加密密钥
         /// </summary>
-        private string Key { get; set; } = "@LennethValkyrie";
+        private byte[] Key {
+            get
+            {
+                using (var md5 = new MD5CryptoServiceProvider())
+                {
+                    var data = md5.ComputeHash(Encoding.UTF8.GetBytes(_key));
+                    var builder = new StringBuilder();
+                    foreach (var b in data)
+                    {
+                        builder.Append(b.ToString("x2"));
+                    }
+                    return Encoding.ASCII.GetBytes(builder.ToString());
+                }
+            }
+        }
 
         /// <summary>
         /// 加密向量
         /// </summary>
         /// @ValkyrieProfile
-        private byte[] Iv { get; set; } = { 0x40, 0x56, 0x61, 0x6C, 0x6B, 0x79, 0x72, 0x69, 0x65, 0x50, 0x72, 0x6F, 0x66, 0x69, 0x6C, 0x65 };
-
-        /// <summary>
-        /// 初始化加密对象
-        /// </summary>
-        /// <param name="key">密钥</param>
-        /// <param name="iv">位移向量</param>
-        public void InitCrypt(string key, byte[] iv)
-        {
-            Key = key;
-            Iv = iv;
-        }
+        /// GenerateIV
+        private byte[] Iv { get; } = { 0x40, 0x56, 0x61, 0x6C, 0x6B, 0x79, 0x72, 0x69, 0x65, 0x50, 0x72, 0x6F, 0x66, 0x69, 0x6C, 0x65 };
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="key">加密密钥</param>
-        /// <param name="iv">加密向量</param>
-        public Aes(string key = null, string iv = null)
+        public Aes(string key = null)
         {
-            if (key != null && key.Length >= 16 && key.Length <= 32)
-            {
-                Key = key;
-            }
-            if (iv != null && iv.Length == 16)
-            {
-                Iv = Encoding.UTF8.GetBytes(iv);
-            }
+            _key = string.IsNullOrWhiteSpace(key) ? "Lenneth" : key;
         }
 
         /// <inheritdoc />
@@ -63,7 +64,7 @@ namespace Lenneth.Core.Framework.Crypt
             {
                 using (var aesAlg = new AesCryptoServiceProvider())
                 {
-                    var encryptor = aesAlg.CreateEncryptor(Encoding.UTF8.GetBytes(Key), Iv);
+                    var encryptor = aesAlg.CreateEncryptor(Key, Iv);
                     var msEncrypt = new MemoryStream();
                     var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
                     using (var swEncrypt = new StreamWriter(csEncrypt))
@@ -95,7 +96,7 @@ namespace Lenneth.Core.Framework.Crypt
             {
                 using (var aesAlg = new AesCryptoServiceProvider())
                 {
-                    var decryptor = aesAlg.CreateDecryptor(Encoding.UTF8.GetBytes(Key), Iv);
+                    var decryptor = aesAlg.CreateDecryptor(Key, Iv);
                     var msDecrypt = new MemoryStream(decryptByteArray);
                     var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
                     using (var srDecrypt = new StreamReader(csDecrypt))
