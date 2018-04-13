@@ -1,13 +1,13 @@
-﻿using Lenneth.Core.Framework.FastDFS.Utility;
-
-namespace Lenneth.Core.Framework.FastDFS
+﻿namespace Lenneth.Core.Framework.FastDFS
 {
+    using Utility;
+
     public sealed class FastDfsOpinions
     {
         /// <summary>
         /// The endpoints defined for this configuration
         /// </summary>
-        public EndPointCollection EndPoints { get;  } = new EndPointCollection();
+        public EndPointCollection EndPoints { get; } = new EndPointCollection();
 
         /// <summary>
         /// The groupname defined for this configuration

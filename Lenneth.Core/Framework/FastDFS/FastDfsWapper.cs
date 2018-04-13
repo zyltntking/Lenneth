@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using Lenneth.Core.Framework.FastDFS.Common;
-using Lenneth.Core.Framework.FastDFS.Utility;
 
 namespace Lenneth.Core.Framework.FastDFS
 {
+    using Common;
+    using Utility;
+
     public sealed class FastDfsWapper : IFastDfscs
     {
         /// <summary>
         /// 访问器
         /// </summary>
         private FastDfsClient Client { get; }
+
         /// <summary>
         /// 存储节点
         /// </summary>
         private StorageNode Node { get; }
+
         /// <summary>
         /// 加密器
         /// </summary>
