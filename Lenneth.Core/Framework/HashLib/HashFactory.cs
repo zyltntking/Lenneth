@@ -980,7 +980,7 @@ namespace Lenneth.Core.Framework.HashLib
 
             public static IHash CreateMd5()
             {
-                return new HashLib.Crypto.MD5();
+                return new HashLib.Crypto.Md5();
             }
 
             public static IHash CreatePanama()

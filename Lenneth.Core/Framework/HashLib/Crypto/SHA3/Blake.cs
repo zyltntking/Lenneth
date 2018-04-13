@@ -36,17 +36,17 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
 
     internal abstract class BlakeBase : BlockHash, ICryptoNotBuildIn
     {
-        protected bool m_nullt;
+        protected bool MNullt;
 
-        public BlakeBase(HashSize a_hash_size, int a_block_size)
-            : base((int)a_hash_size, a_block_size)
+        public BlakeBase(HashSize aHashSize, int aBlockSize)
+            : base((int)aHashSize, aBlockSize)
         {
             Initialize();
         }
 
         public override void Initialize()
         {
-            m_nullt = false;
+            MNullt = false;
 
             base.Initialize();
         }
@@ -56,80 +56,80 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
     {
         #region Consts
 
-        private static readonly uint[] m_initial_state_256 =
+        private static readonly uint[] MInitialState256 =
         {
             0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A, 0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19
         };
 
-        private static readonly uint[] m_initial_state_224 =
+        private static readonly uint[] MInitialState224 =
         {
             0xC1059ED8, 0x367CD507, 0x3070DD17, 0xF70E5939, 0xFFC00B31, 0x68581511, 0x64F98FA7, 0xBEFA4FA4
         };
         #endregion
 
-        private readonly uint[] m_state = new uint[8];
+        private readonly uint[] _mState = new uint[8];
 
-        public Blake256Base(HashSize a_hash_size)
-            : base(a_hash_size, 64)
+        public Blake256Base(HashSize aHashSize)
+            : base(aHashSize, 64)
         {
         }
 
-        protected override void TransformBlock(byte[] a_data, int a_index)
+        protected override void TransformBlock(byte[] aData, int aIndex)
         {
-                uint m0 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 0);
-                uint m1 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 1);
-                uint m2 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 2);
-                uint m3 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 3);
-                uint m4 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 4);
-                uint m5 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 5);
-                uint m6 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 6);
-                uint m7 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 7);
-                uint m8 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 8);
-                uint m9 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 9);
-                uint m10 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 10);
-                uint m11 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 11);
-                uint m12 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 12);
-                uint m13 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 13);
-                uint m14 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 14);
-                uint m15 = Converters.ConvertBytesToUIntSwapOrder(a_data, a_index + 4 * 15);
+                var m0 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 0);
+                var m1 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 1);
+                var m2 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 2);
+                var m3 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 3);
+                var m4 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 4);
+                var m5 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 5);
+                var m6 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 6);
+                var m7 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 7);
+                var m8 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 8);
+                var m9 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 9);
+                var m10 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 10);
+                var m11 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 11);
+                var m12 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 12);
+                var m13 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 13);
+                var m14 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 14);
+                var m15 = Converters.ConvertBytesToUIntSwapOrder(aData, aIndex + 4 * 15);
 
-                const uint c32_0 = 0x243F6A88;
-                const uint c32_1 = 0x85A308D3;
-                const uint c32_2 = 0x13198A2E;
-                const uint c32_3 = 0x03707344;
-                const uint c32_4 = 0xA4093822;
-                const uint c32_5 = 0x299F31D0;
-                const uint c32_6 = 0x082EFA98;
-                const uint c32_7 = 0xEC4E6C89;
-                const uint c32_8 = 0x452821E6;
-                const uint c32_9 = 0x38D01377;
-                const uint c32_10 = 0xBE5466CF;
-                const uint c32_11 = 0x34E90C6C;
-                const uint c32_12 = 0xC0AC29B7;
-                const uint c32_13 = 0xC97C50DD;
-                const uint c32_14 = 0x3F84D5B5;
-                const uint c32_15 = 0xB5470917;
+                const uint c320 = 0x243F6A88;
+                const uint c321 = 0x85A308D3;
+                const uint c322 = 0x13198A2E;
+                const uint c323 = 0x03707344;
+                const uint c324 = 0xA4093822;
+                const uint c325 = 0x299F31D0;
+                const uint c326 = 0x082EFA98;
+                const uint c327 = 0xEC4E6C89;
+                const uint c328 = 0x452821E6;
+                const uint c329 = 0x38D01377;
+                const uint c3210 = 0xBE5466CF;
+                const uint c3211 = 0x34E90C6C;
+                const uint c3212 = 0xC0AC29B7;
+                const uint c3213 = 0xC97C50DD;
+                const uint c3214 = 0x3F84D5B5;
+                const uint c3215 = 0xB5470917;
 
-                uint v0 = m_state[0];
-                uint v1 = m_state[1];
-                uint v2 = m_state[2];
-                uint v3 = m_state[3];
-                uint v4 = m_state[4];
-                uint v5 = m_state[5];
-                uint v6 = m_state[6];
-                uint v7 = m_state[7];
-                uint v8 = c32_0;
-                uint v9 = c32_1;
-                uint v10 = c32_2;
-                uint v11 = c32_3;
-                uint v12 = c32_4;
-                uint v13 = c32_5;
-                uint v14 = c32_6;
-                uint v15 = c32_7;
+                var v0 = _mState[0];
+                var v1 = _mState[1];
+                var v2 = _mState[2];
+                var v3 = _mState[3];
+                var v4 = _mState[4];
+                var v5 = _mState[5];
+                var v6 = _mState[6];
+                var v7 = _mState[7];
+                var v8 = c320;
+                var v9 = c321;
+                var v10 = c322;
+                var v11 = c323;
+                var v12 = c324;
+                var v13 = c325;
+                var v14 = c326;
+                var v15 = c327;
 
-                if (!m_nullt)
+                if (!MNullt)
                 {
-                    ulong bits = m_processed_bytes * 8;
+                    var bits = m_processed_bytes * 8;
                     v12 ^= (uint)bits;
                     v13 ^= (uint)bits;
                     bits >>= 32;
@@ -137,1032 +137,1032 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
                     v15 ^= (uint)bits;
                 }
 
-                v0 = v0 + v4 + (m0 ^ c32_1);
+                v0 = v0 + v4 + (m0 ^ c321);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m1 ^ c32_0);
+                v0 = v0 + v4 + (m1 ^ c320);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m2 ^ c32_3);
+                v1 = v1 + v5 + (m2 ^ c323);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m3 ^ c32_2);
+                v1 = v1 + v5 + (m3 ^ c322);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m4 ^ c32_5);
+                v2 = v2 + v6 + (m4 ^ c325);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m5 ^ c32_4);
+                v2 = v2 + v6 + (m5 ^ c324);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m6 ^ c32_7);
+                v3 = v3 + v7 + (m6 ^ c327);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m7 ^ c32_6);
+                v3 = v3 + v7 + (m7 ^ c326);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m8 ^ c32_9);
+                v0 = v0 + v5 + (m8 ^ c329);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m9 ^ c32_8);
+                v0 = v0 + v5 + (m9 ^ c328);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m10 ^ c32_11);
+                v1 = v1 + v6 + (m10 ^ c3211);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m11 ^ c32_10);
+                v1 = v1 + v6 + (m11 ^ c3210);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m12 ^ c32_13);
+                v2 = v2 + v7 + (m12 ^ c3213);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m13 ^ c32_12);
+                v2 = v2 + v7 + (m13 ^ c3212);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m14 ^ c32_15);
+                v3 = v3 + v4 + (m14 ^ c3215);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m15 ^ c32_14);
+                v3 = v3 + v4 + (m15 ^ c3214);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m14 ^ c32_10);
+                v0 = v0 + v4 + (m14 ^ c3210);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m10 ^ c32_14);
+                v0 = v0 + v4 + (m10 ^ c3214);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m4 ^ c32_8);
+                v1 = v1 + v5 + (m4 ^ c328);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m8 ^ c32_4);
+                v1 = v1 + v5 + (m8 ^ c324);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m9 ^ c32_15);
+                v2 = v2 + v6 + (m9 ^ c3215);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m15 ^ c32_9);
+                v2 = v2 + v6 + (m15 ^ c329);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m13 ^ c32_6);
+                v3 = v3 + v7 + (m13 ^ c326);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m6 ^ c32_13);
+                v3 = v3 + v7 + (m6 ^ c3213);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m1 ^ c32_12);
+                v0 = v0 + v5 + (m1 ^ c3212);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m12 ^ c32_1);
+                v0 = v0 + v5 + (m12 ^ c321);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m0 ^ c32_2);
+                v1 = v1 + v6 + (m0 ^ c322);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m2 ^ c32_0);
+                v1 = v1 + v6 + (m2 ^ c320);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m11 ^ c32_7);
+                v2 = v2 + v7 + (m11 ^ c327);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m7 ^ c32_11);
+                v2 = v2 + v7 + (m7 ^ c3211);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m5 ^ c32_3);
+                v3 = v3 + v4 + (m5 ^ c323);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m3 ^ c32_5);
+                v3 = v3 + v4 + (m3 ^ c325);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m11 ^ c32_8);
+                v0 = v0 + v4 + (m11 ^ c328);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m8 ^ c32_11);
+                v0 = v0 + v4 + (m8 ^ c3211);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m12 ^ c32_0);
+                v1 = v1 + v5 + (m12 ^ c320);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m0 ^ c32_12);
+                v1 = v1 + v5 + (m0 ^ c3212);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m5 ^ c32_2);
+                v2 = v2 + v6 + (m5 ^ c322);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m2 ^ c32_5);
+                v2 = v2 + v6 + (m2 ^ c325);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m15 ^ c32_13);
+                v3 = v3 + v7 + (m15 ^ c3213);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m13 ^ c32_15);
+                v3 = v3 + v7 + (m13 ^ c3215);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m10 ^ c32_14);
+                v0 = v0 + v5 + (m10 ^ c3214);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m14 ^ c32_10);
+                v0 = v0 + v5 + (m14 ^ c3210);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m3 ^ c32_6);
+                v1 = v1 + v6 + (m3 ^ c326);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m6 ^ c32_3);
+                v1 = v1 + v6 + (m6 ^ c323);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m7 ^ c32_1);
+                v2 = v2 + v7 + (m7 ^ c321);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m1 ^ c32_7);
+                v2 = v2 + v7 + (m1 ^ c327);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m9 ^ c32_4);
+                v3 = v3 + v4 + (m9 ^ c324);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m4 ^ c32_9);
+                v3 = v3 + v4 + (m4 ^ c329);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m7 ^ c32_9);
+                v0 = v0 + v4 + (m7 ^ c329);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m9 ^ c32_7);
+                v0 = v0 + v4 + (m9 ^ c327);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m3 ^ c32_1);
+                v1 = v1 + v5 + (m3 ^ c321);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m1 ^ c32_3);
+                v1 = v1 + v5 + (m1 ^ c323);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m13 ^ c32_12);
+                v2 = v2 + v6 + (m13 ^ c3212);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m12 ^ c32_13);
+                v2 = v2 + v6 + (m12 ^ c3213);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m11 ^ c32_14);
+                v3 = v3 + v7 + (m11 ^ c3214);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m14 ^ c32_11);
+                v3 = v3 + v7 + (m14 ^ c3211);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m2 ^ c32_6);
+                v0 = v0 + v5 + (m2 ^ c326);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m6 ^ c32_2);
+                v0 = v0 + v5 + (m6 ^ c322);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m5 ^ c32_10);
+                v1 = v1 + v6 + (m5 ^ c3210);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m10 ^ c32_5);
+                v1 = v1 + v6 + (m10 ^ c325);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m4 ^ c32_0);
+                v2 = v2 + v7 + (m4 ^ c320);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m0 ^ c32_4);
+                v2 = v2 + v7 + (m0 ^ c324);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m15 ^ c32_8);
+                v3 = v3 + v4 + (m15 ^ c328);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m8 ^ c32_15);
+                v3 = v3 + v4 + (m8 ^ c3215);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m9 ^ c32_0);
+                v0 = v0 + v4 + (m9 ^ c320);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m0 ^ c32_9);
+                v0 = v0 + v4 + (m0 ^ c329);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m5 ^ c32_7);
+                v1 = v1 + v5 + (m5 ^ c327);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m7 ^ c32_5);
+                v1 = v1 + v5 + (m7 ^ c325);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m2 ^ c32_4);
+                v2 = v2 + v6 + (m2 ^ c324);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m4 ^ c32_2);
+                v2 = v2 + v6 + (m4 ^ c322);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m10 ^ c32_15);
+                v3 = v3 + v7 + (m10 ^ c3215);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m15 ^ c32_10);
+                v3 = v3 + v7 + (m15 ^ c3210);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m14 ^ c32_1);
+                v0 = v0 + v5 + (m14 ^ c321);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m1 ^ c32_14);
+                v0 = v0 + v5 + (m1 ^ c3214);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m11 ^ c32_12);
+                v1 = v1 + v6 + (m11 ^ c3212);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m12 ^ c32_11);
+                v1 = v1 + v6 + (m12 ^ c3211);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m6 ^ c32_8);
+                v2 = v2 + v7 + (m6 ^ c328);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m8 ^ c32_6);
+                v2 = v2 + v7 + (m8 ^ c326);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m3 ^ c32_13);
+                v3 = v3 + v4 + (m3 ^ c3213);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m13 ^ c32_3);
+                v3 = v3 + v4 + (m13 ^ c323);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m2 ^ c32_12);
+                v0 = v0 + v4 + (m2 ^ c3212);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m12 ^ c32_2);
+                v0 = v0 + v4 + (m12 ^ c322);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m6 ^ c32_10);
+                v1 = v1 + v5 + (m6 ^ c3210);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m10 ^ c32_6);
+                v1 = v1 + v5 + (m10 ^ c326);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m0 ^ c32_11);
+                v2 = v2 + v6 + (m0 ^ c3211);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m11 ^ c32_0);
+                v2 = v2 + v6 + (m11 ^ c320);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m8 ^ c32_3);
+                v3 = v3 + v7 + (m8 ^ c323);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m3 ^ c32_8);
+                v3 = v3 + v7 + (m3 ^ c328);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m4 ^ c32_13);
+                v0 = v0 + v5 + (m4 ^ c3213);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m13 ^ c32_4);
+                v0 = v0 + v5 + (m13 ^ c324);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m7 ^ c32_5);
+                v1 = v1 + v6 + (m7 ^ c325);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m5 ^ c32_7);
+                v1 = v1 + v6 + (m5 ^ c327);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m15 ^ c32_14);
+                v2 = v2 + v7 + (m15 ^ c3214);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m14 ^ c32_15);
+                v2 = v2 + v7 + (m14 ^ c3215);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m1 ^ c32_9);
+                v3 = v3 + v4 + (m1 ^ c329);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m9 ^ c32_1);
+                v3 = v3 + v4 + (m9 ^ c321);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m12 ^ c32_5);
+                v0 = v0 + v4 + (m12 ^ c325);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m5 ^ c32_12);
+                v0 = v0 + v4 + (m5 ^ c3212);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m1 ^ c32_15);
+                v1 = v1 + v5 + (m1 ^ c3215);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m15 ^ c32_1);
+                v1 = v1 + v5 + (m15 ^ c321);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m14 ^ c32_13);
+                v2 = v2 + v6 + (m14 ^ c3213);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m13 ^ c32_14);
+                v2 = v2 + v6 + (m13 ^ c3214);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m4 ^ c32_10);
+                v3 = v3 + v7 + (m4 ^ c3210);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m10 ^ c32_4);
+                v3 = v3 + v7 + (m10 ^ c324);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m0 ^ c32_7);
+                v0 = v0 + v5 + (m0 ^ c327);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m7 ^ c32_0);
+                v0 = v0 + v5 + (m7 ^ c320);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m6 ^ c32_3);
+                v1 = v1 + v6 + (m6 ^ c323);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m3 ^ c32_6);
+                v1 = v1 + v6 + (m3 ^ c326);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m9 ^ c32_2);
+                v2 = v2 + v7 + (m9 ^ c322);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m2 ^ c32_9);
+                v2 = v2 + v7 + (m2 ^ c329);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m8 ^ c32_11);
+                v3 = v3 + v4 + (m8 ^ c3211);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m11 ^ c32_8);
+                v3 = v3 + v4 + (m11 ^ c328);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m13 ^ c32_11);
+                v0 = v0 + v4 + (m13 ^ c3211);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m11 ^ c32_13);
+                v0 = v0 + v4 + (m11 ^ c3213);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m7 ^ c32_14);
+                v1 = v1 + v5 + (m7 ^ c3214);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m14 ^ c32_7);
+                v1 = v1 + v5 + (m14 ^ c327);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m12 ^ c32_1);
+                v2 = v2 + v6 + (m12 ^ c321);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m1 ^ c32_12);
+                v2 = v2 + v6 + (m1 ^ c3212);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m3 ^ c32_9);
+                v3 = v3 + v7 + (m3 ^ c329);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m9 ^ c32_3);
+                v3 = v3 + v7 + (m9 ^ c323);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m5 ^ c32_0);
+                v0 = v0 + v5 + (m5 ^ c320);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m0 ^ c32_5);
+                v0 = v0 + v5 + (m0 ^ c325);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m15 ^ c32_4);
+                v1 = v1 + v6 + (m15 ^ c324);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m4 ^ c32_15);
+                v1 = v1 + v6 + (m4 ^ c3215);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m8 ^ c32_6);
+                v2 = v2 + v7 + (m8 ^ c326);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m6 ^ c32_8);
+                v2 = v2 + v7 + (m6 ^ c328);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m2 ^ c32_10);
+                v3 = v3 + v4 + (m2 ^ c3210);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m10 ^ c32_2);
+                v3 = v3 + v4 + (m10 ^ c322);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m6 ^ c32_15);
+                v0 = v0 + v4 + (m6 ^ c3215);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m15 ^ c32_6);
+                v0 = v0 + v4 + (m15 ^ c326);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m14 ^ c32_9);
+                v1 = v1 + v5 + (m14 ^ c329);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m9 ^ c32_14);
+                v1 = v1 + v5 + (m9 ^ c3214);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m11 ^ c32_3);
+                v2 = v2 + v6 + (m11 ^ c323);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m3 ^ c32_11);
+                v2 = v2 + v6 + (m3 ^ c3211);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m0 ^ c32_8);
+                v3 = v3 + v7 + (m0 ^ c328);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m8 ^ c32_0);
+                v3 = v3 + v7 + (m8 ^ c320);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m12 ^ c32_2);
+                v0 = v0 + v5 + (m12 ^ c322);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m2 ^ c32_12);
+                v0 = v0 + v5 + (m2 ^ c3212);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m13 ^ c32_7);
+                v1 = v1 + v6 + (m13 ^ c327);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m7 ^ c32_13);
+                v1 = v1 + v6 + (m7 ^ c3213);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m1 ^ c32_4);
+                v2 = v2 + v7 + (m1 ^ c324);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m4 ^ c32_1);
+                v2 = v2 + v7 + (m4 ^ c321);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m10 ^ c32_5);
+                v3 = v3 + v4 + (m10 ^ c325);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m5 ^ c32_10);
+                v3 = v3 + v4 + (m5 ^ c3210);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m10 ^ c32_2);
+                v0 = v0 + v4 + (m10 ^ c322);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m2 ^ c32_10);
+                v0 = v0 + v4 + (m2 ^ c3210);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m8 ^ c32_4);
+                v1 = v1 + v5 + (m8 ^ c324);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m4 ^ c32_8);
+                v1 = v1 + v5 + (m4 ^ c328);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m7 ^ c32_6);
+                v2 = v2 + v6 + (m7 ^ c326);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m6 ^ c32_7);
+                v2 = v2 + v6 + (m6 ^ c327);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m1 ^ c32_5);
+                v3 = v3 + v7 + (m1 ^ c325);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m5 ^ c32_1);
+                v3 = v3 + v7 + (m5 ^ c321);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m15 ^ c32_11);
+                v0 = v0 + v5 + (m15 ^ c3211);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m11 ^ c32_15);
+                v0 = v0 + v5 + (m11 ^ c3215);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m9 ^ c32_14);
+                v1 = v1 + v6 + (m9 ^ c3214);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m14 ^ c32_9);
+                v1 = v1 + v6 + (m14 ^ c329);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m3 ^ c32_12);
+                v2 = v2 + v7 + (m3 ^ c3212);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m12 ^ c32_3);
+                v2 = v2 + v7 + (m12 ^ c323);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m13 ^ c32_0);
+                v3 = v3 + v4 + (m13 ^ c320);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m0 ^ c32_13);
+                v3 = v3 + v4 + (m0 ^ c3213);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m0 ^ c32_1);
+                v0 = v0 + v4 + (m0 ^ c321);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m1 ^ c32_0);
+                v0 = v0 + v4 + (m1 ^ c320);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m2 ^ c32_3);
+                v1 = v1 + v5 + (m2 ^ c323);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m3 ^ c32_2);
+                v1 = v1 + v5 + (m3 ^ c322);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m4 ^ c32_5);
+                v2 = v2 + v6 + (m4 ^ c325);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m5 ^ c32_4);
+                v2 = v2 + v6 + (m5 ^ c324);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m6 ^ c32_7);
+                v3 = v3 + v7 + (m6 ^ c327);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m7 ^ c32_6);
+                v3 = v3 + v7 + (m7 ^ c326);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m8 ^ c32_9);
+                v0 = v0 + v5 + (m8 ^ c329);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m9 ^ c32_8);
+                v0 = v0 + v5 + (m9 ^ c328);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m10 ^ c32_11);
+                v1 = v1 + v6 + (m10 ^ c3211);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m11 ^ c32_10);
+                v1 = v1 + v6 + (m11 ^ c3210);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m12 ^ c32_13);
+                v2 = v2 + v7 + (m12 ^ c3213);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m13 ^ c32_12);
+                v2 = v2 + v7 + (m13 ^ c3212);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m14 ^ c32_15);
+                v3 = v3 + v4 + (m14 ^ c3215);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m15 ^ c32_14);
+                v3 = v3 + v4 + (m15 ^ c3214);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m14 ^ c32_10);
+                v0 = v0 + v4 + (m14 ^ c3210);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m10 ^ c32_14);
+                v0 = v0 + v4 + (m10 ^ c3214);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m4 ^ c32_8);
+                v1 = v1 + v5 + (m4 ^ c328);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m8 ^ c32_4);
+                v1 = v1 + v5 + (m8 ^ c324);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m9 ^ c32_15);
+                v2 = v2 + v6 + (m9 ^ c3215);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m15 ^ c32_9);
+                v2 = v2 + v6 + (m15 ^ c329);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m13 ^ c32_6);
+                v3 = v3 + v7 + (m13 ^ c326);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m6 ^ c32_13);
+                v3 = v3 + v7 + (m6 ^ c3213);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m1 ^ c32_12);
+                v0 = v0 + v5 + (m1 ^ c3212);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m12 ^ c32_1);
+                v0 = v0 + v5 + (m12 ^ c321);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m0 ^ c32_2);
+                v1 = v1 + v6 + (m0 ^ c322);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m2 ^ c32_0);
+                v1 = v1 + v6 + (m2 ^ c320);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m11 ^ c32_7);
+                v2 = v2 + v7 + (m11 ^ c327);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m7 ^ c32_11);
+                v2 = v2 + v7 + (m7 ^ c3211);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m5 ^ c32_3);
+                v3 = v3 + v4 + (m5 ^ c323);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m3 ^ c32_5);
+                v3 = v3 + v4 + (m3 ^ c325);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m11 ^ c32_8);
+                v0 = v0 + v4 + (m11 ^ c328);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m8 ^ c32_11);
+                v0 = v0 + v4 + (m8 ^ c3211);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m12 ^ c32_0);
+                v1 = v1 + v5 + (m12 ^ c320);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m0 ^ c32_12);
+                v1 = v1 + v5 + (m0 ^ c3212);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m5 ^ c32_2);
+                v2 = v2 + v6 + (m5 ^ c322);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m2 ^ c32_5);
+                v2 = v2 + v6 + (m2 ^ c325);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m15 ^ c32_13);
+                v3 = v3 + v7 + (m15 ^ c3213);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m13 ^ c32_15);
+                v3 = v3 + v7 + (m13 ^ c3215);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m10 ^ c32_14);
+                v0 = v0 + v5 + (m10 ^ c3214);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m14 ^ c32_10);
+                v0 = v0 + v5 + (m14 ^ c3210);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m3 ^ c32_6);
+                v1 = v1 + v6 + (m3 ^ c326);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m6 ^ c32_3);
+                v1 = v1 + v6 + (m6 ^ c323);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m7 ^ c32_1);
+                v2 = v2 + v7 + (m7 ^ c321);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m1 ^ c32_7);
+                v2 = v2 + v7 + (m1 ^ c327);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m9 ^ c32_4);
+                v3 = v3 + v4 + (m9 ^ c324);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m4 ^ c32_9);
+                v3 = v3 + v4 + (m4 ^ c329);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                v0 = v0 + v4 + (m7 ^ c32_9);
+                v0 = v0 + v4 + (m7 ^ c329);
                 v12 = ((v12 ^ v0) << 16) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 20) | ((v4 ^ v8) >> 12);
-                v0 = v0 + v4 + (m9 ^ c32_7);
+                v0 = v0 + v4 + (m9 ^ c327);
                 v12 = ((v12 ^ v0) << 24) | ((v12 ^ v0) >> 8);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 25) | ((v4 ^ v8) >> 7);
 
-                v1 = v1 + v5 + (m3 ^ c32_1);
+                v1 = v1 + v5 + (m3 ^ c321);
                 v13 = ((v13 ^ v1) << 16) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 20) | ((v5 ^ v9) >> 12);
-                v1 = v1 + v5 + (m1 ^ c32_3);
+                v1 = v1 + v5 + (m1 ^ c323);
                 v13 = ((v13 ^ v1) << 24) | ((v13 ^ v1) >> 8);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 25) | ((v5 ^ v9) >> 7);
 
-                v2 = v2 + v6 + (m13 ^ c32_12);
+                v2 = v2 + v6 + (m13 ^ c3212);
                 v14 = ((v14 ^ v2) << 16) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 20) | ((v6 ^ v10) >> 12);
-                v2 = v2 + v6 + (m12 ^ c32_13);
+                v2 = v2 + v6 + (m12 ^ c3213);
                 v14 = ((v14 ^ v2) << 24) | ((v14 ^ v2) >> 8);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 25) | ((v6 ^ v10) >> 7);
 
-                v3 = v3 + v7 + (m11 ^ c32_14);
+                v3 = v3 + v7 + (m11 ^ c3214);
                 v15 = ((v15 ^ v3) << 16) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 20) | ((v7 ^ v11) >> 12);
-                v3 = v3 + v7 + (m14 ^ c32_11);
+                v3 = v3 + v7 + (m14 ^ c3211);
                 v15 = ((v15 ^ v3) << 24) | ((v15 ^ v3) >> 8);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 25) | ((v7 ^ v11) >> 7);
 
-                v0 = v0 + v5 + (m2 ^ c32_6);
+                v0 = v0 + v5 + (m2 ^ c326);
                 v15 = ((v15 ^ v0) << 16) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 20) | ((v5 ^ v10) >> 12);
-                v0 = v0 + v5 + (m6 ^ c32_2);
+                v0 = v0 + v5 + (m6 ^ c322);
                 v15 = ((v15 ^ v0) << 24) | ((v15 ^ v0) >> 8);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 25) | ((v5 ^ v10) >> 7);
 
-                v1 = v1 + v6 + (m5 ^ c32_10);
+                v1 = v1 + v6 + (m5 ^ c3210);
                 v12 = ((v12 ^ v1) << 16) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 20) | ((v6 ^ v11) >> 12);
-                v1 = v1 + v6 + (m10 ^ c32_5);
+                v1 = v1 + v6 + (m10 ^ c325);
                 v12 = ((v12 ^ v1) << 24) | ((v12 ^ v1) >> 8);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 25) | ((v6 ^ v11) >> 7);
 
-                v2 = v2 + v7 + (m4 ^ c32_0);
+                v2 = v2 + v7 + (m4 ^ c320);
                 v13 = ((v13 ^ v2) << 16) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 20) | ((v7 ^ v8) >> 12);
-                v2 = v2 + v7 + (m0 ^ c32_4);
+                v2 = v2 + v7 + (m0 ^ c324);
                 v13 = ((v13 ^ v2) << 24) | ((v13 ^ v2) >> 8);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 25) | ((v7 ^ v8) >> 7);
 
-                v3 = v3 + v4 + (m15 ^ c32_8);
+                v3 = v3 + v4 + (m15 ^ c328);
                 v14 = ((v14 ^ v3) << 16) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 20) | ((v4 ^ v9) >> 12);
-                v3 = v3 + v4 + (m8 ^ c32_15);
+                v3 = v3 + v4 + (m8 ^ c3215);
                 v14 = ((v14 ^ v3) << 24) | ((v14 ^ v3) >> 8);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 25) | ((v4 ^ v9) >> 7);
 
-                m_state[0] ^= v0 ^ v8;
-                m_state[1] ^= v1 ^ v9;
-                m_state[2] ^= v2 ^ v10;
-                m_state[3] ^= v3 ^ v11;
-                m_state[4] ^= v4 ^ v12;
-                m_state[5] ^= v5 ^ v13;
-                m_state[6] ^= v6 ^ v14;
-                m_state[7] ^= v7 ^ v15;
+                _mState[0] ^= v0 ^ v8;
+                _mState[1] ^= v1 ^ v9;
+                _mState[2] ^= v2 ^ v10;
+                _mState[3] ^= v3 ^ v11;
+                _mState[4] ^= v4 ^ v12;
+                _mState[5] ^= v5 ^ v13;
+                _mState[6] ^= v6 ^ v14;
+                _mState[7] ^= v7 ^ v15;
         }
 
         protected override byte[] GetResult()
         {
-            return Converters.ConvertUIntsToBytesSwapOrder(m_state, 0, HashSize / 4);
+            return Converters.ConvertUIntsToBytesSwapOrder(_mState, 0, HashSize / 4);
         }
 
         protected override void Finish()
         {
-            ulong bits = m_processed_bytes * 8;
+            var bits = m_processed_bytes * 8;
 
             if (m_buffer.Pos == 55)
             {
@@ -1174,13 +1174,13 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
             }
             else
             {
-                byte[] pad = new byte[BlockSize];
+                var pad = new byte[BlockSize];
                 pad[0] = 0x80;
 
                 if (m_buffer.Pos < 55)
                 {
                     if (m_buffer.Pos == 0)
-                        m_nullt = true;
+                        MNullt = true;
                     m_processed_bytes -= (ulong)(55 - m_buffer.Pos);
                     TransformBytes(pad, 0, 55 - m_buffer.Pos);
                 }
@@ -1190,7 +1190,7 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
                     TransformBytes(pad, 0, 64 - m_buffer.Pos);
                     m_processed_bytes -= 55;
                     TransformBytes(pad, 1, 55);
-                    m_nullt = true;
+                    MNullt = true;
                 }
                 if (HashSize == 28)
                     TransformByte(0);
@@ -1202,7 +1202,7 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
 
             m_processed_bytes -= 8;
 
-            byte[] msg = new byte[8];
+            var msg = new byte[8];
             Converters.ConvertULongToBytesSwapOrder(bits, msg, 0);
 
             TransformBytes(msg, 0, 8);
@@ -1211,9 +1211,9 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
         public override void Initialize()
         {
             if (HashSize == 28)
-                Array.Copy(m_initial_state_224, m_state, 8);
+                Array.Copy(MInitialState224, _mState, 8);
             else
-                Array.Copy(m_initial_state_256, m_state, 8);
+                Array.Copy(MInitialState256, _mState, 8);
 
             base.Initialize();
         }
@@ -1223,1257 +1223,1257 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
     {
         #region Consts
 
-        private static readonly ulong[] m_initial_state_384 =
+        private static readonly ulong[] MInitialState384 =
         {
             0xCBBB9D5DC1059ED8, 0x629A292A367CD507, 0x9159015A3070DD17, 0x152FECD8F70E5939,
             0x67332667FFC00B31, 0x8EB44A8768581511, 0xDB0C2E0D64F98FA7, 0x47B5481DBEFA4FA4
         };
 
-        private static readonly ulong[] m_initial_state_512 =
+        private static readonly ulong[] MInitialState512 =
         {
             0x6A09E667F3BCC908, 0xBB67AE8584CAA73B, 0x3C6EF372FE94F82B, 0xA54FF53A5F1D36F1,
             0x510E527FADE682D1, 0x9B05688C2B3E6C1F, 0x1F83D9ABFB41BD6B, 0x5BE0CD19137E2179
         };
         #endregion
 
-        private readonly ulong[] m_state = new ulong[8];
+        private readonly ulong[] _mState = new ulong[8];
 
-        public Blake512Base(HashSize a_hash_size)
-            : base(a_hash_size, 128)
+        public Blake512Base(HashSize aHashSize)
+            : base(aHashSize, 128)
         {
         }
 
-        protected override void TransformBlock(byte[] a_data, int a_index)
+        protected override void TransformBlock(byte[] aData, int aIndex)
             
             {
-                ulong m0 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 0);
-                ulong m1 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 1);
-                ulong m2 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 2);
-                ulong m3 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 3);
-                ulong m4 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 4);
-                ulong m5 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 5);
-                ulong m6 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 6);
-                ulong m7 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 7);
-                ulong m8 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 8);
-                ulong m9 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 9);
-                ulong m10 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 10);
-                ulong m11 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 11);
-                ulong m12 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 12);
-                ulong m13 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 13);
-                ulong m14 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 14);
-                ulong m15 = Converters.ConvertBytesToULongSwapOrder(a_data, a_index + 8 * 15);
+                var m0 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 0);
+                var m1 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 1);
+                var m2 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 2);
+                var m3 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 3);
+                var m4 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 4);
+                var m5 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 5);
+                var m6 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 6);
+                var m7 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 7);
+                var m8 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 8);
+                var m9 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 9);
+                var m10 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 10);
+                var m11 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 11);
+                var m12 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 12);
+                var m13 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 13);
+                var m14 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 14);
+                var m15 = Converters.ConvertBytesToULongSwapOrder(aData, aIndex + 8 * 15);
 
-                const ulong c64_0 = 0x243F6A8885A308D3;
-                const ulong c64_1 = 0x13198A2E03707344;
-                const ulong c64_2 = 0xA4093822299F31D0;
-                const ulong c64_3 = 0x082EFA98EC4E6C89;
-                const ulong c64_4 = 0x452821E638D01377;
-                const ulong c64_5 = 0xBE5466CF34E90C6C;
-                const ulong c64_6 = 0xC0AC29B7C97C50DD;
-                const ulong c64_7 = 0x3F84D5B5B5470917;
-                const ulong c64_8 = 0x9216D5D98979FB1B;
-                const ulong c64_9 = 0xD1310BA698DFB5AC;
-                const ulong c64_10 = 0x2FFD72DBD01ADFB7;
-                const ulong c64_11 = 0xB8E1AFED6A267E96;
-                const ulong c64_12 = 0xBA7C9045F12C7F99;
-                const ulong c64_13 = 0x24A19947B3916CF7;
-                const ulong c64_14 = 0x0801F2E2858EFC16;
-                const ulong c64_15 = 0x636920D871574E69;
+                const ulong c640 = 0x243F6A8885A308D3;
+                const ulong c641 = 0x13198A2E03707344;
+                const ulong c642 = 0xA4093822299F31D0;
+                const ulong c643 = 0x082EFA98EC4E6C89;
+                const ulong c644 = 0x452821E638D01377;
+                const ulong c645 = 0xBE5466CF34E90C6C;
+                const ulong c646 = 0xC0AC29B7C97C50DD;
+                const ulong c647 = 0x3F84D5B5B5470917;
+                const ulong c648 = 0x9216D5D98979FB1B;
+                const ulong c649 = 0xD1310BA698DFB5AC;
+                const ulong c6410 = 0x2FFD72DBD01ADFB7;
+                const ulong c6411 = 0xB8E1AFED6A267E96;
+                const ulong c6412 = 0xBA7C9045F12C7F99;
+                const ulong c6413 = 0x24A19947B3916CF7;
+                const ulong c6414 = 0x0801F2E2858EFC16;
+                const ulong c6415 = 0x636920D871574E69;
 
-                ulong v0 = m_state[0];
-                ulong v1 = m_state[1];
-                ulong v2 = m_state[2];
-                ulong v3 = m_state[3];
-                ulong v4 = m_state[4];
-                ulong v5 = m_state[5];
-                ulong v6 = m_state[6];
-                ulong v7 = m_state[7];
-                ulong v8 = c64_0;
-                ulong v9 = c64_1;
-                ulong v10 = c64_2;
-                ulong v11 = c64_3;
-                ulong v12 = c64_4;
-                ulong v13 = c64_5;
-                ulong v14 = c64_6;
-                ulong v15 = c64_7;
+                var v0 = _mState[0];
+                var v1 = _mState[1];
+                var v2 = _mState[2];
+                var v3 = _mState[3];
+                var v4 = _mState[4];
+                var v5 = _mState[5];
+                var v6 = _mState[6];
+                var v7 = _mState[7];
+                var v8 = c640;
+                var v9 = c641;
+                var v10 = c642;
+                var v11 = c643;
+                var v12 = c644;
+                var v13 = c645;
+                var v14 = c646;
+                var v15 = c647;
 
-                if (!m_nullt)
+                if (!MNullt)
                 {
-                    ulong bits = m_processed_bytes * 8;
+                    var bits = m_processed_bytes * 8;
                     v12 ^= bits;
                     v13 ^= bits;
                 }
 
-                v0 = v0 + v4 + (m0 ^ c64_1);
+                v0 = v0 + v4 + (m0 ^ c641);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m1 ^ c64_0);
+                v0 = v0 + v4 + (m1 ^ c640);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m2 ^ c64_3);
+                v1 = v1 + v5 + (m2 ^ c643);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m3 ^ c64_2);
+                v1 = v1 + v5 + (m3 ^ c642);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m4 ^ c64_5);
+                v2 = v2 + v6 + (m4 ^ c645);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m5 ^ c64_4);
+                v2 = v2 + v6 + (m5 ^ c644);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m6 ^ c64_7);
+                v3 = v3 + v7 + (m6 ^ c647);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m7 ^ c64_6);
+                v3 = v3 + v7 + (m7 ^ c646);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m8 ^ c64_9);
+                v0 = v0 + v5 + (m8 ^ c649);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m9 ^ c64_8);
+                v0 = v0 + v5 + (m9 ^ c648);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m10 ^ c64_11);
+                v1 = v1 + v6 + (m10 ^ c6411);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m11 ^ c64_10);
+                v1 = v1 + v6 + (m11 ^ c6410);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m12 ^ c64_13);
+                v2 = v2 + v7 + (m12 ^ c6413);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m13 ^ c64_12);
+                v2 = v2 + v7 + (m13 ^ c6412);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m14 ^ c64_15);
+                v3 = v3 + v4 + (m14 ^ c6415);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m15 ^ c64_14);
+                v3 = v3 + v4 + (m15 ^ c6414);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m14 ^ c64_10);
+                v0 = v0 + v4 + (m14 ^ c6410);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m10 ^ c64_14);
+                v0 = v0 + v4 + (m10 ^ c6414);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m4 ^ c64_8);
+                v1 = v1 + v5 + (m4 ^ c648);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m8 ^ c64_4);
+                v1 = v1 + v5 + (m8 ^ c644);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m9 ^ c64_15);
+                v2 = v2 + v6 + (m9 ^ c6415);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m15 ^ c64_9);
+                v2 = v2 + v6 + (m15 ^ c649);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m13 ^ c64_6);
+                v3 = v3 + v7 + (m13 ^ c646);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m6 ^ c64_13);
+                v3 = v3 + v7 + (m6 ^ c6413);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m1 ^ c64_12);
+                v0 = v0 + v5 + (m1 ^ c6412);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m12 ^ c64_1);
+                v0 = v0 + v5 + (m12 ^ c641);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m0 ^ c64_2);
+                v1 = v1 + v6 + (m0 ^ c642);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m2 ^ c64_0);
+                v1 = v1 + v6 + (m2 ^ c640);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m11 ^ c64_7);
+                v2 = v2 + v7 + (m11 ^ c647);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m7 ^ c64_11);
+                v2 = v2 + v7 + (m7 ^ c6411);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m5 ^ c64_3);
+                v3 = v3 + v4 + (m5 ^ c643);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m3 ^ c64_5);
+                v3 = v3 + v4 + (m3 ^ c645);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m11 ^ c64_8);
+                v0 = v0 + v4 + (m11 ^ c648);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m8 ^ c64_11);
+                v0 = v0 + v4 + (m8 ^ c6411);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m12 ^ c64_0);
+                v1 = v1 + v5 + (m12 ^ c640);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m0 ^ c64_12);
+                v1 = v1 + v5 + (m0 ^ c6412);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m5 ^ c64_2);
+                v2 = v2 + v6 + (m5 ^ c642);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m2 ^ c64_5);
+                v2 = v2 + v6 + (m2 ^ c645);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m15 ^ c64_13);
+                v3 = v3 + v7 + (m15 ^ c6413);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m13 ^ c64_15);
+                v3 = v3 + v7 + (m13 ^ c6415);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m10 ^ c64_14);
+                v0 = v0 + v5 + (m10 ^ c6414);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m14 ^ c64_10);
+                v0 = v0 + v5 + (m14 ^ c6410);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m3 ^ c64_6);
+                v1 = v1 + v6 + (m3 ^ c646);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m6 ^ c64_3);
+                v1 = v1 + v6 + (m6 ^ c643);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m7 ^ c64_1);
+                v2 = v2 + v7 + (m7 ^ c641);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m1 ^ c64_7);
+                v2 = v2 + v7 + (m1 ^ c647);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m9 ^ c64_4);
+                v3 = v3 + v4 + (m9 ^ c644);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m4 ^ c64_9);
+                v3 = v3 + v4 + (m4 ^ c649);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m7 ^ c64_9);
+                v0 = v0 + v4 + (m7 ^ c649);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m9 ^ c64_7);
+                v0 = v0 + v4 + (m9 ^ c647);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m3 ^ c64_1);
+                v1 = v1 + v5 + (m3 ^ c641);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m1 ^ c64_3);
+                v1 = v1 + v5 + (m1 ^ c643);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m13 ^ c64_12);
+                v2 = v2 + v6 + (m13 ^ c6412);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m12 ^ c64_13);
+                v2 = v2 + v6 + (m12 ^ c6413);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m11 ^ c64_14);
+                v3 = v3 + v7 + (m11 ^ c6414);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m14 ^ c64_11);
+                v3 = v3 + v7 + (m14 ^ c6411);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m2 ^ c64_6);
+                v0 = v0 + v5 + (m2 ^ c646);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m6 ^ c64_2);
+                v0 = v0 + v5 + (m6 ^ c642);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m5 ^ c64_10);
+                v1 = v1 + v6 + (m5 ^ c6410);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m10 ^ c64_5);
+                v1 = v1 + v6 + (m10 ^ c645);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m4 ^ c64_0);
+                v2 = v2 + v7 + (m4 ^ c640);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m0 ^ c64_4);
+                v2 = v2 + v7 + (m0 ^ c644);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m15 ^ c64_8);
+                v3 = v3 + v4 + (m15 ^ c648);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m8 ^ c64_15);
+                v3 = v3 + v4 + (m8 ^ c6415);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m9 ^ c64_0);
+                v0 = v0 + v4 + (m9 ^ c640);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m0 ^ c64_9);
+                v0 = v0 + v4 + (m0 ^ c649);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m5 ^ c64_7);
+                v1 = v1 + v5 + (m5 ^ c647);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m7 ^ c64_5);
+                v1 = v1 + v5 + (m7 ^ c645);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m2 ^ c64_4);
+                v2 = v2 + v6 + (m2 ^ c644);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m4 ^ c64_2);
+                v2 = v2 + v6 + (m4 ^ c642);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m10 ^ c64_15);
+                v3 = v3 + v7 + (m10 ^ c6415);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m15 ^ c64_10);
+                v3 = v3 + v7 + (m15 ^ c6410);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m14 ^ c64_1);
+                v0 = v0 + v5 + (m14 ^ c641);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m1 ^ c64_14);
+                v0 = v0 + v5 + (m1 ^ c6414);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m11 ^ c64_12);
+                v1 = v1 + v6 + (m11 ^ c6412);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m12 ^ c64_11);
+                v1 = v1 + v6 + (m12 ^ c6411);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m6 ^ c64_8);
+                v2 = v2 + v7 + (m6 ^ c648);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m8 ^ c64_6);
+                v2 = v2 + v7 + (m8 ^ c646);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m3 ^ c64_13);
+                v3 = v3 + v4 + (m3 ^ c6413);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m13 ^ c64_3);
+                v3 = v3 + v4 + (m13 ^ c643);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m2 ^ c64_12);
+                v0 = v0 + v4 + (m2 ^ c6412);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m12 ^ c64_2);
+                v0 = v0 + v4 + (m12 ^ c642);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m6 ^ c64_10);
+                v1 = v1 + v5 + (m6 ^ c6410);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m10 ^ c64_6);
+                v1 = v1 + v5 + (m10 ^ c646);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m0 ^ c64_11);
+                v2 = v2 + v6 + (m0 ^ c6411);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m11 ^ c64_0);
+                v2 = v2 + v6 + (m11 ^ c640);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m8 ^ c64_3);
+                v3 = v3 + v7 + (m8 ^ c643);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m3 ^ c64_8);
+                v3 = v3 + v7 + (m3 ^ c648);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m4 ^ c64_13);
+                v0 = v0 + v5 + (m4 ^ c6413);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m13 ^ c64_4);
+                v0 = v0 + v5 + (m13 ^ c644);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m7 ^ c64_5);
+                v1 = v1 + v6 + (m7 ^ c645);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m5 ^ c64_7);
+                v1 = v1 + v6 + (m5 ^ c647);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m15 ^ c64_14);
+                v2 = v2 + v7 + (m15 ^ c6414);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m14 ^ c64_15);
+                v2 = v2 + v7 + (m14 ^ c6415);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m1 ^ c64_9);
+                v3 = v3 + v4 + (m1 ^ c649);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m9 ^ c64_1);
+                v3 = v3 + v4 + (m9 ^ c641);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m12 ^ c64_5);
+                v0 = v0 + v4 + (m12 ^ c645);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m5 ^ c64_12);
+                v0 = v0 + v4 + (m5 ^ c6412);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m1 ^ c64_15);
+                v1 = v1 + v5 + (m1 ^ c6415);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m15 ^ c64_1);
+                v1 = v1 + v5 + (m15 ^ c641);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m14 ^ c64_13);
+                v2 = v2 + v6 + (m14 ^ c6413);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m13 ^ c64_14);
+                v2 = v2 + v6 + (m13 ^ c6414);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m4 ^ c64_10);
+                v3 = v3 + v7 + (m4 ^ c6410);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m10 ^ c64_4);
+                v3 = v3 + v7 + (m10 ^ c644);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m0 ^ c64_7);
+                v0 = v0 + v5 + (m0 ^ c647);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m7 ^ c64_0);
+                v0 = v0 + v5 + (m7 ^ c640);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m6 ^ c64_3);
+                v1 = v1 + v6 + (m6 ^ c643);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m3 ^ c64_6);
+                v1 = v1 + v6 + (m3 ^ c646);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m9 ^ c64_2);
+                v2 = v2 + v7 + (m9 ^ c642);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m2 ^ c64_9);
+                v2 = v2 + v7 + (m2 ^ c649);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m8 ^ c64_11);
+                v3 = v3 + v4 + (m8 ^ c6411);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m11 ^ c64_8);
+                v3 = v3 + v4 + (m11 ^ c648);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m13 ^ c64_11);
+                v0 = v0 + v4 + (m13 ^ c6411);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m11 ^ c64_13);
+                v0 = v0 + v4 + (m11 ^ c6413);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m7 ^ c64_14);
+                v1 = v1 + v5 + (m7 ^ c6414);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m14 ^ c64_7);
+                v1 = v1 + v5 + (m14 ^ c647);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m12 ^ c64_1);
+                v2 = v2 + v6 + (m12 ^ c641);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m1 ^ c64_12);
+                v2 = v2 + v6 + (m1 ^ c6412);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m3 ^ c64_9);
+                v3 = v3 + v7 + (m3 ^ c649);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m9 ^ c64_3);
+                v3 = v3 + v7 + (m9 ^ c643);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m5 ^ c64_0);
+                v0 = v0 + v5 + (m5 ^ c640);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m0 ^ c64_5);
+                v0 = v0 + v5 + (m0 ^ c645);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m15 ^ c64_4);
+                v1 = v1 + v6 + (m15 ^ c644);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m4 ^ c64_15);
+                v1 = v1 + v6 + (m4 ^ c6415);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m8 ^ c64_6);
+                v2 = v2 + v7 + (m8 ^ c646);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m6 ^ c64_8);
+                v2 = v2 + v7 + (m6 ^ c648);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m2 ^ c64_10);
+                v3 = v3 + v4 + (m2 ^ c6410);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m10 ^ c64_2);
+                v3 = v3 + v4 + (m10 ^ c642);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m6 ^ c64_15);
+                v0 = v0 + v4 + (m6 ^ c6415);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m15 ^ c64_6);
+                v0 = v0 + v4 + (m15 ^ c646);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m14 ^ c64_9);
+                v1 = v1 + v5 + (m14 ^ c649);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m9 ^ c64_14);
+                v1 = v1 + v5 + (m9 ^ c6414);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m11 ^ c64_3);
+                v2 = v2 + v6 + (m11 ^ c643);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m3 ^ c64_11);
+                v2 = v2 + v6 + (m3 ^ c6411);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m0 ^ c64_8);
+                v3 = v3 + v7 + (m0 ^ c648);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m8 ^ c64_0);
+                v3 = v3 + v7 + (m8 ^ c640);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m12 ^ c64_2);
+                v0 = v0 + v5 + (m12 ^ c642);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m2 ^ c64_12);
+                v0 = v0 + v5 + (m2 ^ c6412);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m13 ^ c64_7);
+                v1 = v1 + v6 + (m13 ^ c647);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m7 ^ c64_13);
+                v1 = v1 + v6 + (m7 ^ c6413);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m1 ^ c64_4);
+                v2 = v2 + v7 + (m1 ^ c644);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m4 ^ c64_1);
+                v2 = v2 + v7 + (m4 ^ c641);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m10 ^ c64_5);
+                v3 = v3 + v4 + (m10 ^ c645);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m5 ^ c64_10);
+                v3 = v3 + v4 + (m5 ^ c6410);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m10 ^ c64_2);
+                v0 = v0 + v4 + (m10 ^ c642);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m2 ^ c64_10);
+                v0 = v0 + v4 + (m2 ^ c6410);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m8 ^ c64_4);
+                v1 = v1 + v5 + (m8 ^ c644);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m4 ^ c64_8);
+                v1 = v1 + v5 + (m4 ^ c648);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m7 ^ c64_6);
+                v2 = v2 + v6 + (m7 ^ c646);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m6 ^ c64_7);
+                v2 = v2 + v6 + (m6 ^ c647);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m1 ^ c64_5);
+                v3 = v3 + v7 + (m1 ^ c645);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m5 ^ c64_1);
+                v3 = v3 + v7 + (m5 ^ c641);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m15 ^ c64_11);
+                v0 = v0 + v5 + (m15 ^ c6411);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m11 ^ c64_15);
+                v0 = v0 + v5 + (m11 ^ c6415);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m9 ^ c64_14);
+                v1 = v1 + v6 + (m9 ^ c6414);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m14 ^ c64_9);
+                v1 = v1 + v6 + (m14 ^ c649);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m3 ^ c64_12);
+                v2 = v2 + v7 + (m3 ^ c6412);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m12 ^ c64_3);
+                v2 = v2 + v7 + (m12 ^ c643);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m13 ^ c64_0);
+                v3 = v3 + v4 + (m13 ^ c640);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m0 ^ c64_13);
+                v3 = v3 + v4 + (m0 ^ c6413);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m0 ^ c64_1);
+                v0 = v0 + v4 + (m0 ^ c641);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m1 ^ c64_0);
+                v0 = v0 + v4 + (m1 ^ c640);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m2 ^ c64_3);
+                v1 = v1 + v5 + (m2 ^ c643);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m3 ^ c64_2);
+                v1 = v1 + v5 + (m3 ^ c642);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m4 ^ c64_5);
+                v2 = v2 + v6 + (m4 ^ c645);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m5 ^ c64_4);
+                v2 = v2 + v6 + (m5 ^ c644);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m6 ^ c64_7);
+                v3 = v3 + v7 + (m6 ^ c647);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m7 ^ c64_6);
+                v3 = v3 + v7 + (m7 ^ c646);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m8 ^ c64_9);
+                v0 = v0 + v5 + (m8 ^ c649);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m9 ^ c64_8);
+                v0 = v0 + v5 + (m9 ^ c648);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m10 ^ c64_11);
+                v1 = v1 + v6 + (m10 ^ c6411);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m11 ^ c64_10);
+                v1 = v1 + v6 + (m11 ^ c6410);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m12 ^ c64_13);
+                v2 = v2 + v7 + (m12 ^ c6413);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m13 ^ c64_12);
+                v2 = v2 + v7 + (m13 ^ c6412);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m14 ^ c64_15);
+                v3 = v3 + v4 + (m14 ^ c6415);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m15 ^ c64_14);
+                v3 = v3 + v4 + (m15 ^ c6414);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m14 ^ c64_10);
+                v0 = v0 + v4 + (m14 ^ c6410);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m10 ^ c64_14);
+                v0 = v0 + v4 + (m10 ^ c6414);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m4 ^ c64_8);
+                v1 = v1 + v5 + (m4 ^ c648);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m8 ^ c64_4);
+                v1 = v1 + v5 + (m8 ^ c644);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m9 ^ c64_15);
+                v2 = v2 + v6 + (m9 ^ c6415);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m15 ^ c64_9);
+                v2 = v2 + v6 + (m15 ^ c649);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m13 ^ c64_6);
+                v3 = v3 + v7 + (m13 ^ c646);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m6 ^ c64_13);
+                v3 = v3 + v7 + (m6 ^ c6413);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m1 ^ c64_12);
+                v0 = v0 + v5 + (m1 ^ c6412);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m12 ^ c64_1);
+                v0 = v0 + v5 + (m12 ^ c641);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m0 ^ c64_2);
+                v1 = v1 + v6 + (m0 ^ c642);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m2 ^ c64_0);
+                v1 = v1 + v6 + (m2 ^ c640);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m11 ^ c64_7);
+                v2 = v2 + v7 + (m11 ^ c647);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m7 ^ c64_11);
+                v2 = v2 + v7 + (m7 ^ c6411);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m5 ^ c64_3);
+                v3 = v3 + v4 + (m5 ^ c643);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m3 ^ c64_5);
+                v3 = v3 + v4 + (m3 ^ c645);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m11 ^ c64_8);
+                v0 = v0 + v4 + (m11 ^ c648);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m8 ^ c64_11);
+                v0 = v0 + v4 + (m8 ^ c6411);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m12 ^ c64_0);
+                v1 = v1 + v5 + (m12 ^ c640);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m0 ^ c64_12);
+                v1 = v1 + v5 + (m0 ^ c6412);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m5 ^ c64_2);
+                v2 = v2 + v6 + (m5 ^ c642);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m2 ^ c64_5);
+                v2 = v2 + v6 + (m2 ^ c645);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m15 ^ c64_13);
+                v3 = v3 + v7 + (m15 ^ c6413);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m13 ^ c64_15);
+                v3 = v3 + v7 + (m13 ^ c6415);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m10 ^ c64_14);
+                v0 = v0 + v5 + (m10 ^ c6414);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m14 ^ c64_10);
+                v0 = v0 + v5 + (m14 ^ c6410);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m3 ^ c64_6);
+                v1 = v1 + v6 + (m3 ^ c646);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m6 ^ c64_3);
+                v1 = v1 + v6 + (m6 ^ c643);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m7 ^ c64_1);
+                v2 = v2 + v7 + (m7 ^ c641);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m1 ^ c64_7);
+                v2 = v2 + v7 + (m1 ^ c647);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m9 ^ c64_4);
+                v3 = v3 + v4 + (m9 ^ c644);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m4 ^ c64_9);
+                v3 = v3 + v4 + (m4 ^ c649);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m7 ^ c64_9);
+                v0 = v0 + v4 + (m7 ^ c649);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m9 ^ c64_7);
+                v0 = v0 + v4 + (m9 ^ c647);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m3 ^ c64_1);
+                v1 = v1 + v5 + (m3 ^ c641);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m1 ^ c64_3);
+                v1 = v1 + v5 + (m1 ^ c643);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m13 ^ c64_12);
+                v2 = v2 + v6 + (m13 ^ c6412);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m12 ^ c64_13);
+                v2 = v2 + v6 + (m12 ^ c6413);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m11 ^ c64_14);
+                v3 = v3 + v7 + (m11 ^ c6414);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m14 ^ c64_11);
+                v3 = v3 + v7 + (m14 ^ c6411);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m2 ^ c64_6);
+                v0 = v0 + v5 + (m2 ^ c646);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m6 ^ c64_2);
+                v0 = v0 + v5 + (m6 ^ c642);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m5 ^ c64_10);
+                v1 = v1 + v6 + (m5 ^ c6410);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m10 ^ c64_5);
+                v1 = v1 + v6 + (m10 ^ c645);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m4 ^ c64_0);
+                v2 = v2 + v7 + (m4 ^ c640);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m0 ^ c64_4);
+                v2 = v2 + v7 + (m0 ^ c644);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m15 ^ c64_8);
+                v3 = v3 + v4 + (m15 ^ c648);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m8 ^ c64_15);
+                v3 = v3 + v4 + (m8 ^ c6415);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m9 ^ c64_0);
+                v0 = v0 + v4 + (m9 ^ c640);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m0 ^ c64_9);
+                v0 = v0 + v4 + (m0 ^ c649);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m5 ^ c64_7);
+                v1 = v1 + v5 + (m5 ^ c647);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m7 ^ c64_5);
+                v1 = v1 + v5 + (m7 ^ c645);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m2 ^ c64_4);
+                v2 = v2 + v6 + (m2 ^ c644);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m4 ^ c64_2);
+                v2 = v2 + v6 + (m4 ^ c642);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m10 ^ c64_15);
+                v3 = v3 + v7 + (m10 ^ c6415);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m15 ^ c64_10);
+                v3 = v3 + v7 + (m15 ^ c6410);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m14 ^ c64_1);
+                v0 = v0 + v5 + (m14 ^ c641);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m1 ^ c64_14);
+                v0 = v0 + v5 + (m1 ^ c6414);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m11 ^ c64_12);
+                v1 = v1 + v6 + (m11 ^ c6412);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m12 ^ c64_11);
+                v1 = v1 + v6 + (m12 ^ c6411);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m6 ^ c64_8);
+                v2 = v2 + v7 + (m6 ^ c648);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m8 ^ c64_6);
+                v2 = v2 + v7 + (m8 ^ c646);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m3 ^ c64_13);
+                v3 = v3 + v4 + (m3 ^ c6413);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m13 ^ c64_3);
+                v3 = v3 + v4 + (m13 ^ c643);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                v0 = v0 + v4 + (m2 ^ c64_12);
+                v0 = v0 + v4 + (m2 ^ c6412);
                 v12 = ((v12 ^ v0) << 32) | ((v12 ^ v0) >> 32);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 39) | ((v4 ^ v8) >> 25);
-                v0 = v0 + v4 + (m12 ^ c64_2);
+                v0 = v0 + v4 + (m12 ^ c642);
                 v12 = ((v12 ^ v0) << 48) | ((v12 ^ v0) >> 16);
                 v8 = v8 + v12;
                 v4 = ((v4 ^ v8) << 53) | ((v4 ^ v8) >> 11);
 
-                v1 = v1 + v5 + (m6 ^ c64_10);
+                v1 = v1 + v5 + (m6 ^ c6410);
                 v13 = ((v13 ^ v1) << 32) | ((v13 ^ v1) >> 32);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 39) | ((v5 ^ v9) >> 25);
-                v1 = v1 + v5 + (m10 ^ c64_6);
+                v1 = v1 + v5 + (m10 ^ c646);
                 v13 = ((v13 ^ v1) << 48) | ((v13 ^ v1) >> 16);
                 v9 = v9 + v13;
                 v5 = ((v5 ^ v9) << 53) | ((v5 ^ v9) >> 11);
 
-                v2 = v2 + v6 + (m0 ^ c64_11);
+                v2 = v2 + v6 + (m0 ^ c6411);
                 v14 = ((v14 ^ v2) << 32) | ((v14 ^ v2) >> 32);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 39) | ((v6 ^ v10) >> 25);
-                v2 = v2 + v6 + (m11 ^ c64_0);
+                v2 = v2 + v6 + (m11 ^ c640);
                 v14 = ((v14 ^ v2) << 48) | ((v14 ^ v2) >> 16);
                 v10 = v10 + v14;
                 v6 = ((v6 ^ v10) << 53) | ((v6 ^ v10) >> 11);
 
-                v3 = v3 + v7 + (m8 ^ c64_3);
+                v3 = v3 + v7 + (m8 ^ c643);
                 v15 = ((v15 ^ v3) << 32) | ((v15 ^ v3) >> 32);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 39) | ((v7 ^ v11) >> 25);
-                v3 = v3 + v7 + (m3 ^ c64_8);
+                v3 = v3 + v7 + (m3 ^ c648);
                 v15 = ((v15 ^ v3) << 48) | ((v15 ^ v3) >> 16);
                 v11 = v11 + v15;
                 v7 = ((v7 ^ v11) << 53) | ((v7 ^ v11) >> 11);
 
-                v0 = v0 + v5 + (m4 ^ c64_13);
+                v0 = v0 + v5 + (m4 ^ c6413);
                 v15 = ((v15 ^ v0) << 32) | ((v15 ^ v0) >> 32);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 39) | ((v5 ^ v10) >> 25);
-                v0 = v0 + v5 + (m13 ^ c64_4);
+                v0 = v0 + v5 + (m13 ^ c644);
                 v15 = ((v15 ^ v0) << 48) | ((v15 ^ v0) >> 16);
                 v10 = v10 + v15;
                 v5 = ((v5 ^ v10) << 53) | ((v5 ^ v10) >> 11);
 
-                v1 = v1 + v6 + (m7 ^ c64_5);
+                v1 = v1 + v6 + (m7 ^ c645);
                 v12 = ((v12 ^ v1) << 32) | ((v12 ^ v1) >> 32);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 39) | ((v6 ^ v11) >> 25);
-                v1 = v1 + v6 + (m5 ^ c64_7);
+                v1 = v1 + v6 + (m5 ^ c647);
                 v12 = ((v12 ^ v1) << 48) | ((v12 ^ v1) >> 16);
                 v11 = v11 + v12;
                 v6 = ((v6 ^ v11) << 53) | ((v6 ^ v11) >> 11);
 
-                v2 = v2 + v7 + (m15 ^ c64_14);
+                v2 = v2 + v7 + (m15 ^ c6414);
                 v13 = ((v13 ^ v2) << 32) | ((v13 ^ v2) >> 32);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 39) | ((v7 ^ v8) >> 25);
-                v2 = v2 + v7 + (m14 ^ c64_15);
+                v2 = v2 + v7 + (m14 ^ c6415);
                 v13 = ((v13 ^ v2) << 48) | ((v13 ^ v2) >> 16);
                 v8 = v8 + v13;
                 v7 = ((v7 ^ v8) << 53) | ((v7 ^ v8) >> 11);
 
-                v3 = v3 + v4 + (m1 ^ c64_9);
+                v3 = v3 + v4 + (m1 ^ c649);
                 v14 = ((v14 ^ v3) << 32) | ((v14 ^ v3) >> 32);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 39) | ((v4 ^ v9) >> 25);
-                v3 = v3 + v4 + (m9 ^ c64_1);
+                v3 = v3 + v4 + (m9 ^ c641);
                 v14 = ((v14 ^ v3) << 48) | ((v14 ^ v3) >> 16);
                 v9 = v9 + v14;
                 v4 = ((v4 ^ v9) << 53) | ((v4 ^ v9) >> 11);
 
-                m_state[0] ^= v0 ^ v8;
-                m_state[1] ^= v1 ^ v9;
-                m_state[2] ^= v2 ^ v10;
-                m_state[3] ^= v3 ^ v11;
-                m_state[4] ^= v4 ^ v12;
-                m_state[5] ^= v5 ^ v13;
-                m_state[6] ^= v6 ^ v14;
-                m_state[7] ^= v7 ^ v15;
+                _mState[0] ^= v0 ^ v8;
+                _mState[1] ^= v1 ^ v9;
+                _mState[2] ^= v2 ^ v10;
+                _mState[3] ^= v3 ^ v11;
+                _mState[4] ^= v4 ^ v12;
+                _mState[5] ^= v5 ^ v13;
+                _mState[6] ^= v6 ^ v14;
+                _mState[7] ^= v7 ^ v15;
             }
 
         protected override byte[] GetResult()
         {
-            return Converters.ConvertULongsToBytesSwapOrder(m_state, 0, HashSize / 8);
+            return Converters.ConvertULongsToBytesSwapOrder(_mState, 0, HashSize / 8);
         }
 
         protected override void Finish()
         {
-            ulong bits = m_processed_bytes * 8;
+            var bits = m_processed_bytes * 8;
 
             if (m_buffer.Pos == 111)
             {
@@ -2485,13 +2485,13 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
             }
             else
             {
-                byte[] pad = new byte[BlockSize];
+                var pad = new byte[BlockSize];
                 pad[0] = 0x80;
 
                 if (m_buffer.Pos < 111)
                 {
                     if (m_buffer.Pos == 0)
-                        m_nullt = true;
+                        MNullt = true;
                     m_processed_bytes -= (ulong)(111 - m_buffer.Pos);
                     TransformBytes(pad, 0, 111 - m_buffer.Pos);
                 }
@@ -2501,7 +2501,7 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
                     TransformBytes(pad, 0, 128 - m_buffer.Pos);
                     m_processed_bytes -= 111;
                     TransformBytes(pad, 1, 111);
-                    m_nullt = true;
+                    MNullt = true;
                 }
                 if (HashSize == 48)
                     TransformByte(0);
@@ -2513,7 +2513,7 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
 
             m_processed_bytes -= 16;
 
-            byte[] msg = new byte[16];
+            var msg = new byte[16];
             Converters.ConvertULongToBytesSwapOrder(bits, msg, 8);
 
             TransformBytes(msg, 0, 16);
@@ -2522,9 +2522,9 @@ namespace Lenneth.Core.Framework.HashLib.Crypto.SHA3
         public override void Initialize()
         {
             if (HashSize == 48)
-                Array.Copy(m_initial_state_384, m_state, 8);
+                Array.Copy(MInitialState384, _mState, 8);
             else
-                Array.Copy(m_initial_state_512, m_state, 8);
+                Array.Copy(MInitialState512, _mState, 8);
 
             base.Initialize();
         }

@@ -50,7 +50,7 @@ namespace Lenneth.Core.Framework.HashLib
                 typeof(Crypto.BuildIn.Sha384Managed), 
                 typeof(Crypto.BuildIn.Sha512Cng), 
                 typeof(Crypto.BuildIn.Sha512Managed), 
-			typeof(Crypto.MD5),
+			typeof(Crypto.Md5),
                 typeof(Crypto.RIPEMD160),
                 typeof(Crypto.SHA1),
                 typeof(Crypto.SHA256),
