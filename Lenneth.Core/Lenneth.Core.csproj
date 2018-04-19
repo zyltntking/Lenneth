@@ -137,6 +137,8 @@
     <Compile Include="Extensions\Extra\EnvironmentExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\EventHandlerExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\GuidExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\Int16Extensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\Int32Extensions\Extensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
