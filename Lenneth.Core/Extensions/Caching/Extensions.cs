@@ -6,6 +6,8 @@ namespace Lenneth.Core.Extensions.Caching
 {
     public static class Extensions
     {
+        #region MemoryCache
+
         #region FromCache
 
         /// <summary>A TKey extension method that from cache.</summary>
@@ -154,5 +156,7 @@ namespace Lenneth.Core.Extensions.Caching
         }
 
         #endregion AddOrGetExisting
+
+        #endregion MemoryCache
     }
 }

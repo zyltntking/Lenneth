@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lenneth.Core.Extensions.Collection
+namespace Lenneth.Core.Extensions.Collections.ICollection
 {
     public static class Extensions
     {
-        #region ICollection AddIf
+        #region ICollection
+
+        #region AddIf
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that adds only if the value satisfies the predicate.
@@ -27,9 +29,9 @@ namespace Lenneth.Core.Extensions.Collection
             return false;
         }
 
-        #endregion ICollection AddIf
+        #endregion AddIf
 
-        #region ICollection AddIfNotContains
+        #region AddIfNotContains
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that add value if the ICollection doesn't contains it already.
@@ -49,9 +51,9 @@ namespace Lenneth.Core.Extensions.Collection
             return false;
         }
 
-        #endregion ICollection AddIfNotContains
+        #endregion AddIfNotContains
 
-        #region ICollection AddRange
+        #region AddRange
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that adds a range to 'values'.
@@ -67,9 +69,9 @@ namespace Lenneth.Core.Extensions.Collection
             }
         }
 
-        #endregion ICollection AddRange
+        #endregion AddRange
 
-        #region ICollection AddRangeIf
+        #region AddRangeIf
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that adds a collection of objects to the end of this collection only
@@ -90,9 +92,9 @@ namespace Lenneth.Core.Extensions.Collection
             }
         }
 
-        #endregion ICollection AddRangeIf
+        #endregion AddRangeIf
 
-        #region ICollection AddRangeIfNotContains
+        #region AddRangeIfNotContains
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that adds a range of values that's not already in the ICollection.
@@ -111,9 +113,9 @@ namespace Lenneth.Core.Extensions.Collection
             }
         }
 
-        #endregion ICollection AddRangeIfNotContains
+        #endregion AddRangeIfNotContains
 
-        #region ICollection ContainsAll
+        #region ContainsAll
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that query if '@this' contains all values.
@@ -127,9 +129,9 @@ namespace Lenneth.Core.Extensions.Collection
             return values.All(@this.Contains);
         }
 
-        #endregion ICollection ContainsAll
+        #endregion ContainsAll
 
-        #region ICollection ContainsAny
+        #region ContainsAny
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that query if '@this' contains any value.
@@ -151,9 +153,9 @@ namespace Lenneth.Core.Extensions.Collection
             return false;
         }
 
-        #endregion ICollection ContainsAny
+        #endregion ContainsAny
 
-        #region ICollection IsEmpty
+        #region IsEmpty
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that query if the collection is empty.
@@ -166,9 +168,9 @@ namespace Lenneth.Core.Extensions.Collection
             return @this.Count == 0;
         }
 
-        #endregion ICollection IsEmpty
+        #endregion IsEmpty
 
-        #region ICollection IsNotEmpty
+        #region IsNotEmpty
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that query if the collection is not empty.
@@ -181,9 +183,9 @@ namespace Lenneth.Core.Extensions.Collection
             return @this.Count != 0;
         }
 
-        #endregion ICollection IsNotEmpty
+        #endregion IsNotEmpty
 
-        #region ICollection IsNotNullOrEmpty
+        #region IsNotNullOrEmpty
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that queries if the collection is not (null or is empty).
@@ -196,9 +198,9 @@ namespace Lenneth.Core.Extensions.Collection
             return @this != null && @this.Count != 0;
         }
 
-        #endregion ICollection IsNotNullOrEmpty
+        #endregion IsNotNullOrEmpty
 
-        #region ICollection IsNullOrEmpty
+        #region IsNullOrEmpty
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that queries if the collection is null or is empty.
@@ -211,9 +213,9 @@ namespace Lenneth.Core.Extensions.Collection
             return @this == null || @this.Count == 0;
         }
 
-        #endregion ICollection IsNullOrEmpty
+        #endregion IsNullOrEmpty
 
-        #region ICollection RemoveIf
+        #region RemoveIf
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that removes if.
@@ -230,9 +232,9 @@ namespace Lenneth.Core.Extensions.Collection
             }
         }
 
-        #endregion ICollection RemoveIf
+        #endregion RemoveIf
 
-        #region ICollection RemoveIfContains
+        #region RemoveIfContains
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that removes if contains.
@@ -248,9 +250,9 @@ namespace Lenneth.Core.Extensions.Collection
             }
         }
 
-        #endregion ICollection RemoveIfContains
+        #endregion RemoveIfContains
 
-        #region ICollection RemoveRange
+        #region RemoveRange
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that removes the range.
@@ -266,9 +268,9 @@ namespace Lenneth.Core.Extensions.Collection
             }
         }
 
-        #endregion ICollection RemoveRange
+        #endregion RemoveRange
 
-        #region ICollection RemoveRangeIf
+        #region RemoveRangeIf
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that removes range item that satisfy the predicate.
@@ -288,9 +290,9 @@ namespace Lenneth.Core.Extensions.Collection
             }
         }
 
-        #endregion ICollection RemoveRangeIf
+        #endregion RemoveRangeIf
 
-        #region ICollection RemoveRangeIfContains
+        #region RemoveRangeIfContains
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that removes the range if contains.
@@ -309,9 +311,9 @@ namespace Lenneth.Core.Extensions.Collection
             }
         }
 
-        #endregion ICollection RemoveRangeIfContains
+        #endregion RemoveRangeIfContains
 
-        #region ICollection RemoveWhere
+        #region RemoveWhere
 
         /// <summary>
         ///     An ICollection&lt;T&gt; extension method that removes value that satisfy the predicate.
@@ -328,6 +330,8 @@ namespace Lenneth.Core.Extensions.Collection
             }
         }
 
-        #endregion ICollection RemoveWhere
+        #endregion RemoveWhere
+
+        #endregion ICollection
     }
 }
