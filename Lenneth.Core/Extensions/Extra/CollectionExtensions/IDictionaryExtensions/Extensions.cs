@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 
-namespace Lenneth.Core.Extensions.Collections.IDictionary
+namespace Lenneth.Core.Extensions.Extra.CollectionExtensions.IDictionaryExtensions
 {
     public static class Extensions
     {
@@ -368,7 +368,7 @@ namespace Lenneth.Core.Extensions.Collections.IDictionary
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>@this as a Hashtable.</returns>
-        public static Hashtable ToHashtable(this System.Collections.IDictionary @this)
+        public static Hashtable ToHashtable(this IDictionary @this)
         {
             return new Hashtable(@this);
         }

@@ -2,7 +2,7 @@
 using System.IO.Compression;
 using System.Text;
 
-namespace Lenneth.Core.Extensions.Compression.ZipFile
+namespace Lenneth.Core.Extensions.Extra.CompressionExtensions.ZipFileExtensions
 {
     public static class Extensions
     {
@@ -22,7 +22,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// </param>
         public static void CreateZipFile(this DirectoryInfo @this, string destinationArchiveFileName)
         {
-            System.IO.Compression.ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFileName);
+            ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFileName);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// </param>
         public static void CreateZipFile(this DirectoryInfo @this, string destinationArchiveFileName, CompressionLevel compressionLevel, bool includeBaseDirectory)
         {
-            System.IO.Compression.ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFileName, compressionLevel, includeBaseDirectory);
+            ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFileName, compressionLevel, includeBaseDirectory);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// </param>
         public static void CreateZipFile(this DirectoryInfo @this, string destinationArchiveFileName, CompressionLevel compressionLevel, bool includeBaseDirectory, Encoding entryNameEncoding)
         {
-            System.IO.Compression.ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFileName, compressionLevel, includeBaseDirectory, entryNameEncoding);
+            ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFileName, compressionLevel, includeBaseDirectory, entryNameEncoding);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// </param>
         public static void CreateZipFile(this DirectoryInfo @this, FileInfo destinationArchiveFile)
         {
-            System.IO.Compression.ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFile.FullName);
+            ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFile.FullName);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// </param>
         public static void CreateZipFile(this DirectoryInfo @this, FileInfo destinationArchiveFile, CompressionLevel compressionLevel, bool includeBaseDirectory)
         {
-            System.IO.Compression.ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFile.FullName, compressionLevel, includeBaseDirectory);
+            ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFile.FullName, compressionLevel, includeBaseDirectory);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// </param>
         public static void CreateZipFile(this DirectoryInfo @this, FileInfo destinationArchiveFile, CompressionLevel compressionLevel, bool includeBaseDirectory, Encoding entryNameEncoding)
         {
-            System.IO.Compression.ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFile.FullName, compressionLevel, includeBaseDirectory, entryNameEncoding);
+            ZipFile.CreateFromDirectory(@this.FullName, destinationArchiveFile.FullName, compressionLevel, includeBaseDirectory, entryNameEncoding);
         }
 
         #endregion CreateZipFile
@@ -169,7 +169,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// <returns>A ZipArchive.</returns>
         public static ZipArchive OpenZipFile(this FileInfo @this, ZipArchiveMode mode)
         {
-            return System.IO.Compression.ZipFile.Open(@this.FullName, mode);
+            return ZipFile.Open(@this.FullName, mode);
         }
 
         /// <summary>Opens a zip archive at the specified path and in the specified mode.</summary>
@@ -190,7 +190,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// <returns>A ZipArchive.</returns>
         public static ZipArchive OpenZipFile(this FileInfo @this, ZipArchiveMode mode, Encoding entryNameEncoding)
         {
-            return System.IO.Compression.ZipFile.Open(@this.FullName, mode, entryNameEncoding);
+            return ZipFile.Open(@this.FullName, mode, entryNameEncoding);
         }
 
         #endregion OpenZipFile
@@ -208,7 +208,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// <returns>The opened zip archive.</returns>
         public static ZipArchive OpenReadZipFile(this FileInfo @this)
         {
-            return System.IO.Compression.ZipFile.OpenRead(@this.FullName);
+            return ZipFile.OpenRead(@this.FullName);
         }
 
         #endregion OpenReadZipFile
@@ -226,7 +226,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// </param>
         public static void ExtractZipFileToDirectory(this FileInfo @this, string destinationDirectoryName)
         {
-            System.IO.Compression.ZipFile.ExtractToDirectory(@this.FullName, destinationDirectoryName);
+            ZipFile.ExtractToDirectory(@this.FullName, destinationDirectoryName);
         }
 
         /// <summary>
@@ -245,7 +245,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// </param>
         public static void ExtractZipFileToDirectory(this FileInfo @this, string destinationDirectoryName, Encoding entryNameEncoding)
         {
-            System.IO.Compression.ZipFile.ExtractToDirectory(@this.FullName, destinationDirectoryName, entryNameEncoding);
+            ZipFile.ExtractToDirectory(@this.FullName, destinationDirectoryName, entryNameEncoding);
         }
 
         /// <summary>Extracts all the files in the specified zip archive to a directory on the file system.</summary>
@@ -253,7 +253,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// <param name="destinationDirectory">Pathname of the destination directory.</param>
         public static void ExtractZipFileToDirectory(this FileInfo @this, DirectoryInfo destinationDirectory)
         {
-            System.IO.Compression.ZipFile.ExtractToDirectory(@this.FullName, destinationDirectory.FullName);
+            ZipFile.ExtractToDirectory(@this.FullName, destinationDirectory.FullName);
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace Lenneth.Core.Extensions.Compression.ZipFile
         /// </param>
         public static void ExtractZipFileToDirectory(this FileInfo @this, DirectoryInfo destinationDirectory, Encoding entryNameEncoding)
         {
-            System.IO.Compression.ZipFile.ExtractToDirectory(@this.FullName, destinationDirectory.FullName, entryNameEncoding);
+            ZipFile.ExtractToDirectory(@this.FullName, destinationDirectory.FullName, entryNameEncoding);
         }
 
         #endregion ExtractZipFileToDirectory

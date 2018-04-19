@@ -2,7 +2,7 @@
 using System.IO.Compression;
 using System.Text;
 
-namespace Lenneth.Core.Extensions.Compression.GZip
+namespace Lenneth.Core.Extensions.Extra.CompressionExtensions.GZipExtensions
 {
     public static class Extensions
     {
@@ -85,7 +85,7 @@ namespace Lenneth.Core.Extensions.Compression.GZip
         {
             using (var originalFileStream = @this.OpenRead())
             {
-                using (var compressedFileStream = System.IO.File.Create(@this.FullName + ".gz"))
+                using (var compressedFileStream = File.Create(@this.FullName + ".gz"))
                 {
                     using (var compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
                     {
@@ -104,7 +104,7 @@ namespace Lenneth.Core.Extensions.Compression.GZip
         {
             using (var originalFileStream = @this.OpenRead())
             {
-                using (var compressedFileStream = System.IO.File.Create(destination))
+                using (var compressedFileStream = File.Create(destination))
                 {
                     using (var compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
                     {
@@ -123,7 +123,7 @@ namespace Lenneth.Core.Extensions.Compression.GZip
         {
             using (var originalFileStream = @this.OpenRead())
             {
-                using (var compressedFileStream = System.IO.File.Create(destination.FullName))
+                using (var compressedFileStream = File.Create(destination.FullName))
                 {
                     using (var compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
                     {
@@ -148,7 +148,7 @@ namespace Lenneth.Core.Extensions.Compression.GZip
             {
                 var newFileName = Path.GetFileNameWithoutExtension(@this.FullName);
 
-                using (var decompressedFileStream = System.IO.File.Create(newFileName))
+                using (var decompressedFileStream = File.Create(newFileName))
                 {
                     using (var decompressionStream = new GZipStream(originalFileStream, CompressionMode.Decompress))
                     {
@@ -168,7 +168,7 @@ namespace Lenneth.Core.Extensions.Compression.GZip
         {
             using (var originalFileStream = @this.OpenRead())
             {
-                using (var compressedFileStream = System.IO.File.Create(destination))
+                using (var compressedFileStream = File.Create(destination))
                 {
                     using (var compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
                     {
@@ -188,7 +188,7 @@ namespace Lenneth.Core.Extensions.Compression.GZip
         {
             using (var originalFileStream = @this.OpenRead())
             {
-                using (var compressedFileStream = System.IO.File.Create(destination.FullName))
+                using (var compressedFileStream = File.Create(destination.FullName))
                 {
                     using (var compressionStream = new GZipStream(compressedFileStream, CompressionMode.Compress))
                     {

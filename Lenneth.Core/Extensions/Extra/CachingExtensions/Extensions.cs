@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Runtime.Caching;
 
-namespace Lenneth.Core.Extensions.Caching
+namespace Lenneth.Core.Extensions.Extra.CachingExtensions
 {
     public static class Extensions
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lenneth.Core.Extensions.Collections.NameValueCollection
+namespace Lenneth.Core.Extensions.Extra.CollectionExtensions.NameValueCollectionExtensions
 {
     public static class Extensions
     {

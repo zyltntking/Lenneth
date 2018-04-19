@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lenneth.Core.Extensions.Collections.ICollection
+namespace Lenneth.Core.Extensions.Extra.CollectionExtensions.ICollectionExtensions
 {
     public static class Extensions
     {
