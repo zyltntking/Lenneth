@@ -14,10 +14,7 @@ namespace Lenneth.Core.Extensions
         /// <returns></returns>
         public static bool IsVirtual(this PropertyInfo aPi)
         {
-            if (aPi.GetAccessors(true).Length == 0)
-                return false;
-
-            return aPi.GetAccessors(true)[0].IsVirtual();
+            return aPi.GetAccessors(true).Length != 0 && aPi.GetAccessors(true)[0].IsVirtual();
         }
 
         /// <summary>
@@ -27,9 +24,7 @@ namespace Lenneth.Core.Extensions
         /// <returns></returns>
         public static bool IsAbstract(this PropertyInfo aPi)
         {
-            if (aPi.GetAccessors(true).Length == 0)
-                return false;
-            return aPi.GetAccessors(true)[0].IsAbstract;
+            return aPi.GetAccessors(true).Length != 0 && aPi.GetAccessors(true)[0].IsAbstract;
         }
 
         /// <summary>
@@ -39,10 +34,7 @@ namespace Lenneth.Core.Extensions
         /// <returns></returns>
         public static bool IsOverriden(this PropertyInfo aPi)
         {
-            if (aPi.GetAccessors(true).Length == 0)
-                return false;
-
-            return aPi.GetAccessors(true)[0].IsOverriden();
+            return aPi.GetAccessors(true).Length != 0 && aPi.GetAccessors(true)[0].IsOverriden();
         }
 
         public static bool IsDerivedFrom(this PropertyInfo aPi, PropertyInfo aBase,

@@ -54,7 +54,7 @@ namespace Lenneth.Core.Extensions
                 aList.Remove(ele);
         }
 
-        public static int GetHashCode<T>(IList<T> aList)
+        public static int GetHashCode<T>(IEnumerable<T> aList)
         {
             return aList.Aggregate(0, (current, el) => current ^ el.GetHashCode());
         }

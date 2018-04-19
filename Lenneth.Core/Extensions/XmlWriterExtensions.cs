@@ -55,7 +55,7 @@ namespace Lenneth.Core.Extensions
             aWriter.WriteEndElement();
         }
 
-        public static void WriteElementEnum<T>(this XmlWriter aWriter, string aName, Enum aEnum)
+        public static void WriteElementEnum(this XmlWriter aWriter, string aName, Enum aEnum)
         {
             aWriter.WriteElementString(aName, aEnum.ToString().Replace(", ", " "));
         }
@@ -80,7 +80,7 @@ namespace Lenneth.Core.Extensions
             aWriter.WriteAttributeString(aName, aObj.ToString());
         }
 
-        public static void WriteAttributeEnum<T>(this XmlWriter aWriter, string aName, Enum aEnum)
+        public static void WriteAttributeEnum(this XmlWriter aWriter, string aName, Enum aEnum)
         {
             aWriter.WriteAttributeString(aName, aEnum.ToString().Replace(", ", " "));
         }
@@ -92,8 +92,7 @@ namespace Lenneth.Core.Extensions
         /// <param name="aWriteFunc"></param>
         public static void WriteXml(Stream aStream, Action<XmlWriter> aWriteFunc)
         {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
+            var settings = new XmlWriterSettings {Indent = true};
 
             using (XmlWriter writer = new NoNamespacesXmlWriter(XmlWriter.Create(aStream, settings)))
             {

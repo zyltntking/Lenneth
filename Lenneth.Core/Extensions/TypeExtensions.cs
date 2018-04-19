@@ -63,7 +63,7 @@ namespace Lenneth.Core.Extensions
 
             foreach (var t in aType.GetBaseTypes(true))
             {
-                if (t == typeof(Object))
+                if (t == typeof(object))
                     break;
                 if (t == typeof(ValueType))
                     break;
@@ -93,7 +93,7 @@ namespace Lenneth.Core.Extensions
 
             foreach (var t in aType.GetBaseTypes(true))
             {
-                if (t == typeof(Object))
+                if (t == typeof(object))
                     break;
                 if (t == typeof(ValueType))
                     break;
@@ -126,7 +126,7 @@ namespace Lenneth.Core.Extensions
         {
             foreach (var t in aType.GetBaseTypes(true).Reverse())
             {
-                if (t == typeof(Object))
+                if (t == typeof(object))
                     continue;
                 if (t == typeof(ValueType))
                     continue;

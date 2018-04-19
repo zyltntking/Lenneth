@@ -38,37 +38,31 @@ namespace Lenneth.Core.Extensions
 
         public static bool Unique<T>(this IEnumerable<T> aEnum)
         {
-            return aEnum.Distinct().Count() == aEnum.Count();
+            var enumerable = aEnum as T[] ?? aEnum.ToArray();
+            return enumerable.Distinct().Count() == enumerable.Count();
         }
 
         public static IEnumerable<T> Except<T>(this IEnumerable<T> aEnumerable, T aElement)
         {
-            foreach (var ele in aEnumerable)
-            {
-                if (!ele.Equals(aElement))
-                    yield return ele;
-            }
+            return aEnumerable.Where(ele => !ele.Equals(aElement));
         }
 
         public static IEnumerable<T> Except<T>(this IEnumerable<T> aEnumerable, T aElement,
             IEqualityComparer<T> aComparer)
         {
-            foreach (var ele in aEnumerable)
-            {
-                if (!aComparer.Equals(ele, aElement))
-                    yield return ele;
-            }
+            return aEnumerable.Where(ele => !aComparer.Equals(ele, aElement));
         }
 
         public static IEnumerable<T> ExceptExact<T>(this IEnumerable<T> aEnumerable,
             IEnumerable<T> aValues)
         {
-            if (aValues.FirstOrDefault() == null)
+            var enumerable = aValues as T[] ?? aValues.ToArray();
+            if (enumerable.FirstOrDefault() == null)
                 return aEnumerable;
 
             var list = new List<T>(aEnumerable);
 
-            foreach (var ele in aValues)
+            foreach (var ele in enumerable)
             {
                 var index = list.IndexOf(ele);
                 if (index != -1)
@@ -81,11 +75,7 @@ namespace Lenneth.Core.Extensions
         public static IEnumerable<T> Except<T>(this IEnumerable<T> aEnumerable,
                                                Predicate<T> aPredicate)
         {
-            foreach (var ele in aEnumerable)
-            {
-                if (!aPredicate(ele))
-                    yield return ele;
-            }
+            return aEnumerable.Where(ele => !aPredicate(ele));
         }
 
         public static bool ContainsAny<T>(this IEnumerable<T> aEnumerable, IEnumerable<T> aValues)
@@ -101,31 +91,15 @@ namespace Lenneth.Core.Extensions
 
         public static bool Contains<T>(this IEnumerable<T> aEnumerable, IEnumerable<T> aValues)
         {
-            if (aValues.FirstOrDefault() == null)
-                return false;
-
-            foreach (var ele in aValues)
-            {
-                if (!aEnumerable.Contains(ele))
-                    return false;
-            }
-
-            return true;
+            var enumerable = aValues as T[] ?? aValues.ToArray();
+            return enumerable.FirstOrDefault() != null && enumerable.All(aEnumerable.Contains);
         }
 
         public static bool Contains<T>(this IEnumerable<T> aEnumerable, IEnumerable<T> aValues,
             IEqualityComparer<T> aComparer)
         {
-            if (aValues.FirstOrDefault() == null)
-                return false;
-
-            foreach (var ele in aValues)
-            {
-                if (!aEnumerable.Contains(ele, aComparer))
-                    return false;
-            }
-
-            return true;
+            var enumerable = aValues as T[] ?? aValues.ToArray();
+            return enumerable.FirstOrDefault() != null && enumerable.All(ele => aEnumerable.Contains(ele, aComparer));
         }
 
         public static bool Exact<T>(this IEnumerable<T> aEnumerable, IEnumerable<T> aValues)
@@ -145,8 +119,7 @@ namespace Lenneth.Core.Extensions
                 var index = list.IndexOf(ele);
                 if (index == -1)
                     return false;
-                else
-                    list.RemoveAt(index);
+                list.RemoveAt(index);
             }
 
             return count == initCount;
@@ -170,8 +143,7 @@ namespace Lenneth.Core.Extensions
                 var index = list.IndexOf(ele, aComparer);
                 if (index == -1)
                     return false;
-                else
-                    list.RemoveAt(index);
+                list.RemoveAt(index);
             }
 
             return count == initCount;
@@ -210,18 +182,18 @@ namespace Lenneth.Core.Extensions
         public static bool ContainsExact<T>(this IEnumerable<T> aEnumerable,
             IEnumerable<T> aValues)
         {
-            if (aValues.FirstOrDefault() == null)
+            var enumerable = aValues as T[] ?? aValues.ToArray();
+            if (enumerable.FirstOrDefault() == null)
                 return false;
 
             var list = new List<T>(aEnumerable);
 
-            foreach (var ele in aValues)
+            foreach (var ele in enumerable)
             {
                 var index = list.IndexOf(ele);
                 if (index == -1)
                     return false;
-                else
-                    list.RemoveAt(index);
+                list.RemoveAt(index);
             }
 
             return true;
@@ -232,16 +204,16 @@ namespace Lenneth.Core.Extensions
         {
             var list = new List<T>(aEnumerable);
 
-            if (aValues.FirstOrDefault() == null)
+            var enumerable = aValues as T[] ?? aValues.ToArray();
+            if (enumerable.FirstOrDefault() == null)
                 return false;
 
-            foreach (var ele in aValues)
+            foreach (var ele in enumerable)
             {
                 var index = list.IndexOf(ele, aComparer);
                 if (index == -1)
                     return false;
-                else
-                    list.RemoveAt(index);
+                list.RemoveAt(index);
             }
 
             return true;
@@ -252,9 +224,10 @@ namespace Lenneth.Core.Extensions
             if (aTimes == 0)
                 yield break;
 
+            var enumerable = aEnum as T[] ?? aEnum.ToArray();
             for (var i = 0; i < aTimes; i++)
             {
-                foreach (var el in aEnum)
+                foreach (var el in enumerable)
                     yield return el;
             }
         }

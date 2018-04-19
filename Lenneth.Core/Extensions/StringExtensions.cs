@@ -12,26 +12,20 @@ namespace Lenneth.Core.Extensions
     {
         public static double ToDouble(this string aStr)
         {
-            if (aStr.ToLower() == double.NegativeInfinity.ToString().ToLower())
+            if (string.Equals(aStr, double.NegativeInfinity.ToString(CultureInfo.InvariantCulture), StringComparison.CurrentCultureIgnoreCase))
                 return double.NegativeInfinity;
-            if (aStr.ToLower() == double.PositiveInfinity.ToString().ToLower())
+            if (string.Equals(aStr, double.PositiveInfinity.ToString(CultureInfo.InvariantCulture), StringComparison.CurrentCultureIgnoreCase))
                 return double.PositiveInfinity;
-            if (aStr.ToLower() == double.NaN.ToString().ToLower())
-                return double.NaN;
-            else
-                return double.Parse(aStr, CultureInfo.InvariantCulture);
+            return string.Equals(aStr, double.NaN.ToString(CultureInfo.InvariantCulture), StringComparison.CurrentCultureIgnoreCase) ? double.NaN : double.Parse(aStr, CultureInfo.InvariantCulture);
         }
 
         public static float ToSingle(this string aStr)
         {
-            if (aStr.ToLower() == float.NegativeInfinity.ToString().ToLower())
+            if (string.Equals(aStr, float.NegativeInfinity.ToString(CultureInfo.InvariantCulture), StringComparison.CurrentCultureIgnoreCase))
                 return float.NegativeInfinity;
-            if (aStr.ToLower() == float.PositiveInfinity.ToString().ToLower())
+            if (string.Equals(aStr, float.PositiveInfinity.ToString(CultureInfo.InvariantCulture), StringComparison.CurrentCultureIgnoreCase))
                 return float.PositiveInfinity;
-            if (aStr.ToLower() == float.NaN.ToString().ToLower())
-                return float.NaN;
-            else
-                return float.Parse(aStr, CultureInfo.InvariantCulture);
+            return string.Equals(aStr, float.NaN.ToString(CultureInfo.InvariantCulture), StringComparison.CurrentCultureIgnoreCase) ? float.NaN : float.Parse(aStr, CultureInfo.InvariantCulture);
         }
 
         public static int ToInt(this string aStr)
@@ -81,13 +75,13 @@ namespace Lenneth.Core.Extensions
 
         public static string GetBefore(this string aStr, string aPattern)
         {
-            var index = aStr.IndexOf(aPattern);
+            var index = aStr.IndexOf(aPattern, StringComparison.Ordinal);
             return (index == -1) ? string.Empty : aStr.Substring(0, index);
         }
 
         public static string GetAfter(this string aStr, string aPattern)
         {
-            var lastPos = aStr.LastIndexOf(aPattern);
+            var lastPos = aStr.LastIndexOf(aPattern, StringComparison.Ordinal);
 
             if (lastPos == -1)
                 return string.Empty;
@@ -103,27 +97,27 @@ namespace Lenneth.Core.Extensions
 
         public static string ToTitleCase(this string value)
         {
-            return System.Globalization.CultureInfo.CurrentUICulture.TextInfo.ToTitleCase(value);
+            return CultureInfo.CurrentUICulture.TextInfo.ToTitleCase(value);
         }
 
         public static string FindUniqueName(this string aPattern,
             IEnumerable<string> aNames)
         {
-            if (!aNames.Contains(aPattern))
+            var enumerable = aNames as string[] ?? aNames.ToArray();
+            if (!enumerable.Contains(aPattern))
                 return aPattern;
 
             var ar = aPattern.Split(' ');
 
             string left;
-            uint index;
-            if (!uint.TryParse(ar.Last(), out index))
+            if (!uint.TryParse(ar.Last(), out var index))
             {
                 index = 1;
                 left = aPattern + " ";
             }
             else
             {
-                left = string.Join(" ", ar.SkipLast(1)) + " ";
+                left = string.Join(" ", ar.SkipLast()) + " ";
                 index++;
             }
 
@@ -131,7 +125,7 @@ namespace Lenneth.Core.Extensions
             {
                 var result = (left + index.ToString()).Trim();
 
-                if (aNames.Contains(result))
+                if (enumerable.Contains(result))
                 {
                     index++;
                     continue;
@@ -147,7 +141,7 @@ namespace Lenneth.Core.Extensions
 
             for (; ; )
             {
-                var splitIndex = aStr.IndexOf(aSplit, startIndex);
+                var splitIndex = aStr.IndexOf(aSplit, startIndex, StringComparison.Ordinal);
 
                 if (splitIndex == -1)
                     break;

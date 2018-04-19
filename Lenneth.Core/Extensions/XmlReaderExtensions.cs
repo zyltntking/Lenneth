@@ -59,7 +59,7 @@ namespace Lenneth.Core.Extensions
 
         public static Size ReadElementContentAsSize(this XmlReader aReader, string aName)
         {
-            Size size = new Size(
+            var size = new Size(
                 aReader.GetAttributeInt("Width"),
                 aReader.GetAttributeInt("Height"));
             aReader.MoveToNextElement(aName);
@@ -68,7 +68,7 @@ namespace Lenneth.Core.Extensions
 
         public static Rectangle ReadElementContentAsRectangle(this XmlReader aReader, string aName)
         {
-            Rectangle rect = new Rectangle(
+            var rect = new Rectangle(
                 aReader.GetAttributeInt("Left"),
                 aReader.GetAttributeInt("Top"),
                 aReader.GetAttributeInt("Width"),
@@ -100,10 +100,7 @@ namespace Lenneth.Core.Extensions
         public static string GetAttributeDef(this XmlReader aReader, string aName,
             string aDefault = "")
         {
-            if (aReader.MoveToAttribute(aName))
-                return aReader.GetAttribute(aName);
-            else
-                return aDefault;
+            return aReader.MoveToAttribute(aName) ? aReader.GetAttribute(aName) : aDefault;
         }
 
         public static byte GetAttributeHexByte(this XmlReader aReader, string aName)
@@ -148,10 +145,7 @@ namespace Lenneth.Core.Extensions
 
         public static int GetAttributeIntDef(this XmlReader aReader, string aName, int aDefault = 0)
         {
-            if (aReader.MoveToAttribute(aName))
-                return int.Parse(aReader.GetAttribute(aName));
-            else
-                return aDefault;
+            return aReader.MoveToAttribute(aName) ? int.Parse(aReader.GetAttribute(aName)) : aDefault;
         }
 
         public static bool GetAttributeBool(this XmlReader aReader, string aName)
@@ -162,10 +156,7 @@ namespace Lenneth.Core.Extensions
         public static bool GetAttributeBoolDef(this XmlReader aReader, string aName,
             bool aDefault = false)
         {
-            if (aReader.MoveToAttribute(aName))
-                return bool.Parse(aReader.GetAttribute(aName));
-            else
-                return aDefault;
+            return aReader.MoveToAttribute(aName) ? bool.Parse(aReader.GetAttribute(aName)) : aDefault;
         }
 
         public static Guid GetAttributeGuid(this XmlReader aReader, string aName)
@@ -187,10 +178,9 @@ namespace Lenneth.Core.Extensions
         /// <param name="aReadFunc"></param>
         public static void ReadXml(Stream aStream, Action<XmlReader> aReadFunc)
         {
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
+            var settings = new XmlReaderSettings {IgnoreWhitespace = true};
 
-            using (XmlReader reader = XmlReader.Create(aStream, settings))
+            using (var reader = XmlReader.Create(aStream, settings))
             {
                 reader.Read();
 

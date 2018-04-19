@@ -131,10 +131,7 @@ namespace Lenneth.Core.Extensions
 
             if (aD < aMinInclusive)
                 return aMinInclusive;
-            else if (aD > aMaxInclusive)
-                return aMaxInclusive;
-            else
-                return aD;
+            return aD > aMaxInclusive ? aMaxInclusive : aD;
         }
 
         /// <summary>
@@ -151,10 +148,7 @@ namespace Lenneth.Core.Extensions
 
             if (aD < aMinInclusive)
                 return aMinInclusive;
-            else if (aD > aMaxInclusive)
-                return aMaxInclusive;
-            else
-                return aD;
+            return aD > aMaxInclusive ? aMaxInclusive : aD;
         }
 
         /// <summary>
@@ -171,10 +165,7 @@ namespace Lenneth.Core.Extensions
 
             if (aD < aMinInclusive)
                 return aMinInclusive;
-            else if (aD > aMaxInclusive)
-                return aMaxInclusive;
-            else
-                return aD;
+            return aD > aMaxInclusive ? aMaxInclusive : aD;
         }
 
         /// <summary>
@@ -191,10 +182,7 @@ namespace Lenneth.Core.Extensions
 
             if (aD < aMinInclusive)
                 return aMinInclusive;
-            else if (aD > aMaxInclusive)
-                return aMaxInclusive;
-            else
-                return aD;
+            return aD > aMaxInclusive ? aMaxInclusive : aD;
         }
 
         /// <summary>
@@ -211,10 +199,7 @@ namespace Lenneth.Core.Extensions
 
             if (aD < aMinInclusive)
                 return aMinInclusive;
-            else if (aD > aMaxInclusive)
-                return aMaxInclusive;
-            else
-                return aD;
+            return aD > aMaxInclusive ? aMaxInclusive : aD;
         }
 
         /// <summary>
@@ -231,10 +216,7 @@ namespace Lenneth.Core.Extensions
 
             if (aD < aMinInclusive)
                 return aMinInclusive;
-            else if (aD > aMaxInclusive)
-                return aMaxInclusive;
-            else
-                return aD;
+            return aD > aMaxInclusive ? aMaxInclusive : aD;
         }
 
         /// <summary>
@@ -251,10 +233,7 @@ namespace Lenneth.Core.Extensions
 
             if (aD < aMinInclusive)
                 return aMinInclusive;
-            else if (aD > aMaxInclusive)
-                return aMaxInclusive;
-            else
-                return aD;
+            return aD > aMaxInclusive ? aMaxInclusive : aD;
         }
 
         /// <summary>
@@ -271,10 +250,7 @@ namespace Lenneth.Core.Extensions
 
             if (aD < aMinInclusive)
                 return aMinInclusive;
-            else if (aD > aMaxInclusive)
-                return aMaxInclusive;
-            else
-                return aD;
+            return aD > aMaxInclusive ? aMaxInclusive : aD;
         }
     }
 }

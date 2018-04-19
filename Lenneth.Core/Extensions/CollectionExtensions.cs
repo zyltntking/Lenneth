@@ -32,13 +32,7 @@ namespace Lenneth.Core.Extensions
 
         public static int AddRangeUnique<T>(this ICollection<T> aCollection, IEnumerable<T> aValues)
         {
-            var count = 0;
-            foreach (var value in aValues)
-            {
-                if (aCollection.AddUnique(value))
-                    count++;
-            }
-            return count;
+            return aValues.Count(aCollection.AddUnique);
         }
     }
 }

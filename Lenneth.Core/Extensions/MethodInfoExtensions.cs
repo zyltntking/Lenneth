@@ -34,7 +34,7 @@ namespace Lenneth.Core.Extensions
             if (aWithThis)
                 yield return aMi;
 
-            MethodInfo t = aMi;
+            var t = aMi;
 
             while ((t.GetBaseDefinition() != null) && (t.GetBaseDefinition() != t))
             {
@@ -50,13 +50,8 @@ namespace Lenneth.Core.Extensions
                 return false;
             if (aMi.DeclaringType == aBase.DeclaringType)
             {
-                if (!aMi.GetParameters().Select(p => p.ParameterType).SequenceEqual(
-                    aBase.GetParameters().Select(p => p.ParameterType)))
-                {
-                    return false;
-                }
-
-                return aWithThis;
+                return aMi.GetParameters().Select(p => p.ParameterType).SequenceEqual(
+                           aBase.GetParameters().Select(p => p.ParameterType)) && aWithThis;
             }
 
             return aMi.GetBaseDefinitions().Contains(aBase);

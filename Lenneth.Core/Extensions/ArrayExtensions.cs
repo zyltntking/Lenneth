@@ -24,13 +24,7 @@ namespace Lenneth.Core.Extensions
             if (aAr1.Length != aAr2.Length)
                 return false;
 
-            for (var i = 0; i < aAr1.Length; i++)
-            {
-                if (!aAr1[i].Equals(aAr2[i]))
-                    return false;
-            }
-
-            return true;
+            return !aAr1.Where((t, i) => !t.Equals(aAr2[i])).Any();
         }
 
         /// <summary>
@@ -47,13 +41,7 @@ namespace Lenneth.Core.Extensions
             if (aAr1.Length != aAr2.Length)
                 return false;
 
-            for (var i = 0; i < aAr1.Length; i++)
-            {
-                if (aAr1[i] != aAr2[i])
-                    return false;
-            }
-
-            return true;
+            return !aAr1.Where((t, i) => t != aAr2[i]).Any();
         }
 
         /// <summary>
@@ -96,13 +84,7 @@ namespace Lenneth.Core.Extensions
             if (aAr1.Length != aAr2.Length)
                 return false;
 
-            for (var i = 0; i < aAr1.Length; i++)
-            {
-                if (aAr1[i] != aAr2[i])
-                    return false;
-            }
-
-            return true;
+            return !aAr1.Where((t, i) => t != aAr2[i]).Any();
         }
 
         /// <summary>
@@ -111,14 +93,9 @@ namespace Lenneth.Core.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="aAr"></param>
         /// <returns></returns>
-        public static int GetHashCode<T>(T[] aAr)
+        public static int GetHashCode<T>(IEnumerable<T> aAr)
         {
-            var sum = 0;
-
-            for (var i = 0; i < aAr.Length; i++)
-                sum ^= aAr[i].GetHashCode();
-
-            return sum;
+            return aAr.Aggregate(0, (current, t) => current ^ t.GetHashCode());
         }
 
         /// <summary>
@@ -203,10 +180,11 @@ namespace Lenneth.Core.Extensions
         /// <returns></returns>
         public static int FindArrayInArray(this byte[] aArray, byte[] aSubArray)
         {
-            int i, j;
+            int j;
 
             for (j = 0; j < aArray.Length - aSubArray.Length; j++)
             {
+                int i;
                 for (i = 0; i < aSubArray.Length; i++)
                 {
                     if (aArray[j + i] != aSubArray[i])
@@ -255,8 +233,7 @@ namespace Lenneth.Core.Extensions
 
         public static IEnumerable<T> ToEnumerable<T>(this T[,] aAr)
         {
-            foreach (var el in aAr)
-                yield return el;
+            return aAr.Cast<T>();
         }
     }
 }

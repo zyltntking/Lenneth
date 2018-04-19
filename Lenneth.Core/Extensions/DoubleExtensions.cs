@@ -40,8 +40,7 @@ namespace Lenneth.Core.Extensions
             
             if (mid > aPrecision)
                 return Math.Abs(aD1 - aD2) <= aPrecision * mid;
-            else
-                return aD1 < aPrecision;
+            return aD1 < aPrecision;
         }
 
         /// <summary>
@@ -58,10 +57,7 @@ namespace Lenneth.Core.Extensions
 
             if (aD < aMinInclusive)
                 return aMinInclusive;
-            else if (aD > aMaxInclusive)
-                return aMaxInclusive;
-            else
-                return aD;
+            return aD > aMaxInclusive ? aMaxInclusive : aD;
         }
 
         /// <summary>
@@ -149,18 +145,10 @@ namespace Lenneth.Core.Extensions
         {
             if (aD1 < aD2)
             {
-                if (aD1 < aD3)
-                    return aD1;
-                else
-                    return aD3;
+                return aD1 < aD3 ? aD1 : aD3;
             }
-            else
-            {
-                if (aD2 < aD3)
-                    return aD2;
-                else
-                    return aD3;
-            }
+
+            return aD2 < aD3 ? aD2 : aD3;
         }
 
         public static double Min(double aD1, double aD2, double aD3, double aD4)
@@ -169,54 +157,28 @@ namespace Lenneth.Core.Extensions
             {
                 if (aD1 < aD3)
                 {
-                    if (aD1 < aD4)
-                        return aD1;
-                    else
-                        return aD4;
+                    return aD1 < aD4 ? aD1 : aD4;
                 }
-                else
-                {
-                    if (aD3 < aD4)
-                        return aD3;
-                    else
-                        return aD4;
-                }
+
+                return aD3 < aD4 ? aD3 : aD4;
             }
-            else
+
+            if (aD2 < aD3)
             {
-                if (aD2 < aD3)
-                {
-                    if (aD2 < aD4)
-                        return aD2;
-                    else
-                        return aD4;
-                }
-                else
-                {
-                    if (aD3 < aD4)
-                        return aD3;
-                    else
-                        return aD4;
-                }
+                return aD2 < aD4 ? aD2 : aD4;
             }
+
+            return aD3 < aD4 ? aD3 : aD4;
         }
 
         public static double Max(double aD1, double aD2, double aD3)
         {
             if (aD1 > aD2)
             {
-                if (aD1 > aD3)
-                    return aD1;
-                else
-                    return aD3;
+                return aD1 > aD3 ? aD1 : aD3;
             }
-            else
-            {
-                if (aD2 > aD3)
-                    return aD2;
-                else
-                    return aD3;
-            }
+
+            return aD2 > aD3 ? aD2 : aD3;
         }
 
         public static double Max(double aD1, double aD2, double aD3, double aD4)
@@ -225,36 +187,18 @@ namespace Lenneth.Core.Extensions
             {
                 if (aD1 > aD3)
                 {
-                    if (aD1 > aD4)
-                        return aD1;
-                    else
-                        return aD4;
+                    return aD1 > aD4 ? aD1 : aD4;
                 }
-                else
-                {
-                    if (aD3 > aD4)
-                        return aD3;
-                    else
-                        return aD4;
-                }
+
+                return aD3 > aD4 ? aD3 : aD4;
             }
-            else
+
+            if (aD2 > aD3)
             {
-                if (aD2 > aD3)
-                {
-                    if (aD2 > aD4)
-                        return aD2;
-                    else
-                        return aD4;
-                }
-                else
-                {
-                    if (aD3 > aD4)
-                        return aD3;
-                    else
-                        return aD4;
-                }
+                return aD2 > aD4 ? aD2 : aD4;
             }
+
+            return aD3 > aD4 ? aD3 : aD4;
         }
 
         public static bool IsAlmostLessThen(this double aD1, double aD2, double aPrecision)
