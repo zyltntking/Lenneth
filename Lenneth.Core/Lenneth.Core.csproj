@@ -132,6 +132,11 @@
     <Compile Include="Extensions\Extra\CoreExtensions\DateTimeOffsetExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CoreExtensions\DecimalExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CoreExtensions\DelegateExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\DoubleExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\EnumExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\EnvironmentExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\EventHandlerExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\GuidExtensions\Extensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
@@ -291,9 +296,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\Extra\CoreExtensions\DoubleExtensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
