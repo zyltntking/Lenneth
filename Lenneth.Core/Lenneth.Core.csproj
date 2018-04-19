@@ -113,6 +113,7 @@
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\Extra\CachingExtensions\Extensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\Extra\CharExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CollectionExtensions\ICollectionExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CompressionExtensions\GZipExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CompressionExtensions\ZipFileExtensions\Extensions.cs" />
@@ -123,6 +124,10 @@
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Extensions\Extra\CollectionExtensions\IEnumerableExtensions\Extensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\ArrayExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\BooleanExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\ByteArrayExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\ByteExtensions\Extensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
