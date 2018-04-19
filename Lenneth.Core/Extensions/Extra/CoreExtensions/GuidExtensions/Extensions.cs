@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lenneth.Core.Extensions.Extra.GuidExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions.GuidExtensions
 {
     public static class Extensions
     {

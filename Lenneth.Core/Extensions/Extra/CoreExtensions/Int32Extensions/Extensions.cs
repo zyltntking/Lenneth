@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Data;
+using System.Drawing;
 using System.Net;
 
-namespace Lenneth.Core.Extensions.Extra.Int16Extensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions.Int32Extensions
 {
     public static class Extensions
     {
@@ -17,7 +18,7 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         /// <param name="minValue">The minimum value.</param>
         /// <param name="maxValue">The maximum value.</param>
         /// <returns>true if the value is between the minValue and maxValue, otherwise false.</returns>
-        public static bool Between(this short @this, short minValue, short maxValue)
+        public static bool Between(this int @this, int minValue, int maxValue)
         {
             return minValue.CompareTo(@this) == -1 && @this.CompareTo(maxValue) == -1;
         }
@@ -32,7 +33,7 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         /// <param name="this">The object to be compared.</param>
         /// <param name="values">The value list to compare with the object.</param>
         /// <returns>true if the values list contains the object, else false.</returns>
-        public static bool In(this short @this, params short[] values)
+        public static bool In(this int @this, params int[] values)
         {
             return Array.IndexOf(values, @this) != -1;
         }
@@ -48,7 +49,7 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         /// <param name="minValue">The minimum value.</param>
         /// <param name="maxValue">The maximum value.</param>
         /// <returns>true if the value is between inclusively the minValue and maxValue, otherwise false.</returns>
-        public static bool InRange(this short @this, short minValue, short maxValue)
+        public static bool InRange(this int @this, int minValue, int maxValue)
         {
             return @this.CompareTo(minValue) >= 0 && @this.CompareTo(maxValue) <= 0;
         }
@@ -63,7 +64,7 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         /// <param name="this">The object to be compared.</param>
         /// <param name="values">The value list to compare with the object.</param>
         /// <returns>true if the values list doesn't contains the object, else false.</returns>
-        public static bool NotIn(this short @this, params short[] values)
+        public static bool NotIn(this int @this, params int[] values)
         {
             return Array.IndexOf(values, @this) == -1;
         }
@@ -77,11 +78,11 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region Days
 
         /// <summary>
-        ///     An Int16 extension method that days the given this.
+        ///     An Int32 extension method that days the given this.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>A TimeSpan.</returns>
-        public static TimeSpan Days(this short @this)
+        public static TimeSpan Days(this int @this)
         {
             return TimeSpan.FromDays(@this);
         }
@@ -91,12 +92,12 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region FactorOf
 
         /// <summary>
-        ///     An Int16 extension method that factor of.
+        ///     An Int32 extension method that factor of.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <param name="factorNumer">The factor numer.</param>
         /// <returns>true if it succeeds, false if it fails.</returns>
-        public static bool FactorOf(this short @this, short factorNumer)
+        public static bool FactorOf(this int @this, int factorNumer)
         {
             return factorNumer % @this == 0;
         }
@@ -106,11 +107,11 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region Hours
 
         /// <summary>
-        ///     An Int16 extension method that hours the given this.
+        ///     An Int32 extension method that hours the given this.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>A TimeSpan.</returns>
-        public static TimeSpan Hours(this short @this)
+        public static TimeSpan Hours(this int @this)
         {
             return TimeSpan.FromHours(@this);
         }
@@ -120,11 +121,11 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region IsEven
 
         /// <summary>
-        ///     An Int16 extension method that query if '@this' is even.
+        ///     An Int32 extension method that query if '@this' is even.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>true if even, false if not.</returns>
-        public static bool IsEven(this short @this)
+        public static bool IsEven(this int @this)
         {
             return @this % 2 == 0;
         }
@@ -134,12 +135,12 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region IsMultipleOf
 
         /// <summary>
-        ///     An Int16 extension method that query if '@this' is multiple of.
+        ///     An Int32 extension method that query if '@this' is multiple of.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <param name="factor">The factor.</param>
         /// <returns>true if multiple of, false if not.</returns>
-        public static bool IsMultipleOf(this short @this, short factor)
+        public static bool IsMultipleOf(this int @this, int factor)
         {
             return @this % factor == 0;
         }
@@ -149,11 +150,11 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region IsOdd
 
         /// <summary>
-        ///     An Int16 extension method that query if '@this' is odd.
+        ///     An Int32 extension method that query if '@this' is odd.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>true if odd, false if not.</returns>
-        public static bool IsOdd(this short @this)
+        public static bool IsOdd(this int @this)
         {
             return @this % 2 != 0;
         }
@@ -163,11 +164,11 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region IsPrime
 
         /// <summary>
-        ///     An Int16 extension method that query if '@this' is prime.
+        ///     An Int32 extension method that query if '@this' is prime.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>true if prime, false if not.</returns>
-        public static bool IsPrime(this short @this)
+        public static bool IsPrime(this int @this)
         {
             if (@this == 1 || @this == 2)
             {
@@ -179,7 +180,7 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
                 return false;
             }
 
-            var sqrt = (short)Math.Sqrt(@this);
+            var sqrt = (int)Math.Sqrt(@this);
             for (long t = 3; t <= sqrt; t = t + 2)
             {
                 if (@this % t == 0)
@@ -196,11 +197,11 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region Milliseconds
 
         /// <summary>
-        ///     An Int16 extension method that milliseconds the given this.
+        ///     An Int32 extension method that milliseconds the given this.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>A TimeSpan.</returns>
-        public static TimeSpan Milliseconds(this short @this)
+        public static TimeSpan Milliseconds(this int @this)
         {
             return TimeSpan.FromMilliseconds(@this);
         }
@@ -210,11 +211,11 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region Minutes
 
         /// <summary>
-        ///     An Int16 extension method that minutes the given this.
+        ///     An Int32 extension method that minutes the given this.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>A TimeSpan.</returns>
-        public static TimeSpan Minutes(this short @this)
+        public static TimeSpan Minutes(this int @this)
         {
             return TimeSpan.FromMinutes(@this);
         }
@@ -224,11 +225,11 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region Seconds
 
         /// <summary>
-        ///     An Int16 extension method that seconds the given this.
+        ///     An Int32 extension method that seconds the given this.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>A TimeSpan.</returns>
-        public static TimeSpan Seconds(this short @this)
+        public static TimeSpan Seconds(this int @this)
         {
             return TimeSpan.FromSeconds(@this);
         }
@@ -238,11 +239,11 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region Weeks
 
         /// <summary>
-        ///     An Int16 extension method that weeks the given this.
+        ///     An Int32 extension method that weeks the given this.
         /// </summary>
         /// <param name="this">The @this to act on.</param>
         /// <returns>A TimeSpan.</returns>
-        public static TimeSpan Weeks(this short @this)
+        public static TimeSpan Weeks(this int @this)
         {
             return TimeSpan.FromDays(@this * 7);
         }
@@ -256,11 +257,11 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region GetBytes
 
         /// <summary>
-        ///     Returns the specified 16-bit signed integer value as an array of bytes.
+        ///     Returns the specified 32-bit signed integer value as an array of bytes.
         /// </summary>
         /// <param name="value">The number to convert.</param>
-        /// <returns>An array of bytes with length 2.</returns>
-        public static byte[] GetBytes(this short value)
+        /// <returns>An array of bytes with length 4.</returns>
+        public static byte[] GetBytes(this int value)
         {
             return BitConverter.GetBytes(value);
         }
@@ -269,31 +270,209 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
 
         #endregion BitConverter
 
+        #region Char
+
+        #region ConvertFromUtf32
+
+        /// <summary>
+        ///     Converts the specified Unicode code point into a UTF-16 encoded string.
+        /// </summary>
+        /// <param name="utf32">A 21-bit Unicode code point.</param>
+        /// <returns>
+        ///     A string consisting of one  object or a surrogate pair of  objects equivalent to the code point specified by
+        ///     the  parameter.
+        /// </returns>
+        public static string ConvertFromUtf32(this int utf32)
+        {
+            return char.ConvertFromUtf32(utf32);
+        }
+
+        #endregion ConvertFromUtf32
+
+        #endregion Char
+
+        #region DateTime
+
+        #region DaysInMonth
+
+        /// <summary>
+        ///     Returns the number of days in the specified month and year.
+        /// </summary>
+        /// <param name="year">The year.</param>
+        /// <param name="month">The month (a number ranging from 1 to 12).</param>
+        /// <returns>
+        ///     The number of days in  for the specified .For example, if  equals 2 for February, the return value is 28 or
+        ///     29 depending upon whether  is a leap year.
+        /// </returns>
+        public static int DaysInMonth(this int year, int month)
+        {
+            return DateTime.DaysInMonth(year, month);
+        }
+
+        #endregion DaysInMonth
+
+        #region IsLeapYear
+
+        /// <summary>
+        ///     Returns an indication whether the specified year is a leap year.
+        /// </summary>
+        /// <param name="year">A 4-digit year.</param>
+        /// <returns>true if  is a leap year; otherwise, false.</returns>
+        public static bool IsLeapYear(this int year)
+        {
+            return DateTime.IsLeapYear(year);
+        }
+
+        #endregion IsLeapYear
+
+        #endregion DateTime
+
+        #region Color
+
+        #region FromArgb
+
+        /// <summary>
+        ///     Creates a  structure from a 32-bit ARGB value.
+        /// </summary>
+        /// <param name="argb">A value specifying the 32-bit ARGB value.</param>
+        /// <returns>The  structure that this method creates.</returns>
+        public static Color FromArgb(this int argb)
+        {
+            return Color.FromArgb(argb);
+        }
+
+        /// <summary>
+        ///     Creates a  structure from the four ARGB component (alpha, red, green, and blue) values. Although this method
+        ///     allows a 32-bit value to be passed for each component, the value of each component is limited to 8 bits.
+        /// </summary>
+        /// <param name="argb">A value specifying the 32-bit ARGB value.</param>
+        /// <param name="red">The red component. Valid values are 0 through 255.</param>
+        /// <param name="green">The green component. Valid values are 0 through 255.</param>
+        /// <param name="blue">The blue component. Valid values are 0 through 255.</param>
+        /// <returns>The  that this method creates.</returns>
+        public static Color FromArgb(this int argb, int red, int green, int blue)
+        {
+            return Color.FromArgb(argb, red, green, blue);
+        }
+
+        /// <summary>
+        ///     Creates a  structure from the specified  structure, but with the new specified alpha value. Although this
+        ///     method allows a 32-bit value to be passed for the alpha value, the value is limited to 8 bits.
+        /// </summary>
+        /// <param name="argb">A value specifying the 32-bit ARGB value.</param>
+        /// <param name="baseColor">The  from which to create the new .</param>
+        /// <returns>The  that this method creates.</returns>
+        public static Color FromArgb(this int argb, Color baseColor)
+        {
+            return Color.FromArgb(argb, baseColor);
+        }
+
+        /// <summary>
+        ///     Creates a  structure from the specified 8-bit color values (red, green, and blue). The alpha value is
+        ///     implicitly 255 (fully opaque). Although this method allows a 32-bit value to be passed for each color
+        ///     component, the value of each component is limited to 8 bits.
+        /// </summary>
+        /// <param name="argb">A value specifying the 32-bit ARGB value.</param>
+        /// <param name="green">The green component value for the new . Valid values are 0 through 255.</param>
+        /// <param name="blue">The blue component value for the new . Valid values are 0 through 255.</param>
+        /// <returns>The  that this method creates.</returns>
+        public static Color FromArgb(this int argb, int green, int blue)
+        {
+            return Color.FromArgb(argb, green, blue);
+        }
+
+        #endregion FromArgb
+
+        #endregion Color
+
+        #region ColorTranslator
+
+        #region FromOle
+
+        /// <summary>
+        ///     Translates an OLE color value to a GDI+  structure.
+        /// </summary>
+        /// <param name="oleColor">The OLE color to translate.</param>
+        /// <returns>The  structure that represents the translated OLE color.</returns>
+        public static Color FromOle(this int oleColor)
+        {
+            return ColorTranslator.FromOle(oleColor);
+        }
+
+        #endregion FromOle
+
+        #region FromWin32
+
+        /// <summary>
+        ///     Translates a Windows color value to a GDI+  structure.
+        /// </summary>
+        /// <param name="win32Color">The Windows color to translate.</param>
+        /// <returns>The  structure that represents the translated Windows color.</returns>
+        public static Color FromWin32(this int win32Color)
+        {
+            return ColorTranslator.FromWin32(win32Color);
+        }
+
+        #endregion FromWin32
+
+        #endregion ColorTranslator
+
         #region Math
 
         #region Abs
 
         /// <summary>
-        ///     Returns the absolute value of a 16-bit signed integer.
+        ///     Returns the absolute value of a 32-bit signed integer.
         /// </summary>
         /// <param name="value">A number that is greater than , but less than or equal to .</param>
-        /// <returns>A 16-bit signed integer, x, such that 0 ? x ?.</returns>
-        public static short Abs(this short value)
+        /// <returns>A 32-bit signed integer, x, such that 0 ? x ?.</returns>
+        public static int Abs(this int value)
         {
             return Math.Abs(value);
         }
 
         #endregion Abs
 
+        #region BigMul
+
+        /// <summary>
+        ///     Produces the full product of two 32-bit numbers.
+        /// </summary>
+        /// <param name="a">The first number to multiply.</param>
+        /// <param name="b">The second number to multiply.</param>
+        /// <returns>The number containing the product of the specified numbers.</returns>
+        public static long BigMul(this int a, int b)
+        {
+            return Math.BigMul(a, b);
+        }
+
+        #endregion BigMul
+
+        #region DivRem
+
+        /// <summary>
+        ///     An Int32 extension method that div rem.
+        /// </summary>
+        /// <param name="a">a to act on.</param>
+        /// <param name="b">The Int32 to process.</param>
+        /// <param name="result">[out] The result.</param>
+        /// <returns>An Int32.</returns>
+        public static int DivRem(this int a, int b, out int result)
+        {
+            return Math.DivRem(a, b, out result);
+        }
+
+        #endregion DivRem
+
         #region Max
 
         /// <summary>
-        ///     Returns the larger of two 16-bit signed integers.
+        ///     Returns the larger of two 32-bit signed integers.
         /// </summary>
-        /// <param name="val1">The first of two 16-bit signed integers to compare.</param>
-        /// <param name="val2">The second of two 16-bit signed integers to compare.</param>
+        /// <param name="val1">The first of two 32-bit signed integers to compare.</param>
+        /// <param name="val2">The second of two 32-bit signed integers to compare.</param>
         /// <returns>Parameter  or , whichever is larger.</returns>
-        public static short Max(this short val1, short val2)
+        public static int Max(this int val1, int val2)
         {
             return Math.Max(val1, val2);
         }
@@ -303,12 +482,12 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region Min
 
         /// <summary>
-        ///     Returns the smaller of two 16-bit signed integers.
+        ///     Returns the smaller of two 32-bit signed integers.
         /// </summary>
-        /// <param name="val1">The first of two 16-bit signed integers to compare.</param>
-        /// <param name="val2">The second of two 16-bit signed integers to compare.</param>
+        /// <param name="val1">The first of two 32-bit signed integers to compare.</param>
+        /// <param name="val2">The second of two 32-bit signed integers to compare.</param>
         /// <returns>Parameter  or , whichever is smaller.</returns>
-        public static short Min(this short val1, short val2)
+        public static int Min(this int val1, int val2)
         {
             return Math.Min(val1, val2);
         }
@@ -318,14 +497,14 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region Sign
 
         /// <summary>
-        ///     Returns a value indicating the sign of a 16-bit signed integer.
+        ///     Returns a value indicating the sign of a 32-bit signed integer.
         /// </summary>
         /// <param name="value">A signed number.</param>
         /// <returns>
         ///     A number that indicates the sign of , as shown in the following table.Return value Meaning -1  is less than
         ///     zero. 0  is equal to zero. 1  is greater than zero.
         /// </returns>
-        public static int Sign(this short value)
+        public static int Sign(this int value)
         {
             return Math.Sign(value);
         }
@@ -339,38 +518,38 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
         #region HostToNetworkOrder
 
         /// <summary>
-        ///     Converts a short value from host byte order to network byte order.
+        ///     Converts an integer value from host byte order to network byte order.
         /// </summary>
         /// <param name="host">The number to convert, expressed in host byte order.</param>
-        /// <returns>A short value, expressed in network byte order.</returns>
-        public static short HostToNetworkOrder(this short host)
+        /// <returns>An integer value, expressed in network byte order.</returns>
+        public static int HostToNetworkOrder(this int host)
         {
             return IPAddress.HostToNetworkOrder(host);
         }
 
-        #endregion HostToNetworkOrder
+        #endregion
 
         #region NetworkToHostOrder
 
         /// <summary>
-        ///     Converts a short value from network byte order to host byte order.
+        ///     Converts an integer value from network byte order to host byte order.
         /// </summary>
         /// <param name="network">The number to convert, expressed in network byte order.</param>
-        /// <returns>A short value, expressed in host byte order.</returns>
-        public static short NetworkToHostOrder(this short network)
+        /// <returns>An integer value, expressed in host byte order.</returns>
+        public static int NetworkToHostOrder(this int network)
         {
             return IPAddress.NetworkToHostOrder(network);
         }
 
-        #endregion NetworkToHostOrder
+        #endregion
 
-        #endregion IPAddress
+        #endregion
 
         #region Other
 
         #region SqlSystemTypeToSqlDbType
 
-        public static SqlDbType SqlSystemTypeToSqlDbType(this short @this)
+        public static SqlDbType SqlSystemTypeToSqlDbType(this int @this)
         {
             switch (@this)
             {
@@ -472,8 +651,8 @@ namespace Lenneth.Core.Extensions.Extra.Int16Extensions
             }
         }
 
-        #endregion SqlSystemTypeToSqlDbType
+        #endregion
 
-        #endregion Other
+        #endregion
     }
 }

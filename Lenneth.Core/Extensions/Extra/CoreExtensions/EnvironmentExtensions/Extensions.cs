@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lenneth.Core.Extensions.Extra.EnvironmentExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions.EnvironmentExtensions
 {
     public static class Extensions
     {

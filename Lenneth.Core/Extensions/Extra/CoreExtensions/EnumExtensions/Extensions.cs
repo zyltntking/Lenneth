@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 
-namespace Lenneth.Core.Extensions.Extra.EnumExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions.EnumExtensions
 {
     public static class Extensions
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lenneth.Core.Extensions.Extra.EventHandlerExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions.EventHandlerExtensions
 {
     public static class Extensions
     {
