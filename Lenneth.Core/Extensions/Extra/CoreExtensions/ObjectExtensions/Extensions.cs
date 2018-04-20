@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -5848,7 +5849,996 @@ namespace Lenneth.Core.Extensions.Extra.CoreExtensions.ObjectExtensions
 
         #endregion Convert
 
+        #region Utility
 
+        #region Coalesce
 
+        /// <summary>
+        ///     A T extension method that that return the first not null value (including the @this).
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="values">A variable-length parameters list containing values.</param>
+        /// <returns>The first not null value.</returns>
+        public static T Coalesce<T>(this T @this, params T[] values) where T : class
+        {
+            return @this ?? values.FirstOrDefault(value => value != null);
+        }
+
+        #endregion Coalesce
+
+        #region CoalesceOrDefault
+
+        /// <summary>
+        ///     A T extension method that that return the first not null value (including the @this) or a default value.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="values">A variable-length parameters list containing values.</param>
+        /// <returns>The first not null value or a default value.</returns>
+        public static T CoalesceOrDefault<T>(this T @this, params T[] values) where T : class
+        {
+            return @this ?? values.FirstOrDefault(value => value != null);
+        }
+
+        /// <summary>
+        ///     A T extension method that that return the first not null value (including the @this) or a default value.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <param name="values">A variable-length parameters list containing values.</param>
+        /// <returns>The first not null value or a default value.</returns>
+        /// <example>
+        ///     <code>
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_CoalesceOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void CoalesceOrDefault()
+        ///               {
+        ///                   // Varable
+        ///                   object nullObject = null;
+        ///
+        ///                   // Type
+        ///                   object @thisNull = null;
+        ///                   object @thisNotNull = &quot;Fizz&quot;;
+        ///
+        ///                   // Exemples
+        ///                   object result1 = @thisNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Buzz&quot;;
+        ///                   object result2 = @thisNull.CoalesceOrDefault(() =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                   object result3 = @thisNull.CoalesceOrDefault((x) =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                   object result4 = @thisNotNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Fizz&quot;;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result1);
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result2);
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result3);
+        ///                   Assert.AreEqual(&quot;Fizz&quot;, result4);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///       using ExtensionMethods.Object;
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_CoalesceOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void CoalesceOrDefault()
+        ///               {
+        ///                   // Varable
+        ///                   object nullObject = null;
+        ///
+        ///                   // Type
+        ///                   object @thisNull = null;
+        ///                   object @thisNotNull = &quot;Fizz&quot;;
+        ///
+        ///                   // Exemples
+        ///                   object result1 = @thisNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Buzz&quot;;
+        ///                   object result2 = @thisNull.CoalesceOrDefault(() =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                   object result3 = @thisNull.CoalesceOrDefault(x =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                   object result4 = @thisNotNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Fizz&quot;;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result1);
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result2);
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result3);
+        ///                   Assert.AreEqual(&quot;Fizz&quot;, result4);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///           using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///           using ExtensionMethods.Object;
+        ///
+        ///           namespace ExtensionMethods.Examples
+        ///           {
+        ///               [TestClass]
+        ///               public class System_Object_CoalesceOrDefault
+        ///               {
+        ///                   [TestMethod]
+        ///                   public void CoalesceOrDefault()
+        ///                   {
+        ///                       // Varable
+        ///                       object nullObject = null;
+        ///
+        ///                       // Type
+        ///                       object @thisNull = null;
+        ///                       object @thisNotNull = &quot;Fizz&quot;;
+        ///
+        ///                       // Exemples
+        ///                       object result1 = @thisNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Buzz&quot;;
+        ///                       object result2 = @thisNull.CoalesceOrDefault(() =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                       object result3 = @thisNull.CoalesceOrDefault(x =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                       object result4 = @thisNotNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Fizz&quot;;
+        ///
+        ///                       // Unit Test
+        ///                       Assert.AreEqual(&quot;Buzz&quot;, result1);
+        ///                       Assert.AreEqual(&quot;Buzz&quot;, result2);
+        ///                       Assert.AreEqual(&quot;Buzz&quot;, result3);
+        ///                       Assert.AreEqual(&quot;Fizz&quot;, result4);
+        ///                   }
+        ///               }
+        ///           }
+        ///     </code>
+        /// </example>
+        public static T CoalesceOrDefault<T>(this T @this, Func<T> defaultValueFactory, params T[] values) where T : class
+        {
+            if (@this != null)
+            {
+                return @this;
+            }
+
+            foreach (var value in values)
+            {
+                if (value != null)
+                {
+                    return value;
+                }
+            }
+
+            return defaultValueFactory();
+        }
+
+        /// <summary>
+        ///     A T extension method that that return the first not null value (including the @this) or a default value.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <param name="values">A variable-length parameters list containing values.</param>
+        /// <returns>The first not null value or a default value.</returns>
+        /// <example>
+        ///     <code>
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_CoalesceOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void CoalesceOrDefault()
+        ///               {
+        ///                   // Varable
+        ///                   object nullObject = null;
+        ///
+        ///                   // Type
+        ///                   object @thisNull = null;
+        ///                   object @thisNotNull = &quot;Fizz&quot;;
+        ///
+        ///                   // Exemples
+        ///                   object result1 = @thisNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Buzz&quot;;
+        ///                   object result2 = @thisNull.CoalesceOrDefault(() =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                   object result3 = @thisNull.CoalesceOrDefault((x) =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                   object result4 = @thisNotNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Fizz&quot;;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result1);
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result2);
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result3);
+        ///                   Assert.AreEqual(&quot;Fizz&quot;, result4);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///       using ExtensionMethods.Object;
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_CoalesceOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void CoalesceOrDefault()
+        ///               {
+        ///                   // Varable
+        ///                   object nullObject = null;
+        ///
+        ///                   // Type
+        ///                   object @thisNull = null;
+        ///                   object @thisNotNull = &quot;Fizz&quot;;
+        ///
+        ///                   // Exemples
+        ///                   object result1 = @thisNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Buzz&quot;;
+        ///                   object result2 = @thisNull.CoalesceOrDefault(() =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                   object result3 = @thisNull.CoalesceOrDefault(x =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                   object result4 = @thisNotNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Fizz&quot;;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result1);
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result2);
+        ///                   Assert.AreEqual(&quot;Buzz&quot;, result3);
+        ///                   Assert.AreEqual(&quot;Fizz&quot;, result4);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///           using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///           using ExtensionMethods.Object;
+        ///
+        ///           namespace ExtensionMethods.Examples
+        ///           {
+        ///               [TestClass]
+        ///               public class System_Object_CoalesceOrDefault
+        ///               {
+        ///                   [TestMethod]
+        ///                   public void CoalesceOrDefault()
+        ///                   {
+        ///                       // Varable
+        ///                       object nullObject = null;
+        ///
+        ///                       // Type
+        ///                       object @thisNull = null;
+        ///                       object @thisNotNull = &quot;Fizz&quot;;
+        ///
+        ///                       // Exemples
+        ///                       object result1 = @thisNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Buzz&quot;;
+        ///                       object result2 = @thisNull.CoalesceOrDefault(() =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                       object result3 = @thisNull.CoalesceOrDefault(x =&gt; &quot;Buzz&quot;, null, null); // return &quot;Buzz&quot;;
+        ///                       object result4 = @thisNotNull.CoalesceOrDefault(nullObject, nullObject, &quot;Buzz&quot;); // return &quot;Fizz&quot;;
+        ///
+        ///                       // Unit Test
+        ///                       Assert.AreEqual(&quot;Buzz&quot;, result1);
+        ///                       Assert.AreEqual(&quot;Buzz&quot;, result2);
+        ///                       Assert.AreEqual(&quot;Buzz&quot;, result3);
+        ///                       Assert.AreEqual(&quot;Fizz&quot;, result4);
+        ///                   }
+        ///               }
+        ///           }
+        ///     </code>
+        /// </example>
+        public static T CoalesceOrDefault<T>(this T @this, Func<T, T> defaultValueFactory, params T[] values) where T : class
+        {
+            if (@this != null)
+            {
+                return @this;
+            }
+
+            foreach (var value in values)
+            {
+                if (value != null)
+                {
+                    return value;
+                }
+            }
+
+            return defaultValueFactory(null);
+        }
+
+        #endregion CoalesceOrDefault
+
+        #region GetValueOrDefault
+
+        /// <summary>
+        ///     A T extension method that gets value or default.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="func">The function.</param>
+        /// <returns>The value or default.</returns>
+        public static TResult GetValueOrDefault<T, TResult>(this T @this, Func<T, TResult> func)
+        {
+            try
+            {
+                return func(@this);
+            }
+            catch (Exception)
+            {
+                return default(TResult);
+            }
+        }
+
+        /// <summary>
+        ///     A T extension method that gets value or default.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="func">The function.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The value or default.</returns>
+        public static TResult GetValueOrDefault<T, TResult>(this T @this, Func<T, TResult> func, TResult defaultValue)
+        {
+            try
+            {
+                return func(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     A T extension method that gets value or default.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="func">The function.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The value or default.</returns>
+        /// <example>
+        ///     <code>
+        ///       using System.Xml;
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_GetValueOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void GetValueOrDefault()
+        ///               {
+        ///                   // Type
+        ///                   var @this = new XmlDocument();
+        ///
+        ///                   // Exemples
+        ///                   string result1 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;;
+        ///                   string result2 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, () =&gt; &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(&quot;FizzBuzz&quot;, result1);
+        ///                   Assert.AreEqual(&quot;FizzBuzz&quot;, result2);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///       using System.Xml;
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///       using ExtensionMethods.Object;
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_GetValueOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void GetValueOrDefault()
+        ///               {
+        ///                   // Type
+        ///                   var @this = new XmlDocument();
+        ///
+        ///                   // Exemples
+        ///                   string result1 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;;
+        ///                   string result2 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, () =&gt; &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(&quot;FizzBuzz&quot;, result1);
+        ///                   Assert.AreEqual(&quot;FizzBuzz&quot;, result2);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///           using System.Xml;
+        ///           using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///           using Z.ExtensionMethods.Object;
+        ///
+        ///           namespace ExtensionMethods.Examples
+        ///           {
+        ///               [TestClass]
+        ///               public class System_Object_GetValueOrDefault
+        ///               {
+        ///                   [TestMethod]
+        ///                   public void GetValueOrDefault()
+        ///                   {
+        ///                       // Type
+        ///                       var @this = new XmlDocument();
+        ///
+        ///                       // Exemples
+        ///                       string result1 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;;
+        ///                       string result2 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, () =&gt; &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;
+        ///
+        ///                       // Unit Test
+        ///                       Assert.AreEqual(&quot;FizzBuzz&quot;, result1);
+        ///                       Assert.AreEqual(&quot;FizzBuzz&quot;, result2);
+        ///                   }
+        ///               }
+        ///           }
+        ///     </code>
+        /// </example>
+        public static TResult GetValueOrDefault<T, TResult>(this T @this, Func<T, TResult> func, Func<TResult> defaultValueFactory)
+        {
+            try
+            {
+                return func(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        /// <summary>
+        ///     A T extension method that gets value or default.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="func">The function.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The value or default.</returns>
+        /// <example>
+        ///     <code>
+        ///       using System.Xml;
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_GetValueOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void GetValueOrDefault()
+        ///               {
+        ///                   // Type
+        ///                   var @this = new XmlDocument();
+        ///
+        ///                   // Exemples
+        ///                   string result1 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;;
+        ///                   string result2 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, () =&gt; &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(&quot;FizzBuzz&quot;, result1);
+        ///                   Assert.AreEqual(&quot;FizzBuzz&quot;, result2);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///       using System.Xml;
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///       using Z.ExtensionMethods.Object;
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_GetValueOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void GetValueOrDefault()
+        ///               {
+        ///                   // Type
+        ///                   var @this = new XmlDocument();
+        ///
+        ///                   // Exemples
+        ///                   string result1 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;;
+        ///                   string result2 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, () =&gt; &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(&quot;FizzBuzz&quot;, result1);
+        ///                   Assert.AreEqual(&quot;FizzBuzz&quot;, result2);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///           using System.Xml;
+        ///           using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///           using ExtensionMethods.Object;
+        ///
+        ///           namespace ExtensionMethods.Examples
+        ///           {
+        ///               [TestClass]
+        ///               public class System_Object_GetValueOrDefault
+        ///               {
+        ///                   [TestMethod]
+        ///                   public void GetValueOrDefault()
+        ///                   {
+        ///                       // Type
+        ///                       var @this = new XmlDocument();
+        ///
+        ///                       // Exemples
+        ///                       string result1 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;;
+        ///                       string result2 = @this.GetValueOrDefault(x =&gt; x.FirstChild.InnerXml, () =&gt; &quot;FizzBuzz&quot;); // return &quot;FizzBuzz&quot;
+        ///
+        ///                       // Unit Test
+        ///                       Assert.AreEqual(&quot;FizzBuzz&quot;, result1);
+        ///                       Assert.AreEqual(&quot;FizzBuzz&quot;, result2);
+        ///                   }
+        ///               }
+        ///           }
+        ///     </code>
+        /// </example>
+        public static TResult GetValueOrDefault<T, TResult>(this T @this, Func<T, TResult> func, Func<T, TResult> defaultValueFactory)
+        {
+            try
+            {
+                return func(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory(@this);
+            }
+        }
+
+        #endregion GetValueOrDefault
+
+        #region IfNotNull
+
+        /// <summary>A T extension method that execute an action when the value is not null.</summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="action">The action.</param>
+        public static void IfNotNull<T>(this T @this, Action<T> action) where T : class
+        {
+            if (@this != null)
+            {
+                action(@this);
+            }
+        }
+
+        /// <summary>
+        ///     A T extension method that the function result if not null otherwise default value.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="func">The function.</param>
+        /// <returns>The function result if @this is not null otherwise default value.</returns>
+        public static TResult IfNotNull<T, TResult>(this T @this, Func<T, TResult> func) where T : class
+        {
+            return @this != null ? func(@this) : default(TResult);
+        }
+
+        /// <summary>
+        ///     A T extension method that the function result if not null otherwise default value.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="func">The function.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The function result if @this is not null otherwise default value.</returns>
+        public static TResult IfNotNull<T, TResult>(this T @this, Func<T, TResult> func, TResult defaultValue) where T : class
+        {
+            return @this != null ? func(@this) : defaultValue;
+        }
+
+        /// <summary>
+        ///     A T extension method that the function result if not null otherwise default value.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="func">The function.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The function result if @this is not null otherwise default value.</returns>
+        public static TResult IfNotNull<T, TResult>(this T @this, Func<T, TResult> func, Func<TResult> defaultValueFactory) where T : class
+        {
+            return @this != null ? func(@this) : defaultValueFactory();
+        }
+
+        #endregion IfNotNull
+
+        #region NullIf
+
+        /// <summary>
+        ///     A T extension method that null if.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>A T.</returns>
+        public static T NullIf<T>(this T @this, Func<T, bool> predicate) where T : class
+        {
+            return predicate(@this) ? null : @this;
+        }
+
+        #endregion NullIf
+
+        #region NullIfEquals
+
+        /// <summary>
+        ///     A T extension method that null if equals.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="value">The value.</param>
+        /// <returns>A T.</returns>
+        public static T NullIfEquals<T>(this T @this, T value) where T : class
+        {
+            return @this.Equals(value) ? null : @this;
+        }
+
+        #endregion NullIfEquals
+
+        #region NullIfEqualsAny
+
+        /// <summary>
+        ///     A T extension method that null if equals any.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="values">A variable-length parameters list containing values.</param>
+        /// <returns>A T.</returns>
+        public static T NullIfEqualsAny<T>(this T @this, params T[] values) where T : class
+        {
+            return Array.IndexOf(values, @this) != -1 ? null : @this;
+        }
+
+        #endregion NullIfEqualsAny
+
+        #region ToStringSafe
+
+        /// <summary>
+        ///     An object extension method that converts the @this to string or return an empty string if the value is null.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as a string or empty if the value is null.</returns>
+        public static string ToStringSafe(this object @this)
+        {
+            return @this == null ? "" : @this.ToString();
+        }
+
+        #endregion ToStringSafe
+
+        #region Try
+
+        /// <summary>A TType extension method that tries.</summary>
+        /// <typeparam name="TType">Type of the type.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="tryFunction">The try function.</param>
+        /// <returns>A TResult.</returns>
+        public static TResult Try<TType, TResult>(this TType @this, Func<TType, TResult> tryFunction)
+        {
+            try
+            {
+                return tryFunction(@this);
+            }
+            catch
+            {
+                return default(TResult);
+            }
+        }
+
+        /// <summary>A TType extension method that tries.</summary>
+        /// <typeparam name="TType">Type of the type.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="tryFunction">The try function.</param>
+        /// <param name="catchValue">The catch value.</param>
+        /// <returns>A TResult.</returns>
+        public static TResult Try<TType, TResult>(this TType @this, Func<TType, TResult> tryFunction, TResult catchValue)
+        {
+            try
+            {
+                return tryFunction(@this);
+            }
+            catch
+            {
+                return catchValue;
+            }
+        }
+
+        /// <summary>A TType extension method that tries.</summary>
+        /// <typeparam name="TType">Type of the type.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="tryFunction">The try function.</param>
+        /// <param name="catchValueFactory">The catch value factory.</param>
+        /// <returns>A TResult.</returns>
+        public static TResult Try<TType, TResult>(this TType @this, Func<TType, TResult> tryFunction, Func<TType, TResult> catchValueFactory)
+        {
+            try
+            {
+                return tryFunction(@this);
+            }
+            catch
+            {
+                return catchValueFactory(@this);
+            }
+        }
+
+        /// <summary>A TType extension method that tries.</summary>
+        /// <typeparam name="TType">Type of the type.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="tryFunction">The try function.</param>
+        /// <param name="result">[out] The result.</param>
+        /// <returns>A TResult.</returns>
+        public static bool Try<TType, TResult>(this TType @this, Func<TType, TResult> tryFunction, out TResult result)
+        {
+            try
+            {
+                result = tryFunction(@this);
+                return true;
+            }
+            catch
+            {
+                result = default(TResult);
+                return false;
+            }
+        }
+
+        /// <summary>A TType extension method that tries.</summary>
+        /// <typeparam name="TType">Type of the type.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="tryFunction">The try function.</param>
+        /// <param name="catchValue">The catch value.</param>
+        /// <param name="result">[out] The result.</param>
+        /// <returns>A TResult.</returns>
+        public static bool Try<TType, TResult>(this TType @this, Func<TType, TResult> tryFunction, TResult catchValue, out TResult result)
+        {
+            try
+            {
+                result = tryFunction(@this);
+                return true;
+            }
+            catch
+            {
+                result = catchValue;
+                return false;
+            }
+        }
+
+        /// <summary>A TType extension method that tries.</summary>
+        /// <typeparam name="TType">Type of the type.</typeparam>
+        /// <typeparam name="TResult">Type of the result.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="tryFunction">The try function.</param>
+        /// <param name="catchValueFactory">The catch value factory.</param>
+        /// <param name="result">[out] The result.</param>
+        /// <returns>A TResult.</returns>
+        public static bool Try<TType, TResult>(this TType @this, Func<TType, TResult> tryFunction, Func<TType, TResult> catchValueFactory, out TResult result)
+        {
+            try
+            {
+                result = tryFunction(@this);
+                return true;
+            }
+            catch
+            {
+                result = catchValueFactory(@this);
+                return false;
+            }
+        }
+
+        /// <summary>A TType extension method that attempts to action from the given data.</summary>
+        /// <typeparam name="TType">Type of the type.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="tryAction">The try action.</param>
+        /// <returns>true if it succeeds, false if it fails.</returns>
+        public static bool Try<TType>(this TType @this, Action<TType> tryAction)
+        {
+            try
+            {
+                tryAction(@this);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>A TType extension method that attempts to action from the given data.</summary>
+        /// <typeparam name="TType">Type of the type.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="tryAction">The try action.</param>
+        /// <param name="catchAction">The catch action.</param>
+        /// <returns>true if it succeeds, false if it fails.</returns>
+        public static bool Try<TType>(this TType @this, Action<TType> tryAction, Action<TType> catchAction)
+        {
+            try
+            {
+                tryAction(@this);
+                return true;
+            }
+            catch
+            {
+                catchAction(@this);
+                return false;
+            }
+        }
+
+        #endregion Try
+
+        #endregion Utility
+
+        #region ValueComparison
+
+        #region Between
+
+        /// <summary>
+        ///     A T extension method that check if the value is between (exclusif) the minValue and maxValue.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="minValue">The minimum value.</param>
+        /// <param name="maxValue">The maximum value.</param>
+        /// <returns>true if the value is between the minValue and maxValue, otherwise false.</returns>
+        public static bool Between<T>(this T @this, T minValue, T maxValue) where T : IComparable<T>
+        {
+            return minValue.CompareTo(@this) == -1 && @this.CompareTo(maxValue) == -1;
+        }
+
+        #endregion Between
+
+        #region In
+
+        /// <summary>
+        ///     A T extension method to determines whether the object is equal to any of the provided values.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The object to be compared.</param>
+        /// <param name="values">The value list to compare with the object.</param>
+        /// <returns>true if the values list contains the object, else false.</returns>
+        public static bool In<T>(this T @this, params T[] values)
+        {
+            return Array.IndexOf(values, @this) != -1;
+        }
+
+        #endregion In
+
+        #region InRange
+
+        /// <summary>
+        ///     A T extension method that check if the value is between inclusively the minValue and maxValue.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="minValue">The minimum value.</param>
+        /// <param name="maxValue">The maximum value.</param>
+        /// <returns>true if the value is between inclusively the minValue and maxValue, otherwise false.</returns>
+        public static bool InRange<T>(this T @this, T minValue, T maxValue) where T : IComparable<T>
+        {
+            return @this.CompareTo(minValue) >= 0 && @this.CompareTo(maxValue) <= 0;
+        }
+
+        #endregion InRange
+
+        #region IsDBNull
+
+        /// <summary>
+        ///     Returns an indication whether the specified object is of type .
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value">An object.</param>
+        /// <returns>true if  is of type ; otherwise, false.</returns>
+        public static bool IsDbNull<T>(this T value) where T : class
+        {
+            return Convert.IsDBNull(value);
+        }
+
+        #endregion IsDBNull
+
+        #region IsDefault
+
+        /// <summary>
+        ///     A T extension method that query if 'source' is the default value.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="source">The source to act on.</param>
+        /// <returns>true if default, false if not.</returns>
+        public static bool IsDefault<T>(this T source)
+        {
+            return source.Equals(default(T));
+        }
+
+        #endregion IsDefault
+
+        #region IsNotNull
+
+        /// <summary>
+        ///     A T extension method that query if '@this' is not null.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>true if not null, false if not.</returns>
+        public static bool IsNotNull<T>(this T @this) where T : class
+        {
+            return @this != null;
+        }
+
+        #endregion IsNotNull
+
+        #region IsNull
+
+        /// <summary>
+        ///     A T extension method that query if '@this' is null.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>true if null, false if not.</returns>
+        public static bool IsNull<T>(this T @this) where T : class
+        {
+            return @this == null;
+        }
+
+        #endregion IsNull
+
+        #region NotIn
+
+        /// <summary>
+        ///     A T extension method to determines whether the object is not equal to any of the provided values.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">The object to be compared.</param>
+        /// <param name="values">The value list to compare with the object.</param>
+        /// <returns>true if the values list doesn't contains the object, else false.</returns>
+        public static bool NotIn<T>(this T @this, params T[] values)
+        {
+            return Array.IndexOf(values, @this) == -1;
+        }
+
+        #endregion NotIn
+
+        #region ReferenceEquals
+
+        /// <summary>
+        ///     Determines whether the specified  instances are the same instance.
+        /// </summary>
+        /// <param name="objA">The first object to compare.</param>
+        /// <param name="objB">The second object  to compare.</param>
+        /// <returns>true if  is the same instance as  or if both are null; otherwise, false.</returns>
+        public static bool ExReferenceEquals(this object objA, object objB)
+        {
+            return object.ReferenceEquals(objA, objB);
+        }
+
+        #endregion ReferenceEquals
+
+        #endregion ValueComparison
     }
 }
