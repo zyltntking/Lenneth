@@ -146,6 +146,13 @@
     <Compile Include="Extensions\Extra\CoreExtensions\SByteExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CoreExtensions\SingleExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CoreExtensions\StringBuilderExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\TArrayExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\TimeSpanExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\TypeExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\UInt16Extensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\UInt32Extensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\UInt64Extensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\UIntPtrExtensions\Extensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
@@ -305,7 +312,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Extensions\Extra\CoreExtensions\StringExtensions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
