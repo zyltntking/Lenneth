@@ -139,6 +139,8 @@
     <Compile Include="Extensions\Extra\CoreExtensions\GuidExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CoreExtensions\Int16Extensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CoreExtensions\Int32Extensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\Int64Extensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\ObjectExtensions\Extensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
