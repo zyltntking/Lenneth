@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -1196,6 +1197,7 @@ namespace Lenneth.Core.Extensions.Extra.CoreExtensions.ObjectExtensions
         }
 
         #endregion ToDateTimeOffSet
+
         #region ToDateTimeOffSetOrDefault
 
         /// <summary>
@@ -1300,6 +1302,7 @@ namespace Lenneth.Core.Extensions.Extra.CoreExtensions.ObjectExtensions
         }
 
         #endregion ToDateTimeOffSetOrDefault
+
         #region ToDecimal
 
         /// <summary>
@@ -2702,6 +2705,7 @@ namespace Lenneth.Core.Extensions.Extra.CoreExtensions.ObjectExtensions
         }
 
         #endregion ToNullableDateTimeOffSetOrDefault
+
         #region ToNullableDecimal
 
         /// <summary>
@@ -3176,8 +3180,2675 @@ namespace Lenneth.Core.Extensions.Extra.CoreExtensions.ObjectExtensions
 
         #endregion ToNullableInt32
 
+        #region ToNullableInt32OrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable int 32 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to an int?</returns>
+        public static int? ToNullableInt32OrDefault(this object @this)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt32(@this);
+            }
+            catch (Exception)
+            {
+                return default(int);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable int 32 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to an int?</returns>
+        public static int? ToNullableInt32OrDefault(this object @this, int? defaultValue)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt32(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable int 32 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to an int?</returns>
+        public static int? ToNullableInt32OrDefault(this object @this, Func<int?> defaultValueFactory)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt32(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToNullableInt32OrDefault
+
+        #region ToNullableInt64
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a nullable int 64.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as a long?</returns>
+        public static long? ToNullableInt64(this object @this)
+        {
+            if (@this == null || @this == DBNull.Value)
+            {
+                return null;
+            }
+
+            return Convert.ToInt64(@this);
+        }
+
+        #endregion ToNullableInt64
+
+        #region ToNullableInt64OrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable int 64 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to a long?</returns>
+        public static long? ToNullableInt64OrDefault(this object @this)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt64(@this);
+            }
+            catch (Exception)
+            {
+                return default(long);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable int 64 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to a long?</returns>
+        public static long? ToNullableInt64OrDefault(this object @this, long? defaultValue)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable int 64 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to a long?</returns>
+        public static long? ToNullableInt64OrDefault(this object @this, Func<long?> defaultValueFactory)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToNullableInt64OrDefault
+
+        #region ToNullableLong
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a nullable long.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as a long?</returns>
+        public static long? ToNullableLong(this object @this)
+        {
+            if (@this == null || @this == DBNull.Value)
+            {
+                return null;
+            }
+
+            return Convert.ToInt64(@this);
+        }
+
+        #endregion ToNullableLong
+
+        #region ToNullableLongOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable long or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to a long?</returns>
+        public static long? ToNullableLongOrDefault(this object @this)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt64(@this);
+            }
+            catch (Exception)
+            {
+                return default(long);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable long or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to a long?</returns>
+        public static long? ToNullableLongOrDefault(this object @this, long? defaultValue)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable long or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to a long?</returns>
+        public static long? ToNullableLongOrDefault(this object @this, Func<long?> defaultValueFactory)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToNullableLongOrDefault
+
+        #region ToNullableSByte
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a nullable s byte.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as a sbyte?</returns>
+        public static sbyte? ToNullableSByte(this object @this)
+        {
+            if (@this == null || @this == DBNull.Value)
+            {
+                return null;
+            }
+
+            return Convert.ToSByte(@this);
+        }
+
+        #endregion ToNullableSByte
+
+        #region ToNullableSByteOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable s byte or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to a sbyte?</returns>
+        public static sbyte? ToNullableSByteOrDefault(this object @this)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToSByte(@this);
+            }
+            catch (Exception)
+            {
+                return default(sbyte);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable s byte or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to a sbyte?</returns>
+        public static sbyte? ToNullableSByteOrDefault(this object @this, sbyte? defaultValue)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToSByte(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable s byte or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to a sbyte?</returns>
+        public static sbyte? ToNullableSByteOrDefault(this object @this, Func<sbyte?> defaultValueFactory)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToSByte(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToNullableSByteOrDefault
+
+        #region ToNullableShort
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a nullable short.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as a short?</returns>
+        public static short? ToNullableShort(this object @this)
+        {
+            if (@this == null || @this == DBNull.Value)
+            {
+                return null;
+            }
+
+            return Convert.ToInt16(@this);
+        }
+
+        #endregion ToNullableShort
+
+        #region ToNullableShortOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to a short?</returns>
+        public static short? ToNullableShortOrDefault(this object @this)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt16(@this);
+            }
+            catch (Exception)
+            {
+                return default(short);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to a short?</returns>
+        public static short? ToNullableShortOrDefault(this object @this, short? defaultValue)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to a short?</returns>
+        public static short? ToNullableShortOrDefault(this object @this, Func<short?> defaultValueFactory)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToNullableShortOrDefault
+
+        #region ToNullableSingle
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a nullable single.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as a float?</returns>
+        public static float? ToNullableSingle(this object @this)
+        {
+            if (@this == null || @this == DBNull.Value)
+            {
+                return null;
+            }
+
+            return Convert.ToSingle(@this);
+        }
+
+        #endregion ToNullableSingle
+
+        #region ToNullableSingleOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable single or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to a float?</returns>
+        public static float? ToNullableSingleOrDefault(this object @this)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToSingle(@this);
+            }
+            catch (Exception)
+            {
+                return default(float);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable single or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to a float?</returns>
+        public static float? ToNullableSingleOrDefault(this object @this, float? defaultValue)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToSingle(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable single or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to a float?</returns>
+        public static float? ToNullableSingleOrDefault(this object @this, Func<float?> defaultValueFactory)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToSingle(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToNullableSingleOrDefault
+
+        #region ToNullableUInt16
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a nullable u int 16.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as an ushort?</returns>
+        public static ushort? ToNullableUInt16(this object @this)
+        {
+            if (@this == null || @this == DBNull.Value)
+            {
+                return null;
+            }
+
+            return Convert.ToUInt16(@this);
+        }
+
+        #endregion ToNullableUInt16
+
+        #region ToNullableUInt16OrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u int 16 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to an ushort?</returns>
+        public static ushort? ToNullableUInt16OrDefault(this object @this)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return default(ushort);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u int 16 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to an ushort?</returns>
+        public static ushort? ToNullableUInt16OrDefault(this object @this, ushort? defaultValue)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u int 16 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to an ushort?</returns>
+        public static ushort? ToNullableUInt16OrDefault(this object @this, Func<ushort?> defaultValueFactory)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToNullableUInt16OrDefault
+
+        #region ToNullableUInt32
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a nullable u int 32.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as an uint?</returns>
+        public static uint? ToNullableUInt32(this object @this)
+        {
+            if (@this == null || @this == DBNull.Value)
+            {
+                return null;
+            }
+
+            return Convert.ToUInt32(@this);
+        }
+
+        #endregion ToNullableUInt32
+
+        #region ToNullableUInt32OrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u int 32 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to an uint?</returns>
+        public static uint? ToNullableUInt32OrDefault(this object @this)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt32(@this);
+            }
+            catch (Exception)
+            {
+                return default(uint);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u int 32 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to an uint?</returns>
+        public static uint? ToNullableUInt32OrDefault(this object @this, uint? defaultValue)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt32(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u int 32 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to an uint?</returns>
+        public static uint? ToNullableUInt32OrDefault(this object @this, Func<uint?> defaultValueFactory)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt32(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToNullableUInt32OrDefault
+
+        #region ToNullableUInt64
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a nullable u int 64.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as an ulong?</returns>
+        public static ulong? ToNullableUInt64(this object @this)
+        {
+            if (@this == null || @this == DBNull.Value)
+            {
+                return null;
+            }
+
+            return Convert.ToUInt64(@this);
+        }
+
+        #endregion ToNullableUInt64
+
+        #region ToNullableUInt64OrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u int 64 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to an ulong?</returns>
+        public static ulong? ToNullableUInt64OrDefault(this object @this)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return default(ulong);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u int 64 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to an ulong?</returns>
+        public static ulong? ToNullableUInt64OrDefault(this object @this, ulong? defaultValue)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u int 64 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to an ulong?</returns>
+        public static ulong? ToNullableUInt64OrDefault(this object @this, Func<ulong?> defaultValueFactory)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToNullableUInt64OrDefault
+
+        #region ToNullableULong
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a nullable u long.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as an ulong?</returns>
+        public static ulong? ToNullableULong(this object @this)
+        {
+            if (@this == null || @this == DBNull.Value)
+            {
+                return null;
+            }
+
+            return Convert.ToUInt64(@this);
+        }
+
+        #endregion ToNullableULong
+
+        #region ToNullableULongOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u long or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to an ulong?</returns>
+        public static ulong? ToNullableULongOrDefault(this object @this)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return default(ulong);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u long or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to an ulong?</returns>
+        public static ulong? ToNullableULongOrDefault(this object @this, ulong? defaultValue)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u long or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to an ulong?</returns>
+        public static ulong? ToNullableULongOrDefault(this object @this, Func<ulong?> defaultValueFactory)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToNullableULongOrDefault
+
+        #region ToNullableUShort
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a nullable u short.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as an ushort?</returns>
+        public static ushort? ToNullableUShort(this object @this)
+        {
+            if (@this == null || @this == DBNull.Value)
+            {
+                return null;
+            }
+
+            return Convert.ToUInt16(@this);
+        }
+
+        #endregion ToNullableUShort
+
+        #region ToNullableUShortOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to an ushort?</returns>
+        public static ushort? ToNullableUShortOrDefault(this object @this)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return default(ushort);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to an ushort?</returns>
+        public static ushort? ToNullableUShortOrDefault(this object @this, ushort? defaultValue)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a nullable u short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to an ushort?</returns>
+        public static ushort? ToNullableUShortOrDefault(this object @this, Func<ushort?> defaultValueFactory)
+        {
+            try
+            {
+                if (@this == null || @this == DBNull.Value)
+                {
+                    return null;
+                }
+
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToNullableUShortOrDefault
+
+        #region ToSByte
+
+        /// <summary>
+        ///     An object extension method that converts the @this to the s byte.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as a sbyte.</returns>
+        public static sbyte ToSByte(this object @this)
+        {
+            return Convert.ToSByte(@this);
+        }
+
+        #endregion ToSByte
+
+        #region ToSByteOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to the s byte or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to a sbyte.</returns>
+        public static sbyte ToSByteOrDefault(this object @this)
+        {
+            try
+            {
+                return Convert.ToSByte(@this);
+            }
+            catch (Exception)
+            {
+                return default(sbyte);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to the s byte or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to a sbyte.</returns>
+        public static sbyte ToSByteOrDefault(this object @this, sbyte defaultValue)
+        {
+            try
+            {
+                return Convert.ToSByte(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to the s byte or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to a sbyte.</returns>
+        public static sbyte ToSByteOrDefault(this object @this, sbyte defaultValue, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValue;
+            }
+
+            try
+            {
+                return Convert.ToSByte(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to the s byte or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to a sbyte.</returns>
+        public static sbyte ToSByteOrDefault(this object @this, Func<sbyte> defaultValueFactory)
+        {
+            try
+            {
+                return Convert.ToSByte(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to the s byte or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to a sbyte.</returns>
+        public static sbyte ToSByteOrDefault(this object @this, Func<sbyte> defaultValueFactory, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValueFactory();
+            }
+
+            try
+            {
+                return Convert.ToSByte(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToSByteOrDefault
+
+        #region ToShort
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a short.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as a short.</returns>
+        public static short ToShort(this object @this)
+        {
+            return Convert.ToInt16(@this);
+        }
+
+        #endregion ToShort
+
+        #region ToShortOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to a short.</returns>
+        public static short ToShortOrDefault(this object @this)
+        {
+            try
+            {
+                return Convert.ToInt16(@this);
+            }
+            catch (Exception)
+            {
+                return default(short);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to a short.</returns>
+        public static short ToShortOrDefault(this object @this, short defaultValue)
+        {
+            try
+            {
+                return Convert.ToInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to a short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to a short.</returns>
+        public static short ToShortOrDefault(this object @this, short defaultValue, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValue;
+            }
+
+            try
+            {
+                return Convert.ToInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to a short.</returns>
+        public static short ToShortOrDefault(this object @this, Func<short> defaultValueFactory)
+        {
+            try
+            {
+                return Convert.ToInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to a short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to a short.</returns>
+        public static short ToShortOrDefault(this object @this, Func<short> defaultValueFactory, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValueFactory();
+            }
+
+            try
+            {
+                return Convert.ToInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToShortOrDefault
+
+        #region ToSingle
+
+        /// <summary>
+        ///     An object extension method that converts the @this to a single.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as a float.</returns>
+        public static float ToSingle(this object @this)
+        {
+            return Convert.ToSingle(@this);
+        }
+
+        #endregion ToSingle
+
+        #region ToSingleOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a single or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to a float.</returns>
+        public static float ToSingleOrDefault(this object @this)
+        {
+            try
+            {
+                return Convert.ToSingle(@this);
+            }
+            catch (Exception)
+            {
+                return default(float);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a single or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to a float.</returns>
+        public static float ToSingleOrDefault(this object @this, float defaultValue)
+        {
+            try
+            {
+                return Convert.ToSingle(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to a single or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to a float.</returns>
+        public static float ToSingleOrDefault(this object @this, float defaultValue, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValue;
+            }
+
+            try
+            {
+                return Convert.ToSingle(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a single or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to a float.</returns>
+        public static float ToSingleOrDefault(this object @this, Func<float> defaultValueFactory)
+        {
+            try
+            {
+                return Convert.ToSingle(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to a single or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to a float.</returns>
+        public static float ToSingleOrDefault(this object @this, Func<float> defaultValueFactory, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValueFactory();
+            }
+
+            try
+            {
+                return Convert.ToSingle(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToSingleOrDefault
+
+        #region ToString
+
+        /// <summary>
+        ///     An object extension method that convert this object into a string representation.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>A string that represents this object.</returns>
+        public static string ToString(this object @this)
+        {
+            return Convert.ToString(@this);
+        }
+
+        #endregion ToString
+
+        #region ToStringOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to a string or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to a string.</returns>
+        public static string ToStringOrDefault(this object @this)
+        {
+            try
+            {
+                return Convert.ToString(@this);
+            }
+            catch (Exception)
+            {
+                return default(string);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a string or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to a string.</returns>
+        public static string ToStringOrDefault(this object @this, string defaultValue)
+        {
+            try
+            {
+                return Convert.ToString(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to a string or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to a string.</returns>
+        public static string ToStringOrDefault(this object @this, string defaultValue, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValue;
+            }
+
+            try
+            {
+                return Convert.ToString(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to a string or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to a string.</returns>
+        public static string ToStringOrDefault(this object @this, Func<string> defaultValueFactory)
+        {
+            try
+            {
+                return Convert.ToString(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to a string or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to a string.</returns>
+        public static string ToStringOrDefault(this object @this, Func<string> defaultValueFactory, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValueFactory();
+            }
+
+            try
+            {
+                return Convert.ToString(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToStringOrDefault
+
+        #region ToUInt16
+
+        /// <summary>
+        ///     An object extension method that converts the @this to an u int 16.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as an ushort.</returns>
+        public static ushort ToUInt16(this object @this)
+        {
+            return Convert.ToUInt16(@this);
+        }
+
+        #endregion ToUInt16
+
+        #region ToUInt16OrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u int 16 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to an ushort.</returns>
+        public static ushort ToUInt16OrDefault(this object @this)
+        {
+            try
+            {
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return default(ushort);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u int 16 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to an ushort.</returns>
+        public static ushort ToUInt16OrDefault(this object @this, ushort defaultValue)
+        {
+            try
+            {
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to an u int 16 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to an ushort.</returns>
+        public static ushort ToUInt16OrDefault(this object @this, ushort defaultValue, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValue;
+            }
+
+            try
+            {
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u int 16 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to an ushort.</returns>
+        public static ushort ToUInt16OrDefault(this object @this, Func<ushort> defaultValueFactory)
+        {
+            try
+            {
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to an u int 16 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to an ushort.</returns>
+        public static ushort ToUInt16OrDefault(this object @this, Func<ushort> defaultValueFactory, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValueFactory();
+            }
+
+            try
+            {
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToUInt16OrDefault
+
+        #region ToUInt32
+
+        /// <summary>
+        ///     An object extension method that converts the @this to an u int 32.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as an uint.</returns>
+        public static uint ToUInt32(this object @this)
+        {
+            return Convert.ToUInt32(@this);
+        }
+
+        #endregion ToUInt32
+
+        #region ToUInt32OrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u int 32 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to an uint.</returns>
+        public static uint ToUInt32OrDefault(this object @this)
+        {
+            try
+            {
+                return Convert.ToUInt32(@this);
+            }
+            catch (Exception)
+            {
+                return default(uint);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u int 32 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to an uint.</returns>
+        public static uint ToUInt32OrDefault(this object @this, uint defaultValue)
+        {
+            try
+            {
+                return Convert.ToUInt32(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to an u int 32 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to an uint.</returns>
+        public static uint ToUInt32OrDefault(this object @this, uint defaultValue, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValue;
+            }
+
+            try
+            {
+                return Convert.ToUInt32(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u int 32 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to an uint.</returns>
+        public static uint ToUInt32OrDefault(this object @this, Func<uint> defaultValueFactory)
+        {
+            try
+            {
+                return Convert.ToUInt32(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to an u int 32 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to an uint.</returns>
+        public static uint ToUInt32OrDefault(this object @this, Func<uint> defaultValueFactory, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValueFactory();
+            }
+
+            try
+            {
+                return Convert.ToUInt32(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToUInt32OrDefault
+
+        #region ToUInt64
+
+        /// <summary>
+        ///     An object extension method that converts the @this to an u int 64.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as an ulong.</returns>
+        public static ulong ToUInt64(this object @this)
+        {
+            return Convert.ToUInt64(@this);
+        }
+
+        #endregion ToUInt64
+
+        #region ToUInt64OrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u int 64 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to an ulong.</returns>
+        public static ulong ToUInt64OrDefault(this object @this)
+        {
+            try
+            {
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return default(ulong);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u int 64 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to an ulong.</returns>
+        public static ulong ToUInt64OrDefault(this object @this, ulong defaultValue)
+        {
+            try
+            {
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to an u int 64 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to an ulong.</returns>
+        public static ulong ToUInt64OrDefault(this object @this, ulong defaultValue, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValue;
+            }
+
+            try
+            {
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u int 64 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to an ulong.</returns>
+        public static ulong ToUInt64OrDefault(this object @this, Func<ulong> defaultValueFactory)
+        {
+            try
+            {
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to an u int 64 or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to an ulong.</returns>
+        public static ulong ToUInt64OrDefault(this object @this, Func<ulong> defaultValueFactory, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValueFactory();
+            }
+
+            try
+            {
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToUInt64OrDefault
+
+        #region ToULong
+
+        /// <summary>
+        ///     An object extension method that converts the @this to an u long.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as an ulong.</returns>
+        public static ulong ToULong(this object @this)
+        {
+            return Convert.ToUInt64(@this);
+        }
+
+        #endregion ToULong
+
+        #region ToULongOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u long or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to an ulong.</returns>
+        public static ulong ToULongOrDefault(this object @this)
+        {
+            try
+            {
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return default(ulong);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u long or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to an ulong.</returns>
+        public static ulong ToULongOrDefault(this object @this, ulong defaultValue)
+        {
+            try
+            {
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to an u long or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to an ulong.</returns>
+        public static ulong ToULongOrDefault(this object @this, ulong defaultValue, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValue;
+            }
+
+            try
+            {
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u long or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to an ulong.</returns>
+        public static ulong ToULongOrDefault(this object @this, Func<ulong> defaultValueFactory)
+        {
+            try
+            {
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to an u long or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to an ulong.</returns>
+        public static ulong ToULongOrDefault(this object @this, Func<ulong> defaultValueFactory, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValueFactory();
+            }
+
+            try
+            {
+                return Convert.ToUInt64(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToULongOrDefault
+
+        #region ToUShort
+
+        /// <summary>
+        ///     An object extension method that converts the @this to an u short.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as an ushort.</returns>
+        public static ushort ToUShort(this object @this)
+        {
+            return Convert.ToUInt16(@this);
+        }
+
+        #endregion ToUShort
+
+        #region ToUShortOrDefault
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The given data converted to an ushort.</returns>
+        public static ushort ToUShortOrDefault(this object @this)
+        {
+            try
+            {
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return default(ushort);
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to an ushort.</returns>
+        public static ushort ToUShortOrDefault(this object @this, ushort defaultValue)
+        {
+            try
+            {
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to an u short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to an ushort.</returns>
+        public static ushort ToUShortOrDefault(this object @this, ushort defaultValue, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValue;
+            }
+
+            try
+            {
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        ///     An object extension method that converts this object to an u short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to an ushort.</returns>
+        public static ushort ToUShortOrDefault(this object @this, Func<ushort> defaultValueFactory)
+        {
+            try
+            {
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        /// <summary>
+        /// An object extension method that converts this object to an u short or default.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <param name="useDefaultIfNull">true to use default if null.</param>
+        /// <returns>The given data converted to an ushort.</returns>
+        public static ushort ToUShortOrDefault(this object @this, Func<ushort> defaultValueFactory, bool useDefaultIfNull)
+        {
+            if (useDefaultIfNull && @this == null)
+            {
+                return defaultValueFactory();
+            }
+
+            try
+            {
+                return Convert.ToUInt16(@this);
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory();
+            }
+        }
+
+        #endregion ToUShortOrDefault
+
         #endregion ToValueType
 
+        #region Other
+
+        #region ChangeType
+
+        /// <summary>
+        ///     Returns an object of the specified type whose value is equivalent to the specified object.
+        /// </summary>
+        /// <param name="value">An object that implements the  interface.</param>
+        /// <param name="typeCode">The type of object to return.</param>
+        /// <returns>
+        ///     An object whose underlying type is  and whose value is equivalent to .-or-A null reference (Nothing in Visual
+        ///     Basic), if  is null and  is , , or .
+        /// </returns>
+        public static object ChangeType(this object value, TypeCode typeCode)
+        {
+            return Convert.ChangeType(value, typeCode);
+        }
+
+        /// <summary>
+        ///     Returns an object of the specified type whose value is equivalent to the specified object. A parameter
+        ///     supplies culture-specific formatting information.
+        /// </summary>
+        /// <param name="value">An object that implements the  interface.</param>
+        /// <param name="typeCode">The type of object to return.</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>
+        ///     An object whose underlying type is  and whose value is equivalent to .-or- A null reference (Nothing in
+        ///     Visual Basic), if  is null and  is , , or .
+        /// </returns>
+        public static object ChangeType(this object value, TypeCode typeCode, IFormatProvider provider)
+        {
+            return Convert.ChangeType(value, typeCode, provider);
+        }
+
+        /// <summary>
+        ///     Returns an object of the specified type and whose value is equivalent to the specified object.
+        /// </summary>
+        /// <param name="value">An object that implements the  interface.</param>
+        /// <param name="conversionType">The type of object to return.</param>
+        /// <returns>
+        ///     An object whose type is  and whose value is equivalent to .-or-A null reference (Nothing in Visual Basic), if
+        ///     is null and  is not a value type.
+        /// </returns>
+        public static object ChangeType(this object value, Type conversionType)
+        {
+            return Convert.ChangeType(value, conversionType);
+        }
+
+        /// <summary>
+        ///     Returns an object of the specified type whose value is equivalent to the specified object. A parameter
+        ///     supplies culture-specific formatting information.
+        /// </summary>
+        /// <param name="value">An object that implements the  interface.</param>
+        /// <param name="conversionType">The type of object to return.</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>
+        ///     An object whose type is  and whose value is equivalent to .-or- , if the  of  and  are equal.-or- A null
+        ///     reference (Nothing in Visual Basic), if  is null and  is not a value type.
+        /// </returns>
+        public static object ChangeType(this object value, Type conversionType, IFormatProvider provider)
+        {
+            return Convert.ChangeType(value, conversionType, provider);
+        }
+
+        /// <summary>
+        ///     Returns an object of the specified type and whose value is equivalent to the specified object.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value">An object that implements the  interface.</param>
+        /// <returns>
+        ///     An object whose type is  and whose value is equivalent to .-or-A null reference (Nothing in Visual Basic), if
+        ///     is null and  is not a value type.
+        /// </returns>
+        public static object ChangeType<T>(this object value)
+        {
+            return (T)Convert.ChangeType(value, typeof(T));
+        }
+
+        /// <summary>
+        ///     Returns an object of the specified type whose value is equivalent to the specified object. A parameter
+        ///     supplies culture-specific formatting information.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="value">An object that implements the  interface.</param>
+        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <returns>
+        ///     An object whose type is  and whose value is equivalent to .-or- , if the  of  and  are equal.-or- A null
+        ///     reference (Nothing in Visual Basic), if  is null and  is not a value type.
+        /// </returns>
+        public static object ChangeType<T>(this object value, IFormatProvider provider)
+        {
+            return (T)Convert.ChangeType(value, typeof(T), provider);
+        }
+
+        #endregion ChangeType
+
+        #region GetTypeCode
+
+        /// <summary>
+        ///     Returns the  for the specified object.
+        /// </summary>
+        /// <param name="value">An object that implements the  interface.</param>
+        /// <returns>The  for , or  if  is null.</returns>
+        public static TypeCode GetTypeCode(this object value)
+        {
+            return Convert.GetTypeCode(value);
+        }
+
+        #endregion GetTypeCode
+
+        #region To
+
+        /// <summary>
+        ///     A System.Object extension method that toes the given this.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">this.</param>
+        /// <returns>A T.</returns>
+        /// <example>
+        ///     <code>
+        ///       using System;
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_To
+        ///           {
+        ///               [TestMethod]
+        ///               public void To()
+        ///               {
+        ///                   string nullValue = null;
+        ///                   string value = &quot;1&quot;;
+        ///                   object dbNullValue = DBNull.Value;
+        ///
+        ///                   // Exemples
+        ///                   var result1 = value.To&lt;int&gt;(); // return 1;
+        ///                   var result2 = value.To&lt;int?&gt;(); // return 1;
+        ///                   var result3 = nullValue.To&lt;int?&gt;(); // return null;
+        ///                   var result4 = dbNullValue.To&lt;int?&gt;(); // return null;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(1, result1);
+        ///                   Assert.AreEqual(1, result2.Value);
+        ///                   Assert.IsFalse(result3.HasValue);
+        ///                   Assert.IsFalse(result4.HasValue);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///       using System;
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///       using ExtensionMethods.Object;
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_To
+        ///           {
+        ///               [TestMethod]
+        ///               public void To()
+        ///               {
+        ///                   string nullValue = null;
+        ///                   string value = &quot;1&quot;;
+        ///                   object dbNullValue = DBNull.Value;
+        ///
+        ///                   // Exemples
+        ///                   var result1 = value.To&lt;int&gt;(); // return 1;
+        ///                   var result2 = value.To&lt;int?&gt;(); // return 1;
+        ///                   var result3 = nullValue.To&lt;int?&gt;(); // return null;
+        ///                   var result4 = dbNullValue.To&lt;int?&gt;(); // return null;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(1, result1);
+        ///                   Assert.AreEqual(1, result2.Value);
+        ///                   Assert.IsFalse(result3.HasValue);
+        ///                   Assert.IsFalse(result4.HasValue);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        public static T To<T>(this object @this)
+        {
+            if (@this != null)
+            {
+                var targetType = typeof(T);
+
+                if (@this.GetType() == targetType)
+                {
+                    return (T)@this;
+                }
+
+                var converter = TypeDescriptor.GetConverter(@this);
+                if (converter.CanConvertTo(targetType))
+                {
+                    return (T)converter.ConvertTo(@this, targetType);
+                }
+
+                converter = TypeDescriptor.GetConverter(targetType);
+                if (converter.CanConvertFrom(@this.GetType()))
+                {
+                    return (T)converter.ConvertFrom(@this);
+                }
+
+                if (@this == DBNull.Value)
+                {
+                    return (T)(object)null;
+                }
+            }
+
+            return (T)@this;
+        }
+
+        /// <summary>
+        ///     A System.Object extension method that toes the given this.
+        /// </summary>
+        /// <param name="this">this.</param>
+        /// <param name="type">The type.</param>
+        /// <returns>An object.</returns>
+        /// <example>
+        ///     <code>
+        ///       using System;
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_To
+        ///           {
+        ///               [TestMethod]
+        ///               public void To()
+        ///               {
+        ///                   string nullValue = null;
+        ///                   string value = &quot;1&quot;;
+        ///                   object dbNullValue = DBNull.Value;
+        ///
+        ///                   // Exemples
+        ///                   var result1 = value.To&lt;int&gt;(); // return 1;
+        ///                   var result2 = value.To&lt;int?&gt;(); // return 1;
+        ///                   var result3 = nullValue.To&lt;int?&gt;(); // return null;
+        ///                   var result4 = dbNullValue.To&lt;int?&gt;(); // return null;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(1, result1);
+        ///                   Assert.AreEqual(1, result2.Value);
+        ///                   Assert.IsFalse(result3.HasValue);
+        ///                   Assert.IsFalse(result4.HasValue);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///       using System;
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///       using ExtensionMethods.Object;
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_To
+        ///           {
+        ///               [TestMethod]
+        ///               public void To()
+        ///               {
+        ///                   string nullValue = null;
+        ///                   string value = &quot;1&quot;;
+        ///                   object dbNullValue = DBNull.Value;
+        ///
+        ///                   // Exemples
+        ///                   var result1 = value.To&lt;int&gt;(); // return 1;
+        ///                   var result2 = value.To&lt;int?&gt;(); // return 1;
+        ///                   var result3 = nullValue.To&lt;int?&gt;(); // return null;
+        ///                   var result4 = dbNullValue.To&lt;int?&gt;(); // return null;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(1, result1);
+        ///                   Assert.AreEqual(1, result2.Value);
+        ///                   Assert.IsFalse(result3.HasValue);
+        ///                   Assert.IsFalse(result4.HasValue);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        public static object To(this object @this, Type type)
+        {
+            if (@this != null)
+            {
+                var targetType = type;
+
+                if (@this.GetType() == targetType)
+                {
+                    return @this;
+                }
+
+                var converter = TypeDescriptor.GetConverter(@this);
+                if (converter.CanConvertTo(targetType))
+                {
+                    return converter.ConvertTo(@this, targetType);
+                }
+
+                converter = TypeDescriptor.GetConverter(targetType);
+                if (converter.CanConvertFrom(@this.GetType()))
+                {
+                    return converter.ConvertFrom(@this);
+                }
+
+                if (@this == DBNull.Value)
+                {
+                    return null;
+                }
+            }
+
+            return @this;
+        }
+
+        #endregion To
+
+        #region ToOrDefault
+
+        /// <summary>
+        ///     A System.Object extension method that converts this object to an or default.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">this.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to a T.</returns>
+        /// <example>
+        ///     <code>
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///       using Z.ExtensionMethods.Object;
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_ToOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void ToOrDefault()
+        ///               {
+        ///                   // Type
+        ///                   object intValue = &quot;1&quot;;
+        ///                   object invalidValue = &quot;Fizz&quot;;
+        ///
+        ///                   // Exemples
+        ///                   var result1 = intValue.ToOrDefault&lt;int&gt;(); // return 1;
+        ///                   var result2 = invalidValue.ToOrDefault&lt;int&gt;(); // return 0;
+        ///                   int result3 = invalidValue.ToOrDefault(3); // return 3;
+        ///                   int result4 = invalidValue.ToOrDefault(() =&gt; 4); // return 4;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(1, result1);
+        ///                   Assert.AreEqual(0, result2);
+        ///                   Assert.AreEqual(3, result3);
+        ///                   Assert.AreEqual(4, result4);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///       using ExtensionMethods.Object;
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_ToOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void ToOrDefault()
+        ///               {
+        ///                   // Type
+        ///                   object intValue = &quot;1&quot;;
+        ///                   object invalidValue = &quot;Fizz&quot;;
+        ///
+        ///                   // Exemples
+        ///                   var result1 = intValue.ToOrDefault&lt;int&gt;(); // return 1;
+        ///                   var result2 = invalidValue.ToOrDefault&lt;int&gt;(); // return 0;
+        ///                   int result3 = invalidValue.ToOrDefault(3); // return 3;
+        ///                   int result4 = invalidValue.ToOrDefault(() =&gt; 4); // return 4;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(1, result1);
+        ///                   Assert.AreEqual(0, result2);
+        ///                   Assert.AreEqual(3, result3);
+        ///                   Assert.AreEqual(4, result4);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///           using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///           using ExtensionMethods.Object;
+        ///
+        ///           namespace ExtensionMethods.Examples
+        ///           {
+        ///               [TestClass]
+        ///               public class System_Object_ToOrDefault
+        ///               {
+        ///                   [TestMethod]
+        ///                   public void ToOrDefault()
+        ///                   {
+        ///                       // Type
+        ///                       object intValue = &quot;1&quot;;
+        ///                       object invalidValue = &quot;Fizz&quot;;
+        ///
+        ///                       // Exemples
+        ///                       var result1 = intValue.ToOrDefault&lt;int&gt;(); // return 1;
+        ///                       var result2 = invalidValue.ToOrDefault&lt;int&gt;(); // return 0;
+        ///                       int result3 = invalidValue.ToOrDefault(3); // return 3;
+        ///                       int result4 = invalidValue.ToOrDefault(() =&gt; 4); // return 4;
+        ///
+        ///                       // Unit Test
+        ///                       Assert.AreEqual(1, result1);
+        ///                       Assert.AreEqual(0, result2);
+        ///                       Assert.AreEqual(3, result3);
+        ///                       Assert.AreEqual(4, result4);
+        ///                   }
+        ///               }
+        ///           }
+        ///     </code>
+        /// </example>
+        public static T ToOrDefault<T>(this object @this, Func<object, T> defaultValueFactory)
+        {
+            try
+            {
+                if (@this != null)
+                {
+                    var targetType = typeof(T);
+
+                    if (@this.GetType() == targetType)
+                    {
+                        return (T)@this;
+                    }
+
+                    var converter = TypeDescriptor.GetConverter(@this);
+                    if (converter.CanConvertTo(targetType))
+                    {
+                        return (T)converter.ConvertTo(@this, targetType);
+                    }
+
+                    converter = TypeDescriptor.GetConverter(targetType);
+                    if (converter.CanConvertFrom(@this.GetType()))
+                    {
+                        return (T)converter.ConvertFrom(@this);
+                    }
+
+                    if (@this == DBNull.Value)
+                    {
+                        return (T)(object)null;
+                    }
+                }
+
+                return (T)@this;
+            }
+            catch (Exception)
+            {
+                return defaultValueFactory(@this);
+            }
+        }
+
+        /// <summary>
+        ///     A System.Object extension method that converts this object to an or default.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">this.</param>
+        /// <param name="defaultValueFactory">The default value factory.</param>
+        /// <returns>The given data converted to a T.</returns>
+        /// <example>
+        ///     <code>
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///       using ExtensionMethods.Object;
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_ToOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void ToOrDefault()
+        ///               {
+        ///                   // Type
+        ///                   object intValue = &quot;1&quot;;
+        ///                   object invalidValue = &quot;Fizz&quot;;
+        ///
+        ///                   // Exemples
+        ///                   var result1 = intValue.ToOrDefault&lt;int&gt;(); // return 1;
+        ///                   var result2 = invalidValue.ToOrDefault&lt;int&gt;(); // return 0;
+        ///                   int result3 = invalidValue.ToOrDefault(3); // return 3;
+        ///                   int result4 = invalidValue.ToOrDefault(() =&gt; 4); // return 4;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(1, result1);
+        ///                   Assert.AreEqual(0, result2);
+        ///                   Assert.AreEqual(3, result3);
+        ///                   Assert.AreEqual(4, result4);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///       using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///       using ExtensionMethods.Object;
+        ///
+        ///       namespace ExtensionMethods.Examples
+        ///       {
+        ///           [TestClass]
+        ///           public class System_Object_ToOrDefault
+        ///           {
+        ///               [TestMethod]
+        ///               public void ToOrDefault()
+        ///               {
+        ///                   // Type
+        ///                   object intValue = &quot;1&quot;;
+        ///                   object invalidValue = &quot;Fizz&quot;;
+        ///
+        ///                   // Exemples
+        ///                   var result1 = intValue.ToOrDefault&lt;int&gt;(); // return 1;
+        ///                   var result2 = invalidValue.ToOrDefault&lt;int&gt;(); // return 0;
+        ///                   int result3 = invalidValue.ToOrDefault(3); // return 3;
+        ///                   int result4 = invalidValue.ToOrDefault(() =&gt; 4); // return 4;
+        ///
+        ///                   // Unit Test
+        ///                   Assert.AreEqual(1, result1);
+        ///                   Assert.AreEqual(0, result2);
+        ///                   Assert.AreEqual(3, result3);
+        ///                   Assert.AreEqual(4, result4);
+        ///               }
+        ///           }
+        ///       }
+        /// </code>
+        /// </example>
+        /// <example>
+        ///     <code>
+        ///           using Microsoft.VisualStudio.TestTools.UnitTesting;
+        ///           using ExtensionMethods.Object;
+        ///
+        ///           namespace ExtensionMethods.Examples
+        ///           {
+        ///               [TestClass]
+        ///               public class System_Object_ToOrDefault
+        ///               {
+        ///                   [TestMethod]
+        ///                   public void ToOrDefault()
+        ///                   {
+        ///                       // Type
+        ///                       object intValue = &quot;1&quot;;
+        ///                       object invalidValue = &quot;Fizz&quot;;
+        ///
+        ///                       // Exemples
+        ///                       var result1 = intValue.ToOrDefault&lt;int&gt;(); // return 1;
+        ///                       var result2 = invalidValue.ToOrDefault&lt;int&gt;(); // return 0;
+        ///                       int result3 = invalidValue.ToOrDefault(3); // return 3;
+        ///                       int result4 = invalidValue.ToOrDefault(() =&gt; 4); // return 4;
+        ///
+        ///                       // Unit Test
+        ///                       Assert.AreEqual(1, result1);
+        ///                       Assert.AreEqual(0, result2);
+        ///                       Assert.AreEqual(3, result3);
+        ///                       Assert.AreEqual(4, result4);
+        ///                   }
+        ///               }
+        ///           }
+        ///     </code>
+        /// </example>
+        public static T ToOrDefault<T>(this object @this, Func<T> defaultValueFactory)
+        {
+            return @this.ToOrDefault(x => defaultValueFactory());
+        }
+
+        /// <summary>
+        ///     A System.Object extension method that converts this object to an or default.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">this.</param>
+        /// <returns>The given data converted to a T.</returns>
+        public static T ToOrDefault<T>(this object @this)
+        {
+            return @this.ToOrDefault(x => default(T));
+        }
+
+        /// <summary>
+        ///     A System.Object extension method that converts this object to an or default.
+        /// </summary>
+        /// <typeparam name="T">Generic type parameter.</typeparam>
+        /// <param name="this">this.</param>
+        /// <param name="defaultValue">The default value.</param>
+        /// <returns>The given data converted to a T.</returns>
+        public static T ToOrDefault<T>(this object @this, T defaultValue)
+        {
+            return @this.ToOrDefault(x => defaultValue);
+        }
+
+        #endregion ToOrDefault
+
+        #endregion Other
+
         #endregion Convert
+
+
+
     }
 }
