@@ -6834,7 +6834,7 @@ namespace Lenneth.Core.Extensions.Extra.CoreExtensions.ObjectExtensions
         /// <returns>true if  is the same instance as  or if both are null; otherwise, false.</returns>
         public static bool ExReferenceEquals(this object objA, object objB)
         {
-            return object.ReferenceEquals(objA, objB);
+            return ReferenceEquals(objA, objB);
         }
 
         #endregion ReferenceEquals

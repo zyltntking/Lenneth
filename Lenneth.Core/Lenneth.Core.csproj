@@ -140,7 +140,12 @@
     <Compile Include="Extensions\Extra\CoreExtensions\Int16Extensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CoreExtensions\Int32Extensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CoreExtensions\Int64Extensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\ObjectArrayExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CoreExtensions\ObjectExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\RandomExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\SByteExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\SingleExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CoreExtensions\StringBuilderExtensions\Extensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
