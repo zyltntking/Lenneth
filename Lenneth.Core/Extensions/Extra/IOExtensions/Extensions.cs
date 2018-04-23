@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Lenneth.Core.Extensions.Extra.IOExtensions
@@ -1196,10 +1197,653 @@ namespace Lenneth.Core.Extensions.Extra.IOExtensions
             File.AppendAllLines(@this.FullName, contents, encoding);
         }
 
-        #endregion
+        #endregion AppendAllLines
 
+        #region AppendAllText
 
+        /// <summary>
+        ///     Opens a file, appends the specified string to the file, and then closes the file. If the file does not exist,
+        ///     this method creates a file, writes the specified string to the file, then closes the file.
+        /// </summary>
+        /// <param name="this">The file to append the specified string to.</param>
+        /// <param name="contents">The string to append to the file.</param>
+        public static void AppendAllText(this FileInfo @this, string contents)
+        {
+            File.AppendAllText(@this.FullName, contents);
+        }
 
-        #endregion
+        /// <summary>
+        ///     Appends the specified string to the file, creating the file if it does not already exist.
+        /// </summary>
+        /// <param name="this">The file to append the specified string to.</param>
+        /// <param name="contents">The string to append to the file.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        public static void AppendAllText(this FileInfo @this, string contents, Encoding encoding)
+        {
+            File.AppendAllText(@this.FullName, contents, encoding);
+        }
+
+        #endregion AppendAllText
+
+        #region ChangeExtension
+
+        /// <summary>
+        ///     Changes the extension of a @this string.
+        /// </summary>
+        /// <param name="this">
+        ///     The @this information to modify. The @this cannot contain any of the characters defined in
+        ///     <see cref="M:System.IO.Path.GetInvalidPathChars" />
+        /// </param>
+        /// <param name="extension">
+        ///     The new extension (with or without a leading period). Specify null to remove an existing
+        ///     extension from <paramref name="this" />
+        /// </param>
+        /// <returns>
+        ///     The modified @this information.On Windows-based desktop platforms, if <paramref name="this" /> is null or an empty string (""), the @this information is returned unmodified. If <paramref name="extension" /> is null, the returned string contains the specified @this with its extension removed. If <paramref name="this" /> has no extension, and <paramref name="extension" /> is not null, the returned @this string contains <paramref name="extension" /> appended to the end of <paramref name="this" />.
+        /// </returns>
+        public static string ChangeExtension(this FileInfo @this, string extension)
+        {
+            return Path.ChangeExtension(@this.FullName, extension);
+        }
+
+        #endregion ChangeExtension
+
+        #region CreateDirectory
+
+        /// <summary>
+        ///     Creates all directories and subdirectories in the specified @this.
+        /// </summary>
+        /// <param name="this">The directory @this to create.</param>
+        /// <returns>An object that represents the directory for the specified @this.</returns>
+        public static DirectoryInfo CreateDirectory(this FileInfo @this)
+        {
+            return Directory.CreateDirectory(@this.Directory.FullName);
+        }
+
+        /// <summary>
+        ///     Creates all the directories in the specified @this, applying the specified Windows security.
+        /// </summary>
+        /// <param name="this">The directory to create.</param>
+        /// <param name="directorySecurity">The access control to apply to the directory.</param>
+        /// <returns>An object that represents the directory for the specified @this.</returns>
+        public static DirectoryInfo CreateDirectory(this FileInfo @this, DirectorySecurity directorySecurity)
+        {
+            return Directory.CreateDirectory(@this.Directory.FullName, directorySecurity);
+        }
+
+        #endregion CreateDirectory
+
+        #region EnsureDirectoryExists
+
+        /// <summary>
+        ///     Creates all directories and subdirectories in the specified @this if the directory doesn't already exists.
+        ///     This methods is the same as FileInfo.CreateDirectory however it's less ambigues about what happen if the
+        ///     directory already exists.
+        /// </summary>
+        /// <param name="this">The directory @this to create.</param>
+        /// <returns>An object that represents the directory for the specified @this.</returns>
+        public static DirectoryInfo EnsureDirectoryExists(this FileInfo @this)
+        {
+            return Directory.CreateDirectory(@this.Directory.FullName);
+        }
+
+        /// <summary>
+        ///     Creates all directories and subdirectories in the specified @this if the directory doesn't already exists.
+        ///     This methods is the same as FileInfo.CreateDirectory however it's less ambigues about what happen if the
+        ///     directory already exists.
+        /// </summary>
+        /// <param name="this">The directory to create.</param>
+        /// <param name="directorySecurity">The access control to apply to the directory.</param>
+        /// <returns>An object that represents the directory for the specified @this.</returns>
+        public static DirectoryInfo EnsureDirectoryExists(this FileInfo @this, DirectorySecurity directorySecurity)
+        {
+            return Directory.CreateDirectory(@this.Directory.FullName, directorySecurity);
+        }
+
+        #endregion EnsureDirectoryExists
+
+        #region GetDirectoryFullName
+
+        /// <summary>
+        ///     A FileInfo extension method that gets directory full name.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The directory full name.</returns>
+        public static string GetDirectoryFullName(this FileInfo @this)
+        {
+            return @this.Directory.FullName;
+        }
+
+        #endregion GetDirectoryFullName
+
+        #region GetDirectoryName
+
+        /// <summary>
+        ///     A FileInfo extension method that gets directory name.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>The directory name.</returns>
+        public static string GetDirectoryName(this FileInfo @this)
+        {
+            return @this.Directory.Name;
+        }
+
+        #endregion GetDirectoryName
+
+        #region GetFileNameWithoutExtension
+
+        /// <summary>
+        ///     Returns the file name of the specified @this string without the extension.
+        /// </summary>
+        /// <param name="this">The @this of the file.</param>
+        /// <returns>
+        ///     The string returned by <see cref="M:System.IO.Path.GetFileName(System.String)" />, minus the last period (.) and all characters following it.
+        /// </returns>
+        public static string GetFileNameWithoutExtension(this FileInfo @this)
+        {
+            return Path.GetFileNameWithoutExtension(@this.FullName);
+        }
+
+        #endregion GetFileNameWithoutExtension
+
+        #region GetPathRoot
+
+        /// <summary>
+        ///     Gets the root directory information of the specified @this.
+        /// </summary>
+        /// <param name="this">The @this from which to obtain root directory information.</param>
+        /// <returns>
+        ///     The root directory of <paramref name="this" />, such as "C:\", or null if <paramref name="this" /> is null, or an empty string if
+        ///     <paramref name="this" />
+        ///     does not contain root directory information.
+        /// </returns>
+        public static string GetPathRoot(this FileInfo @this)
+        {
+            return Path.GetPathRoot(@this.FullName);
+        }
+
+        #endregion GetPathRoot
+
+        #region HasExtension
+
+        /// <summary>
+        ///     Determines whether a @this includes a file name extension.
+        /// </summary>
+        /// <param name="this">The @this to search for an extension.</param>
+        /// <returns>
+        ///     true if the characters that follow the last directory separator (\\ or /) or volume separator (:) in the @this include a period (.) followed by one or more characters; otherwise, false.
+        /// </returns>
+        public static bool HasExtension(this FileInfo @this)
+        {
+            return Path.HasExtension(@this.FullName);
+        }
+
+        #endregion HasExtension
+
+        #region IsPathRooted
+
+        /// <summary>
+        ///     Gets a value indicating whether the specified @this string contains a root.
+        /// </summary>
+        /// <param name="this">The @this to test.</param>
+        /// <returns>
+        ///     true if <paramref name="this" /> contains a root; otherwise, false.
+        /// </returns>
+        public static bool IsPathRooted(this FileInfo @this)
+        {
+            return Path.IsPathRooted(@this.FullName);
+        }
+
+        #endregion IsPathRooted
+
+        #region ReadAllBytes
+
+        /// <summary>
+        ///     Opens a binary file, reads the contents of the file into a byte array, and then closes the file.
+        /// </summary>
+        /// <param name="this">The file to open for reading.</param>
+        /// <returns>A byte array containing the contents of the file.</returns>
+        public static byte[] ReadAllBytes(this FileInfo @this)
+        {
+            return File.ReadAllBytes(@this.FullName);
+        }
+
+        #endregion ReadAllBytes
+
+        #region ReadAllLines
+
+        /// <summary>
+        ///     Opens a text file, reads all lines of the file, and then closes the file.
+        /// </summary>
+        /// <param name="this">The file to open for reading.</param>
+        /// <returns>A string array containing all lines of the file.</returns>
+        public static string[] ReadAllLines(this FileInfo @this)
+        {
+            return File.ReadAllLines(@this.FullName);
+        }
+
+        /// <summary>
+        ///     Opens a file, reads all lines of the file with the specified encoding, and then closes the file.
+        /// </summary>
+        /// <param name="this">The file to open for reading.</param>
+        /// <param name="encoding">The encoding applied to the contents of the file.</param>
+        /// <returns>A string array containing all lines of the file.</returns>
+        public static string[] ReadAllLines(this FileInfo @this, Encoding encoding)
+        {
+            return File.ReadAllLines(@this.FullName, encoding);
+        }
+
+        #endregion ReadAllLines
+
+        #region ReadAllText
+
+        /// <summary>
+        ///     Opens a text file, reads all lines of the file, and then closes the file.
+        /// </summary>
+        /// <param name="this">The file to open for reading.</param>
+        /// <returns>A string containing all lines of the file.</returns>
+        public static string ReadAllText(this FileInfo @this)
+        {
+            return File.ReadAllText(@this.FullName);
+        }
+
+        /// <summary>
+        ///     Opens a file, reads all lines of the file with the specified encoding, and then closes the file.
+        /// </summary>
+        /// <param name="this">The file to open for reading.</param>
+        /// <param name="encoding">The encoding applied to the contents of the file.</param>
+        /// <returns>A string containing all lines of the file.</returns>
+        public static string ReadAllText(this FileInfo @this, Encoding encoding)
+        {
+            return File.ReadAllText(@this.FullName, encoding);
+        }
+
+        #endregion ReadAllText
+
+        #region ReadLines
+
+        /// <summary>
+        ///     Reads the lines of a file.
+        /// </summary>
+        /// <param name="this">The file to read.</param>
+        /// <returns>All the lines of the file, or the lines that are the result of a query.</returns>
+        public static IEnumerable<string> ReadLines(this FileInfo @this)
+        {
+            return File.ReadLines(@this.FullName);
+        }
+
+        /// <summary>
+        ///     Read the lines of a file that has a specified encoding.
+        /// </summary>
+        /// <param name="this">The file to read.</param>
+        /// <param name="encoding">The encoding that is applied to the contents of the file.</param>
+        /// <returns>All the lines of the file, or the lines that are the result of a query.</returns>
+        public static IEnumerable<string> ReadLines(this FileInfo @this, Encoding encoding)
+        {
+            return File.ReadLines(@this.FullName, encoding);
+        }
+
+        #endregion ReadLines
+
+        #region ReadToEnd
+
+        /// <summary>
+        ///     A FileInfo extension method that reads the file to the end.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>
+        ///     The rest of the stream as a string, from the current position to the end. If the current position is at the
+        ///     end of the stream, returns an empty string ("").
+        /// </returns>
+        public static string ReadToEnd(this FileInfo @this)
+        {
+            using (var stream = File.Open(@this.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (var reader = new StreamReader(stream, Encoding.Default))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     A FileInfo extension method that reads the file to the end.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="position">The position.</param>
+        /// <returns>
+        ///     The rest of the stream as a string, from the current position to the end. If the current position is at the
+        ///     end of the stream, returns an empty string ("").
+        /// </returns>
+        public static string ReadToEnd(this FileInfo @this, long position)
+        {
+            using (var stream = File.Open(@this.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                stream.Position = position;
+
+                using (var reader = new StreamReader(stream, Encoding.Default))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     A FileInfo extension method that reads the file to the end.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="encoding">The encoding.</param>
+        /// <returns>
+        ///     The rest of the stream as a string, from the current position to the end. If the current position is at the
+        ///     end of the stream, returns an empty string ("").
+        /// </returns>
+        public static string ReadToEnd(this FileInfo @this, Encoding encoding)
+        {
+            using (var stream = File.Open(@this.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (var reader = new StreamReader(stream, encoding))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     A FileInfo extension method that reads the file to the end.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="encoding">The encoding.</param>
+        /// <param name="position">The position.</param>
+        /// <returns>
+        ///     The rest of the stream as a string, from the current position to the end. If the current position is at the
+        ///     end of the stream, returns an empty string ("").
+        /// </returns>
+        public static string ReadToEnd(this FileInfo @this, Encoding encoding, long position)
+        {
+            using (var stream = File.Open(@this.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                stream.Position = position;
+
+                using (var reader = new StreamReader(stream, encoding))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
+
+        #endregion ReadToEnd
+
+        #region Rename
+
+        /// <summary>
+        ///     A FileInfo extension method that renames.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="newName">Name of the new.</param>
+        public static void Rename(this FileInfo @this, string newName)
+        {
+            var filePath = Path.Combine(@this.Directory.FullName, newName);
+            @this.MoveTo(filePath);
+        }
+
+        #endregion Rename
+
+        #region RenameExtension
+
+        /// <summary>
+        ///     Changes the extension of a @this string.
+        /// </summary>
+        /// <param name="this">
+        ///     The @this information to modify. The @this cannot contain any of the characters defined in
+        ///     <see cref="M:System.IO.Path.GetInvalidPathChars" />
+        /// </param>
+        /// <param name="extension">
+        ///     The new extension (with or without a leading period). Specify null to remove an existing
+        ///     extension from
+        ///     <paramref name="this" />
+        /// </param>
+        public static void RenameExtension(this FileInfo @this, string extension)
+        {
+            var filePath = Path.ChangeExtension(@this.FullName, extension);
+            @this.MoveTo(filePath);
+        }
+
+        #endregion RenameExtension
+
+        #region RenameFileWithoutExtension
+
+        /// <summary>
+        ///     A FileInfo extension method that rename file without extension.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="newName">Name of the new.</param>
+        public static void RenameFileWithoutExtension(this FileInfo @this, string newName)
+        {
+            var fileName = string.Concat(newName, @this.Extension);
+            var filePath = Path.Combine(@this.Directory.FullName, fileName);
+            @this.MoveTo(filePath);
+        }
+
+        #endregion RenameFileWithoutExtension
+
+        #region WriteAllBytes
+
+        /// <summary>
+        ///     Creates a new file, writes the specified byte array to the file, and then closes the file. If the target file
+        ///     already exists, it is overwritten.
+        /// </summary>
+        /// <param name="this">The file to write to.</param>
+        /// <param name="bytes">The bytes to write to the file.</param>
+        public static void WriteAllBytes(this FileInfo @this, byte[] bytes)
+        {
+            File.WriteAllBytes(@this.FullName, bytes);
+        }
+
+        #endregion WriteAllBytes
+
+        #region WriteAllLines
+
+        /// <summary>
+        ///     Creates a new file, write the specified string array to the file, and then closes the file.
+        /// </summary>
+        /// <param name="this">The file to write to.</param>
+        /// <param name="contents">The string array to write to the file.</param>
+        public static void WriteAllLines(this FileInfo @this, string[] contents)
+        {
+            File.WriteAllLines(@this.FullName, contents);
+        }
+
+        /// <summary>
+        ///     Creates a new file, writes the specified string array to the file by using the specified encoding, and then
+        ///     closes the file.
+        /// </summary>
+        /// <param name="this">The file to write to.</param>
+        /// <param name="contents">The string array to write to the file.</param>
+        /// <param name="encoding">
+        ///     An <see cref="T:System.Text.Encoding" /> object that represents the character encoding
+        ///     applied to the string array.
+        /// </param>
+        public static void WriteAllLines(this FileInfo @this, string[] contents, Encoding encoding)
+        {
+            File.WriteAllLines(@this.FullName, contents, encoding);
+        }
+
+        /// <summary>
+        ///     Creates a new file, write the specified string array to the file, and then closes the file.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="contents">The string array to write to the file.</param>
+        public static void WriteAllLines(this FileInfo @this, IEnumerable<string> contents)
+        {
+            File.WriteAllLines(@this.FullName, contents);
+        }
+
+        /// <summary>
+        ///     Creates a new file, writes the specified string array to the file by using the specified encoding, and then
+        ///     closes the file.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="contents">The string array to write to the file.</param>
+        /// <param name="encoding">
+        ///     An <see cref="T:System.Text.Encoding" /> object that represents the character encoding
+        ///     applied to the string array.
+        /// </param>
+        public static void WriteAllLines(this FileInfo @this, IEnumerable<string> contents, Encoding encoding)
+        {
+            File.WriteAllLines(@this.FullName, contents, encoding);
+        }
+
+        #endregion WriteAllLines
+
+        #region WriteAllText
+
+        /// <summary>
+        ///     Creates a new file, writes the specified string to the file, and then closes the file. If the target file
+        ///     already exists, it is overwritten.
+        /// </summary>
+        /// <param name="this">The file to write to.</param>
+        /// <param name="contents">The string to write to the file.</param>
+        public static void WriteAllText(this FileInfo @this, string contents)
+        {
+            File.WriteAllText(@this.FullName, contents);
+        }
+
+        /// <summary>
+        ///     Creates a new file, writes the specified string to the file using the specified encoding, and then closes the
+        ///     file. If the target file already exists, it is overwritten.
+        /// </summary>
+        /// <param name="this">The file to write to.</param>
+        /// <param name="contents">The string to write to the file.</param>
+        /// <param name="encoding">The encoding to apply to the string.</param>
+        public static void WriteAllText(this FileInfo @this, string contents, Encoding encoding)
+        {
+            File.WriteAllText(@this.FullName, contents, encoding);
+        }
+
+        #endregion WriteAllText
+
+        #endregion FileInfo
+
+        #region Stream
+
+        #region ReadToEnd
+
+        /// <summary>
+        ///     A Stream extension method that reads a stream to the end.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>
+        ///     The rest of the stream as a string, from the current position to the end. If the current position is at the
+        ///     end of the stream, returns an empty string ("").
+        /// </returns>
+        public static string ReadToEnd(this Stream @this)
+        {
+            using (var sr = new StreamReader(@this, Encoding.Default))
+            {
+                return sr.ReadToEnd();
+            }
+        }
+
+        /// <summary>
+        ///     A Stream extension method that reads a stream to the end.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="encoding">The encoding.</param>
+        /// <returns>
+        ///     The rest of the stream as a string, from the current position to the end. If the current position is at the
+        ///     end of the stream, returns an empty string ("").
+        /// </returns>
+        public static string ReadToEnd(this Stream @this, Encoding encoding)
+        {
+            using (var sr = new StreamReader(@this, encoding))
+            {
+                return sr.ReadToEnd();
+            }
+        }
+
+        /// <summary>
+        ///     A Stream extension method that reads a stream to the end.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="position">The position.</param>
+        /// <returns>
+        ///     The rest of the stream as a string, from the current position to the end. If the current position is at the
+        ///     end of the stream, returns an empty string ("").
+        /// </returns>
+        public static string ReadToEnd(this Stream @this, long position)
+        {
+            @this.Position = position;
+
+            using (var sr = new StreamReader(@this, Encoding.Default))
+            {
+                return sr.ReadToEnd();
+            }
+        }
+
+        /// <summary>
+        ///     A Stream extension method that reads a stream to the end.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <param name="encoding">The encoding.</param>
+        /// <param name="position">The position.</param>
+        /// <returns>
+        ///     The rest of the stream as a string, from the current position to the end. If the current position is at the
+        ///     end of the stream, returns an empty string ("").
+        /// </returns>
+        public static string ReadToEnd(this Stream @this, Encoding encoding, long position)
+        {
+            @this.Position = position;
+
+            using (var sr = new StreamReader(@this, encoding))
+            {
+                return sr.ReadToEnd();
+            }
+        }
+
+        #endregion ReadToEnd
+
+        #region ToByteArray
+
+        /// <summary>
+        ///     A Stream extension method that converts the Stream to a byte array.
+        /// </summary>
+        /// <param name="this">The Stream to act on.</param>
+        /// <returns>The Stream as a byte[].</returns>
+        public static byte[] ToByteArray(this Stream @this)
+        {
+            using (var ms = new MemoryStream())
+            {
+                @this.CopyTo(ms);
+                return ms.ToArray();
+            }
+        }
+
+        #endregion ToByteArray
+
+        #region ToMD5Hash
+
+        /// <summary>
+        ///     A Stream extension method that converts the @this to a md 5 hash.
+        /// </summary>
+        /// <param name="this">The @this to act on.</param>
+        /// <returns>@this as a string.</returns>
+        public static string ToMd5Hash(this Stream @this)
+        {
+            using (var md5 = MD5.Create())
+            {
+                var hashBytes = md5.ComputeHash(@this);
+                var sb = new StringBuilder();
+                foreach (var bytes in hashBytes)
+                {
+                    sb.Append(bytes.ToString("X2"));
+                }
+
+                return sb.ToString();
+            }
+        }
+
+        #endregion ToMD5Hash
+
+        #endregion Stream
     }
 }
