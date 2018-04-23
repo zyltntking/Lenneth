@@ -168,6 +168,8 @@
     <Compile Include="Extensions\Extra\DataExtensions\SqlCommandExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\DataExtensions\SqlConnectionExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\DataExtensions\SqlParameterCollectionExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\DrawingExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\IOExtensions\Extensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
