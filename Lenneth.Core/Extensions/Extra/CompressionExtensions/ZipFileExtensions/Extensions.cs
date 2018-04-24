@@ -2,9 +2,9 @@
 using System.IO.Compression;
 using System.Text;
 
-namespace Lenneth.Core.Extensions.Extra.CompressionExtensions.ZipFileExtensions
+namespace Lenneth.Core.Extensions.Extra.CompressionExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region DirectoryInfo
 
