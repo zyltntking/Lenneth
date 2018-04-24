@@ -115,15 +115,12 @@
     <Compile Include="Extensions\Extra\CachingExtensions\Extensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\Extra\CharExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CollectionExtensions\ICollectionExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CompressionExtensions\GZipExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CompressionExtensions\ZipFileExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CollectionExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\CompressionExtensions\Extensions.cs" />
     <Compile Include="Extensions\ConstructorInfoExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
-    <Compile Include="Extensions\Extra\CollectionExtensions\IDictionaryExtensions\Extensions.cs" />
     <Compile Include="Extensions\DirectoryInfoExtensions.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
-    <Compile Include="Extensions\Extra\CollectionExtensions\IEnumerableExtensions\Extensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\Extra\CoreExtensions\ArrayExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\CoreExtensions\BooleanExtensions\Extensions.cs" />
@@ -165,7 +162,6 @@
     <Compile Include="Extensions\MarshalExtensions.cs" />
     <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />
-    <Compile Include="Extensions\Extra\CollectionExtensions\NameValueCollectionExtensions\Extensions.cs" />
     <Compile Include="Extensions\NumberExtensions.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\RectangleExtensions.cs" />
