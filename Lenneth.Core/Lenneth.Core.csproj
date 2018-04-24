@@ -78,6 +78,7 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -172,6 +173,7 @@
     <Compile Include="Extensions\Extra\DrawingExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\IOExtensions\Extensions.cs" />
     <Compile Include="Extensions\Extra\NetExtensions\Extensions.cs" />
+    <Compile Include="Extensions\Extra\SerializationExtensions\Extensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
