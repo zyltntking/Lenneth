@@ -4,9 +4,9 @@ using System.Data;
 using System.Dynamic;
 using System.Reflection;
 
-namespace Lenneth.Core.Extensions.Extra.DataExtensions.DataTableExtensions
+namespace Lenneth.Core.Extensions.Extra.DataExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region FirstRow
 
@@ -80,7 +80,7 @@ namespace Lenneth.Core.Extensions.Extra.DataExtensions.DataTableExtensions
 
         #endregion ToEntities
 
-        #region MyRegion
+        #region ToExpandoObjects
 
         /// <summary>
         ///     Enumerates to expando objects in this collection.
@@ -107,6 +107,6 @@ namespace Lenneth.Core.Extensions.Extra.DataExtensions.DataTableExtensions
             return list;
         }
 
-        #endregion MyRegion
+        #endregion ToExpandoObjects
     }
 }

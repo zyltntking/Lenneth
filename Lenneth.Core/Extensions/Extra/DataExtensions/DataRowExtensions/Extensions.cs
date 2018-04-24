@@ -1,18 +1,13 @@
-﻿using System;
+﻿using Lenneth.Core.Extensions.Extra.CoreExtensions;
 using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Lenneth.Core.Extensions.Extra.CoreExtensions;
 
-namespace Lenneth.Core.Extensions.Extra.DataExtensions.DataRowExtensions
+namespace Lenneth.Core.Extensions.Extra.DataExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
-
         #region ToEntity
 
         /// <summary>
@@ -50,7 +45,7 @@ namespace Lenneth.Core.Extensions.Extra.DataExtensions.DataRowExtensions
             return entity;
         }
 
-        #endregion
+        #endregion ToEntity
 
         #region ToExpandoObject
 
@@ -70,7 +65,6 @@ namespace Lenneth.Core.Extensions.Extra.DataExtensions.DataRowExtensions
             return expandoDict;
         }
 
-        #endregion
-
+        #endregion ToExpandoObject
     }
 }

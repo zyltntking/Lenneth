@@ -1,9 +1,9 @@
 ﻿using System.Data.SqlClient;
 using System.Reflection;
 
-namespace Lenneth.Core.Extensions.Extra.DataExtensions.SqlBulkCopyExtensions
+namespace Lenneth.Core.Extensions.Extra.DataExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region GetConnection
 

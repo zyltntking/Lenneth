@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using System.Data.Common;
 
-namespace Lenneth.Core.Extensions.Extra.DataExtensions.IDbConnectionExtensions
+namespace Lenneth.Core.Extensions.Extra.DataExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region EnsureOpen
 

@@ -1,14 +1,13 @@
 ﻿using Lenneth.Core.Extensions.Extra.CoreExtensions;
-using Lenneth.Core.Extensions.Extra.DataExtensions.IDataReaderExtensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Xml;
 
-namespace Lenneth.Core.Extensions.Extra.DataExtensions.SqlConnectionExtensions
+namespace Lenneth.Core.Extensions.Extra.DataExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region ExecuteDataSet
 

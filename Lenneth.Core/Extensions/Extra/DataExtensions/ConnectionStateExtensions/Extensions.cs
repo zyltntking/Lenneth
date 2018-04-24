@@ -1,8 +1,8 @@
 ﻿using System.Data;
 
-namespace Lenneth.Core.Extensions.Extra.DataExtensions.ConnectionStateExtensions
+namespace Lenneth.Core.Extensions.Extra.DataExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region In
 

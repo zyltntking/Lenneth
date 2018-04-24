@@ -3,9 +3,9 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace Lenneth.Core.Extensions.Extra.DataExtensions.IDictionaryExtensions
+namespace Lenneth.Core.Extensions.Extra.DataExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region ToDbParameters
 

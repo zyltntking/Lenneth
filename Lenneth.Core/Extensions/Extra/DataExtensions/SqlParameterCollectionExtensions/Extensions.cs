@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace Lenneth.Core.Extensions.Extra.DataExtensions.SqlParameterCollectionExtensions
+namespace Lenneth.Core.Extensions.Extra.DataExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region AddRangeWithValue
 

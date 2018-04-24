@@ -6,9 +6,9 @@ using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 
-namespace Lenneth.Core.Extensions.Extra.DataExtensions.IDataReaderExtensions
+namespace Lenneth.Core.Extensions.Extra.DataExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region ContainsColumn
 

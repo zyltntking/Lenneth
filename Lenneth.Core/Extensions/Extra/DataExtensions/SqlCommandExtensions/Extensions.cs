@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 
-namespace Lenneth.Core.Extensions.Extra.DataExtensions.SqlCommandExtensions
+namespace Lenneth.Core.Extensions.Extra.DataExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region ExecuteDataSet
 
