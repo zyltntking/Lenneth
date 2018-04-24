@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 
-namespace Lenneth.Core.Extensions.Extra.CollectionExtensions.IDictionaryExtensions
+namespace Lenneth.Core.Extensions.Extra.CollectionExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region IDictionary<string, object>
 

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lenneth.Core.Extensions.Extra.CollectionExtensions.ICollectionExtensions
+namespace Lenneth.Core.Extensions.Extra.CollectionExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region ICollection
 

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Lenneth.Core.Extensions.Extra.CollectionExtensions.NameValueCollectionExtensions
+namespace Lenneth.Core.Extensions.Extra.CollectionExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region NameValueCollection
 
