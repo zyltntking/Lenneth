@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lenneth.Core.Extensions.Extra.CoreExtensions.StringBuilderExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region Extract
 

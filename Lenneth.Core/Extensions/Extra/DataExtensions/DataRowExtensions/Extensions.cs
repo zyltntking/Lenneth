@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Lenneth.Core.Extensions.Extra.CoreExtensions.ObjectExtensions;
+using Lenneth.Core.Extensions.Extra.CoreExtensions;
 
 namespace Lenneth.Core.Extensions.Extra.DataExtensions.DataRowExtensions
 {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data;
 
-namespace Lenneth.Core.Extensions.Extra.CoreExtensions.ByteExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region Math
 

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Lenneth.Core.Extensions.Extra.CoreExtensions.RandomExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region CoinToss
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Lenneth.Core.Extensions.Extra.CoreExtensions.DateTimeExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region Object
 

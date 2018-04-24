@@ -1,4 +1,4 @@
-﻿using Lenneth.Core.Extensions.Extra.CoreExtensions.ObjectExtensions;
+﻿using Lenneth.Core.Extensions.Extra.CoreExtensions;
 using Lenneth.Core.Extensions.Extra.DataExtensions.IDataReaderExtensions;
 using System;
 using System.Collections.Generic;

@@ -2,9 +2,9 @@
 using System.Data;
 using System.Net;
 
-namespace Lenneth.Core.Extensions.Extra.CoreExtensions.Int16Extensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region Object
 

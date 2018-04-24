@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Lenneth.Core.Extensions.Extra.CoreExtensions.EventHandlerExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region RaiseEvent
 

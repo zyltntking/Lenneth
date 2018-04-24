@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Reflection;
 
-namespace Lenneth.Core.Extensions.Extra.CoreExtensions.TArrayExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region Array
 

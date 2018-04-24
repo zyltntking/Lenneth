@@ -1,5 +1,4 @@
-﻿using Lenneth.Core.Extensions.Extra.CoreExtensions.StringBuilderExtensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
@@ -15,9 +14,9 @@ using System.Web;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Lenneth.Core.Extensions.Extra.CoreExtensions.StringExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region Object
 

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Lenneth.Core.Extensions.Extra.CoreExtensions.UInt64Extensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region Object
 

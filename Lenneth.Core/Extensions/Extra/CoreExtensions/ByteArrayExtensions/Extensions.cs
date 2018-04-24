@@ -4,9 +4,9 @@ using System.IO;
 using System.Text;
 using System.Web;
 
-namespace Lenneth.Core.Extensions.Extra.CoreExtensions.ByteArrayExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region Convert
 

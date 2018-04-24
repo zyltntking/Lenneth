@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 
-namespace Lenneth.Core.Extensions.Extra.CoreExtensions.ArrayExtensions
+namespace Lenneth.Core.Extensions.Extra.CoreExtensions
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         #region Array
 
