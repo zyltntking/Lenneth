@@ -1,16 +1,25 @@
-﻿using Microsoft.Web.Http.Routing;
+﻿using System;
+using Microsoft.Web.Http.Routing;
 using Swashbuckle.Application;
 using Swashbuckle.Swagger;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Routing;
 
 namespace Lenneth.WebApi
 {
+    /// <summary>
+    /// WebApi配置
+    /// </summary>
     public static class WebApiConfig
     {
+        /// <summary>
+        /// 配置注册
+        /// </summary>
+        /// <param name="config">Http配置</param>
         public static void Register(HttpConfiguration config)
         {
             //Web API 版本化管理
@@ -37,6 +46,9 @@ namespace Lenneth.WebApi
             config.EnableSwagger("apiInfo/{apiVersion}", swagger =>
             {
                 //swagger.RootUrl(req => GetRootUrlFromAppConfig());
+                swagger.RootUrl(req =>
+                    req.RequestUri.GetLeftPart(UriPartial.Authority) +
+                    req.GetRequestContext().VirtualPathRoot.TrimEnd('/'));
                 swagger.Schemes(new[] { "http", "https" });
                 //swagger.SingleApiVersion("v1", "Swashbuckle Dummy");
                 swagger.PrettyPrint();
@@ -66,10 +78,10 @@ namespace Lenneth.WebApi
                 //    .Description("Basic HTTP Authentication");
                 //
                 // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
-                //swagger.ApiKey("apiKey")
-                //    .Description("API Key Authentication")
-                //    .Name("apiKey")
-                //    .In("header");
+                swagger.ApiKey("apiKey")
+                    .Description("API Key Authentication")
+                    .Name("WebApi-key")
+                    .In("header");
                 //
                 //swagger.OAuth2("oauth2")
                 //    .Description("OAuth2 Implicit Grant")
@@ -84,12 +96,12 @@ namespace Lenneth.WebApi
                 swagger.IgnoreObsoleteActions();
                 //swagger.GroupActionsBy(apiDesc => apiDesc.HttpMethod.ToString());
                 //swagger.OrderActionGroupsBy(new DescendingAlphabeticComparer());
-                //swagger.IncludeXmlComments(XmlCommentsFilePath);
+                swagger.IncludeXmlComments(XmlCommentsFilePath);
                 //swagger.MapType<ProductType>(() => new Schema { type = "integer", format = "int32" });
                 //swagger.SchemaFilter<ApplySchemaVendorExtensions>();
                 //swagger.UseFullTypeNameInSchemaIds();
                 //swagger.SchemaId(t => t.FullName.Contains('`') ? t.FullName.Substring(0, t.FullName.IndexOf('`')) : t.FullName);
-                //swagger.IgnoreObsoleteProperties();
+                swagger.IgnoreObsoleteProperties();
                 //swagger.DescribeAllEnumsAsStrings();
                 //swagger.OperationFilter<AddDefaultResponse>();
                 //swagger.OperationFilter<SwaggerDefaultValues>();
@@ -98,16 +110,16 @@ namespace Lenneth.WebApi
                 //swagger.DocumentFilter<ApplyDocumentVendorExtensions>();
                 swagger.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
                 //swagger.CustomProvider((defaultProvider) => new CachingSwaggerProvider(defaultProvider));
-            }).EnableSwaggerUi("Document/{*assetPath}", swaggerui =>
+            }).EnableSwaggerUi("Document/{*assetPath}"/*"Swagger/{*assetPath}"*/, swaggerui =>
             {
                 swaggerui.DocumentTitle("WebClient Api Document");
                 //swaggerui.InjectStylesheet(containingAssembly, "Swashbuckle.Dummy.SwaggerExtensions.testStyles1.css");
-                //swaggerui.InjectJavaScript(thisAssembly, "WebClient.App_Data.swagger-zh-cn.js");
+                swaggerui.InjectJavaScript(thisAssembly, "Lenneth.WebApi.Resources.swagger-zh-cn.js");
                 //swaggerui.BooleanValues(new[] { "0", "1" });
                 //swaggerui.DisableValidator();
-                //swaggerui.DocExpansion(DocExpansion.List);
+                swaggerui.DocExpansion(DocExpansion.None);
                 swaggerui.SupportedSubmitMethods("GET", "POST");
-                //swaggerui.CustomAsset("index", containingAssembly, "YourWebApiProject.SwaggerExtensions.index.html");
+                swaggerui.CustomAsset("Default", thisAssembly, "Lenneth.WebApi.Resources.swagger-index.html");
                 swaggerui.EnableDiscoveryUrlSelector();
                 //swaggerui.EnableOAuth2Support(
                 //    clientId: "test-client-id",
@@ -116,7 +128,7 @@ namespace Lenneth.WebApi
                 //    appName: "Swagger UI"
                 //    //additionalQueryStringParams: new Dictionary<string, string>() { { "foo", "bar" } }
                 //);
-                //swaggerui.EnableApiKeySupport("apiKey", "header");
+                swaggerui.EnableApiKeySupport("WebApi-key", "header");
             });
 
             // 默认 Web API 路由
@@ -136,8 +148,8 @@ namespace Lenneth.WebApi
         {
             get
             {
-                var basePath = System.AppDomain.CurrentDomain.RelativeSearchPath;
-                const string filename = "WebApi.xml";
+                var basePath = AppDomain.CurrentDomain.RelativeSearchPath;
+                const string filename = "Lenneth.WebApi.xml";
 
                 return Path.Combine(basePath, filename);
             }

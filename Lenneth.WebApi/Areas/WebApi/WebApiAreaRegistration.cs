@@ -4,6 +4,9 @@ using Microsoft.Web.Http.Routing;
 
 namespace Lenneth.WebApi.Areas.WebApi
 {
+    /// <summary>
+    /// WebApi区域配置
+    /// </summary>
     public class WebApiAreaRegistration : AreaRegistration 
     {
         /// <summary>
@@ -11,6 +14,10 @@ namespace Lenneth.WebApi.Areas.WebApi
         /// </summary>
         public override string AreaName => "WebApi";
 
+        /// <summary>
+        /// 注册区域
+        /// </summary>
+        /// <param name="context">注册实体上下文</param>
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             //context.MapRoute(
