@@ -36,15 +36,15 @@ namespace Lenneth.WebApi
         /// </summary>
         private void Application_BeginRequest()
         {
-            if (Request.Url.AbsolutePath.Contains(@"/WebApi/"))
-            {
-                ILogWapper log = new NLogWrapper(AppConfig.WebApiRequestLogConfig);
-                log.Info(Request.Url.AbsolutePath);
-            }
-
             if (Request.IsLocal)
             {
                 MiniProfiler.Start();
+            }
+
+            if (!Request.IsLocal && Request.Url.AbsolutePath.Contains(@"/WebApi/"))
+            {
+                ILogWapper log = new NLogWrapper(AppConfig.WebApiRequestLogConfig);
+                log.Info(Request.Url.AbsolutePath);
             }
         }
 
