@@ -31,7 +31,7 @@ namespace Lenneth.WebApi
         /// <summary>
         /// 请求开始时
         /// </summary>
-        protected void Application_BeginRequest()
+        private void Application_BeginRequest()
         {
             if (Request.IsLocal)
             {
@@ -42,7 +42,7 @@ namespace Lenneth.WebApi
         /// <summary>
         /// 请求结束时
         /// </summary>
-        protected void Application_EndRequest()
+        private void Application_EndRequest()
         {
             MiniProfiler.Stop();
         }
