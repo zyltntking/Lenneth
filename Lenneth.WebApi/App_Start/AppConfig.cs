@@ -45,7 +45,7 @@ namespace Lenneth.WebApi
                 var fileTarget = new FileTarget();
                 config.AddTarget("file", fileTarget);
                 fileTarget.FileName = @"${basedir}/log/request/" + $"{DateTime.Now:yyyy-M-d}.txt";
-                fileTarget.Layout = @"${date:format=yyyy-MM-dd HH\:mm\:ss.fff}  |${logger}  |${level:format=Name}  |${message}";
+                fileTarget.Layout = @"${date:format=yyyy-MM-dd HH\:mm\:ss.fff}  |${logger}  |${level:format=Name}  |${aspnet-Request-Method}    |${message}";
                 config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, fileTarget));
 
                 return config;
