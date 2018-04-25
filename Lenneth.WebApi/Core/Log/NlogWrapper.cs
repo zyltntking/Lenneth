@@ -7,7 +7,7 @@ namespace Lenneth.WebApi.Core.Log
     /// <summary>
     /// Nlog简单封装
     /// </summary>
-    internal class NLogWrapper : ILogging
+    internal class NLogWrapper : ILogWapper
     {
         /// <summary>
         /// 当前日志组

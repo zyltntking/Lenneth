@@ -173,12 +173,15 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AppConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\WebApi\Controllers\V1\DefaultController.cs" />
     <Compile Include="Areas\WebApi\Controllers\V2\DefaultController.cs" />
     <Compile Include="Areas\WebApi\WebApiAreaRegistration.cs" />
     <Compile Include="Controllers\RouteViewController.cs" />
+    <Compile Include="Core\Log\ILogWapper.cs" />
+    <Compile Include="Core\Log\NlogWrapper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
