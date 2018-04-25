@@ -16,10 +16,14 @@ namespace Lenneth.WebApi
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.IgnoreRoute("RouteView/{action}");
+
+            routes.IgnoreRoute("{controller}/index");
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "RouteView", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
