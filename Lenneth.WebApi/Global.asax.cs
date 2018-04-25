@@ -41,7 +41,7 @@ namespace Lenneth.WebApi
                 MiniProfiler.Start();
             }
 
-            if (/*!Request.IsLocal && */Request.Url.AbsolutePath.Contains(@"/WebApi/"))
+            if (!Request.IsLocal && Request.Url.AbsolutePath.Contains(@"/WebApi/"))
             {
                 ILogWapper log = new NLogWrapper(AppConfig.WebApiRequestLogConfig);
                 log.Info(Request.Url.AbsolutePath);
