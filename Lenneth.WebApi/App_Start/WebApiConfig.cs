@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Web.Http.Routing;
 using Swashbuckle.Application;
 using Swashbuckle.Swagger;
@@ -8,19 +9,20 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Routing;
+using Lenneth.WebApi.Core.Filter;
 
 namespace Lenneth.WebApi
 {
     /// <summary>
     /// WebApi配置
     /// </summary>
-    public static class WebApiConfig
+    internal static class WebApiConfig
     {
         /// <summary>
         /// 配置注册
         /// </summary>
         /// <param name="config">Http配置</param>
-        public static void Register(HttpConfiguration config)
+        internal static void Register(HttpConfiguration config)
         {
             //Web API 版本化管理
             var constraintResolver = new DefaultInlineConstraintResolver
@@ -107,6 +109,7 @@ namespace Lenneth.WebApi
                 //swagger.OperationFilter<SwaggerDefaultValues>();
                 //swagger.OperationFilter<AssignOAuth2SecurityRequirements>();
                 swagger.OperationFilter<SwaggerDefaultValues>();
+                swagger.OperationFilter<HttpHeaderTokenAuth>();
                 //swagger.DocumentFilter<ApplyDocumentVendorExtensions>();
                 swagger.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
                 //swagger.CustomProvider((defaultProvider) => new CachingSwaggerProvider(defaultProvider));
@@ -188,6 +191,29 @@ namespace Lenneth.WebApi
                 {
                     parameter.@default = description.ParameterDescriptor?.DefaultValue;
                 }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 向文档中添加Token
+    /// </summary>
+    internal class HttpHeaderTokenAuth : IOperationFilter
+    {
+        public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
+        {
+            if (operation.parameters == null)
+                operation.parameters = new List<Parameter>();
+ 
+            //是否有验证用户标记
+            var isActionNeedTokenAuth = apiDescription.ActionDescriptor.GetCustomAttributes<HeaderTokenAuth>().Any();
+
+            var isControllerNeedTokenAuth = apiDescription.ActionDescriptor.ControllerDescriptor.GetCustomAttributes<HeaderTokenAuth>().Any();
+
+            //如果有验证标记则 多输出1个文本框(swagger form提交时会将这个值放入header里)
+            if (isActionNeedTokenAuth || isControllerNeedTokenAuth)
+            {
+                operation.parameters.Add(new Parameter { name = "token", @in = "header", description = "用户令牌", required = false, type = "string" });
             }
         }
     }

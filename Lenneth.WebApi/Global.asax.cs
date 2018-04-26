@@ -48,6 +48,7 @@ namespace Lenneth.WebApi
             }
         }
 
+#if false
         /// <summary>
         /// 获取请求用户的信息时
         /// </summary>
@@ -166,6 +167,8 @@ namespace Lenneth.WebApi
         private void Application_PostLogRequest()
         {
         }
+
+#endif
 
         /// <summary>
         /// 请求结束时
