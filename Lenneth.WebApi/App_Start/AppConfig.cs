@@ -8,7 +8,7 @@ namespace Lenneth.WebApi
     /// <summary>
     /// 全局配置
     /// </summary>
-    internal class AppConfig
+    internal static class AppConfig
     {
         #region Nlog配置
 
