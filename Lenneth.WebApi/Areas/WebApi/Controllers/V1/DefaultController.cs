@@ -1,8 +1,8 @@
-﻿using Microsoft.Web.Http;
+﻿using Lenneth.WebApi.Core.Filter;
+using Lenneth.WebApi.Models;
+using Microsoft.Web.Http;
 using System.Collections.Generic;
 using System.Web.Http;
-using Lenneth.WebApi.Core.Filter;
-using Lenneth.WebApi.Models;
 
 namespace Lenneth.WebApi.Areas.WebApi.Controllers.V1
 {
@@ -11,6 +11,7 @@ namespace Lenneth.WebApi.Areas.WebApi.Controllers.V1
     /// </summary>
     [ApiVersion("1.0")]
     [HeaderTokenAuth]
+    [ExceptionHandler]
     public class DefaultController : ApiController
     {
         /// <summary>

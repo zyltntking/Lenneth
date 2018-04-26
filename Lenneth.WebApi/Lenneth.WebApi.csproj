@@ -188,6 +188,7 @@
     <Compile Include="Areas\WebApi\Controllers\V2\DefaultController.cs" />
     <Compile Include="Areas\WebApi\WebApiAreaRegistration.cs" />
     <Compile Include="Controllers\RouteViewController.cs" />
+    <Compile Include="Core\Filter\ExceptionHandler.cs" />
     <Compile Include="Core\Filter\HeaderTokenAuth.cs" />
     <Compile Include="Core\Log\ILogWapper.cs" />
     <Compile Include="Core\Log\NlogWrapper.cs" />

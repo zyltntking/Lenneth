@@ -1,4 +1,5 @@
-﻿using Lenneth.WebApi.Models;
+﻿using Lenneth.WebApi.Core.Utility;
+using Lenneth.WebApi.Models;
 using System;
 using System.Linq;
 using System.Net.Http;
@@ -10,6 +11,9 @@ using System.Web.Http.Filters;
 
 namespace Lenneth.WebApi.Core.Filter
 {
+    /// <summary>
+    /// WebApi token验证拦截器
+    /// </summary>
     internal class HeaderTokenAuth : FilterAttribute, IActionFilter
     {
         #region Implementation of IActionFilter
@@ -31,11 +35,7 @@ namespace Lenneth.WebApi.Core.Filter
                 }
             }
 
-            var errorToken = new ResultContent<object>
-            {
-                Code = 0,
-                Message = "token验证失败"
-            };
+            var errorToken = ResponseUtility.InitResult<object>(MessageCode.TokenAuthFail);
 
             var errorTokenMessage = new HttpResponseMessage
             {

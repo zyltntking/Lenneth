@@ -36,6 +36,9 @@ namespace Lenneth.WebApi
             }
         }
 
+        /// <summary>
+        /// Api访问日志配置
+        /// </summary>
         public static LoggingConfiguration WebApiRequestLogConfig
         {
             get
@@ -47,6 +50,25 @@ namespace Lenneth.WebApi
                 fileTarget.FileName = @"${basedir}/log/request/" + $"{DateTime.Now:yyyy-M-d}.txt";
                 fileTarget.Layout = @"${date:format=yyyy-MM-dd HH\:mm\:ss.fff}  |${logger}  |${level:format=Name}  |${aspnet-Request-Method}    |${message}";
                 config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, fileTarget));
+
+                return config;
+            }
+        }
+
+        /// <summary>
+        /// Api异常日志配置
+        /// </summary>
+        public static LoggingConfiguration WebApiExceptionLogConfig
+        {
+            get
+            {
+                var config = new LoggingConfiguration();
+
+                var fileTarget = new FileTarget();
+                config.AddTarget("file", fileTarget);
+                fileTarget.FileName = @"${basedir}/log/exception/" + $"{ DateTime.Now:yyyy-M-d}/" + "${exception:format=ShortType}/" + $"{DateTime.Now:HH}.txt";
+                fileTarget.Layout = @"${date:format=yyyy-MM-dd HH\:mm\:ss.fff}  |${logger}  |${level:format=Name}  |${message}  |${exception:format=toString,Data:maxInnerExceptionLevel=10}";
+                config.LoggingRules.Add(new LoggingRule("*", LogLevel.Error, fileTarget));
 
                 return config;
             }

@@ -1,8 +1,9 @@
-﻿using Lenneth.WebApi.Models;
+﻿using System;
+using Lenneth.WebApi.Models;
 
 namespace Lenneth.WebApi.Core.Utility
 {
-    internal class ResponseUtility
+    internal static class ResponseUtility
     {
         public static ResultContent<T> InitResult<T>(MessageStruct result)
         {
@@ -11,6 +12,12 @@ namespace Lenneth.WebApi.Core.Utility
                 Code = result.Code,
                 Message = result.Message
             };
+        }
+
+
+        public static void aaa()
+        {
+            throw new NotImplementedException();
         }
     }
 }

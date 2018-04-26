@@ -8,6 +8,18 @@
         public static readonly MessageStruct Fail = new MessageStruct { Code = 1, Message = "失败" };
 
         #endregion simple
+
+        #region auth
+
+        public static readonly MessageStruct TokenAuthFail = new MessageStruct { Code = 20001, Message = "token验证失败" };
+
+        #endregion auth
+
+        #region exception
+
+        public static readonly MessageStruct ApiInterfaceException = new MessageStruct { Code = 300001, Message = "Api接口异常" };
+
+        #endregion exception
     }
 
     /// <summary>
@@ -19,6 +31,7 @@
         /// 消息码
         /// </summary>
         public int Code { get; set; }
+
         /// <summary>
         /// 消息内容
         /// </summary>
