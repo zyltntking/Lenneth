@@ -16,7 +16,8 @@ namespace Lenneth.WebApi.Controllers
         // GET: RouetView
         public ActionResult Index()
         {
-            var profiler = MiniProfiler.Current; // it's ok if this is null
+            // it's ok if this is null
+            var profiler = MiniProfiler.Current;
             using (profiler.Step("Set page title"))
             {
                 ViewBag.Title = "Home Page";
