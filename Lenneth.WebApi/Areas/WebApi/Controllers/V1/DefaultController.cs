@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Http;
 using Lenneth.WebApi.Core.Filter;
+using Lenneth.WebApi.Models;
 
 namespace Lenneth.WebApi.Areas.WebApi.Controllers.V1
 {
@@ -16,21 +17,26 @@ namespace Lenneth.WebApi.Areas.WebApi.Controllers.V1
         /// 测试版本1
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<string> Test()
+        public ResultContent<IEnumerable<string>> PostWithToken()
         {
-            return new[] { "版本1", "版本1" };
+            return new ResultContent<IEnumerable<string>>
+            {
+                Data = new[] { "版本1", "版本1" }
+            };
         }
 
         /// <summary>
         /// strtest
         /// </summary>
-        /// <param name="token">arg1</param>
-        /// <param name="test">arg2</param>
+        /// <param name="name">arg2</param>
         /// <returns></returns>
         [HttpGet]
-        public string StrTest(string test)
+        public ResultContent<string> GetWithToken(string name)
         {
-            return $"{test}";
+            return new ResultContent<string>
+            {
+                Data = name
+            };
         }
     }
 }

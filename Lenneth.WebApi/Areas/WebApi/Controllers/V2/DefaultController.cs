@@ -1,6 +1,7 @@
 ﻿using Microsoft.Web.Http;
 using System.Collections.Generic;
 using System.Web.Http;
+using Lenneth.WebApi.Models;
 
 namespace Lenneth.WebApi.Areas.WebApi.Controllers.V2
 {
@@ -14,9 +15,12 @@ namespace Lenneth.WebApi.Areas.WebApi.Controllers.V2
         /// 测试版本1
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<string> Test()
+        public ResultContent<IEnumerable<string>> Test()
         {
-            return new[] { "版本2", "版本2" };
+            return new ResultContent<IEnumerable<string>>
+            {
+                Data = new[] { "版本2", "版本2" }
+            };
         }
     }
 }

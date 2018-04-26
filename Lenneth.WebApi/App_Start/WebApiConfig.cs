@@ -116,7 +116,7 @@ namespace Lenneth.WebApi
             }).EnableSwaggerUi("Document/{*assetPath}"/*"Swagger/{*assetPath}"*/, swaggerui =>
             {
                 swaggerui.DocumentTitle("WebClient Api Document");
-                //swaggerui.InjectStylesheet(containingAssembly, "Swashbuckle.Dummy.SwaggerExtensions.testStyles1.css");
+                swaggerui.InjectStylesheet(thisAssembly, "Lenneth.WebApi.Resources.swagger-material.css");
                 swaggerui.InjectJavaScript(thisAssembly, "Lenneth.WebApi.Resources.swagger-zh-cn.js");
                 //swaggerui.BooleanValues(new[] { "0", "1" });
                 //swaggerui.DisableValidator();
