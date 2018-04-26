@@ -7,14 +7,14 @@ using Lenneth.WebApi.Models;
 namespace Lenneth.WebApi.Areas.WebApi.Controllers.V1
 {
     /// <summary>
-    /// 版本示例
+    /// 版本化示例
     /// </summary>
     [ApiVersion("1.0")]
     [HeaderTokenAuth]
     public class DefaultController : ApiController
     {
         /// <summary>
-        /// 测试版本1
+        /// PostWithToken
         /// </summary>
         /// <returns></returns>
         public ResultContent<IEnumerable<string>> PostWithToken()
@@ -26,7 +26,7 @@ namespace Lenneth.WebApi.Areas.WebApi.Controllers.V1
         }
 
         /// <summary>
-        /// strtest
+        /// GetWithToken
         /// </summary>
         /// <param name="name">arg2</param>
         /// <returns></returns>

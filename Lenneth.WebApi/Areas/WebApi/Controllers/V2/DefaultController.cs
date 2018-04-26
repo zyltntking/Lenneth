@@ -6,16 +6,16 @@ using Lenneth.WebApi.Models;
 namespace Lenneth.WebApi.Areas.WebApi.Controllers.V2
 {
     /// <summary>
-    /// 版本示例
+    /// 版本化示例
     /// </summary>
     [ApiVersion("2.0")]
     public class DefaultController : ApiController
     {
         /// <summary>
-        /// 测试版本1
+        /// PostWithOutToken
         /// </summary>
         /// <returns></returns>
-        public ResultContent<IEnumerable<string>> Test()
+        public ResultContent<IEnumerable<string>> PostWithOutToken()
         {
             return new ResultContent<IEnumerable<string>>
             {
