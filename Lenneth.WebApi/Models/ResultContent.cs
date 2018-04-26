@@ -9,12 +9,12 @@
         /// <summary>
         /// 消息码
         /// </summary>
-        public int Code { get; set; }
+        public int Code { get; set; } = MessageCode.Success.Code;
 
         /// <summary>
         /// 消息内容
         /// </summary>
-        public string Message { get; set; }
+        public string Message { get; set; } = MessageCode.Success.Message;
 
         /// <summary>
         /// 内容数据

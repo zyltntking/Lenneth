@@ -191,6 +191,7 @@
     <Compile Include="Core\Filter\HeaderTokenAuth.cs" />
     <Compile Include="Core\Log\ILogWapper.cs" />
     <Compile Include="Core\Log\NlogWrapper.cs" />
+    <Compile Include="Core\Utility\ResponseUtility.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
