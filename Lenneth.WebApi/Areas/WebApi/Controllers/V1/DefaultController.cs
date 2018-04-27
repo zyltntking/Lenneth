@@ -12,7 +12,6 @@ namespace Lenneth.WebApi.Areas.WebApi.Controllers.V1
     [ApiVersion("1.0")]
     [HeaderTokenAuth]
     [ExceptionHandler]
-    [ResponseCrypt]
     public class DefaultController : ApiController
     {
         /// <summary>

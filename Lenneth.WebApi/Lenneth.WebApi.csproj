@@ -188,6 +188,12 @@
     <Compile Include="Areas\WebApi\Controllers\V2\DefaultController.cs" />
     <Compile Include="Areas\WebApi\WebApiAreaRegistration.cs" />
     <Compile Include="Controllers\RouteViewController.cs" />
+    <Compile Include="Core\Crypt\AES.cs" />
+    <Compile Include="Core\Crypt\Crypt.cs" />
+    <Compile Include="Core\Crypt\CryptFactory.cs" />
+    <Compile Include="Core\Crypt\DES.cs" />
+    <Compile Include="Core\Crypt\ICrypt.cs" />
+    <Compile Include="Core\Crypt\TripleDES.cs" />
     <Compile Include="Core\Filter\ExceptionHandler.cs" />
     <Compile Include="Core\Filter\HeaderTokenAuth.cs" />
     <Compile Include="Core\Filter\ResponseCrypt.cs" />
