@@ -27,9 +27,9 @@ namespace Lenneth.WebApi.Core.Filter
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (request.Headers.Contains(Resources.AppResource.ApiKey))
+            if (request.Headers.Contains(Resources.AppResource.ApiKeyHeader))
             {
-                var token = request.Headers.GetValues(Resources.AppResource.ApiKey).First();
+                var token = request.Headers.GetValues(Resources.AppResource.ApiKeyHeader).First();
 
                 if (Validate(token))
                 {

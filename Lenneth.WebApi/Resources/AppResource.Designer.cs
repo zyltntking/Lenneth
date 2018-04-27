@@ -63,18 +63,18 @@ namespace Lenneth.WebApi.Resources {
         /// <summary>
         ///   查找类似 api-key 的本地化字符串。
         /// </summary>
-        internal static string ApiKey {
+        internal static string ApiKeyHeader {
             get {
-                return ResourceManager.GetString("ApiKey", resourceCulture);
+                return ResourceManager.GetString("ApiKeyHeader", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 token 的本地化字符串。
         /// </summary>
-        internal static string Token {
+        internal static string TokenHeader {
             get {
-                return ResourceManager.GetString("Token", resourceCulture);
+                return ResourceManager.GetString("TokenHeader", resourceCulture);
             }
         }
     }

@@ -92,7 +92,7 @@ namespace Lenneth.WebApi
                 // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
                 swagger.ApiKey("apiKey")
                     .Description("API Key Authentication")
-                    .Name(Resources.AppResource.ApiKey)
+                    .Name(Resources.AppResource.ApiKeyHeader)
                     .In("header");
                 //
                 //swagger.OAuth2("oauth2")
@@ -141,7 +141,7 @@ namespace Lenneth.WebApi
                 //    appName: "Swagger UI"
                 //    //additionalQueryStringParams: new Dictionary<string, string>() { { "foo", "bar" } }
                 //);
-                swaggerui.EnableApiKeySupport(Resources.AppResource.ApiKey, "header");
+                swaggerui.EnableApiKeySupport(Resources.AppResource.ApiKeyHeader, "header");
             });
 
             // 默认 Web API 路由
@@ -237,7 +237,7 @@ namespace Lenneth.WebApi
             if (operation.parameters == null)
                 operation.parameters = new List<Parameter>();
 
-            operation.parameters.Add(new Parameter { name = Resources.AppResource.Token, @in = "header", description = "用户令牌", required = true, type = "string" });
+            operation.parameters.Add(new Parameter { name = Resources.AppResource.TokenHeader, @in = "header", description = "用户令牌", required = true, type = "string" });
         }
 
         #endregion Implementation of IOperationFilter
