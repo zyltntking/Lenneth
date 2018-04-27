@@ -1,6 +1,7 @@
-﻿using StackExchange.Profiling;
-using System.Threading;
+﻿using System.Threading;
 using System.Web.Mvc;
+
+using StackExchange.Profiling;
 
 namespace Lenneth.WebApi.Controllers
 {

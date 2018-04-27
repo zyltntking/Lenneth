@@ -1,6 +1,4 @@
-﻿using Lenneth.WebApi.Core.Utility;
-using Lenneth.WebApi.Models;
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -8,6 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+
+using Lenneth.WebApi.Core.Utility;
+using Lenneth.WebApi.Models;
 
 namespace Lenneth.WebApi.Core.Filter
 {

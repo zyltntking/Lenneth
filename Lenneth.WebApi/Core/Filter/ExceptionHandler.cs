@@ -1,9 +1,10 @@
-﻿using Lenneth.WebApi.Core.Log;
-using Lenneth.WebApi.Core.Utility;
-using Lenneth.WebApi.Models;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http.Filters;
+
+using Lenneth.WebApi.Core.Log;
+using Lenneth.WebApi.Core.Utility;
+using Lenneth.WebApi.Models;
 
 namespace Lenneth.WebApi.Core.Filter
 {
