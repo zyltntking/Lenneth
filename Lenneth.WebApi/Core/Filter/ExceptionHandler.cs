@@ -1,9 +1,7 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
 using Lenneth.WebApi.Core.Log;
@@ -17,17 +15,6 @@ namespace Lenneth.WebApi.Core.Filter
     /// </summary>
     internal class ExceptionHandler : FilterAttribute, IExceptionFilter
     {
-        //public override void OnException(HttpActionExecutedContext actionExecutedContext)
-        //{
-        //    ILogWapper log = new NLogWrapper(AppConfig.WebApiExceptionLogConfig);
-        //    log.Error(actionExecutedContext.Exception, actionExecutedContext.Request.RequestUri.LocalPath);
-
-        //    var apiException = ResponseUtility.InitResult<object>(MessageCode.ApiInterfaceException);
-        //    apiException.Data = actionExecutedContext.Exception.Message;
-
-        //    actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(HttpStatusCode.InternalServerError, apiException);
-        //}
-
         #region Implementation of IExceptionFilter
 
         /// <summary>执行异步异常筛选器。</summary>
@@ -36,9 +23,18 @@ namespace Lenneth.WebApi.Core.Filter
         /// <param name="cancellationToken">取消标记。</param>
         public Task ExecuteExceptionFilterAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                ILogWapper log = new NLogWrapper(AppConfig.WebApiExceptionLogConfig);
+                log.Error(actionExecutedContext.Exception, actionExecutedContext.Request.RequestUri.LocalPath);
+
+                var apiException = ResponseUtility.InitResult<object>(MessageCode.ApiInterfaceException);
+                apiException.Data = actionExecutedContext.Exception.Message;
+
+                actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(HttpStatusCode.InternalServerError, apiException);
+            }, cancellationToken);
         }
 
-        #endregion
+        #endregion Implementation of IExceptionFilter
     }
 }

@@ -113,67 +113,12 @@
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\UnityConfig.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
-    <Compile Include="Extensions\Extra\CachingExtensions\Extensions.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
-    <Compile Include="Extensions\Extra\CharExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CollectionExtensions\ICollectionExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CollectionExtensions\IDictionaryExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CollectionExtensions\IEnumerableExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CollectionExtensions\NameValueCollectionExtensions\Extensions.cs" />
     <Compile Include="Extensions\ConstructorInfoExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\DirectoryInfoExtensions.cs" />
     <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\Extra\CompressionExtensions\GZipExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CompressionExtensions\ZipFileExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\ArrayExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\BooleanExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\ByteArrayExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\ByteExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\DateTimeExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\DateTimeOffsetExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\DecimalExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\DelegateExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\DoubleExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\EnumExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\EnvironmentExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\EventHandlerExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\GuidExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\Int16Extensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\Int32Extensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\Int64Extensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\ObjectArrayExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\ObjectExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\RandomExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\SByteExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\SingleExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\StringBuilderExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\StringExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\TArrayExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\TimeSpanExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\TypeExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\UInt16Extensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\UInt32Extensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\UInt64Extensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\CoreExtensions\UIntPtrExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\ConnectionStateExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\DataColumnCollectionExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\DataRowExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\DataTableExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\DbCommandExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\DbConnectionExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\IDataReaderExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\IDbConnectionExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\IDictionaryExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\SqlBulkCopyExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\SqlCommandExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\SqlConnectionExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DataExtensions\SqlParameterCollectionExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\DrawingExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\IOExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\NetExtensions\Extensions.cs" />
-    <Compile Include="Extensions\Extra\SerializationExtensions\Extensions.cs" />
     <Compile Include="Extensions\FileInfoExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
@@ -332,9 +277,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\Extra\ReflectionExtensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
