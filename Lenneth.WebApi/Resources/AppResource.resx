@@ -125,4 +125,8 @@
     <value>token</value>
     <comment>Token请求头</comment>
   </data>
+  <data name="WebApiPath" xml:space="preserve">
+    <value>/WebApi/</value>
+    <comment>WebApi请求路径</comment>
+  </data>
 </root>

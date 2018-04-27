@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Unity;
 
 namespace Lenneth.WebApi
 {
@@ -41,9 +42,9 @@ namespace Lenneth.WebApi
                 MiniProfiler.Start();
             }
 
-            if (!Request.IsLocal && Request.Url.AbsolutePath.Contains(@"/WebApi/"))
+            if (/*!Request.IsLocal && */Request.Url.AbsolutePath.Contains(Resources.AppResource.WebApiPath))
             {
-                ILogWapper log = new NLogWrapper(AppConfig.WebApiRequestLogConfig);
+                var log = UnityConfig.Container.Resolve<ILogWapper>("WebApiRequestLog");
                 log.Info(Request.Url.AbsolutePath);
             }
         }

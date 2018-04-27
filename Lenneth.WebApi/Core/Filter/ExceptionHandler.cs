@@ -8,6 +8,8 @@ using Lenneth.WebApi.Core.Log;
 using Lenneth.WebApi.Core.Utility;
 using Lenneth.WebApi.Models;
 
+using Unity;
+
 namespace Lenneth.WebApi.Core.Filter
 {
     /// <summary>
@@ -25,7 +27,7 @@ namespace Lenneth.WebApi.Core.Filter
         {
             return Task.Run(() =>
             {
-                ILogWapper log = new NLogWrapper(AppConfig.WebApiExceptionLogConfig);
+                var log = UnityConfig.Container.Resolve<ILogWapper>("WebApiExceptionLog");
                 log.Error(actionExecutedContext.Exception, actionExecutedContext.Request.RequestUri.LocalPath);
 
                 var apiException = ResponseUtility.InitResult<object>(MessageCode.ApiInterfaceException);

@@ -1,7 +1,7 @@
 using System;
 
 using Lenneth.WebApi.Core.Crypt;
-
+using Lenneth.WebApi.Core.Log;
 using Unity;
 using Unity.Injection;
 
@@ -44,6 +44,10 @@ namespace Lenneth.WebApi
             // NOTE: To load from web.config uncomment the line below.
             // Make sure to add a Unity.Configuration to the using statements.
             // container.LoadConfiguration();
+            container.RegisterType<ILogWapper,NLogWrapper>("WebApiRequestLog", new InjectionConstructor(AppConfig.WebApiRequestLogConfig,""));
+
+            container.RegisterType<ILogWapper, NLogWrapper>("WebApiExceptionLog", new InjectionConstructor(AppConfig.WebApiExceptionLogConfig,""));
+
             container.RegisterType<ICrypt, Aes>(new InjectionConstructor("Lenneth"));
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();

@@ -77,5 +77,14 @@ namespace Lenneth.WebApi.Resources {
                 return ResourceManager.GetString("TokenHeader", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 /WebApi/ 的本地化字符串。
+        /// </summary>
+        internal static string WebApiPath {
+            get {
+                return ResourceManager.GetString("WebApiPath", resourceCulture);
+            }
+        }
     }
 }
