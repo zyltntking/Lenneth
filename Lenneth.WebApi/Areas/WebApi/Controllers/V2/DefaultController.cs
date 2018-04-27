@@ -11,7 +11,6 @@ namespace Lenneth.WebApi.Areas.WebApi.Controllers.V2
     /// 版本化示例
     /// </summary>
     [ApiVersion("2.0")]
-    [ExceptionHandler]
     public class DefaultController : ApiController
     {
         /// <summary>

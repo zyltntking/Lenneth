@@ -10,8 +10,6 @@ namespace Lenneth.WebApi.Areas.WebApi.Controllers.V1
     /// 版本化示例
     /// </summary>
     [ApiVersion("1.0")]
-    [HeaderTokenAuth]
-    [ExceptionHandler]
     public class DefaultController : ApiController
     {
         /// <summary>
