@@ -190,6 +190,7 @@
     <Compile Include="Controllers\RouteViewController.cs" />
     <Compile Include="Core\Filter\ExceptionHandler.cs" />
     <Compile Include="Core\Filter\HeaderTokenAuth.cs" />
+    <Compile Include="Core\Filter\ResponseCrypt.cs" />
     <Compile Include="Core\Log\ILogWapper.cs" />
     <Compile Include="Core\Log\NlogWrapper.cs" />
     <Compile Include="Core\Utility\ResponseUtility.cs" />
