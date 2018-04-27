@@ -27,6 +27,12 @@ namespace Lenneth.WebApi
         /// <param name="config">Http配置</param>
         internal static void Register(HttpConfiguration config)
         {
+            // 过滤器
+            // 异常过滤器
+            config.Filters.Add(new ExceptionHandler());
+            // token验证过滤器
+            config.Filters.Add(new HeaderTokenAuth());
+
             //Web API 版本化管理
             var constraintResolver = new DefaultInlineConstraintResolver
             {
@@ -47,11 +53,6 @@ namespace Lenneth.WebApi
             var thisAssembly = typeof(WebApiConfig).Assembly;
             // Web API 配置和服务
             config.Formatters.Remove(config.Formatters.XmlFormatter);
-
-            // 异常过滤器
-            config.Filters.Add(new ExceptionHandler());
-            // token验证过滤器
-            config.Filters.Add(new HeaderTokenAuth());
 
             // Web API 文档配置
             config.EnableSwagger("apiInfo/{apiVersion}", swagger =>
@@ -91,7 +92,7 @@ namespace Lenneth.WebApi
                 // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
                 swagger.ApiKey("apiKey")
                     .Description("API Key Authentication")
-                    .Name("WebApi-key")
+                    .Name(Resources.AppResource.ApiKey)
                     .In("header");
                 //
                 //swagger.OAuth2("oauth2")
@@ -140,7 +141,7 @@ namespace Lenneth.WebApi
                 //    appName: "Swagger UI"
                 //    //additionalQueryStringParams: new Dictionary<string, string>() { { "foo", "bar" } }
                 //);
-                swaggerui.EnableApiKeySupport("WebApi-key", "header");
+                swaggerui.EnableApiKeySupport(Resources.AppResource.ApiKey, "header");
             });
 
             // 默认 Web API 路由
@@ -209,22 +210,25 @@ namespace Lenneth.WebApi
     /// </summary>
     internal class HttpHeaderTokenAuth : IOperationFilter
     {
-        //public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
-        //{
-        //    if (operation.parameters == null)
-        //        operation.parameters = new List<Parameter>();
+        /**从action和contorller注入时
+         *
+        public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
+        {
+            if (operation.parameters == null)
+                operation.parameters = new List<Parameter>();
 
-        //    //是否有验证用户标记
-        //    var isActionNeedTokenAuth = apiDescription.ActionDescriptor.GetCustomAttributes<HeaderTokenAuth>().Any();
+            //是否有验证用户标记
+            var isActionNeedTokenAuth = apiDescription.ActionDescriptor.GetCustomAttributes<HeaderTokenAuth>().Any();
 
-        //    var isControllerNeedTokenAuth = apiDescription.ActionDescriptor.ControllerDescriptor.GetCustomAttributes<HeaderTokenAuth>().Any();
+            var isControllerNeedTokenAuth = apiDescription.ActionDescriptor.ControllerDescriptor.GetCustomAttributes<HeaderTokenAuth>().Any();
 
-        //    //如果有验证标记则 多输出1个文本框(swagger form提交时会将这个值放入header里)
-        //    if (isActionNeedTokenAuth || isControllerNeedTokenAuth)
-        //    {
-        //        operation.parameters.Add(new Parameter { name = "token", @in = "header", description = "用户令牌", required = false, type = "string" });
-        //    }
-        //}
+            //如果有验证标记则 多输出1个文本框(swagger form提交时会将这个值放入header里)
+            if (isActionNeedTokenAuth || isControllerNeedTokenAuth)
+            {
+                operation.parameters.Add(new Parameter { name = "token", @in = "header", description = "用户令牌", required = false, type = "string" });
+            }
+        }
+        */
 
         #region Implementation of IOperationFilter
 
@@ -233,7 +237,7 @@ namespace Lenneth.WebApi
             if (operation.parameters == null)
                 operation.parameters = new List<Parameter>();
 
-            operation.parameters.Add(new Parameter { name = "token", @in = "header", description = "用户令牌", required = false, type = "string" });
+            operation.parameters.Add(new Parameter { name = Resources.AppResource.Token, @in = "header", description = "用户令牌", required = true, type = "string" });
         }
 
         #endregion Implementation of IOperationFilter

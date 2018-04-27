@@ -1,8 +1,9 @@
-﻿using Lenneth.WebApi.Core.Filter;
-using Lenneth.WebApi.Models;
-using Microsoft.Web.Http;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web.Http;
+
+using Lenneth.WebApi.Models;
+
+using Microsoft.Web.Http;
 
 namespace Lenneth.WebApi.Areas.WebApi.Controllers.V1
 {

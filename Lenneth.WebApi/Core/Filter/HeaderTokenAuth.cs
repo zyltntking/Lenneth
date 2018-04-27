@@ -26,9 +26,9 @@ namespace Lenneth.WebApi.Core.Filter
         /// <param name="continuation">在调用操作方法之后，委托函数将继续。</param>
         public Task<HttpResponseMessage> ExecuteActionFilterAsync(HttpActionContext actionContext, CancellationToken cancellationToken, Func<Task<HttpResponseMessage>> continuation)
         {
-            if (actionContext.Request.Headers.Contains("token"))
+            if (actionContext.Request.Headers.Contains(Resources.AppResource.Token))
             {
-                var token = actionContext.Request.Headers.GetValues("token").First();
+                var token = actionContext.Request.Headers.GetValues(Resources.AppResource.Token).First();
 
                 if (TokenAuth(token))
                 {

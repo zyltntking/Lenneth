@@ -11,7 +11,8 @@
 
         #region auth
 
-        public static readonly MessageStruct TokenAuthFail = new MessageStruct { Code = 20001, Message = "token验证失败" };
+        public static readonly MessageStruct ApiKeyValiFail = new MessageStruct { Code = 20001, Message = "apiKey验证失败" };
+        public static readonly MessageStruct TokenAuthFail = new MessageStruct { Code = 20002, Message = "token验证失败" };
 
         #endregion auth
 

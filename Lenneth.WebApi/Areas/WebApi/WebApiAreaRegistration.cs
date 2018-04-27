@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Mvc;
+using Lenneth.WebApi.Core.Filter;
 using Microsoft.Web.Http.Routing;
 
 namespace Lenneth.WebApi.Areas.WebApi
@@ -30,7 +31,8 @@ namespace Lenneth.WebApi.Areas.WebApi
                 routeTemplate: "WebApi/v{apiVersion}/{controller}/{action}/{id}",
                 //routeTemplate: "WebApi/v{apiVersion}/{controller}/{id}", // RESTful Style
                 defaults: new { id = RouteParameter.Optional },
-                constraints: new { apiVersion = new ApiVersionRouteConstraint() });
+                constraints: new { apiVersion = new ApiVersionRouteConstraint() },
+                handler: new AppKeyValidate(GlobalConfiguration.Configuration));
         }
     }
 }

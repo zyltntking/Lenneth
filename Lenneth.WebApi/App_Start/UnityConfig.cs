@@ -1,5 +1,7 @@
 using System;
 
+using Lenneth.WebApi.Core.Crypt;
+
 using Unity;
 
 namespace Lenneth.WebApi
@@ -10,6 +12,7 @@ namespace Lenneth.WebApi
     public static class UnityConfig
     {
         #region Unity Container
+
         private static Lazy<IUnityContainer> container =
           new Lazy<IUnityContainer>(() =>
           {
@@ -22,7 +25,8 @@ namespace Lenneth.WebApi
         /// Configured Unity Container.
         /// </summary>
         public static IUnityContainer Container => container.Value;
-        #endregion
+
+        #endregion Unity Container
 
         /// <summary>
         /// Registers the type mappings with the Unity container.
@@ -39,7 +43,7 @@ namespace Lenneth.WebApi
             // NOTE: To load from web.config uncomment the line below.
             // Make sure to add a Unity.Configuration to the using statements.
             // container.LoadConfiguration();
-
+            container.RegisterType<ICrypt, Aes>();
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
         }

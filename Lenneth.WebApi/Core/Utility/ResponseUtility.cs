@@ -2,6 +2,7 @@
 using Lenneth.WebApi.Core.Crypt;
 using Lenneth.WebApi.Models;
 using Newtonsoft.Json;
+using Unity;
 
 namespace Lenneth.WebApi.Core.Utility
 {
@@ -34,8 +35,8 @@ namespace Lenneth.WebApi.Core.Utility
             {
                 Code = content.Code,
                 Message = content.Message,
-                Data = new Aes().Encrypt(JsonConvert.SerializeObject(content.Data))
-            };
+                Data = UnityConfig.Container.Resolve<ICrypt>().Encrypt(JsonConvert.SerializeObject(content.Data))
+        };
         }
 
 
