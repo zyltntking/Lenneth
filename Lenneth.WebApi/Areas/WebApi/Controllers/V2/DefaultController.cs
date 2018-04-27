@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
 
-using Lenneth.WebApi.Core.Utility;
 using Lenneth.WebApi.Models;
 
 using Microsoft.Web.Http;
@@ -20,8 +19,6 @@ namespace Lenneth.WebApi.Areas.WebApi.Controllers.V2
         /// <returns></returns>
         public ResultContent<IEnumerable<string>> PostWithOutToken()
         {
-            ResponseUtility.aaa();
-
             return new ResultContent<IEnumerable<string>>
             {
                 Data = new[] { "版本2", "版本2" }

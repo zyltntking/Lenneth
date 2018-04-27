@@ -202,6 +202,9 @@
     <Compile Include="Core\Filter\ExceptionHandler.cs" />
     <Compile Include="Core\Filter\HeaderTokenAuth.cs" />
     <Compile Include="Core\Filter\ResponseCrypt.cs" />
+    <Compile Include="Core\Interceptor\CallHandlerAttribute .cs" />
+    <Compile Include="Core\Interceptor\CallHandlerInterecptor.cs" />
+    <Compile Include="Core\Interceptor\CommonInterception.cs" />
     <Compile Include="Core\Log\ILogWapper.cs" />
     <Compile Include="Core\Log\NlogWrapper.cs" />
     <Compile Include="Core\Utility\ResponseUtility.cs" />
@@ -233,7 +236,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\WebApi\Models\" />
     <Folder Include="Areas\WebApi\Views\Shared\" />
-    <Folder Include="Core\Interceptor\" />
+    <Folder Include="Business\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
