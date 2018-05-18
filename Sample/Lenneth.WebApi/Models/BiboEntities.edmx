@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BIBOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.Area”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.BIBOAssistant”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.BIBODoctor”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.BIBOTeamMember”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.BIBOTeamToDoctor”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="BIBOUser">
+          <Key>
+            <PropertyRef Name="UIID" />
+          </Key>
+          <Property Name="UIID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UID" Type="nvarchar" MaxLength="50" />
+          <Property Name="PSW" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TICKET" Type="nvarchar" MaxLength="128" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="IDNO" Type="nvarchar" MaxLength="50" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="150" />
+          <Property Name="MOBILENO" Type="nvarchar" MaxLength="50" />
+          <Property Name="TYPE" Type="int" Nullable="false" />
+          <Property Name="GENDER" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BIRTHDAY" Type="nvarchar" MaxLength="50" />
+          <Property Name="ADDR" Type="nvarchar" MaxLength="200" />
+          <Property Name="PROVINCE" Type="nvarchar" MaxLength="50" />
+          <Property Name="CITY" Type="nvarchar" MaxLength="50" />
+          <Property Name="SPELL" Type="nvarchar" MaxLength="50" />
+          <Property Name="PHOTO" Type="text" />
+          <Property Name="LastLoginTime" Type="nvarchar" MaxLength="50" />
+          <Property Name="BC" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IDTYPE" Type="nvarchar" MaxLength="50" />
+          <Property Name="Money" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TransPSW" Type="nvarchar" MaxLength="6" Nullable="false" />
+          <Property Name="wx_openid" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.Contacts”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.FormCollect”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.GroupMember”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.KYOrderBody”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.PicRow”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.TemplatePackage”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“BIBO.dbo.TemplateType”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityContainer Name="BIBOModelStoreContainer">
+          <EntitySet Name="BIBOUser" EntityType="Self.BIBOUser" Schema="dbo" store:Type="Tables" />
+          </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BIBOModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BIBOUser">
+          <Key>
+            <PropertyRef Name="UIID" />
+          </Key>
+          <Property Name="UIID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PSW" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TICKET" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDNO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EMAIL" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="MOBILENO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TYPE" Type="Int32" Nullable="false" />
+          <Property Name="GENDER" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BIRTHDAY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ADDR" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PROVINCE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CITY" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SPELL" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PHOTO" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastLoginTime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IDTYPE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Money" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="TransPSW" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="wx_openid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="BIBOEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BIBOUsers" EntityType="Self.BIBOUser" />
+          </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BIBOModelStoreContainer" CdmEntityContainer="BIBOEntities">
+          <EntitySetMapping Name="BIBOUsers">
+            <EntityTypeMapping TypeName="BIBOModel.BIBOUser">
+              <MappingFragment StoreEntitySet="BIBOUser">
+                <ScalarProperty Name="UIID" ColumnName="UIID" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="PSW" ColumnName="PSW" />
+                <ScalarProperty Name="TICKET" ColumnName="TICKET" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="IDNO" ColumnName="IDNO" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="MOBILENO" ColumnName="MOBILENO" />
+                <ScalarProperty Name="TYPE" ColumnName="TYPE" />
+                <ScalarProperty Name="GENDER" ColumnName="GENDER" />
+                <ScalarProperty Name="BIRTHDAY" ColumnName="BIRTHDAY" />
+                <ScalarProperty Name="ADDR" ColumnName="ADDR" />
+                <ScalarProperty Name="PROVINCE" ColumnName="PROVINCE" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="SPELL" ColumnName="SPELL" />
+                <ScalarProperty Name="PHOTO" ColumnName="PHOTO" />
+                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+                <ScalarProperty Name="BC" ColumnName="BC" />
+                <ScalarProperty Name="IDTYPE" ColumnName="IDTYPE" />
+                <ScalarProperty Name="Money" ColumnName="Money" />
+                <ScalarProperty Name="TransPSW" ColumnName="TransPSW" />
+                <ScalarProperty Name="wx_openid" ColumnName="wx_openid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

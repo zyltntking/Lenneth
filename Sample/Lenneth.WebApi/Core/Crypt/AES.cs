@@ -1,0 +1,115 @@
+﻿using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace Lenneth.WebApi.Core.Crypt
+{
+    /// <inheritdoc />
+    /// <summary>
+    /// AES加密类
+    /// </summary>
+    internal sealed class Aes : Crypt
+    {
+        /// <summary>
+        /// 密钥
+        /// </summary>
+        private readonly string _key;
+
+        /// <summary>
+        /// 加密密钥
+        /// </summary>
+        private byte[] Key {
+            get
+            {
+                using (var md5 = new MD5CryptoServiceProvider())
+                {
+                    var data = md5.ComputeHash(Encoding.UTF8.GetBytes(_key));
+                    var builder = new StringBuilder();
+                    foreach (var b in data)
+                    {
+                        builder.Append(b.ToString("x2"));
+                    }
+                    return Encoding.ASCII.GetBytes(builder.ToString());
+                }
+            }
+        }
+
+        /// <summary>
+        /// 加密向量
+        /// </summary>
+        /// @ValkyrieProfile
+        /// GenerateIV
+        private byte[] Iv { get; } = { 0x40, 0x56, 0x61, 0x6C, 0x6B, 0x79, 0x72, 0x69, 0x65, 0x50, 0x72, 0x6F, 0x66, 0x69, 0x6C, 0x65 };
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="key">加密密钥</param>
+        public Aes(string key = null)
+        {
+            _key = string.IsNullOrWhiteSpace(key) ? "Lenneth" : key;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 加密
+        /// </summary>
+        /// <param name="encryptString">明文</param>
+        /// <returns>密文</returns>
+        public override string Encrypt(string encryptString)
+        {
+            string result;
+            try
+            {
+                using (var aesAlg = new AesCryptoServiceProvider())
+                {
+                    var encryptor = aesAlg.CreateEncryptor(Key, Iv);
+                    var msEncrypt = new MemoryStream();
+                    var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
+                    using (var swEncrypt = new StreamWriter(csEncrypt))
+                    {
+                        swEncrypt.Write(encryptString);
+                    }
+                    var encrypted = msEncrypt.ToArray();
+                    result = Convert.ToBase64String(encrypted);
+                }
+            }
+            catch
+            {
+                result = encryptString;
+            }
+            return result;
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 解密
+        /// </summary>
+        /// <param name="decryptString">密文</param>
+        /// <returns>明文</returns>
+        public override string Decrypt(string decryptString)
+        {
+            string result;
+            try
+            {
+                var decryptByteArray = Convert.FromBase64String(decryptString);
+                using (var aesAlg = new AesCryptoServiceProvider())
+                {
+                    var decryptor = aesAlg.CreateDecryptor(Key, Iv);
+                    var msDecrypt = new MemoryStream(decryptByteArray);
+                    var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
+                    using (var srDecrypt = new StreamReader(csDecrypt))
+                    {
+                        result = srDecrypt.ReadToEnd();
+                    }
+                }
+            }
+            catch
+            {
+                result = decryptString;
+            }
+            return result;
+        }
+    }
+}

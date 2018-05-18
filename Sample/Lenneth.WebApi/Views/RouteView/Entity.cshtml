@@ -1,0 +1,20 @@
+﻿@using StackExchange.Profiling;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Entity</title>
+</head>
+<body>
+
+<div>
+    count = @ViewBag.count
+</div>
+<div>
+    data = @ViewBag.data
+</div>
+
+@MiniProfiler.RenderIncludes()
+</body>
+</html>

@@ -47,7 +47,6 @@ namespace Lenneth.Core.Framework.BlockChain
         /// <summary>
         /// 计算当前块散列值
         /// </summary>
-        /// <param name="block"></param>
         private string CalculateHash
         {
             get
