@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lenneth.Test", "Lenneth.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lenneth.WebApi", "Lenneth.WebApi\Lenneth.WebApi.csproj", "{1D464112-3CED-47FF-A5D8-ED5765AA4111}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lenneth.Console", "Lenneth.Console\Lenneth.Console.csproj", "{C7554031-E0D5-4F18-9A96-3E6C82A60BF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{1D464112-3CED-47FF-A5D8-ED5765AA4111}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D464112-3CED-47FF-A5D8-ED5765AA4111}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D464112-3CED-47FF-A5D8-ED5765AA4111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7554031-E0D5-4F18-9A96-3E6C82A60BF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7554031-E0D5-4F18-9A96-3E6C82A60BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7554031-E0D5-4F18-9A96-3E6C82A60BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7554031-E0D5-4F18-9A96-3E6C82A60BF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

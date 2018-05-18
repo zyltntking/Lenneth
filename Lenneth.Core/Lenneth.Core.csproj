@@ -145,6 +145,11 @@
     <Compile Include="Extensions\XmlReaderExtensions.cs" />
     <Compile Include="Extensions\XmlWriterExtensions.cs" />
     <Compile Include="Facade.cs" />
+    <Compile Include="Framework\BlockChain\Block.cs" />
+    <Compile Include="Framework\BlockChain\Generator.cs" />
+    <Compile Include="Framework\BlockChain\HashCube.cs" />
+    <Compile Include="Framework\BlockChain\Header.cs" />
+    <Compile Include="Framework\BlockChain\Utility.cs" />
     <Compile Include="Framework\Crypt\AES.cs" />
     <Compile Include="Framework\Crypt\Crypt.cs" />
     <Compile Include="Framework\Crypt\CryptFactory.cs" />
