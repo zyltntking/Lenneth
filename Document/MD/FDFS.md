@@ -5,6 +5,8 @@ tracker节点与data storage节点合一
 ## 一、基础环境：
 
 * [CentOS 7.x](https://www.centos.org/download/)
+docker pull centos:7
+docker run --privileged -d -ti --name fastdfs centos:7 /usr/sbin/init
 
 >本部署方案系统采用CentOS最小安装方案，上文链接中任意镜像均包含该安装方案，初学者可用虚拟机先行模拟。
 
@@ -36,7 +38,7 @@ FastDFS工作目录约定为 `/fastdfs`
     
 ③ 安装依赖
 
-    yum install cmake gcc gcc-c++ pcre-devel zlib-devel openssl-devel
+    yum install cmake make gcc gcc-c++ pcre-devel zlib-devel openssl-devel
 
 #### 1.安装 libfastcommon
 
@@ -45,12 +47,12 @@ FastDFS工作目录约定为 `/fastdfs`
 ① 下载libfastcommon
 
     cd /usr/local/src
-    wget https://github.com/happyfish100/libfastcommon/archive/V1.0.7.tar.gz
+    wget https://github.com/happyfish100/libfastcommon/archive/V1.0.39.tar.gz
     
 ② 解压
     
-    tar -zxvf V1.0.7.tar.gz
-    cd libfastcommon-1.0.7
+    tar -zxvf V1.0.39.tar.gz
+    cd libfastcommon-1.0.39
     
 ③ 编译，安装
     
@@ -61,20 +63,18 @@ FastDFS工作目录约定为 `/fastdfs`
 
     ln -s /usr/lib64/libfastcommon.so /usr/local/lib/libfastcommon.so
     ln -s /usr/lib64/libfastcommon.so /usr/lib/libfastcommon.so
-    ln -s /usr/lib64/libfdfsclient.so /usr/local/lib/libfdfsclient.so
-    ln -s /usr/lib64/libfdfsclient.so /usr/lib/libfdfsclient.so 
 
 #### 2.下载安装FastDFS
 
 ① 下载FastDFS
     
     cd /usr/local/src
-    wget https://github.com/happyfish100/fastdfs/archive/V5.05.tar.gz
+    wget https://github.com/happyfish100/fastdfs/archive/V5.11.tar.gz
 
 ② 解压
 
-    tar -zxvf V5.05.tar.gz
-    cd fastdfs-5.05
+    tar -zxvf V5.11.tar.gz
+    cd fastdfs-5.11
     
 ③ 编译、安装
 
@@ -175,7 +175,7 @@ FastDFS工作目录约定为 `/fastdfs`
     base_path=/fastdfs/tracker
     
     # HTTP 服务端口 默认为8080
-    http.server_port=80
+    http.server_port=8080
 
 ③ 创建tracker基础数据目录，即`base_path`对应的目录
 
@@ -183,6 +183,9 @@ FastDFS工作目录约定为 `/fastdfs`
 
 ④ [防火墙](http://www.firewalld.org/documentation/man-pages/)中打开跟踪端口(22122)
 
+    yum install firewalld firewall-config
+    systemctl start firewalld
+    systemctl enable firewalld
     firewall-cmd --permanent --add-port=22122/tcp
     firewall-cmd --reload
 
