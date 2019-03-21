@@ -5,8 +5,10 @@ tracker节点与data storage节点合一
 ## 一、基础环境：
 
 * [CentOS 7.x](https://www.centos.org/download/)
+
 docker pull centos:7
-docker run --privileged -d -ti --name fastdfs centos:7 /usr/sbin/init
+
+docker run --privileged --name fastdfs -p 9080:80 -p 22122:22122 -p 23000:23000 -ti centos:7 /bin/bash
 
 >本部署方案系统采用CentOS最小安装方案，上文链接中任意镜像均包含该安装方案，初学者可用虚拟机先行模拟。
 
@@ -191,6 +193,8 @@ FastDFS工作目录约定为 `/fastdfs`
 
 ⑤ 启动Tracker
 
+    yum install initscripts
+
 >初次成功启动，会在 `/fastdfs/tracker/` (配置的`base_path`)下创建 `data`、`logs` 两个目录
 
     service fdfs_trackerd start
@@ -199,7 +203,7 @@ FastDFS工作目录约定为 `/fastdfs`
 
     netstat -unltp|grep fdfs
     
->可使用`service fdfs_trackerd stop`关闭storage服务
+>可使用`service fdfs_trackerd stop`关闭tracker服务
 
 ⑥ 设置Tracker开机启动
     
@@ -358,12 +362,12 @@ FastDFS工作目录约定为 `/fastdfs`
 ① 下载Nginx
 
     cd /usr/local/src
-    wget -c https://nginx.org/download/nginx-1.12.1.tar.gz
+    wget -c https://nginx.org/download/nginx-1.14.2.tar.gz
 
 ② 解压
 
-    tar -zxvf nginx-1.12.1.tar.gz
-    cd nginx-1.12.1
+    tar -zxvf nginx-1.14.2.tar.gz
+    cd nginx-1.14.2
     
 ③ 使用默认配置
 
@@ -459,15 +463,15 @@ FastDFS工作目录约定为 `/fastdfs`
 ② 下载 fastdfs-nginx-module
 
     cd /usr/local/src
-    wget https://github.com/happyfish100/fastdfs-nginx-module/archive/5e5f3566bbfa57418b5506aaefbe107a42c9fcb1.zip
+    wget https://github.com/happyfish100/fastdfs-nginx-module/archive/V1.20.zip
     
 ③ 解压
 
-    unzip 5e5f3566bbfa57418b5506aaefbe107a42c9fcb1.zip
+    unzip V1.20.zip //fastdfs-nginx-module-1.20
 
 ④ 重命名
 
-    mv fastdfs-nginx-module-5e5f3566bbfa57418b5506aaefbe107a42c9fcb1  fastdfs-nginx-module-master
+    mv fastdfs-nginx-module-1.20  fastdfs-nginx-module-master
     
 ⑤ 配置Nginx
 
@@ -479,13 +483,21 @@ FastDFS工作目录约定为 `/fastdfs`
 
 进入nginx解压目录
 
-    cd /usr/local/src/nginx-1.12.1/
+    cd /usr/local/src/nginx-1.14.2/
 
 添加模块
 
     ./configure --add-module=../fastdfs-nginx-module-master/src
 
 重新编译、安装
+
+    cd /usr/local/src/fastdfs-nginx-module-master/src/
+
+    vim config
+
+    ngx_module_incs="/usr/include/fastdfs /usr/include/fastcommon/"
+
+    CORE_INCS="$CORE_INCS /usr/include/fastdfs /usr/include/fastcommon/"
 
     make && make install
     
@@ -524,7 +536,7 @@ FastDFS工作目录约定为 `/fastdfs`
 
 ⑨ 复制 FastDFS 的部分配置文件到/etc/fdfs 目录
 
-    cd /usr/local/src/fastdfs-5.05/conf/
+    cd /usr/local/src/fastdfs-5.11/conf/
     cp anti-steal.jpg http.conf mime.types /etc/fdfs/
     
 ⑩ 修改nginx.conf
