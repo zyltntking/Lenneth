@@ -48,7 +48,7 @@ FastDFS工作目录约定为 `/fastdfs`
 
 ① 下载libfastcommon
 
-    cd /usr/local/src
+    cd /home
     wget https://github.com/happyfish100/libfastcommon/archive/V1.0.39.tar.gz
     
 ② 解压
@@ -70,7 +70,7 @@ FastDFS工作目录约定为 `/fastdfs`
 
 ① 下载FastDFS
     
-    cd /usr/local/src
+    cd /home
     wget https://github.com/happyfish100/fastdfs/archive/V5.11.tar.gz
 
 ② 解压
@@ -174,14 +174,14 @@ FastDFS工作目录约定为 `/fastdfs`
     port=22122
     
     # Tracker 数据和日志目录地址(根目录必须存在,子目录会自动创建)
-    base_path=/fastdfs/tracker
+    base_path=/home/fastdfs/tracker
     
     # HTTP 服务端口 默认为8080
     http.server_port=8080
 
 ③ 创建tracker基础数据目录，即`base_path`对应的目录
 
-    mkdir -p /fastdfs/tracker
+    mkdir -p /home/fastdfs/tracker
 
 ④ [防火墙](http://www.firewalld.org/documentation/man-pages/)中打开跟踪端口(22122)
 
@@ -195,7 +195,7 @@ FastDFS工作目录约定为 `/fastdfs`
 
     yum install initscripts
 
->初次成功启动，会在 `/fastdfs/tracker/` (配置的`base_path`)下创建 `data`、`logs` 两个目录
+>初次成功启动，会在 `/home/fastdfs/tracker/` (配置的`base_path`)下创建 `data`、`logs` 两个目录
 
     service fdfs_trackerd start
     
@@ -211,7 +211,7 @@ FastDFS工作目录约定为 `/fastdfs`
 
 ⑦ 查看tracker server 是否成功创建工作目录
 
-    cd /fastdfs/tracker
+    cd /home/fastdfs/tracker
     tree
     
 #### 4.配置FastDFS存储(Storage)
@@ -241,15 +241,18 @@ FastDFS工作目录约定为 `/fastdfs`
     heart_beat_interval=30
     
     # Storage 数据和日志目录地址(根目录必须存在，子目录会自动生成)
-    base_path=/fastdfs/storage
+    base_path=/home/fastdfs/storage
     
     # 存放文件时 storage server 支持多个路径。这里配置存放文件的基路径数目，通常只配一个目录。
-    store_path_count=1
+    store_path_count=4
     
     
     # 逐一配置 store_path_count 个路径，索引号基于 0。
     # 如果不配置 store_path0，那它就和 base_path 对应的路径一样。
-    store_path0=/fastdfs/file
+    store_path0=/home/fastdfs/file0
+    store_path1=/home/fastdfs/file1
+    store_path2=/home/fastdfs/file2
+    store_path3=/home/fastdfs/file3
     
     # FastDFS 存储文件时，采用了两级目录。这里配置存放文件的目录个数。 
     # 如果本参数只为 N（如： 256），那么 storage server 在初次运行时，会在 store_path 下自动创建 N * N 个存放文件的子目录。
@@ -267,8 +270,11 @@ FastDFS工作目录约定为 `/fastdfs`
 
 ③ 创建Storage基础数据目录，对应上文配置
 
-    mkdir -p /fastdfs/storage
-    mkdir -p /fastdfs/file
+    mkdir -p /home/fastdfs/storage
+    mkdir -p /home/fastdfs/file0
+    mkdir -p /home/fastdfs/file1
+    mkdir -p /home/fastdfs/file2
+    mkdir -p /home/fastdfs/file3
 
 ④ [防火墙](http://www.firewalld.org/documentation/man-pages/)中打开存储器端口(23000)
 
@@ -301,9 +307,9 @@ FastDFS工作目录约定为 `/fastdfs`
 
 >同 Tracker，Storage 启动成功后，在base_path 下创建了data、logs目录，记录着 Storage Server 的信息
 
-    cd /fastdfs/storage
+    cd /home/fastdfs/storage
     tree
-    cd /fastdfs/file/data
+    cd /home/fastdfs/file/data
     ls
     
 #### 5.文件上传测试
@@ -321,14 +327,14 @@ FastDFS工作目录约定为 `/fastdfs`
 >单机节点下注意tracker_server需要修改为CentOS内网地址
 
     # Client 的数据和日志目录
-    base_path=/fastdfs/client
+    base_path=/home/fastdfs/client
     
     # Tracker路径
     tracker_server=192.186.16.137:22122
 
 ③ 创建客户端工作目录，对应上文配置
 
-    mkdir -p /fastdfs/client
+    mkdir -p /home/fastdfs/client
     
 ④ 上传测试
 
